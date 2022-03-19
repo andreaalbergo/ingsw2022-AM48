@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Programma/AM48.iml" filepath="$PROJECT_DIR$/Programma/AM48.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/ing-sw-2022-Albergo-Barb-Bozzini.iml" filepath="$PROJECT_DIR$/.idea/ing-sw-2022-Albergo-Barb-Bozzini.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AM48.iml" filepath="$PROJECT_DIR$/AM48.iml" />
     </modules>
   </component>
 </project>
