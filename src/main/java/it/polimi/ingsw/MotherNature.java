@@ -4,8 +4,8 @@ public class MotherNature {
     private int position;
 
 
-    public MotherNature(int position) {
-        this.position = position;
+    public MotherNature() {
+        this.position = 0;
     }
 
     public int getPosition() {

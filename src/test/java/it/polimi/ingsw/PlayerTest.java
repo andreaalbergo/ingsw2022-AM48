@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.Format;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -10,12 +12,27 @@ class PlayerTest {
 
     @Test
     void getNickname() {
-        assertTrue(player.getNickname() != null);
+        assertNotNull(player.getNickname());
     }
 
     @Test
     void getAssistantCards() {
-        assertTrue(player.getAssistantCards() != null);
+        assertNotNull(player.getAssistantCards());
+        /*for (int i=0; i<player.getAssistantCards().size();i++) {
+            System.out.println(player.getAssistantCards().get(i));
+            AssistantCard card = (AssistantCard) player.getAssistantCards().get(i);
+            System.out.println(card.getValue());
+            System.out.println(card.getNumber_of_steps());
+        }
+        player.getAssistantCards().remove(4);
+        for (int i=0; i<player.getAssistantCards().size();i++) {
+            System.out.println(player.getAssistantCards().get(i));
+            AssistantCard card = (AssistantCard) player.getAssistantCards().get(i);
+            System.out.println(card.getValue());
+            System.out.println(card.getNumber_of_steps());
+        }
+
+         */
     }
 
     @Test
@@ -30,6 +47,27 @@ class PlayerTest {
 
     @Test
     void getChosenWizard() {
-        assertTrue(player.getChosenWizard() != null);
+        assertNotNull(player.getChosenWizard());
+    }
+
+    @Test
+    void setIdPlayerForTurn() {
+        player.setIdPlayerForTurn(3);
+        assertEquals(player.getIdPlayerForTurn(),3);
+    }
+
+    @Test
+    void setTurn() {
+        player.setTurn(false);
+        assertFalse(player.isTurn());
+        player.setTurn(true);
+        assertTrue(player.isTurn());
+    }
+
+    @Test
+    void addCoins() {
+        int newcoins = 2;
+        player.addCoins(newcoins);
+        assertEquals(player.getCoins(),1+newcoins);
     }
 }

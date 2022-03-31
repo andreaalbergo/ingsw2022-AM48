@@ -6,19 +6,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AssistantCardTest {
 
-    AssistantCard assistantCard = new AssistantCard(7,4,"Green");
+
     @Test
     void getValue() {
-        assertTrue(assistantCard.getValue()>0);
+        assertEquals(8, AssistantCard.EIGHT.getValue());
     }
 
-    @Test
-    void getWizard_Color() {
-        assertTrue(assistantCard.getWizard_Color()!=null);
-    }
-
-    @Test
+   @Test
     void getNumber_of_steps() {
-        assertTrue(assistantCard.getNumber_of_steps()>0);
+       assertEquals(4, AssistantCard.EIGHT.getNumber_of_steps());
     }
+
 }

@@ -1,20 +1,22 @@
 package it.polimi.ingsw;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Player {
-    private String nickname;
+    private final String nickname;
     private int idPlayerForTurn;
-    private List assistantCards;
+    private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
-    private String chosenWizard;
+    private final String chosenWizard;
 
     public Player(String nickname, int idPlayerForTurn, boolean turn, String chosenWizard) {
         this.nickname = nickname;
         this.idPlayerForTurn = idPlayerForTurn;
-        this.assistantCards = new ArrayList<AssistantCard>();
+        this.assistantCardList = new LinkedList<>();
+        Collections.addAll(assistantCardList, AssistantCard.values());
         this.coins = 1;
         this.turn = turn;
         this.chosenWizard = chosenWizard;
@@ -26,7 +28,7 @@ public class Player {
     }
 
     public List getAssistantCards() {
-        return assistantCards;
+        return assistantCardList;
     }
 
     public int getCoins() {
@@ -43,5 +45,17 @@ public class Player {
 
     public void setIdPlayerForTurn(int idPlayerForTurn) {
         this.idPlayerForTurn = idPlayerForTurn;
+    }
+
+    public void addCoins(int newcoins) {
+        this.coins += newcoins;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
+    }
+
+    public int getIdPlayerForTurn() {
+        return idPlayerForTurn;
     }
 }

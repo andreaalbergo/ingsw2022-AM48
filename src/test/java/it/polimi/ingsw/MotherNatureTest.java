@@ -8,14 +8,14 @@ class MotherNatureTest {
 
     @Test
     void getPosition() {
-        MotherNature motherNature = new MotherNature(0);
-        assertTrue( motherNature.getPosition() == 0 );
+        MotherNature motherNature = new MotherNature();
+        assertEquals(0, motherNature.getPosition());
     }
 
     @Test
     void setPosition() {
-        MotherNature motherNature = new MotherNature(0);
+        MotherNature motherNature = new MotherNature();
         motherNature.setPosition(4);
-        assertTrue( motherNature.getPosition() == 4 );
+        assertEquals(4, motherNature.getPosition());
     }
 }
