@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Albus",1,true,"Green");
+    Player player = new Player("Albus",1,true,Wizards.WIZARD1,3,TowersColor.GRAY,true);
 
     @Test
     void getNickname() {

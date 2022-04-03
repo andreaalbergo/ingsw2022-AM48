@@ -16,6 +16,8 @@ class MotherNatureTest {
     void setPosition() {
         MotherNature motherNature = new MotherNature();
         motherNature.setPosition(4);
-        assertEquals(4, motherNature.getPosition());
+        assertEquals(5, motherNature.getPosition());
+        motherNature.setPosition(3);
+        assertEquals(8, motherNature.getPosition());
     }
 }

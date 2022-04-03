@@ -10,9 +10,11 @@ public class Player {
     private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
-    private final String chosenWizard;
+    private final Wizards chosenWizard;
+    private final TowersColor towersColor;
+    private SchoolBoard schoolBoard;
 
-    public Player(String nickname, int idPlayerForTurn, boolean turn, String chosenWizard) {
+    public Player(String nickname, int idPlayerForTurn, boolean turn, Wizards chosenWizard, int numberOfPlayers,TowersColor towersColor,boolean mode) {
         this.nickname = nickname;
         this.idPlayerForTurn = idPlayerForTurn;
         this.assistantCardList = new LinkedList<>();
@@ -20,6 +22,8 @@ public class Player {
         this.coins = 1;
         this.turn = turn;
         this.chosenWizard = chosenWizard;
+        this.schoolBoard = new SchoolBoard(nickname,numberOfPlayers,mode);
+        this.towersColor = towersColor;
     }
 
 
@@ -27,7 +31,7 @@ public class Player {
         return nickname;
     }
 
-    public List getAssistantCards() {
+    public List<AssistantCard> getAssistantCards() {
         return assistantCardList;
     }
 
@@ -40,7 +44,7 @@ public class Player {
     }
 
     public String getChosenWizard() {
-        return chosenWizard;
+        return chosenWizard.toString();
     }
 
     public void setIdPlayerForTurn(int idPlayerForTurn) {
@@ -57,5 +61,9 @@ public class Player {
 
     public int getIdPlayerForTurn() {
         return idPlayerForTurn;
+    }
+
+    public SchoolBoard getSchoolBoard() {
+        return schoolBoard;
     }
 }

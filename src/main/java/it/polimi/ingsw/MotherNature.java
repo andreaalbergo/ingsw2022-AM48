@@ -5,14 +5,19 @@ public class MotherNature {
 
 
     public MotherNature() {
-        this.position = 0;
+        this.position = 1;
     }
 
     public int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setPosition(int steps) throws IllegalStateException{
+        if (steps <= 5 && steps >= 1)
+        {
+            this.position = getPosition() + steps;
+        }else{
+            throw new IllegalStateException("The steps selection is Invalid");
+        }
     }
 }

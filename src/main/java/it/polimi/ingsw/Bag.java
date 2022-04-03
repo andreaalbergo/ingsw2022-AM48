@@ -10,7 +10,9 @@ public class Bag {
         for (int i = 0; i < 5; i++) {
             this.students.add(i, 24);
         }
+    }
 
+    public void drawStudentsToSchoolEntrance(SchoolBoard schoolBoard){
 
     }
 }
