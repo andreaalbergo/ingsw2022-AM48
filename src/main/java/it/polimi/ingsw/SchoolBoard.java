@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class SchoolBoard {
     private final String nickname;
-    private ArrayList<Integer> entrance;
+    private int[] entrance;
     private int[] diningRoom = new int[5];
     private Boolean[] professors = new Boolean[5];
     private int towers;
@@ -15,10 +15,10 @@ public class SchoolBoard {
     public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
         if (numberOfPlayers == 3){
-            this.entrance = new ArrayList<>(7);
+            this.entrance = new int[7];
             this.towers = 6;
         }else{
-            this.entrance = new ArrayList<>(9);
+            this.entrance = new int[9];
             this.towers = 8;
         }
 
@@ -32,17 +32,34 @@ public class SchoolBoard {
 
     }
 
+
+    // probably going to implement a method that throws an exception in case the color is not present in the entrance
     public void addStudentToDiningRoom(Color color){
         switch (color){
-            case RED_DRAGONS: diningRoom[color.getIndex()] += 1 ;
+            case RED_DRAGONS: {
+                diningRoom[color.getIndex()] += 1;
+                entrance[color.getIndex()] -= 1;
+            }
             break;
-            case GREEN_FROGS: diningRoom[color.getIndex()] += 1;
+            case GREEN_FROGS: {
+                diningRoom[color.getIndex()] += 1;
+                entrance[color.getIndex()] -= 1;
+            }
             break;
-            case PINK_FAIRIES: diningRoom[color.getIndex()] += 1;
+            case PINK_FAIRIES: {
+                diningRoom[color.getIndex()] += 1;
+                entrance[color.getIndex()] -= 1;
+            }
             break;
-            case BLUE_UNICORNS: diningRoom[color.getIndex()] += 1;
+            case BLUE_UNICORNS: {
+                diningRoom[color.getIndex()] += 1;
+                entrance[color.getIndex()] -= 1;
+            }
             break;
-            case YELLOW_GNOMES: diningRoom[color.getIndex()] += 1;
+            case YELLOW_GNOMES: {
+                diningRoom[color.getIndex()] += 1;
+                entrance[color.getIndex()] -= 1;
+            }
             break;
 
         }
@@ -71,6 +88,16 @@ public class SchoolBoard {
     public int[] getDiningRoom(){
         return this.diningRoom;
     }
+
+    public void addStudentToEntrance(int index) {
+        this.entrance[index]+=1;
+    }
+
+
+    public int[] getEntrance(){
+        return this.entrance;
+    }
+
 
 /*
     public void addStudentToIsland(Color color, Island island){

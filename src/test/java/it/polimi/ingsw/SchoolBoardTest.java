@@ -62,5 +62,16 @@ class SchoolBoardTest {
         assertFalse(schoolBoard.checkProfessor(Color.RED_DRAGONS));
     }
 
+    @Test
+    void addStudentToEntrance(){
+        schoolBoard.addStudentToEntrance(2);
+        assertEquals(1,schoolBoard.getEntrance()[2]);
+        schoolBoard.addStudentToEntrance(2);
+        assertEquals(2,schoolBoard.getEntrance()[2]);
+    }
 
+    @Test
+    void getEntrance(){
+        assertNotNull(schoolBoard.getEntrance());
+    }
 }
