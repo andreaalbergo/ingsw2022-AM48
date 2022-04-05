@@ -72,7 +72,11 @@ public class SchoolBoard {
         return this.diningRoom;
     }
 
-/*
+    public int getTowers() {
+        return towers;
+    }
+
+    /*
     public void addStudentToIsland(Color color, Island island){
         switch (color){
             case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);

@@ -12,6 +12,10 @@ public class Bag {
         }
     }
 
+    public ArrayList<Integer> getStudents() {
+        return students;
+    }
+
     public void drawStudentsToSchoolEntrance(SchoolBoard schoolBoard){
 
     }
