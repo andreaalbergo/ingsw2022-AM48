@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Bag {
     private ArrayList<Integer> students;
+
     private int numberOfPlayers;
 
     public Bag(int numberOfPlayers) {
@@ -43,6 +44,10 @@ public class Bag {
                 schoolBoard.addStudentToEntrance(number);
             }
         }
+    }
+
+    public ArrayList<Integer> getStudents() {
+        return students;
     }
 /*
     public void setupIslands(List<IslandTile> Islands){
