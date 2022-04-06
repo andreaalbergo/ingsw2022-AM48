@@ -9,7 +9,7 @@ class MotherNatureTest {
     @Test
     void getPosition() {
         MotherNature motherNature = new MotherNature();
-        assertEquals(0, motherNature.getPosition());
+        assertEquals(1, motherNature.getPosition());
     }
 
     @Test
