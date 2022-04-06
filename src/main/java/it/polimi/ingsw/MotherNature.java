@@ -12,10 +12,14 @@ public class MotherNature {
         return position;
     }
 
-    public void setPosition(int steps) throws IllegalStateException{
+    public void move(int steps) throws IllegalStateException{
         if (steps <= 5 && steps >= 1)
         {
-            this.position = getPosition() + steps;
+            if(this.position + steps > 12){
+                this.position = (this.position + steps) -12;
+            }else
+                this.position = getPosition() + steps;
+
         }else{
             throw new IllegalStateException("The steps selection is Invalid");
         }

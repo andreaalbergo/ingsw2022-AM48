@@ -92,7 +92,7 @@ public class BoardManager {
         int index = getPlayerIndex(currentPlayer);
 
         if(steps >= 1 && steps <= turn.getChosenCards().get(index).getNumber_of_steps()){
-            motherNature.setPosition(steps);
+            motherNature.move(steps);
         }
         //else
             //throw new IllegalStateException(System.out.println("You have to move Mother Nature between 1 and " + round.getChosenCards().get(index).getnumber_of_steps));

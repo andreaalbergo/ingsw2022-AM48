@@ -16,7 +16,7 @@ public class AppTest
     public void test01()
     {
         MotherNature motherNature = new MotherNature();
-        assertEquals(0, motherNature.getPosition());
+        assertEquals(1, motherNature.getPosition());
     }
 
 

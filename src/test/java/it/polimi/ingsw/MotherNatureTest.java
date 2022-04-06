@@ -15,9 +15,11 @@ class MotherNatureTest {
     @Test
     void setPosition() {
         MotherNature motherNature = new MotherNature();
-        motherNature.setPosition(4);
+        motherNature.move(4);
         assertEquals(5, motherNature.getPosition());
-        motherNature.setPosition(3);
+        motherNature.move(3);
         assertEquals(8, motherNature.getPosition());
+        motherNature.move(5);
+        assertEquals(1,motherNature.getPosition());
     }
 }
