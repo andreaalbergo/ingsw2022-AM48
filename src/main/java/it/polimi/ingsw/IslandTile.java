@@ -20,7 +20,7 @@ public class IslandTile {
         return id_isle;
     }
 
-    public int getIsle_owner() {
+    public int getIsleOwner() {
         return isle_owner;
     }
 
