@@ -1,4 +1,3 @@
 package it.polimi.ingsw;
 
-public class CloudTile {
-}
+public class CloudTile {}
