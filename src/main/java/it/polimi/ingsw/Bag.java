@@ -4,17 +4,43 @@ import java.util.ArrayList;
 
 
 public class Bag {
-    private ArrayList<Integer> students;
+    private static ArrayList<Integer> students;
 
     public Bag() {
-        this.students = new ArrayList<>(Board.getNumberOfPlayers());
+        students = new ArrayList<>(Board.getNumberOfPlayers());
         for (int i = 0; i < 5; i++) {
-            this.students.add(i, 24);
+            students.add(i, 24);
         }
     }
 
-    public static void drawStudentsToCloudTile() {
-        //TODO
+    public static void drawOneStudentToCloudTile() {
+        addStudentToCloud();
+    }
+
+    private static void addStudentToCloud() {
+        int indexCell;
+        Color randomColorPicked;
+
+        for(indexCell=0; indexCell< Cloud.getCloudDimension(); indexCell++) {
+            randomColorPicked = Color.getRandomColor();
+
+            if(!removeStudentFromBag(randomColorPicked.getColorIndex()))
+                indexCell--;
+            else
+                Cloud.addStudentToSelectedCloudCell(indexCell, randomColorPicked.getColorIndex());
+        }
+    }
+
+    private static boolean removeStudentFromBag(int colorIndex) {
+        int quantityOfColorIndex = students.get(colorIndex);
+
+        if (quantityOfColorIndex > 0) {
+            students.set(colorIndex, quantityOfColorIndex-1);
+            return true;
+        } else {
+            System.out.println("Bag is Empty, retry \"getRandomColor()\"");
+            return false;
+        }
     }
 
     public void drawStudentsToSchoolEntrance(SchoolBoard schoolBoard) {

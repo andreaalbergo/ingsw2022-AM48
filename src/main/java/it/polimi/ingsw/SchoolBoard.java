@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SchoolBoard {
     private final String nickname;
@@ -37,28 +36,28 @@ public class SchoolBoard {
     public void addStudentToDiningRoom(Color color){
         switch (color){
             case RED_DRAGONS: {
-                diningRoom[color.getIndex()] += 1;
-                entrance[color.getIndex()] -= 1;
+                diningRoom[color.getColorIndex()] += 1;
+                entrance[color.getColorIndex()] -= 1;
             }
             break;
             case GREEN_FROGS: {
-                diningRoom[color.getIndex()] += 1;
-                entrance[color.getIndex()] -= 1;
+                diningRoom[color.getColorIndex()] += 1;
+                entrance[color.getColorIndex()] -= 1;
             }
             break;
             case PINK_FAIRIES: {
-                diningRoom[color.getIndex()] += 1;
-                entrance[color.getIndex()] -= 1;
+                diningRoom[color.getColorIndex()] += 1;
+                entrance[color.getColorIndex()] -= 1;
             }
             break;
             case BLUE_UNICORNS: {
-                diningRoom[color.getIndex()] += 1;
-                entrance[color.getIndex()] -= 1;
+                diningRoom[color.getColorIndex()] += 1;
+                entrance[color.getColorIndex()] -= 1;
             }
             break;
             case YELLOW_GNOMES: {
-                diningRoom[color.getIndex()] += 1;
-                entrance[color.getIndex()] -= 1;
+                diningRoom[color.getColorIndex()] += 1;
+                entrance[color.getColorIndex()] -= 1;
             }
             break;
 
@@ -70,15 +69,15 @@ public class SchoolBoard {
     }
 
     public boolean checkProfessor(Color color) {
-        return professors[color.getIndex()];
+        return professors[color.getColorIndex()];
     }
 
     public void addProfessor(Color color){
-        professors[color.getIndex()] = true ;
+        professors[color.getColorIndex()] = true ;
     }
 
     public void removeProfessor(Color color){
-        professors[color.getIndex()] = false ;
+        professors[color.getColorIndex()] = false ;
     }
 
     public Boolean[] getProfessors(){

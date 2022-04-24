@@ -23,9 +23,9 @@ class SchoolBoardTest {
             System.out.println(diningRoom[i]);
         }
          */
-        assertEquals(1,diningRoom[Color.RED_DRAGONS.getIndex()]);
+        assertEquals(1,diningRoom[Color.RED_DRAGONS.getColorIndex()]);
         schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);
-        assertEquals(2,diningRoom[Color.RED_DRAGONS.getIndex()]);
+        assertEquals(2,diningRoom[Color.RED_DRAGONS.getColorIndex()]);
 
     }
 
@@ -39,7 +39,7 @@ class SchoolBoardTest {
         Boolean[] professor;
         schoolBoard.addProfessor(Color.RED_DRAGONS);
         professor = schoolBoard.getProfessors();
-        assertTrue(professor[Color.RED_DRAGONS.getIndex()]);
+        assertTrue(professor[Color.RED_DRAGONS.getColorIndex()]);
     }
 
     @Test

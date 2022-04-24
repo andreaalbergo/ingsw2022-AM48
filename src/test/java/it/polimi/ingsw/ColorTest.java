@@ -8,7 +8,7 @@ class ColorTest {
 
     @Test
     void getIndex() {
-        assertEquals(4, Color.PINK_FAIRIES.getIndex());
+        assertEquals(4, Color.PINK_FAIRIES.getColorIndex());
     }
 
 }

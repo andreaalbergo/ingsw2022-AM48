@@ -5,11 +5,11 @@ public class Board {
     private static int numberOfPlayers;
     private static boolean isExpertMode;
     private final BoardManager boardManager;
-    //characterCards here?
+    //characterCards here? no, implement them in BoardManager
 
 
     public Board(int numberOfPlayers, boolean isExpertMode) {
-        this.gameId = 1; //for now One Game in the Server
+        this.gameId = 1; //for now one Game in the Server
         Board.numberOfPlayers = numberOfPlayers;
         Board.isExpertMode = isExpertMode;
         this.boardManager = new BoardManager();

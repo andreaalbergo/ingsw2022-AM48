@@ -6,7 +6,7 @@ public class BoardManager {
     private final int NUMBER_OF_ISLANDS = 12;
     private int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
     private Bag bag;
-    private ArrayList<CloudTile> clouds;
+    private ArrayList<Cloud> clouds;
     private ArrayList<IslandTile> islands;
     private ArrayList<IslandTile> unifiedIsland;
     private ArrayList<Player> players;
@@ -187,7 +187,7 @@ public class BoardManager {
 
     public void checkToAddProfessor(Color givenColor) {
 
-        int color = givenColor.getIndex();
+        int color = givenColor.getColorIndex();
         Player a = players.get(0);
         int maxindex = 0;
         int i, j = 0;
@@ -230,7 +230,7 @@ public class BoardManager {
 
         bag.extractPawnsToCloud(clouds);
 
-    } //called by CloudTile.fillStudents() connects CloudTile with Bag
+    } //called by Cloud.fillStudents() connects Cloud with Bag
 
 
  */
@@ -251,14 +251,14 @@ public class BoardManager {
 
     // WAITING CLOUDTILE CLASS
     /*
-    public void chooseCloudTile(CloudTile cloud) {
+    public void chooseCloudTile(Cloud cloud) {
 
         int index = cloud.getIdCloud();
         boolean waitToFill = true;
 
         cloud.emptyCloud(currentPlayer, index);
 
-        for(CloudTile c : clouds) {
+        for(Cloud c : clouds) {
             for (int i = 0; i < 5; i++) {
 
                 if (c.getStudents.get(i) == 0) {
@@ -273,7 +273,7 @@ public class BoardManager {
 
         if(waitToFill == false) {
 
-            for(CloudTile c : clouds) {
+            for(Cloud c : clouds) {
 
                 c.fillStudents(bag);
 
