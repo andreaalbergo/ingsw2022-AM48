@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolBoardTest {
 
-    SchoolBoard schoolBoard = new SchoolBoard("Andrea",3,true);
+    SchoolBoard schoolBoard = new SchoolBoard("Andrea");
 
     @Test
     void addStudentToDiningRoom() {

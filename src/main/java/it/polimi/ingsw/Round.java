@@ -7,16 +7,14 @@ public class Round {
     private ArrayList<AssistantCard> chosenCards;
     private ArrayList<String> turnOrder;
     private Player currentPlayer;
-    private int numberOfPlayers;
 
 
-    public void Round(int numberOfPlayers, ArrayList<AssistantCard> chosenCards, ArrayList<String> turnOrder){
-        this.numberOfPlayers=numberOfPlayers;
-        if(numberOfPlayers == 2) {
+    public void Round(ArrayList<AssistantCard> chosenCards, ArrayList<String> turnOrder){
+        if(Board.getNumberOfPlayers() == 2) {
             chosenCards = new ArrayList<AssistantCard>(2);
             turnOrder = new ArrayList<String>(2);
         }
-        if(numberOfPlayers == 3) {
+        if(Board.getNumberOfPlayers() == 3) {
             chosenCards = new ArrayList<AssistantCard>(3);
             turnOrder = new ArrayList<String>(3);
         }
@@ -28,7 +26,7 @@ public class Round {
         //NEED A WAY TO ASSOCIATE NICKNAME TO INDEX WORKING ONLY IN THIS CLASS
     private void compareAssistantCard() {
 
-        ArrayList<Integer> turnOrderIndex = new ArrayList<Integer>(numberOfPlayers);
+        ArrayList<Integer> turnOrderIndex = new ArrayList<Integer>(Board.getNumberOfPlayers());
 
 
         //for (int i = 0; i+1 < numberOfPlayers; i++) {
