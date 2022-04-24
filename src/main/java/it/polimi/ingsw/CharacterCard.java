@@ -1,78 +1,123 @@
 package it.polimi.ingsw;
 
-public enum CharacterCard {
-    MONK(1),
-    INNKEEPER(2),
-    PRINCE(3),
-    HERALD(1),
-    GROCER(2),
-    CENTAUR(3),
-    JESTER(1),
-    KNIGHT(2),
-    MERCHANT(3),
-    MINSTREL(1),
-    WARRIOR_PRINCESS(2),
-    THIEF(3);
+//HOW DO I CREATE CHARACTER CARDS RANDOMLY WITHOUT HAVING SIMILAR OBJECTS? NICE QUESTION...I SHOULD FIX THIS ISSUE
 
+public class CharacterCard {
+    private final Character character;
     private int characterEffectCost;
 
-    CharacterCard(int characterEffectCost) {
-        this.characterEffectCost = characterEffectCost;
+    public CharacterCard() {
+        this.character = Character.getRandomCharacter();
+        this.characterEffectCost = Character.getCharacterEffectCost(this.character);
     }
 
-    public int getCharacterEffectCost() {
-        return characterEffectCost;
-    }
-
-    public void incrementCostEffect(){
-        this.characterEffectCost++;
-    }
-
-    public void activateCharacterEffect(CharacterCard characterCard) {
-        switch (characterCard) {
+    public void chooseCard(CharacterCard characterCard) {
+        switch(characterCard.character) {
             case MONK -> {
                 incrementCostEffect();
+                monkEffect();
             }
             case INNKEEPER -> {
                 incrementCostEffect();
+                innkeeperEffect();
             }
             case PRINCE -> {
                 incrementCostEffect();
+                princeEffect();
             }
             case HERALD -> {
                 incrementCostEffect();
+                heraldEffect();
             }
             case GROCER -> {
                 incrementCostEffect();
+                grocerEffect();
             }
             case CENTAUR -> {
                 incrementCostEffect();
+                centaurEffect();
             }
             case JESTER -> {
                 incrementCostEffect();
+                jesterEffect();
             }
             case KNIGHT -> {
                 incrementCostEffect();
+                knightEffect();
             }
             case MERCHANT -> {
                 incrementCostEffect();
+                merchantEffect();
             }
             case MINSTREL -> {
                 incrementCostEffect();
+                minstrelEffect();
             }
             case WARRIOR_PRINCESS -> {
                 incrementCostEffect();
+                warriorPrincessEffect();
             }
             case THIEF -> {
                 incrementCostEffect();
+                thiefEffect();
             }
-            default -> {
-                System.out.println("You have chosen a wrong character card!!!");
-            }
+            default -> System.out.println("You have chosen an unknown name!!!");
         }
     }
 
-    public void terminateCharacterEffect() {
+    private void incrementCostEffect() {
+        characterEffectCost++;
+    }
 
+    private void monkEffect() {
+        //TODO
+    }
+
+    private void innkeeperEffect() {
+        //TODO
+    }
+
+    private void princeEffect() {
+        //TODO
+    }
+
+    private void heraldEffect() {
+        //TODO
+    }
+
+    private void grocerEffect() {
+        //TODO
+    }
+
+    private void centaurEffect() {
+        //TODO
+    }
+
+    private void jesterEffect() {
+        //TODO
+    }
+
+    private void knightEffect() {
+        //TODO
+    }
+
+    private void merchantEffect() {
+        //TODO
+    }
+
+    private void minstrelEffect() {
+        //TODO
+    }
+
+    private void warriorPrincessEffect() {
+        //TODO
+    }
+
+    private void thiefEffect() {
+        //TODO
+    }
+
+    public void terminateCharacterEffect() {
+        //TODO
     }
 }
