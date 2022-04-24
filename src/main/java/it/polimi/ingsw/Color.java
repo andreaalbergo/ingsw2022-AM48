@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 public enum Color {
-    YELLOW_GNOMES(0), BLUE_UNICORNS(1), GREEN_FROGS(2), RED_DRAGONS(3),PINK_FAIRIES(4);
+    YELLOW_GNOMES(1), BLUE_UNICORNS(2), GREEN_FROGS(3), RED_DRAGONS(4),PINK_FAIRIES(5);
 
     private int index;
 

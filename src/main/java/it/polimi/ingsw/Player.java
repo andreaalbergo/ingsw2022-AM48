@@ -22,7 +22,7 @@ public class Player {
         this.coins = 1;
         this.turn = turn;
         this.chosenWizard = chosenWizard;
-        this.schoolBoard = new SchoolBoard(nickname,numberOfPlayers,mode);
+        this.schoolBoard = new SchoolBoard(nickname);
         this.towersColor = towersColor;
     }
 

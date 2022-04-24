@@ -3,35 +3,30 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 
 public class BoardManager {
-
-    private int remainingCoinCounter = 20;
+    private final int NUMBER_OF_ISLANDS = 12;
+    private int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
     private Bag bag;
-    //private ArrayList<Cloud> clouds;
-    //private ArrayList<Island> islands;
-    //private ArrayList<Island> unifiedIsland;
+    private ArrayList<CloudTile> clouds;
+    private ArrayList<IslandTile> islands;
+    private ArrayList<IslandTile> unifiedIsland;
     private ArrayList<Player> players;
     private ArrayList<Boolean> professors;
     //private ArrayList<CharacterDecorator> characters;
     private Round turn;
     private Player currentPlayer;
     private MotherNature motherNature;
-    private int numberOfPlayers;
-    private boolean expertMode;
-/*
-    public void BoardManager(Bag bag, ArrayList<CloudTile> clouds, int numberOfPlayers, CharacterCards[] characters, ArrayList<Player> players, boolean expertMode, ArrayList<Island> island, ArrayList<Island> unifiedIsland) {
 
-        bag = new Bag();
-        clouds = new ArrayList<CloudTile>(numberOfPlayers);
-        this.numberOfPlayers = numberOfPlayers;
-        //initialize CharacterCards[] characters
-        players = new ArrayList<Player>(numberOfPlayers); //recheck
-        this.expertMode = expertMode;
-        //initialize Island island
-        //initialize Island unifiedIsland
-
+    public BoardManager() {
+        this.bag = new Bag();
+        this.clouds = new ArrayList<>(Board.getNumberOfPlayers());
+        this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
+        this.unifiedIsland = new ArrayList<>();
+        this.players = new ArrayList<>(Board.getNumberOfPlayers());
+        this.professors = new ArrayList<>();
+        this.turn = new Round(); //BARB: riguarderò sta parte meglio
+        this.currentPlayer = null;
+        this.motherNature = new MotherNature();
     }
-
- */
 
     private int getPlayerIndex(Player givenPlayer) {
 
@@ -80,7 +75,7 @@ public class BoardManager {
     public void setupSchool(int numberOfPlayers) {
 
         for(Player p : players){
-            new SchoolBoard(p.getNickname(), numberOfPlayers, expertMode);   //Call SchoolBoard constructor
+            new SchoolBoard(p.getNickname());   //Call SchoolBoard constructor
         }
 
     }
@@ -197,8 +192,8 @@ public class BoardManager {
         int maxindex = 0;
         int i, j = 0;
 
-        for(i = 0; i+1 < numberOfPlayers; i++) {
-            for (j = i + 1; j < numberOfPlayers; j++) {
+        for(i = 0; i+1 < Board.getNumberOfPlayers(); i++) {
+            for (j = i + 1; j < Board.getNumberOfPlayers(); j++) {
 
                 if(players.get(i).getSchoolBoard().getDiningRoom()[color] > players.get(j).getSchoolBoard().getDiningRoom()[color] && players.get(i).getSchoolBoard().getDiningRoom()[color] > a.getSchoolBoard().getDiningRoom()[color]){
                     a = players.get(i);
@@ -241,8 +236,8 @@ public class BoardManager {
  */
     public boolean checkNickname() {
 
-        for(int i = 0; i+1 < numberOfPlayers; i++){
-            for(int j = i+1; j < numberOfPlayers; j++) {
+        for(int i = 0; i+1 < Board.getNumberOfPlayers(); i++){
+            for(int j = i+1; j < Board.getNumberOfPlayers(); j++) {
 
                 if (players.get(i).getNickname().equals(players.get(j).getNickname()) && i != j) {
                     return false;
@@ -290,7 +285,7 @@ public class BoardManager {
      */
 /*
     //WAITING CHARACTERCARD CLASS
-    public void buyCharacterCards(CharacterCard card) throws Exception {
+    public void buyCharacterCards(c card) throws Exception {
 
         if (currentPlayer.getCoins() >= card.getCost()){
             card.activateCard();
