@@ -285,7 +285,7 @@ public class BoardManager {
      */
 /*
     //WAITING CHARACTERCARD CLASS
-    public void buyCharacterCards(CharacterCard card) throws Exception {
+    public void buyCharacterCards(c card) throws Exception {
 
         if (currentPlayer.getCoins() >= card.getCost()){
             card.activateCard();
