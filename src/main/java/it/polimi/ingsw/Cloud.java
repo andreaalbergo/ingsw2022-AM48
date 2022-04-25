@@ -1,11 +1,11 @@
 package it.polimi.ingsw;
 
-//CLASS MADE BY BARB
+//CLASS MADE BY BARB, version 0.1-->OK
 public class Cloud {
     private static final int NUMBER_OF_PLAYERS = Board.getNumberOfPlayers();
     private static int LAST_CLOUD_ID = 0;
     private final int cloudId;
-    private static int[] cloudCells;
+    private final int[] cloudCells;
 
     public Cloud() {
         LAST_CLOUD_ID++;
@@ -23,29 +23,16 @@ public class Cloud {
         return cloudId;
     }
 
-    public void moveFromBagToCloud(Cloud cloud){
-        int i;
-        for(i=0; i<getCloudDimension(); i++) {
-            Bag.extractPawnsToCloud();
+    public void fillStudents(Bag bag, Cloud cloud){
+        for(int i=0; i<getCloudDimension(); i++) {
+            cloud.cloudCells[i] = bag.extractPawnToCloud();
         }
     }
 
-    public static void addStudentToSelectedCloudCell(int indexCell, int studentColor) {
-        cloudCells[indexCell] = studentColor;
-    }
-
-    public void chooseCLoud(int cloudId) {
-        moveFromCloudToSchoolEntrance(cloudId);
-        emptyCloud();
-    }
-
-    private void moveFromCloudToSchoolEntrance(int cloudId) {
-        //TODO
-    }
-
-    private void emptyCloud(){
-        int i;
-        for(i = 0; i < Board.getNumberOfPlayers(); i++)
-            cloudCells[i] = 0;
+    public void emptyCloud(SchoolBoard schoolBoard, Cloud cloud){
+        for(int i = 0; i<Board.getNumberOfPlayers(); i++) {
+            schoolBoard.addStudentToEntrance(cloud.cloudCells[i]);
+            cloud.cloudCells[i] = 0;
+        }
     }
 }

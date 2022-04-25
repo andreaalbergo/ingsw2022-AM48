@@ -13,26 +13,18 @@ public class Bag {
         }
     }
 
-    //MADE BY BARB: (until line 46)
-    public static void extractPawnsToCloud() {
-        takeRandomStudentFromBag();
+    //MADE BY BARB: (until line 38)
+    public int extractPawnToCloud() {
+        Color randomColorPicked = Color.getRandomColor();
+        if(removeRandomStudentFromBag(randomColorPicked.getColorIndex()))
+            return randomColorPicked.getColorIndex();
+
+        System.out.println("ERROR-->Can't remove student from bag!");
+        return 0;
     }
 
-    private static void takeRandomStudentFromBag() {
-        int indexCell;
-        Color randomColorPicked;
-
-        for(indexCell=0; indexCell< Cloud.getCloudDimension(); indexCell++) {
-            randomColorPicked = Color.getRandomColor();
-
-            if(!removeStudentFromBag(randomColorPicked.getColorIndex()))
-                indexCell--;
-            else
-                Cloud.addStudentToSelectedCloudCell(indexCell, randomColorPicked.getColorIndex());
-        }
-    }
-
-    private static boolean removeStudentFromBag(int colorIndex) {
+    //remember to throw exception in case no students of color picked is not present
+    private static boolean removeRandomStudentFromBag(int colorIndex) {
         int quantityOfColorIndex = students.get(colorIndex);
 
         if (quantityOfColorIndex > 0) {

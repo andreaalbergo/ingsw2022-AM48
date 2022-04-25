@@ -104,10 +104,9 @@ public class SchoolBoard {
         entrance[color.getColorIndex()]--;
     }
 
-    public static void addStudentToIsland(Color color, SchoolBoard schoolBoard, IslandTile islandTile) {
-        schoolBoard.removeFromEntrance(color);
-        //choosePawnFromEntrance() --> removeFromEntrance
-        //adding to island selected
+    public void addStudentToIsland(Color color, IslandTile islandTile) {
+        removeFromEntrance(color);
+        islandTile.getStudents().add(color.getColorIndex());
     }
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
