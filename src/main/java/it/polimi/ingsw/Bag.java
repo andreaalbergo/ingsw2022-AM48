@@ -13,11 +13,12 @@ public class Bag {
         }
     }
 
-    public static void drawOneStudentToCloudTile() {
-        addStudentToCloud();
+    //MADE BY BARB: (until line 46)
+    public static void extractPawnsToCloud() {
+        takeRandomStudentFromBag();
     }
 
-    private static void addStudentToCloud() {
+    private static void takeRandomStudentFromBag() {
         int indexCell;
         Color randomColorPicked;
 
@@ -42,6 +43,7 @@ public class Bag {
             return false;
         }
     }
+    //END MADE BY BARB
 
     public void drawStudentsToSchoolEntrance(SchoolBoard schoolBoard) {
         int number;

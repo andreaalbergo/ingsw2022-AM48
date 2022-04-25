@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+//CLASS MADE BY BARB
 public class Cloud {
     private static final int NUMBER_OF_PLAYERS = Board.getNumberOfPlayers();
     private static int LAST_CLOUD_ID = 0;
@@ -22,11 +23,10 @@ public class Cloud {
         return cloudId;
     }
 
-    public void moveFromBagToCloud(){
+    public void moveFromBagToCloud(Cloud cloud){
         int i;
-
         for(i=0; i<getCloudDimension(); i++) {
-            Bag.drawOneStudentToCloudTile();
+            Bag.extractPawnsToCloud();
         }
     }
 

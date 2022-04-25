@@ -11,6 +11,10 @@ public class CharacterCard {
         this.characterEffectCost = Character.getCharacterEffectCost(this.character);
     }
 
+    public int getCharacterEffectCost() {
+        return characterEffectCost;
+    }
+
     public void chooseCard(CharacterCard characterCard) {
         characterCard.incrementCharacterCost();
         switch(characterCard.character) {

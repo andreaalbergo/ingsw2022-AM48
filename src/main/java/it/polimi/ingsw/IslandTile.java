@@ -13,10 +13,10 @@ public class IslandTile {
         lastIslandId++;
         this.idIsland = lastIslandId;
         this.ownerNickname = null;
-        this.students = setupFirstStudent();
+        this.students = setFirstStudentOnIsland();
     }
 
-    private List<Integer> setupFirstStudent() {
+    private List<Integer> setFirstStudentOnIsland() {
         //TODO
         return students;
     }
@@ -30,8 +30,7 @@ public class IslandTile {
         //newCheckMergingIslands
     }
 
-    public void moveStudentFromEntranceToIsland(int idIsland) {
-        //TODO
+    public void setStudents(List<Integer> students) {
+        this.students = students;
     }
-
 }
