@@ -12,112 +12,98 @@ public class CharacterCard {
     }
 
     public void chooseCard(CharacterCard characterCard) {
+        characterCard.incrementCharacterCost();
         switch(characterCard.character) {
-            case MONK -> {
-                incrementCostEffect();
-                monkEffect();
-            }
-            case INNKEEPER -> {
-                incrementCostEffect();
-                innkeeperEffect();
-            }
-            case PRINCE -> {
-                incrementCostEffect();
-                princeEffect();
-            }
-            case HERALD -> {
-                incrementCostEffect();
-                heraldEffect();
-            }
-            case GROCER -> {
-                incrementCostEffect();
-                grocerEffect();
-            }
-            case CENTAUR -> {
-                incrementCostEffect();
-                centaurEffect();
-            }
-            case JESTER -> {
-                incrementCostEffect();
-                jesterEffect();
-            }
-            case KNIGHT -> {
-                incrementCostEffect();
-                knightEffect();
-            }
-            case MERCHANT -> {
-                incrementCostEffect();
-                merchantEffect();
-            }
-            case MINSTREL -> {
-                incrementCostEffect();
-                minstrelEffect();
-            }
-            case WARRIOR_PRINCESS -> {
-                incrementCostEffect();
-                warriorPrincessEffect();
-            }
-            case THIEF -> {
-                incrementCostEffect();
-                thiefEffect();
-            }
-            default -> System.out.println("You have chosen an unknown name!!!");
+            case MONK -> monkEffect();
+            case INNKEEPER -> innkeeperEffect();
+            case PRINCE -> princeEffect();
+            case HERALD -> heraldEffect();
+            case GROCER -> grocerEffect();
+            case CENTAUR -> centaurEffect();
+            case JESTER -> jesterEffect();
+            case KNIGHT -> knightEffect();
+            case MERCHANT -> merchantEffect();
+            case MINSTREL -> minstrelEffect();
+            case WARRIOR_PRINCESS -> warriorPrincessEffect();
+            case THIEF -> thiefEffect();
+            default -> System.out.println("ERROR --> You have chosen an unknown name!!!");
         }
     }
 
-    private void incrementCostEffect() {
+    private void incrementCharacterCost() {
         characterEffectCost++;
     }
 
     private void monkEffect() {
-        //TODO
+        //AT SETUP GAME: implementFourStudentsStorage() and getFromBag()
+        //chooseStudentOnMonkCard()
+        //chooseIslandId()
+        //takeRandomStudentFromBagToMonkCard()
     }
 
     private void innkeeperEffect() {
-        //TODO
+        //checkIfSameStudentsOfOtherDiningRoom()
+        //takeProfessorsChecked()
+        //end of turn, possibly chooseCloud(), give back professors taken
     }
 
     private void princeEffect() {
-        //TODO
+        //chooseIslandId()
+        //placePseudoMotherNature()
+        //checkIslandInfluence()
+        //then I can start turn normally by moving the real mother nature
     }
 
     private void heraldEffect() {
-        //TODO
+        //addPlusTwoStepsForMotherNature()
     }
 
     private void grocerEffect() {
-        //TODO
+        //AT SETUP GAME: implementFourProhibitionStorage()
+        //chooseIslandId()
+        //wait until mother nature goes on island on prohibition, if so call next method
+        //placeProhibitionHolderBack()
+        //continuous effect because Prohibition are held on islands, so modify IslandTile
     }
 
     private void centaurEffect() {
-        //TODO
+        //during the checkInfluence() phase:
+        //nullifyTowerInfluence()
     }
 
     private void jesterEffect() {
-        //TODO
+        //AT SETUP GAME: implementSixStudentsStorage() and getFromBag()
+        //chooseHowManyStudentsUpToThree()
+        //switchEntranceWithThisCard
     }
 
     private void knightEffect() {
-        //TODO
+        //during checkInfluence() phase:
+        //addPlusTwoInfluenceForPlayer()
     }
 
     private void merchantEffect() {
-        //TODO
+        //during checkInfluence() phase:
+        //selectColor()
+        //nullifySelectedColorInfluence()
     }
 
     private void minstrelEffect() {
-        //TODO
+        //chooseUpToTwoStudents
+        //switchEntranceAndDiningRoom()
     }
 
     private void warriorPrincessEffect() {
-        //TODO
+        //AT SETUP GAME: implementFourStudentsStorage() and getFromBag()
+        //chooseStudentFromCard()
+        //putChosenStudentOnDiningRoom()
+        //takeStudentFromBagToThisCard()
+
     }
 
     private void thiefEffect() {
-        //TODO
-    }
-
-    public void terminateCharacterEffect() {
-        //TODO
+        //chooseColor()
+        //everyPlayerTakeThreeStudentsFromDiningRoomToBag()
+        //if someone has less than three students in Dining Room, take as much as possible
     }
 }
