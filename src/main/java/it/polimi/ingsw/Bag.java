@@ -72,7 +72,7 @@ public class Bag {
     public ArrayList<Integer> getStudents() {
         return students;
     }
-/*
+    /*
     public void setupIslands(ArrayList<IslandTile> islands) {
         int number;
         for (IslandTile island : islands) {
@@ -80,15 +80,8 @@ public class Bag {
             island.addStudentOnIsland(number);
         }
     }
-/*
-    public void extractStudentsToCloud(){
+    */
 
-    }
-
-    public void extractStudentsToIsland(){
-
-    }
- */
 
 }
 
