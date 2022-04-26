@@ -56,9 +56,7 @@ public class Bag {
         int number = 0;
         if(Board.getNumberOfPlayers() == 2 /* || numberOfPlayers == 4*/){
             for (int i = 0; i < 7; i++) {
-                while (number<1){
-                    number = (int) ((Math.random()*4.9));
-                }
+                number = (int) ((Math.random()*4.9));
                 schoolBoard.addStudentToEntrance(number);
             }
         }else{
