@@ -1,10 +1,12 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SchoolBoard {
     private final String nickname;
-    private int[] entrance;
+    private int entrance_size;
+    private ArrayList<Color> entrance;
     private int[] diningRoom = new int[5];
     private Boolean[] professors = new Boolean[5];
     private int towers;
@@ -14,10 +16,12 @@ public class SchoolBoard {
     public SchoolBoard(String nickname){
         this.nickname = nickname;
         if (Board.getNumberOfPlayers() == 3){
-            this.entrance = new int[7];
+            this.entrance = new ArrayList<>(7);
+            //entrance.add(0,null);
             this.towers = 6;
         }else{
-            this.entrance = new int[9];
+            this.entrance = new ArrayList<>(9);
+            //entrance.add(0,null);
             this.towers = 8;
         }
 
@@ -25,7 +29,7 @@ public class SchoolBoard {
             this.collectedCoins = new ArrayList<>(5);
         }else{
             this.collectedCoins = new ArrayList<>(1);
-            collectedCoins.set(0, 0);
+            collectedCoins.add(0, 0);
         }
 
 
@@ -35,34 +39,8 @@ public class SchoolBoard {
     // probably going to implement a method that throws an exception in case the color is not present in the entrance
     //BARB: ma se prendi indice del colore, non c'entra niente con array Entrance che ha 7 o 9 celle per gestirla
     public void addStudentToDiningRoom(Color color){
-        switch (color){
-            case RED_DRAGONS: {
-                diningRoom[color.getColorIndex()] += 1;
-                entrance[color.getColorIndex()] -= 1;
-            }
-            break;
-            case GREEN_FROGS: {
-                diningRoom[color.getColorIndex()] += 1;
-                entrance[color.getColorIndex()] -= 1;
-            }
-            break;
-            case PINK_FAIRIES: {
-                diningRoom[color.getColorIndex()] += 1;
-                entrance[color.getColorIndex()] -= 1;
-            }
-            break;
-            case BLUE_UNICORNS: {
-                diningRoom[color.getColorIndex()] += 1;
-                entrance[color.getColorIndex()] -= 1;
-            }
-            break;
-            case YELLOW_GNOMES: {
-                diningRoom[color.getColorIndex()] += 1;
-                entrance[color.getColorIndex()] -= 1;
-            }
-            break;
-
-        }
+        diningRoom[color.getColorIndex()] += 1;
+        removeFromEntrance(color);
     }
 
     public String getNickname() {
@@ -90,18 +68,18 @@ public class SchoolBoard {
     }
 
     public void addStudentToEntrance(int index) {
-        this.entrance[index]+=1;
+        this.entrance.add(Color.colorFromIndex(index));
     }
 
 
-    public int[] getEntrance(){
+    public ArrayList<Color> getEntrance(){
         return this.entrance;
     }
 
     //BARB: prossimo metodo fatto da me, ma sistema il problema in linea 37 e linea 92 IMPORTANTE!
     private void removeFromEntrance(Color color) {
         //check if color exists in entrance[], if not raise an exception
-        entrance[color.getColorIndex()]--;
+        entrance.remove(color);
     }
 
     public void addStudentToIsland(Color color, IslandTile islandTile) {
@@ -110,7 +88,7 @@ public class SchoolBoard {
     }
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
-    public void addStudentToIsland(Color color, Island island){
+    public void addStudentToIsland(Color color, IslandTile island){
         switch (color){
             case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
                 break;

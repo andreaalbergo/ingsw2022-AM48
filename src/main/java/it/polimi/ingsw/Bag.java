@@ -53,10 +53,12 @@ public class Bag {
     }
 
     public void setupSchoolEntrance(SchoolBoard schoolBoard) {
-        int number;
+        int number = 0;
         if(Board.getNumberOfPlayers() == 2 /* || numberOfPlayers == 4*/){
             for (int i = 0; i < 7; i++) {
-                number = (int) ((Math.random()*4.9));
+                while (number<1){
+                    number = (int) ((Math.random()*4.9));
+                }
                 schoolBoard.addStudentToEntrance(number);
             }
         }else{
@@ -71,10 +73,21 @@ public class Bag {
         return students;
     }
 /*
-    public void setupIslands(List<IslandTile> Islands){
+    public void setupIslands(ArrayList<IslandTile> islands) {
+        int number;
+        for (IslandTile island : islands) {
+            number = (int) ((Math.random() * 4.9));
+            island.addStudentOnIsland(number);
+        }
+    }
+/*
+    public void extractStudentsToCloud(){
 
     }
 
+    public void extractStudentsToIsland(){
+
+    }
  */
 
 }

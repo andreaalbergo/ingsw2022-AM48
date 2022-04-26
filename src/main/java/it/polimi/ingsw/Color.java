@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 public enum Color {
-    YELLOW_GNOMES(1), BLUE_UNICORNS(2), GREEN_FROGS(3),
-    RED_DRAGONS(4),PINK_FAIRIES(5);
+    YELLOW_GNOMES(0), BLUE_UNICORNS(1), GREEN_FROGS(2),
+    RED_DRAGONS(3),PINK_FAIRIES(4);
 
     private final int colorIndex;
     //MADE BY BARB, I NEED TO GET A RANDOM COLOR:
@@ -27,8 +27,8 @@ public enum Color {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
-    /*
-    public Color colorFromIndex(int colorIndex){
+
+    public static Color colorFromIndex(int colorIndex){
         Color toBeReturned = null;
         for(Color c: Color.values()){
             if(colorIndex == c.getColorIndex()){
@@ -36,5 +36,5 @@ public enum Color {
             }
         }
         return toBeReturned;
-    }*/
+    }
 }

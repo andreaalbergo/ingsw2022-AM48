@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolBoardTest {
@@ -12,6 +14,9 @@ class SchoolBoardTest {
     void addStudentToDiningRoom() {
         int [] diningRoom;
         diningRoom = schoolBoard.getDiningRoom();
+        ArrayList<Color> entrance = schoolBoard.getEntrance();
+        schoolBoard.addStudentToEntrance(Color.RED_DRAGONS.getColorIndex());
+        schoolBoard.addStudentToEntrance(Color.RED_DRAGONS.getColorIndex());
         /*
         for (int i = 0; i < 5; i++) {
             System.out.println(diningRoom[i]);
@@ -60,18 +65,49 @@ class SchoolBoardTest {
         schoolBoard.removeProfessor(Color.RED_DRAGONS);
         assertFalse(schoolBoard.checkProfessor(Color.PINK_FAIRIES));
         assertFalse(schoolBoard.checkProfessor(Color.RED_DRAGONS));
+
     }
 
     @Test
     void addStudentToEntrance(){
+        System.out.println(Color.colorFromIndex(2));
+        int[] size = new int[5];
         schoolBoard.addStudentToEntrance(2);
-        assertEquals(1,schoolBoard.getEntrance()[2]);
+        ArrayList<Color> entrance = schoolBoard.getEntrance();
         schoolBoard.addStudentToEntrance(2);
-        assertEquals(2,schoolBoard.getEntrance()[2]);
+        schoolBoard.addStudentToEntrance(3);
+
+        for(Color c: entrance){
+            size[c.getColorIndex()]++;
+        }
+        assertEquals(2,size[2]);
+        assertEquals(1,size[3]);
+        schoolBoard.addStudentToDiningRoom(Color.GREEN_FROGS);
+
+        for(Color c : entrance){
+            size[c.getColorIndex()] = 0;
+        }
+        for(Color c: entrance){
+            size[c.getColorIndex()]++;
+        }
+        assertEquals(1,size[2]);
+
+        for(Color c: entrance){
+            entrance.remove(c);
+        }
     }
 
     @Test
     void getEntrance(){
         assertNotNull(schoolBoard.getEntrance());
+    }
+
+    @Test
+    void removeFromEntrance(){
+        schoolBoard.addStudentToEntrance(3);
+        ArrayList<Color> entrance = schoolBoard.getEntrance();
+        assertTrue(entrance.contains(Color.colorFromIndex(3)));
+        schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);
+        assertFalse(entrance.contains(Color.colorFromIndex(3)));
     }
 }
