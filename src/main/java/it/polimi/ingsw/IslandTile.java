@@ -8,7 +8,7 @@ public class IslandTile {
     private static int lastIslandId = 0;
     private final int idIsland;
     private String ownerNickname;
-    private List<Integer> students;
+    private int[] students;
 
     public IslandTile() {
         lastIslandId++;
@@ -18,7 +18,7 @@ public class IslandTile {
         //Waiting for the method implemented in class Bag
     }
 
-    public List<Integer> getStudents() {
+    public int[] getStudents() {
         return students;
     }
 
@@ -33,5 +33,9 @@ public class IslandTile {
     private void mergeTwoIslands() {
         //TODO
         //do it in buildTowerOnIsland() because I want to check the two adjacent islands after putting a tower
+    }
+
+    public String getOwnerNickname() {
+        return ownerNickname;
     }
 }

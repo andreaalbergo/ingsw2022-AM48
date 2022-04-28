@@ -51,8 +51,8 @@ public class Player {
         this.idPlayerForTurn = idPlayerForTurn;
     }
 
-    public void addCoins(int newcoins) {
-        this.coins += newcoins;
+    public void addCoins(int newCoins) {
+        this.coins += newCoins;
     }
 
     public void setTurn(boolean turn) {
@@ -66,4 +66,7 @@ public class Player {
     public SchoolBoard getSchoolBoard() {
         return schoolBoard;
     }
+
+    //add removeCoin()
+
 }

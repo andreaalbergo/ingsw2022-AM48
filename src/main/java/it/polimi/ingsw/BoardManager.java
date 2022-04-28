@@ -3,29 +3,49 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 
 public class BoardManager {
+
     private final int NUMBER_OF_ISLANDS = 12;
     private int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
     private Bag bag;
     private ArrayList<Cloud> clouds;
     private ArrayList<IslandTile> islands;
-    private ArrayList<IslandTile> unifiedIsland;
+    //private ArrayList<IslandTile> unifiedIsland;  NEVER USED
     private ArrayList<Player> players;
-    private ArrayList<Boolean> professors;
-    //private ArrayList<CharacterDecorator> characters;
     private Round turn;
     private Player currentPlayer;
     private MotherNature motherNature;
 
+
     public BoardManager() {
         this.bag = new Bag();
-        this.clouds = new ArrayList<>(Board.getNumberOfPlayers());
+        this.clouds = new ArrayList<>();
         this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
-        this.unifiedIsland = new ArrayList<>();
+        //this.unifiedIsland = new ArrayList<>();
         this.players = new ArrayList<>(Board.getNumberOfPlayers());
-        this.professors = new ArrayList<>();
         this.turn = new Round(); //BARB: riguarderò sta parte meglio
         this.currentPlayer = null;
         this.motherNature = new MotherNature();
+
+
+        Cloud cloud1 = new Cloud();
+        clouds.add(cloud1);
+        Cloud cloud2 = new Cloud();
+        clouds.add(cloud2);
+
+        Player player1 = new Player(currentPlayer.getNickname(), 1,true, Wizards.WIZARD1, Board.getNumberOfPlayers(), TowersColor.WHITE, Board.isExpertMode());
+        players.add(player1);
+        Player player2 = new Player(currentPlayer.getNickname(), 2,false, Wizards.WIZARD2, Board.getNumberOfPlayers(), TowersColor.BLACK, Board.isExpertMode());
+        players.add(player2);
+
+        if(Board.getNumberOfPlayers() == 3){
+
+            Cloud cloud3 = new Cloud();
+            clouds.add(cloud3);
+            Player player3 = new Player(currentPlayer.getNickname(), 3,false, Wizards.WIZARD3, Board.getNumberOfPlayers(), TowersColor.GRAY, Board.isExpertMode());
+            players.add(player3);
+
+        }
+
     }
 
     private int getPlayerIndex(Player givenPlayer) {
@@ -79,8 +99,13 @@ public class BoardManager {
         }
 
     }
+
     //NO IMPLEMENTATION YET
-    public void setupRound() {} //choose whos the first to play and puts in the turnOrder's array the players
+    public void setupRound() {
+
+        //random function gives idPlayer or nickname and sends it to Round.turnorder() arraylist
+
+    } //choose who's the first to play and puts in the turnOrder's array the players
 
     public void chooseStepsMotherNature(int steps) {
 
@@ -93,11 +118,9 @@ public class BoardManager {
             //throw new IllegalStateException(System.out.println("You have to move Mother Nature between 1 and " + round.getChosenCards().get(index).getnumber_of_steps));
     }
 
-    //WAITING ISLANDTILE CLASS
-    /*
     public boolean checkInfluence(IslandTile island) {
 
-         ArrayList<Integer> Influencecounter = new ArrayList<Integer>();
+        ArrayList<Integer> Influencecounter = new ArrayList<>();
 
         for(Player p: players){
 
@@ -105,17 +128,18 @@ public class BoardManager {
 
             for (int j = 0; j < 5; j++) {        //for(int j:Player.SchoolBoard.professors[j])
 
-                if (p.getSchoolBoard().getProfessors()[j] == true) {     //if player have the professor
 
-                    counter = counter + island.getStudents().get(j);
+                if (p.getSchoolBoard().getProfessors()[j]) {     //if player have the professor, == true
 
-                }
-
-                if (p == island.getOwner()) {
-
-                    counter++;
+                    counter = counter + island.getStudents()[j];
 
                 }
+
+                if (p.getNickname().equals(island.getOwnerNickname())) {
+
+                   counter++;
+
+               }
 
                 Influencecounter.add(counter);
 
@@ -144,45 +168,43 @@ public class BoardManager {
         }
     }
 
-     */
     /*
+    mergeIsland() to fix
 
-    //WAITING ISLANDTILE CLASS
     private void checkToMergeIslands(IslandTile island) {
 
         int position = motherNature.getPosition();
 
         if(position == 1){
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(position+1).getOwner() == currentPlayer){ //next island
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(position+1).getOwnerNickname() == currentPlayer.getNickname()){ //next island
                 island.mergeIsland(position+1);
             }
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(12).getOwner() == currentPlayer){  //previous island
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(12).getOwnerNickname() == currentPlayer.getNickname()){  //previous island
                 island.mergeIsland(12);
             }
         }
 
         if(position == 12){
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(1).getOwner() == currentPlayer){ //next island
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(1).getOwnerNickname() == currentPlayer.getNickname()){ //next island
                 island.mergeIsland(1);
             }
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(position-1).getOwner() == currentPlayer){  //previous island
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(position-1).getOwnerNickname() == currentPlayer.getNickname()){  //previous island
                 island.mergeIsland(position-1);
             }
         }
 
         else{
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(position+1).getOwner() == currentPlayer){ //next island
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(position+1).getOwnerNickname() == currentPlayer.getNickname()){ //next island
                 island.mergeIsland(position+1);
             }
-            if(islands.get(position).getOwner() == currentPlayer && islands.get(position-1).getOwner() == currentPlayer){  //previous island
-                island.mergeIsland(position-1);
+            if(islands.get(position).getOwnerNickname() == currentPlayer.getNickname() && islands.get(position-1).getOwnerNickname() == currentPlayer.getNickname()){  //previous island
+                islands.mergeIsland(position-1);
             }
         }
     }
 
      */
 
-    //NO IMPLEMENTATION YET
     //public boolean checkActiveCharacterCards() {}
 
     public void checkToAddProfessor(Color givenColor) {
@@ -225,15 +247,13 @@ public class BoardManager {
         }
 
     }
-/*
-    public void drawFromBag() {
 
-        bag.extractPawnsToCloud(clouds);
+    public void drawFromBagToClouds() {
 
-    } //called by Cloud.fillStudents() connects Cloud with Bag
+        bag.extractPawnToCloud();
 
+    }
 
- */
     public boolean checkNickname() {
 
         for(int i = 0; i+1 < Board.getNumberOfPlayers(); i++){
@@ -249,47 +269,44 @@ public class BoardManager {
 
     }
 
-    // WAITING CLOUDTILE CLASS
-    /*
     public void chooseCloudTile(Cloud cloud) {
 
-        int index = cloud.getIdCloud();
         boolean waitToFill = true;
 
-        cloud.emptyCloud(currentPlayer, index);
+        cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);
 
         for(Cloud c : clouds) {
             for (int i = 0; i < 5; i++) {
 
-                if (c.getStudents.get(i) == 0) {
-                    waitToFill = false;
-                }
-                else{
-                    waitToFill = true;
-                }
+                //NEED getStudents() in Cloud
+
+                //if (c.getStudents.get(i) == 0) {
+                  //  waitToFill = false;
+                //}
+                //else{
+                  //  waitToFill = true;
+                //}
 
             }
         } //controls if all clouds are empty
 
-        if(waitToFill == false) {
+        if(!waitToFill) {       // == false
 
             for(Cloud c : clouds) {
 
-                c.fillStudents(bag);
+                c.fillStudents(bag, cloud);
 
             }
         }
 
     }
 
-     */
-/*
-    //WAITING CHARACTERCARD CLASS
-    public void buyCharacterCards(c card) throws Exception {
+    public void buyCharacterCards(CharacterCard card) throws Exception {
 
-        if (currentPlayer.getCoins() >= card.getCost()){
-            card.activateCard();
-            currentPlayer.removeCoins(card.getCost());
+        if (currentPlayer.getCoins() >= card.getCharacterEffectCost()){
+            card.chooseCard(card);
+            //NEED removeCoins() in Player
+            //currentPlayer.removeCoin(card.getCharacterEffectCost());
         }
 
         else{
@@ -307,7 +324,7 @@ public class BoardManager {
         } //if a player have placed all the towers
 
 
-        //Missing control of the last player
+        //It controls only the currentPlayer
         for(int i = 0; i < 5; i++){
 
             if(bag.getStudents().get(i) == 0){
@@ -319,15 +336,15 @@ public class BoardManager {
             }
         }
 
-        if(emptyBag == true){
+        if(currentPlayer.getAssistantCards().isEmpty()){        // == true
+
             return true;
-        } //if the bag is empty
 
-        //count how many island groups there are (if <= 3 --> gameover)
-        //controls if the last AssistantCard has been played
+        }
 
+        //count how many island there are on the board, if less than 3 then is gameover
+
+        return emptyBag;
     }
-
- */
 
 }

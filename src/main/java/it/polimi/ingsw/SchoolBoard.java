@@ -84,7 +84,7 @@ public class SchoolBoard {
 
     public void addStudentToIsland(Color color, IslandTile islandTile) {
         removeFromEntrance(color);
-        islandTile.getStudents().add(color.getColorIndex());
+        islandTile.getStudents()[color.getColorIndex()]++;
     }
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
@@ -116,4 +116,7 @@ public class SchoolBoard {
     }
 */
 
+    public int getTowers() {
+        return towers;
+    }
 }
