@@ -86,6 +86,10 @@ public class SchoolBoard {
         removeFromEntrance(color);
         islandTile.getStudents()[color.getColorIndex()]++;
     }
+    /* BOZZ
+        insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()
+        insert checkToAddProfessor() [BOARDMANAGER] in addStudentToDiningRoom()
+     */
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
     public void addStudentToIsland(Color color, IslandTile island){
