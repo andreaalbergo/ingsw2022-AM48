@@ -9,25 +9,37 @@ public class Round {
     private Player currentPlayer;
     private ArrayList<Player> players;
     int indexmin = 11, indexmax = 0; //used in compareAssistantCards and assignRoundOrder()
+    int turnNumber = 0;             //for keeping track when turnNumber == numberOfPlayers
+    int roundNumber = 1;            //can be useless
+    int assistantCardChosen = 0;
 
 
-    public void Round(int numberOfPlayers, ArrayList<AssistantCard> chosenCards, ArrayList<String> turnOrder){
+    public Round(){
 
-        this.chosenCards = new ArrayList<AssistantCard>();
-        this.turnOrder = new ArrayList<String>();
+        this.chosenCards = new ArrayList<>();
+        this.turnOrder = new ArrayList<>();
+        this.currentPlayer = null;
+        this.players = new ArrayList<>(Board.getNumberOfPlayers());
 
     }
 
+    //called in assignNextTurn()?
     public void chooseCard(AssistantCard card) throws Exception {
-
-        chosenCards.add(card);
 
         for(AssistantCard a : chosenCards){
             if(a == card){
-                chosenCards.remove(card);
                 throw new Exception("Error, this card has already been played");
             }
         }
+
+        chosenCards.add(card);
+        assistantCardChosen += 1;
+
+        if(assistantCardChosen == Board.getNumberOfPlayers()){
+            compareAssistantCard();
+            assistantCardChosen = 0;
+        }
+
     }
 
     private void compareAssistantCard() {
@@ -69,11 +81,23 @@ public class Round {
             }
         }
 
+        assignRoundOrder();
 
     }
 
     public void assignNextTurn() {
-    } //when a player has finished his turn
+
+        currentPlayer.setTurn(false);
+        players.get(turnNumber).setTurn(true);
+        turnNumber += 1;
+
+        if(turnNumber >= Board.getNumberOfPlayers()) {
+            turnNumber = 0;
+            roundNumber += 1;
+            //BoardManager.drawFromBagToClouds();
+        }
+
+    } //when a player has finished his turn (after chooseCloudTile() in BoardManager
 
     public void assignRoundOrder() {
 

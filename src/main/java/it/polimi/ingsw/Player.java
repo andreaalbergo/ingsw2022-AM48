@@ -67,6 +67,9 @@ public class Player {
         return schoolBoard;
     }
 
-    //add removeCoin()
+    /*BOZZ:
+    add removeCoin()
+     */
+
 
 }

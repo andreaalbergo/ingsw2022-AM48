@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
+import java.util.Random; //for the first turn order
 
 public class BoardManager {
 
@@ -14,6 +15,7 @@ public class BoardManager {
     private Round turn;
     private Player currentPlayer;
     private MotherNature motherNature;
+    private CharacterCard card;
 
 
     public BoardManager() {
@@ -26,24 +28,27 @@ public class BoardManager {
         this.currentPlayer = null;
         this.motherNature = new MotherNature();
 
+        //thinking for a way to assign a random turnOrder for the first turn
 
-        Cloud cloud1 = new Cloud();
-        clouds.add(cloud1);
-        Cloud cloud2 = new Cloud();
-        clouds.add(cloud2);
+        //can't be currentPlayer.getNickname(), like this I have 3 identical players
+        for(int i = 0; i < Board.getNumberOfPlayers(); i++){
+             players.add(new Player(currentPlayer.getNickname(), i,true, Wizards.WIZARD1, Board.getNumberOfPlayers(), TowersColor.WHITE, Board.isExpertMode()));
+             clouds.add(new Cloud());
+        }
 
-        Player player1 = new Player(currentPlayer.getNickname(), 1,true, Wizards.WIZARD1, Board.getNumberOfPlayers(), TowersColor.WHITE, Board.isExpertMode());
-        players.add(player1);
-        Player player2 = new Player(currentPlayer.getNickname(), 2,false, Wizards.WIZARD2, Board.getNumberOfPlayers(), TowersColor.BLACK, Board.isExpertMode());
-        players.add(player2);
+        /*
+        for(Player p : players){
+            players.add(new Player(p.getNickname(), TURN_ORDER , TURN_STATUS , WIZARD_NUMBER , Board.getNumberOfPlayers(), TOWER_COLOR , Board.isExpertMode()));
+            cloud.add(new Cloud());
+        }
+         */
 
-        if(Board.getNumberOfPlayers() == 3){
+        for(Player p : players){
+            new SchoolBoard(p.getNickname());
+        }
 
-            Cloud cloud3 = new Cloud();
-            clouds.add(cloud3);
-            Player player3 = new Player(currentPlayer.getNickname(), 3,false, Wizards.WIZARD3, Board.getNumberOfPlayers(), TowersColor.GRAY, Board.isExpertMode());
-            players.add(player3);
-
+        for(int i = 0; i < NUMBER_OF_ISLANDS; i++){
+            islands.add(new IslandTile());
         }
 
     }
@@ -66,13 +71,14 @@ public class BoardManager {
         return index;
     }
 
+    //calls when all students have been moved from entrance to diningRoom
     public void takeCoin() throws Exception {
 
         int counter = 0;
 
         for (int i : currentPlayer.getSchoolBoard().getDiningRoom()) {    //for every index of the array control if there's a student on a place with a coin
             if (currentPlayer.getSchoolBoard().getDiningRoom()[i] % 3 == 0)
-                counter++;
+                counter += 1;
         }
 
         if(remainingCoinCounter - counter >= 0) {
@@ -92,6 +98,8 @@ public class BoardManager {
 
     }
 
+    //INCLUDED IN THE CONSTRUCTOR
+    /*
     public void setupSchool(int numberOfPlayers) {
 
         for(Player p : players){
@@ -100,11 +108,11 @@ public class BoardManager {
 
     }
 
-    //NO IMPLEMENTATION YET
+     */
+
+    //NO IMPLEMENTATION YET --> will be included in the BoardManager constructor
     public void setupRound() {
-
         //random function gives idPlayer or nickname and sends it to Round.turnorder() arraylist
-
     } //choose who's the first to play and puts in the turnOrder's array the players
 
     public void chooseStepsMotherNature(int steps) {
@@ -118,9 +126,10 @@ public class BoardManager {
             //throw new IllegalStateException(System.out.println("You have to move Mother Nature between 1 and " + round.getChosenCards().get(index).getnumber_of_steps));
     }
 
+    //called by addStudentToIsland() method in SchoolBoard
     public boolean checkInfluence(IslandTile island) {
 
-        ArrayList<Integer> Influencecounter = new ArrayList<>();
+        ArrayList<Integer> InfluenceCounter = new ArrayList<>();
 
         for(Player p: players){
 
@@ -141,31 +150,25 @@ public class BoardManager {
 
                }
 
-                Influencecounter.add(counter);
+                InfluenceCounter.add(counter);
 
             }
 
         }
 
-        int indexmax = 0, valmax = Influencecounter.get(0);
+        int indexmax = 0, valmax = InfluenceCounter.get(0);
 
 
-        for(int i : Influencecounter){
+        for(int i : InfluenceCounter){
 
-            if(Influencecounter.get(i) > valmax){
-                valmax = Influencecounter.get(i);
+            if(InfluenceCounter.get(i) > valmax){
+                valmax = InfluenceCounter.get(i);
                 indexmax = i;
             }
 
         }
 
-        if(getPlayerIndex(currentPlayer) == indexmax){
-            return true;
-        }
-
-        else{
-            return false;
-        }
+        return getPlayerIndex(currentPlayer) == indexmax;
     }
 
     /*
@@ -205,8 +208,17 @@ public class BoardManager {
 
      */
 
-    //public boolean checkActiveCharacterCards() {}
+    //Need to include parameter isActive in CharacterCard
+    //is this method useful?
+    /*
+    public boolean checkActiveCharacterCards() {
 
+        return card.getIsActive()
+
+    }
+     */
+
+    //called by addStudentToDiningRoom() in SchoolBoard
     public void checkToAddProfessor(Color givenColor) {
 
         int color = givenColor.getColorIndex();
@@ -248,12 +260,14 @@ public class BoardManager {
 
     }
 
+    //called by assignNextTurn() in Round
     public void drawFromBagToClouds() {
 
         bag.extractPawnToCloud();
 
     }
 
+    //called when?
     public boolean checkNickname() {
 
         for(int i = 0; i+1 < Board.getNumberOfPlayers(); i++){
@@ -269,9 +283,12 @@ public class BoardManager {
 
     }
 
+    //To add commands when GameOver = true
+    //called after motherNature moved or after all students have been moved from entrance
     public void chooseCloudTile(Cloud cloud) {
 
         boolean waitToFill = true;
+        boolean gameOver;
 
         cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);
 
@@ -299,8 +316,18 @@ public class BoardManager {
             }
         }
 
+        gameOver = checkGameOver();
+        if(!gameOver){
+            turn.assignNextTurn();
+        }
+
+        else{
+            //GameOver
+        }
+
     }
 
+    //called when?
     public void buyCharacterCards(CharacterCard card) throws Exception {
 
         if (currentPlayer.getCoins() >= card.getCharacterEffectCost()){
@@ -327,13 +354,7 @@ public class BoardManager {
         //It controls only the currentPlayer
         for(int i = 0; i < 5; i++){
 
-            if(bag.getStudents().get(i) == 0){
-                emptyBag = true;
-            }
-
-            else{
-                emptyBag = false;
-            }
+            emptyBag = bag.getStudents().get(i) == 0;
         }
 
         if(currentPlayer.getAssistantCards().isEmpty()){        // == true

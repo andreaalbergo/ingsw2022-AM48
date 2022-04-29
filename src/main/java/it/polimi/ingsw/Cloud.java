@@ -39,4 +39,6 @@ public class Cloud {
             cloud.cloudCells[i] = 0;
         }
     }
+
+    //BOZZ: add getStudents() for the method chooseCloudTile() in BoardManager
 }

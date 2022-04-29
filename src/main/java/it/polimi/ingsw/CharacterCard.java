@@ -5,6 +5,9 @@ package it.polimi.ingsw;
 public class CharacterCard {
     private final Character character;
     private int characterEffectCost;
+    /* BOZZ
+    insert boolean parameter isActive for keeping track of when a card has been purchased
+     */
 
     public CharacterCard() {
         this.character = Character.getRandomCharacter();
