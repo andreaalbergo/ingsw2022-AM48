@@ -55,6 +55,10 @@ public class Player {
         this.coins += newCoins;
     }
 
+    public void removeCoin(int n_coins) {
+        this.coins -= n_coins;
+    }
+
     public void setTurn(boolean turn) {
         this.turn = turn;
     }
