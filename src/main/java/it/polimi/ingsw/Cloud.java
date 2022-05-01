@@ -36,8 +36,7 @@ public class Cloud {
             cloud.cloudCells[i] = bag.extractPawnsToCloud();
         }
     }
-
-     */
+    */
 
     public void emptyCloud(SchoolBoard schoolBoard, Cloud cloud){
         for(int i = 0; i<Board.getNumberOfPlayers(); i++) {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
-import java.util.Random; //for the first turn order
+//import java.util.Random; //for the first turn order
 
 public class BoardManager {
 
@@ -115,11 +115,11 @@ public class BoardManager {
         //random function gives idPlayer or nickname and sends it to Round.turnorder() arraylist
     } //choose who's the first to play and puts in the turnOrder's array the players
 
-    public void chooseStepsMotherNature(int steps) {
-
+    public void chooseStepsMotherNature(int steps, int effect) {
+    //effect is set = 2 if it's called by the characterCard heraldEffect(), otherwise is 0
         int index = getPlayerIndex(currentPlayer);
 
-        if(steps >= 1 && steps <= turn.getChosenCards().get(index).getNumber_of_steps()){
+        if(steps >= 1 && steps <= turn.getChosenCards().get(index).getNumber_of_steps() + effect){
             motherNature.move(steps);
         }
         //else
@@ -127,7 +127,19 @@ public class BoardManager {
     }
 
     //called by addStudentToIsland() method in SchoolBoard
-    public boolean checkInfluence(IslandTile island) {
+    public boolean checkInfluence(IslandTile island, int effect) {
+    //effect = 0 if it's called by the normal game
+    //effect = 1 if it's called by princeEffect() --> to relook, there's something missing
+    //effect = 2 if it's called by grocerEffect()
+    //effect = 3 if it's called by centaurEffect()
+
+        /*
+        if(effect == 2)
+            if(island.getNoEntryTile[getIdIsland(island)] == true){
+                return false;
+                //throw new Expection("Grocer card has been played, you can't build a tower here");
+        }
+         */
 
         ArrayList<Integer> InfluenceCounter = new ArrayList<>();
 
@@ -140,11 +152,11 @@ public class BoardManager {
 
                 if (p.getSchoolBoard().getProfessors()[j]) {     //if player have the professor, == true
 
-                    counter = counter + island.getStudents()[j];
+                    counter = counter + island.getStudents()[j]; //influence of the students
 
                 }
 
-                if (p.getNickname().equals(island.getOwnerNickname())) {
+                if (p.getNickname().equals(island.getOwnerNickname()) && effect != 3) {    //influence of the tower
 
                    counter++;
 
@@ -208,62 +220,67 @@ public class BoardManager {
 
      */
 
-    //Need to include parameter isActive in CharacterCard
     //is this method useful?
-    /*
     public boolean checkActiveCharacterCards() {
 
-        return card.getIsActive()
+        return card.isActive();
 
     }
-     */
 
     //called by addStudentToDiningRoom() in SchoolBoard
-    public void checkToAddProfessor(Color givenColor) {
+    public void checkToAddProfessor(Color givenColor, int effect) {
+    //effect is set to 1 if it's called by a CharacterCard, otherwise is 0
 
         int color = givenColor.getColorIndex();
         Player a = players.get(0);
-        int maxindex = 0;
-        int i, j = 0;
+        int maxIndex = 0;
+        int i, j;
 
         for(i = 0; i+1 < Board.getNumberOfPlayers(); i++) {
             for (j = i + 1; j < Board.getNumberOfPlayers(); j++) {
 
                 if(players.get(i).getSchoolBoard().getDiningRoom()[color] > players.get(j).getSchoolBoard().getDiningRoom()[color] && players.get(i).getSchoolBoard().getDiningRoom()[color] > a.getSchoolBoard().getDiningRoom()[color]){
                     a = players.get(i);
-                    maxindex = i;
+                    maxIndex = i;
                 }
 
                 if(players.get(i).getSchoolBoard().getDiningRoom()[color] < players.get(j).getSchoolBoard().getDiningRoom()[color] && players.get(j).getSchoolBoard().getDiningRoom()[color] > a.getSchoolBoard().getDiningRoom()[color]){
                     a = players.get(j);
-                    maxindex = j;
+                    maxIndex = j;
                 }
 
                 if(i != j && players.get(i).getSchoolBoard().getDiningRoom()[color] == players.get(j).getSchoolBoard().getDiningRoom()[color]){
-                    maxindex = -1;
+                    maxIndex = -1;
+                }
+
+                if(maxIndex == -1){
+
+                    players.get(i).getSchoolBoard().removeProfessor(givenColor);
+                    players.get(j).getSchoolBoard().removeProfessor(givenColor);
+
+                    //if inkeeperEffect() is active
+                    if(effect == 1){
+
+                        if(currentPlayer == players.get(i) || currentPlayer == players.get(j)){
+                            currentPlayer.getSchoolBoard().addProfessor(givenColor);
+                        }
+
+                    }
                 }
 
             }
 
         }
 
-        if(maxindex == -1){
+        a.getSchoolBoard().addProfessor(givenColor);
 
-            players.get(i).getSchoolBoard().removeProfessor(givenColor);
-            players.get(j).getSchoolBoard().removeProfessor(givenColor);
-
-        }
-
-        else{
-            a.getSchoolBoard().addProfessor(givenColor);
-        }
 
     }
 
     //called by assignNextTurn() in Round
     public void drawFromBagToClouds() {
 
-        bag.extractPawnToCloud();
+        bag.extractPawnsToCloud(clouds);
 
     }
 
@@ -311,7 +328,7 @@ public class BoardManager {
 
             for(Cloud c : clouds) {
 
-                c.fillStudents(bag, cloud);
+                //c.fillStudents(bag, cloud);
 
             }
         }
@@ -330,8 +347,8 @@ public class BoardManager {
     //called when?
     public void buyCharacterCards(CharacterCard card) throws Exception {
 
-        if (currentPlayer.getCoins() >= card.getCharacterEffectCost()){
-            card.chooseCard(card);
+        if (currentPlayer.getCoins() >= card.getCharacterEffectCost(card)){
+            card.chooseCharacterCard(card);
             //NEED removeCoins() in Player
             //currentPlayer.removeCoin(card.getCharacterEffectCost());
         }

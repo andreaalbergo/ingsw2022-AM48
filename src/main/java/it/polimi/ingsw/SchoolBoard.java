@@ -85,6 +85,15 @@ public class SchoolBoard {
     public void addStudentToIsland(Color color, IslandTile islandTile) {
         removeFromEntrance(color);
         islandTile.getStudents()[color.getColorIndex()]++;
+
+        /*BOZZ
+        MotherNature motherNature = null;
+        int position = motherNature.getPosition();
+        if(!(islandTile.getNoEntryTile(islandTile) == true)){
+            BoardManager.checkInfluence(islandTile);
+        }
+
+         */
     }
     /* BOZZ
         insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()

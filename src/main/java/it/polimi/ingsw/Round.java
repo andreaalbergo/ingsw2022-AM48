@@ -24,7 +24,7 @@ public class Round {
     }
 
     //called in assignNextTurn()?
-    public void chooseCard(AssistantCard card) throws Exception {
+    public void chooseAssistantCard(AssistantCard card) throws Exception {
 
         for(AssistantCard a : chosenCards){
             if(a == card){
@@ -86,6 +86,8 @@ public class Round {
     }
 
     public void assignNextTurn() {
+
+        //set charactercCard = false if it has been played
 
         currentPlayer.setTurn(false);
         players.get(turnNumber).setTurn(true);

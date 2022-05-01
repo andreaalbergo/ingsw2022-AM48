@@ -68,6 +68,10 @@ public class Bag {
     }
     */
 
+    /*BOZZ
+    add extractSinglePawn() which returns the Color of the extracted pawn
+     */
+
 
 }
 

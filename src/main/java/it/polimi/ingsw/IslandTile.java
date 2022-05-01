@@ -9,6 +9,7 @@ public class IslandTile {
     private final int idIsland;
     private String ownerNickname;
     private int[] students;
+    //BOZZ private boolean[] noEntryTile = false;
 
     public IslandTile() {
         lastIslandId++;
@@ -25,7 +26,7 @@ public class IslandTile {
     public void buildTowerOnIsland(){
         //motherNature.getPosition();
         //checkPlayerProfessors
-        //chekcIslandInfluence
+        //checkIslandInfluence
         //addTower
         //newCheckMergingIslands
     }
@@ -38,4 +39,18 @@ public class IslandTile {
     public String getOwnerNickname() {
         return ownerNickname;
     }
+
+    /*BOZZ
+    public void setNoEntryTile(boolean noEntryTile, IslandTile island) {
+        this.noEntryTile[getIdIsland(island)] = noEntryTile;
+    }
+
+    private void getNoEntryTile(IslandTile island){
+        return noEntryTile[getIdIsland(island)];
+    }
+
+    add getIdIsland(IslandTile island){}
+     */
+
+
 }
