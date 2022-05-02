@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SchoolBoard {
     private final String nickname;
@@ -82,15 +81,15 @@ public class SchoolBoard {
         entrance.remove(color);
     }
 
-    public void addStudentToIsland(Color color, IslandTile islandTile) {
+    public void addStudentToIsland(Color color, Old_Island oldIsland) {
         removeFromEntrance(color);
-        islandTile.getStudents()[color.getColorIndex()]++;
+        oldIsland.getStudents()[color.getColorIndex()]++;
 
         /*BOZZ
         MotherNature motherNature = null;
         int position = motherNature.getPosition();
-        if(!(islandTile.getNoEntryTile(islandTile) == true)){
-            BoardManager.checkInfluence(islandTile);
+        if(!(oldIsland.getNoEntryTile(oldIsland) == true)){
+            BoardManager.checkInfluence(oldIsland);
         }
 
          */
@@ -101,7 +100,7 @@ public class SchoolBoard {
      */
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
-    public void addStudentToIsland(Color color, IslandTile island){
+    public void addStudentToIsland(Color color, Old_Island island){
         switch (color){
             case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
                 break;

@@ -2,55 +2,49 @@ package it.polimi.ingsw;
 
 import java.util.List;
 
-//CLASS MADE BY BARB, version 0.1-->...
 public class IslandTile {
-    private static final int NUMBER_OF_SINGLE_ISLANDS = 12;
-    private static int lastIslandId = 0;
-    private final int idIsland;
+    private static int lastIslandID = 0;
+    private int islandId;
+    private int archipelagoDimension;
     private String ownerNickname;
-    private int[] students;
-    //BOZZ private boolean[] noEntryTile = false;
+    private final int[] students;
 
     public IslandTile() {
-        lastIslandId++;
-        this.idIsland = lastIslandId;
+        lastIslandID++;
+        this.islandId = lastIslandID;
+        this.archipelagoDimension = 1;
         this.ownerNickname = null;
-        //this.students = setFirstRandomStudentOnIsland();
-        //Waiting for the method implemented in class Bag
+        this.students = new int[5];
+    }
+
+    public boolean isIslandWithoutTower() {
+        return ownerNickname == null;
+    }
+
+    public String getIslandOwner() {
+        return ownerNickname;
     }
 
     public int[] getStudents() {
         return students;
     }
 
-    public void buildTowerOnIsland(){
-        //motherNature.getPosition();
-        //checkPlayerProfessors
-        //checkIslandInfluence
-        //addTower
-        //newCheckMergingIslands
+    public void setIslandOwner(String nickname) {
+        this.ownerNickname = nickname;
+    }
+    public int howManyTowers() {
+        return this.archipelagoDimension;
     }
 
-    private void mergeTwoIslands() {
-        //TODO
-        //do it in buildTowerOnIsland() because I want to check the two adjacent islands after putting a tower
+    public void mergeIslands(IslandTile currentIslandTile, IslandTile adjacentIslandTile) {
+        addIslandToArchipelago();
+        for (int i = 0; i < 5; i++) {
+            currentIslandTile.students[i] = currentIslandTile.students[i] + adjacentIslandTile.students[i];
+        }
     }
 
-    public String getOwnerNickname() {
-        return ownerNickname;
+    private void addIslandToArchipelago() {
+        this.archipelagoDimension++;
     }
-
-    /*BOZZ
-    public void setNoEntryTile(boolean noEntryTile, IslandTile island) {
-        this.noEntryTile[getIdIsland(island)] = noEntryTile;
-    }
-
-    private void getNoEntryTile(IslandTile island){
-        return noEntryTile[getIdIsland(island)];
-    }
-
-    add getIdIsland(IslandTile island){}
-     */
-
 
 }

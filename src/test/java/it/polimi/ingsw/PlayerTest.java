@@ -2,13 +2,11 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import java.text.Format;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Albus",1,true,Wizards.WIZARD1,3,TowersColor.GRAY,true);
+    Player player = new Player("Albus",1,true, Wizard.WIZARD1,3,TowersColor.GRAY,true);
 
     @Test
     void getNickname() {

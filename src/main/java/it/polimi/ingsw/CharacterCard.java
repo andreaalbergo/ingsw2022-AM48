@@ -11,7 +11,7 @@ public class CharacterCard {
     private boolean isActive = false;
     private Bag bag;
     private Color color;
-    private BoardManager boardManager;
+    private Old_BoardManager oldBoardManager;
     private int firstMonk = 0, firstJester = 0, firstWarriorPrincess = 0;
 
     public CharacterCard(){
@@ -74,7 +74,7 @@ public class CharacterCard {
     }
 
     //finished
-    private void monkEffect(Color color, IslandTile idIsland) {
+    private void monkEffect(Color color, Old_Island idIsland) {
 
         int[] studentMonk = new int[5];
 
@@ -101,7 +101,7 @@ public class CharacterCard {
         for(int i = 0; i < 5; i++){
 
             //create the link between this class and BoardManager class
-            boardManager.checkToAddProfessor(Color.colorFromIndex(i), 1);
+            oldBoardManager.checkToAddProfessor(Color.colorFromIndex(i), 1);
 
         }
         //these passages below should be done by checkToAddProfessor() in BOARDMANAGER
@@ -110,28 +110,28 @@ public class CharacterCard {
     }
 
     //TO RELOOK, MISSING SOMETHING
-    private void princeEffect(IslandTile island) {
+    private void princeEffect(Old_Island island) {
 
         boolean influence;
 
         //chooseIslandId()
         //placePseudoMotherNature()
-        influence = boardManager.checkInfluence(island, 1);
+        influence = oldBoardManager.checkInfluence(island, 1);
         //then I can start turn normally by moving the real mother nature
     }
 
     //finished
     private void heraldEffect(int steps) {
-        boardManager.chooseStepsMotherNature(steps, 2);
+        oldBoardManager.chooseStepsMotherNature(steps, 2);
         //effect = 2 is a parameter needed in BoardManager class
     }
 
     //need to redo this method
-    private void grocerEffect(IslandTile island) throws Exception {
+    private void grocerEffect(Old_Island island) throws Exception {
 
         int noEntryTileCounter = 4;
 
-        //IslandTile island = chooseIslandId();
+        //Old_Island island = chooseIslandId();
         if(noEntryTileCounter != 0) {
             //island.setNoEntryTile(true, island);
             noEntryTileCounter--;
@@ -141,14 +141,14 @@ public class CharacterCard {
             throw new Exception("There are no more No Entry Tile");
         }
 
-        //wait until mother nature goes on island on prohibition, if so call next method --> work on MotherNature Class with the parameter in IslandTile
+        //wait until mother nature goes on island on prohibition, if so call next method --> work on MotherNature Class with the parameter in Old_Island
         //placeProhibitionHolderBack()
-        //continuous effect because Prohibition are held on islands, so modify IslandTile
+        //continuous effect because Prohibition are held on islands, so modify Old_Island
     }
 
     //finished
-    private void centaurEffect(IslandTile island) {
-        boardManager.checkInfluence(island, 3);
+    private void centaurEffect(Old_Island island) {
+        oldBoardManager.checkInfluence(island, 3);
     }
 
     private void jesterEffect() throws Exception {

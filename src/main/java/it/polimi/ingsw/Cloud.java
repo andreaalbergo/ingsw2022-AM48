@@ -9,9 +9,8 @@ public class Cloud {
     private final int cloudId;
     private final ArrayList<Color> cloudCells;
 
-    public Cloud() {
-        LAST_CLOUD_ID++;
-        this.cloudId = LAST_CLOUD_ID;
+    public Cloud(int cloudId) {
+        this.cloudId = cloudId;
         this.cloudCells = new ArrayList<>(getCloudDimension());
     }
 

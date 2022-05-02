@@ -10,17 +10,17 @@ public class Player {
     private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
-    private final Wizards chosenWizard;
+    private final Wizard chosenWizard;
     private final TowersColor towersColor;
     private SchoolBoard schoolBoard;
 
-    public Player(String nickname, int idPlayerForTurn, boolean turn, Wizards chosenWizard, int numberOfPlayers,TowersColor towersColor,boolean mode) {
+    public Player(String nickname, int idPlayerForTurn, boolean turn, Wizard chosenWizard, int numberOfPlayers, TowersColor towersColor, boolean mode) {
         this.nickname = nickname;
         this.idPlayerForTurn = idPlayerForTurn;
         this.assistantCardList = new LinkedList<>();
         Collections.addAll(assistantCardList, AssistantCard.values());
         this.coins = 1;
-        this.turn = turn;
+        this.turn = false;
         this.chosenWizard = chosenWizard;
         this.schoolBoard = new SchoolBoard(nickname);
         this.towersColor = towersColor;
@@ -59,8 +59,8 @@ public class Player {
         this.coins -= coins;
     }
 
-    public void setTurn(boolean turn) {
-        this.turn = turn;
+    public void assignTurn() {
+        this.turn = true;
     }
 
     public int getIdPlayerForTurn() {

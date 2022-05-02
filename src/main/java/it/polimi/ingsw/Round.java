@@ -1,158 +1,82 @@
 package it.polimi.ingsw;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Round {
-
-    private ArrayList<AssistantCard> chosenCards;
-    private ArrayList<String> turnOrder;
-    private Player currentPlayer;
-    private ArrayList<Player> players;
-    int indexmin = 11, indexmax = 0; //used in compareAssistantCards and assignRoundOrder()
-    int turnNumber = 0;             //for keeping track when turnNumber == numberOfPlayers
-    int roundNumber = 1;            //can be useless
-    int assistantCardChosen = 0;
-
+    private final Map<String,Integer> chosenCards;
+    private final ArrayList<Player> turnOrder;
+    private int turnNumber;
 
     public Round(){
-
-        this.chosenCards = new ArrayList<>();
+        this.chosenCards = new HashMap<>();
         this.turnOrder = new ArrayList<>();
-        this.currentPlayer = null;
-        this.players = new ArrayList<>(Board.getNumberOfPlayers());
-
+        this.turnNumber = 0;
+    }
+    //called in assignNextTurn()? maybe rename this class in checkAssistantCard, then update the "else" case
+    public void chooseAssistantCard(Player player, AssistantCard chosenAssistantCard) {
+        if(player.getAssistantCards().contains(chosenAssistantCard)){
+            player.getAssistantCards().remove(chosenAssistantCard);
+            if(this.turnNumber==0)
+                chosenCards.putIfAbsent(player.getNickname(), chosenAssistantCard.getNumber_of_steps());
+            else
+                chosenCards.replace(player.getNickname(), chosenAssistantCard.getNumber_of_steps());
+        } else
+            System.out.println("ERROR!!!! CARD IS ALREADY USED BEFORE");
     }
 
-    //called in assignNextTurn()?
-    public void chooseAssistantCard(AssistantCard card) throws Exception {
+    //BARB: remember to overload to expertBoardManager
+    public void assignTurnOrder(SimpleBoardManager simpleBoardManager) {
+        int tmpHighestCardValue = 0;
 
-        for(AssistantCard a : chosenCards){
-            if(a == card){
-                throw new Exception("Error, this card has already been played");
-            }
+        for(Player player: simpleBoardManager.getPlayers()) {
+            if(this.chosenCards.get(player.getNickname()) > tmpHighestCardValue) {
+                tmpHighestCardValue = this.chosenCards.get(player.getNickname());
+                turnOrder.add(0, player);
+            } else
+                turnOrder.add(player);
         }
 
-        chosenCards.add(card);
-        assistantCardChosen += 1;
-
-        if(assistantCardChosen == Board.getNumberOfPlayers()){
-            compareAssistantCard();
-            assistantCardChosen = 0;
-        }
-
+        this.turnOrder.get(0).assignTurn();
+    }
+    public void assignNextTurn() {
+        this.turnNumber++;
+    }
+    public Player getCurrentPlayer(){
+        return this.turnOrder.get(0);
+    }
+    public void setNextCurrentPlayer(){
+        this.turnOrder.remove(0);
+    }
+    public Integer getCurrentPlayersAssistantCard(){
+        return this.chosenCards.get(getCurrentPlayer().getNickname());
     }
 
+    /*
     private void compareAssistantCard() {
-
         for (int i = 0; i+1 < Board.getNumberOfPlayers(); i++) {
             for (int j = i+1; j < Board.getNumberOfPlayers(); j++){
-
                 if(chosenCards.get(i).getValue() < chosenCards.get(j).getValue()) {
-
                     if(chosenCards.get(i).getValue() < indexmin) {
-
                         indexmin = i;
-
                     }
-
                     if(chosenCards.get(j).getValue() > indexmax) {
-
                         indexmax = j;
-
                     }
-
                 }
-
                 else{
-
                     if(chosenCards.get(j).getValue() < indexmin) {
-
                         indexmin = j;
-
                     }
-
                     if(chosenCards.get(i).getValue() > indexmax) {
-
                         indexmax = i;
-
                     }
-
                 }
             }
         }
-
         assignRoundOrder();
-
     }
-
-    public void assignNextTurn() {
-
-        //set charactercCard = false if it has been played
-
-        currentPlayer.setTurn(false);
-        players.get(turnNumber).setTurn(true);
-        turnNumber += 1;
-
-        if(turnNumber >= Board.getNumberOfPlayers()) {
-            turnNumber = 0;
-            roundNumber += 1;
-            //BoardManager.drawFromBagToClouds();
-        }
-
-    } //when a player has finished his turn (after chooseCloudTile() in BoardManager
-
-    public void assignRoundOrder() {
-
-        for(Player p : players) {
-
-            if (indexmin == p.getIdPlayerForTurn()) {
-
-                turnOrder.add(p.getNickname());
-
-            }
-        }
-
-        if(Board.getNumberOfPlayers() == 2) {
-
-            for (Player p : players) {
-
-                if (indexmax == p.getIdPlayerForTurn()) {
-
-                    turnOrder.add(p.getNickname());
-
-                }
-            }
-        }
-
-        else{
-            for(Player p : players) {
-
-                if (indexmin != p.getIdPlayerForTurn() && indexmax != p.getIdPlayerForTurn()) {
-
-                    turnOrder.add(p.getNickname());
-
-                }
-
-                if(indexmax == p.getIdPlayerForTurn()){
-
-                    turnOrder.add(p.getNickname());
-
-                }
-
-            }
-
-            for(Player p : players) {
-
-                if(indexmax == p.getIdPlayerForTurn()){
-
-                    turnOrder.add(p.getNickname());
-
-                }
-            }
-        }
-    }
-
-    public ArrayList<AssistantCard> getChosenCards() {
-        return chosenCards;
-    }
+     //when a player has finished his turn (after chooseCloudTile() in BoardManager
+    */
 }
