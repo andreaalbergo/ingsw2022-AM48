@@ -122,7 +122,7 @@ public class CharacterCard {
 
     //finished
     private void heraldEffect(int steps) {
-        oldBoardManager.chooseStepsMotherNature(steps, 2);
+        //oldBoardManager.chooseStepsMotherNature(steps, 2);
         //effect = 2 is a parameter needed in BoardManager class
     }
 
