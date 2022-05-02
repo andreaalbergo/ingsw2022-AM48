@@ -61,8 +61,12 @@ public class SimpleBoardManager implements BoardManager {
     }
 
     @Override
-    public void checkProfessorAddition() {
-        //LATER TODO
+    public void checkProfessorAddition(/*int indexDiningRoomUpdated*/) {
+        for (Player player: players) {
+            if (!player.equals(this.turn.getCurrentPlayer())) {
+                //TODO maybe change hashmap to list of lists where it says which player has the professors and how many
+            }
+        }
     }
 
     @Override
@@ -85,7 +89,7 @@ public class SimpleBoardManager implements BoardManager {
             if(this.professorsInUse.get(i) != null && playersInfluence.containsKey(this.professorsInUse.get(i))) {
                 tmpPlayersInfluence = playersInfluence.get(this.professorsInUse.get(i));
                 playersInfluence.replace(this.professorsInUse.get(i),
-                        tmpPlayersInfluence+ islandTile.getStudents()[i]);
+                        tmpPlayersInfluence+islandTile.getStudents()[i]);
             } else if (this.professorsInUse.get(i) != null) {
                 playersInfluence.putIfAbsent(this.professorsInUse.get(i), islandTile.getStudents()[i]);
             }
@@ -100,7 +104,9 @@ public class SimpleBoardManager implements BoardManager {
         }
 
         islandTile.setIslandOwner(nicknameHighestInfluence);
+        this.turn.getCurrentPlayer().getSchoolBoard().decrementTowers();
         checkMergingIslands(islandTile);
+        checkGameOverConditions();
     }
 
     @Override
@@ -142,11 +148,17 @@ public class SimpleBoardManager implements BoardManager {
 
     @Override
     public void chooseCloudTile(Cloud cloud) {
-
+        cloud.emptyCloud(this.turn.getCurrentPlayer().getSchoolBoard(), cloud);
     }
 
     @Override
     public void checkGameOverConditions() {
-
+        if(this.islandTiles.size()==3) {
+            //TODO callGameOver()
+        }
+        if(this.bag.isBagEmpty()){
+            //TODO callGameOver()
+        }
+        //also case when players drew last Assistant Card
     }
 }

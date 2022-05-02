@@ -34,9 +34,6 @@ public class SchoolBoard {
 
     }
 
-
-    // probably going to implement a method that throws an exception in case the color is not present in the entrance
-    //BARB: ma se prendi indice del colore, non c'entra niente con array Entrance che ha 7 o 9 celle per gestirla
     public void addStudentToDiningRoom(Color color){
         diningRoom[color.getColorIndex()] += 1;
         removeFromEntrance(color);
@@ -70,12 +67,10 @@ public class SchoolBoard {
         this.entrance.add(Color.colorFromIndex(index));
     }
 
-
     public ArrayList<Color> getEntrance(){
         return this.entrance;
     }
 
-    //BARB: prossimo metodo fatto da me, ma sistema il problema in linea 37 e linea 92 IMPORTANTE!
     private void removeFromEntrance(Color color) {
         //check if color exists in entrance[], if not raise an exception
         entrance.remove(color);
@@ -94,41 +89,15 @@ public class SchoolBoard {
 
          */
     }
-    /* BOZZ
-        insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()
-        insert checkToAddProfessor() [BOARDMANAGER] in addStudentToDiningRoom()
-     */
-
-    /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
-    public void addStudentToIsland(Color color, Old_Island island){
-        switch (color){
-            case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
-                break;
-            case GREEN_FROGS: : island.addStudentToIsland(GREEN_FROGS);
-                break;
-            case YELLOW_GNOMES: : island.addStudentToIsland(YELLOW_GNOMES);
-                break;
-            case BLUE_UNICORNS: : island.addStudentToIsland(BLUE_UNICORNS);
-                break;
-            case PINK_FAIRIES: : island.addStudentToIsland(PINK_FAIRIES);
-                break;
-
-        }
-    }
-*/
-
-/* BARB: NON E' NECESSARIO SAPERE SE HO UNA TORRE SU UN ISOLA; SE HO UN OWNER DELL'ISOLA, IN AUTOMATICO HO UNA TOWER
-    public void addTowerToIsland(Island island, String nickname) throws Exception{
-        if(this.towers > 1){
-            this.towers--;
-        }else if(this.towers == 1){
-            this.towers = 0;
-            throw new Exception("Last Tower, check if the Game is ");
-        }
-    }
-*/
-
     public int getTowers() {
         return towers;
+    }
+
+    public void decrementTowers() {
+        this.towers--;
+        /*TODO
+        if (towers==0)
+            callGameOver();
+         */
     }
 }

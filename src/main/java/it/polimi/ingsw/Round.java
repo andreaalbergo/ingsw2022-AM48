@@ -23,7 +23,7 @@ public class Round {
             else
                 chosenCards.replace(player.getNickname(), chosenAssistantCard.getNumber_of_steps());
         } else
-            System.out.println("ERROR!!!! CARD IS ALREADY USED BEFORE");
+            System.out.println("ERROR!!!! CARD IS ALREADY USED BEFORE, CAN'T USE IT TWICE!!!!");
     }
 
     //BARB: remember to overload to expertBoardManager
