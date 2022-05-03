@@ -13,6 +13,8 @@ public class Player {
     private final Wizard chosenWizard;
     private final TowersColor towersColor;
     private SchoolBoard schoolBoard;
+    private int numberOfPlayers;
+    private boolean mode;
 
     public Player(String nickname, int idPlayerForTurn, boolean turn, Wizard chosenWizard, int numberOfPlayers, TowersColor towersColor, boolean mode) {
         this.nickname = nickname;
@@ -22,8 +24,10 @@ public class Player {
         this.coins = 1;
         this.turn = false;
         this.chosenWizard = chosenWizard;
-        this.schoolBoard = new SchoolBoard(nickname);
+        this.schoolBoard = new SchoolBoard(nickname, numberOfPlayers, mode);
         this.towersColor = towersColor;
+        this.numberOfPlayers = numberOfPlayers;
+        this.mode = mode;
     }
 
 
@@ -41,6 +45,10 @@ public class Player {
 
     public boolean isTurn() {
         return turn;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
     }
 
     public String getChosenWizard() {
@@ -70,10 +78,5 @@ public class Player {
     public SchoolBoard getSchoolBoard() {
         return schoolBoard;
     }
-
-    /*BOZZ:
-    add removeCoin()
-     */
-
 
 }

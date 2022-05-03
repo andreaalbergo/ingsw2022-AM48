@@ -12,20 +12,26 @@ public class Board {
         Board.isExpertMode = isExpertMode;
 
         if(!isExpertMode)
-            this.boardManager = new SimpleBoardManager();
-        else
-            this.boardManager = new ExpertBoardManager(new SimpleBoardManager());
+            this.boardManager = new SimpleBoardManager(this);
+        else {
+            this.boardManager = new ExpertBoardManager(new SimpleBoardManager(this));
+        }
+
     }
 
     public int getGameId() {
         return gameId;
     }
 
-    public static int getNumberOfPlayers() {
+    public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public static boolean isExpertMode() {
+    public boolean isExpertMode() {
         return isExpertMode;
+    }
+
+    public BoardManager getBoardManager() {
+        return boardManager;
     }
 }

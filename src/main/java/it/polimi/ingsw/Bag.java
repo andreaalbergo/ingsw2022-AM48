@@ -3,13 +3,18 @@ package it.polimi.ingsw;
 import java.util.Random;
 
 public class Bag {
+
     private final int[] students; //BARB: for now I think it's good a simple int array
-    public Bag() {
+    private Board board;
+
+    public Bag(Board board) {
         students = new int[5];
         for (int i = 0; i < 5; i++) {
             students[i] = 24;
         }
+        this.board = board;
     }
+
     public int getRandomColorFromBag() {
         int colorIndex;
         Random random = new Random();
@@ -28,7 +33,7 @@ public class Bag {
 
     public void setupSchoolEntrance(SchoolBoard schoolBoard) {
         int randomColor;
-        if(Board.getNumberOfPlayers() == 3){
+        if(board.getNumberOfPlayers() == 3){
             for (int i = 0; i < 9; i++) {
                 randomColor = this.getRandomColorFromBag();
                 schoolBoard.addStudentToEntrance(randomColor);

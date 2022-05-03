@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
 
-    SchoolBoard schoolBoard = new SchoolBoard("test");
-    Bag bag = new Bag();
     Board board = new Board(2,true);
+    SchoolBoard schoolBoard = new SchoolBoard("test", board.getNumberOfPlayers(), board.isExpertMode());
+    Bag bag = new Bag(board);
 
     /*@Test
     void extractPawnToCloud() {
@@ -20,7 +20,7 @@ class BagTest {
 
     @Test
     void drawStudentsToSchoolEntrance() {
-        bag.drawStudentsToSchoolEntrance(schoolBoard);
+        bag.setupSchoolEntrance(schoolBoard);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
         for(Color c : entrance){
             System.out.println(c);

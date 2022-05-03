@@ -13,9 +13,12 @@ public abstract class BoardManagerDecorator implements BoardManager {
         //TODO
     }
 
+    /*
     @Override
     public List<Player> getPlayers() { return decoratedBoardManager.getPlayers(); }
 
+     */
+/*
     @Override
     public void drawFromBagToClouds() {
         decoratedBoardManager.drawFromBagToClouds();
@@ -73,5 +76,7 @@ public abstract class BoardManagerDecorator implements BoardManager {
         //characterCard.incrementCharacterCost();
         //TODO then maybe switch or other methods
     }
+
+ */
 
 }

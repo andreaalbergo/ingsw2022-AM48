@@ -12,9 +12,9 @@ public class SchoolBoard {
     private ArrayList<Integer> collectedCoins;
     private int movedstudents;
 
-    public SchoolBoard(String nickname){
+    public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
-        if (Board.getNumberOfPlayers() == 3){
+        if (numberOfPlayers == 3){
             this.entrance = new ArrayList<>(7);
             //entrance.add(0,null);
             this.towers = 6;
@@ -24,7 +24,7 @@ public class SchoolBoard {
             this.towers = 8;
         }
 
-        if(Board.isExpertMode()){
+        if(mode){
             this.collectedCoins = new ArrayList<>(5);
         }else{
             this.collectedCoins = new ArrayList<>(1);
@@ -130,5 +130,10 @@ public class SchoolBoard {
 
     public int getTowers() {
         return towers;
+    }
+
+    //BOZZ
+    public boolean getSingleProfessor(Color color){
+        return professors[color.getColorIndex()];
     }
 }
