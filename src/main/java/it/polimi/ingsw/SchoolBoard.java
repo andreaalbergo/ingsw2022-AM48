@@ -10,10 +10,19 @@ public class SchoolBoard {
     private Boolean[] professors = new Boolean[5];
     private int towers;
     private ArrayList<Integer> collectedCoins;
-    private int movedstudents;
+    private int movedstudents =0;
+    int numberOfPlayers;
+    private boolean mode;
 
     public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
+        this.numberOfPlayers = numberOfPlayers;
+        this.mode = mode;
+        for (Boolean professor:
+             professors) {
+            professor = false;
+        }
+
         if (numberOfPlayers == 3){
             this.entrance = new ArrayList<>(7);
             //entrance.add(0,null);
@@ -34,8 +43,25 @@ public class SchoolBoard {
     }
 
     public void addStudentToDiningRoom(Color color){
-        diningRoom[color.getColorIndex()] += 1;
-        removeFromEntrance(color);
+        if((movedstudents == 4 && numberOfPlayers==2)|| (movedstudents == 3 && numberOfPlayers==3))
+            System.out.println("\nYou already moved the maximum number of students\n");
+        else {
+            diningRoom[color.getColorIndex()] += 1;
+            removeFromEntrance(color);
+
+            switch (numberOfPlayers) {
+                case 2:
+                    if (movedstudents < 4) {
+                        movedstudents++;
+                    }
+
+                case 3:
+                    if (movedstudents < 3) {
+                        movedstudents++;
+                    }
+
+            }
+        }
     }
 
     public String getNickname() {
@@ -49,10 +75,13 @@ public class SchoolBoard {
     public void addProfessor(Color color){
         professors[color.getColorIndex()] = true ;
     }
+    public void addProfessor(int indexColor) { professors[indexColor] = true; }
 
     public void removeProfessor(Color color){
         professors[color.getColorIndex()] = false ;
     }
+
+    public void removeProfessor(int indexColor) { professors[indexColor] = false;}
 
     public Boolean[] getProfessors(){
         return this.professors;
@@ -71,7 +100,6 @@ public class SchoolBoard {
         return this.entrance;
     }
 
-    //BARB: prossimo metodo fatto da me, ma sistema il problema in linea 37 e linea 92 IMPORTANTE!
     private void removeFromEntrance(Color color) {
         //check if color exists in entrance[], if not raise an exception
         entrance.remove(color);

@@ -80,9 +80,4 @@ public class Player {
         return schoolBoard;
     }
 
-    /*BOZZ:
-    add removeCoin()
-     */
-
-
 }

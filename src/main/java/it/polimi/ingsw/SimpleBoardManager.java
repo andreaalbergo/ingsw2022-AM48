@@ -8,7 +8,9 @@ public class SimpleBoardManager implements BoardManager{
 
     private final int NUMBER_OF_ISLANDS = 12;
     private static int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
-    private Bag bag;
+    private final Bag bag;
+    private int numberofPlayers;
+    private boolean mode;
     private ArrayList<Cloud> clouds;
     private ArrayList<IslandTile> islands;
     //private ArrayList<Old_Island> unifiedIsland;  NEVER USED
@@ -19,15 +21,17 @@ public class SimpleBoardManager implements BoardManager{
     private CharacterCard characterCard;
     private Board board;
 
-    public SimpleBoardManager(Board board) {
+    public SimpleBoardManager(int numberofplayers, boolean mode) {
 
-        this.bag = new Bag(board);
+        this.bag = new Bag(numberofplayers);
         this.clouds = new ArrayList<>();
         this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
         //this.unifiedIsland = new ArrayList<>();
         this.players = new ArrayList<>();
         this.motherNature = new MotherNature();
-        this.board = board;
+        //this.board = board;
+        this.numberofPlayers = numberofplayers;
+        this.mode = mode;
 
 
         for(int numberOfIslands = 0; numberOfIslands < NUMBER_OF_ISLANDS; numberOfIslands++){
@@ -37,7 +41,7 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     private int indexPlayerForTurn = 0;
-    private ArrayList<Integer> firstTurnSorted = new ArrayList<>(board.getNumberOfPlayers());
+    private ArrayList<Integer> firstTurnSorted = new ArrayList<>(numberofPlayers);
 
     @Override
     public void login(String nickname, Wizard chosenWizard, TowersColor towerColor) throws Exception {
@@ -58,7 +62,7 @@ public class SimpleBoardManager implements BoardManager{
 
         playerTurn = (idPlayerForTurn == 1);
 
-        player = new Player(nickname, idPlayerForTurn, playerTurn, chosenWizard, board.getNumberOfPlayers(), towerColor, board.isExpertMode());
+        player = new Player(nickname, idPlayerForTurn, playerTurn, chosenWizard, numberofPlayers, towerColor, mode);
 
         players.add(player);
 
@@ -70,10 +74,10 @@ public class SimpleBoardManager implements BoardManager{
 
         indexPlayerForTurn++;
 
-        if(players.size() == board.getNumberOfPlayers()){
+        if(players.size() == numberofPlayers){
 
             this.turn = new Round(board);
-            for(int numberOfClouds = 0; numberOfClouds < board.getNumberOfPlayers(); numberOfClouds++){
+            for(int numberOfClouds = 0; numberOfClouds < numberofPlayers; numberOfClouds++){
                 clouds.add(new Cloud(numberOfClouds, board));
             }
 
@@ -84,16 +88,16 @@ public class SimpleBoardManager implements BoardManager{
     @Override
     public ArrayList<Integer> sortFirstTurn(){
 
-        ArrayList<Integer> givenList = new ArrayList<>(board.getNumberOfPlayers());
-        ArrayList<Integer> turnOrderList = new ArrayList<>(board.getNumberOfPlayers());
+        ArrayList<Integer> givenList = new ArrayList<>(numberofPlayers);
+        ArrayList<Integer> turnOrderList = new ArrayList<>(numberofPlayers);
 
-        for(int i = 0; i < board.getNumberOfPlayers(); i++){
+        for(int i = 0; i < numberofPlayers; i++){
             givenList.add(i);
         }
 
         Random rand = new Random();
 
-        for(int i = 0; i < board.getNumberOfPlayers(); i++){
+        for(int i = 0; i < numberofPlayers; i++){
             int randomIndex = rand.nextInt(givenList.size());
             int randomElement = givenList.get(randomIndex);
             givenList.remove(randomIndex);
@@ -115,7 +119,7 @@ public class SimpleBoardManager implements BoardManager{
 
         int i, index = -1;
 
-        for(i = 0; i < board.getNumberOfPlayers(); i++){
+        for(i = 0; i < numberofPlayers; i++){
 
             if(givenPlayer.equals(players.get(i).getNickname())){
                 index = i;
@@ -387,9 +391,7 @@ public class SimpleBoardManager implements BoardManager{
         cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);
 
         if(cloud.checkEmptyCloud()) {       // == true, controls if was the last cloud
-
             extractPawnsToCloud(clouds);
-
         }
 
         gameOver = checkGameOver();
@@ -502,6 +504,7 @@ public class SimpleBoardManager implements BoardManager{
         List<IslandTile> adjacentIslands;
         adjacentIslands = getPreviousNextIsland(islandTile);
 
+        //usa equals se devi comparare due stringhe non gli ==
         if(adjacentIslands.get(1).getIslandOwner() == adjacentIslands.get(0).getIslandOwner()){
             islandTile.mergeIslands(adjacentIslands.get(0), adjacentIslands.get(1));
             this.islands.remove(adjacentIslands.get(1));
@@ -533,6 +536,10 @@ public class SimpleBoardManager implements BoardManager{
         }
 
         return sublistIsland;
+    }
+    @Override
+    public Board getBoard(){
+        return this.board;
     }
 }
 

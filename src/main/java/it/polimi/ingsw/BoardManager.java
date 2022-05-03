@@ -31,5 +31,6 @@ public interface BoardManager {
     Cloud getCloud(int index);
     void checkMergingIslands(IslandTile islandTile);
     List<IslandTile> getPreviousNextIsland(IslandTile islandTile);
+    Board getBoard();
 }
 

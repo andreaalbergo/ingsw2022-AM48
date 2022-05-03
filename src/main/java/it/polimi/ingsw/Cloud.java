@@ -60,5 +60,6 @@ public class Cloud {
         //probably need getStudents because like this it says only if the ArrayList is empty, not if there aren't students on the cloud
         return this.cloudCells.isEmpty();
     }
+
 }
 

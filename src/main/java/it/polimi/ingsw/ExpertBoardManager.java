@@ -137,5 +137,10 @@ public class ExpertBoardManager extends BoardManagerDecorator{
     public List<IslandTile> getPreviousNextIsland(IslandTile islandTile) {
         return null;
     }
+
+    @Override
+    public Board getBoard() {
+        return null;
+    }
 }
 

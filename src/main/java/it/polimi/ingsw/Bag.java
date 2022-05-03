@@ -5,14 +5,16 @@ import java.util.Random;
 public class Bag {
 
     private final int[] students; //BARB: for now I think it's good a simple int array
-    private Board board;
+    //private Board board;
+    private int numberOfPlayers;
 
-    public Bag(Board board) {
+    public Bag(int numberOfPlayers) {
         students = new int[5];
         for (int i = 0; i < 5; i++) {
             students[i] = 24;
         }
-        this.board = board;
+        //this.board = board;
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     public int getRandomColorFromBag() {
@@ -20,7 +22,7 @@ public class Bag {
         Random random = new Random();
 
         while (true){
-            colorIndex = random.nextInt(1,6);
+            colorIndex = random.nextInt(0,5);
             if(this.students[colorIndex] > 0){
                 this.students[colorIndex]--;
                 return colorIndex;
@@ -33,7 +35,7 @@ public class Bag {
 
     public void setupSchoolEntrance(SchoolBoard schoolBoard) {
         int randomColor;
-        if(board.getNumberOfPlayers() == 3){
+        if(numberOfPlayers == 3){
             for (int i = 0; i < 9; i++) {
                 randomColor = this.getRandomColorFromBag();
                 schoolBoard.addStudentToEntrance(randomColor);
