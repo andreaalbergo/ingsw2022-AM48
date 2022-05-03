@@ -3,7 +3,7 @@ package it.polimi.ingsw;
 import java.util.Random;
 
 public class Bag {
-    private final int[] students; //BARB: for now I think it's good a simple int array
+    private final int[] students;
     public Bag() {
         students = new int[5];
         for (int i = 0; i < 5; i++) {
@@ -52,21 +52,6 @@ public class Bag {
     public int[] getStudents() {
         return students;
     }
-    /*
-    public void setupIslands(ArrayList<Old_Island> islands) {
-        int number;
-        for (Old_Island island : islands) {
-            number = (int) ((Math.random() * 4.9));
-            island.addStudentOnIsland(number);
-        }
-    }
-    */
-
-    /*BOZZ
-    add extractSinglePawn() which returns the Color of the extracted pawn
-     */
-
-
 }
 
 

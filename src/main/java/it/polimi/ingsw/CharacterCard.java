@@ -15,9 +15,7 @@ public class CharacterCard {
     private int firstMonk = 0, firstJester = 0, firstWarriorPrincess = 0;
 
     public CharacterCard(){
-
         for(int i = 0; i < 3; i++){
-
             characterList.add(character.getExtractedCards(i));
             characterCostList.add(Character.getCharacterEffectCost(characterList.get(i)));
 
@@ -40,7 +38,6 @@ public class CharacterCard {
         }
 
         throw new Exception("Card not found");
-
     }
 
 

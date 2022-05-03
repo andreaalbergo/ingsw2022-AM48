@@ -11,7 +11,7 @@ public class SimpleBoardManager implements BoardManager {
     private final Map<Integer, String> professorsInUse;
     private final MotherNature motherNature;
     private final List<IslandTile> islandTiles;
-    private final Round turn; //call this object in another way than Round
+    private final Round turn; //refactor this class in another name than Round
 
     public SimpleBoardManager() {
         final int NUMBER_OF_ISLANDS = 12;

@@ -12,7 +12,7 @@ public class Player {
     private boolean turn;
     private final Wizard chosenWizard;
     private final TowersColor towersColor;
-    private SchoolBoard schoolBoard;
+    private final SchoolBoard schoolBoard;
 
     public Player(String nickname, int idPlayerForTurn, boolean turn, Wizard chosenWizard, int numberOfPlayers, TowersColor towersColor, boolean mode) {
         this.nickname = nickname;

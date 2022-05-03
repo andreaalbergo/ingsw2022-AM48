@@ -11,14 +11,12 @@ public enum Character {
     MINSTREL(1), WARRIOR_PRINCESS(2), THIEF(3);
 
     private final int characterEffectCost;
-    private List<Character> VALUES = List.of(values());
-    private static Random rand = new Random();
+    private final List<Character> VALUES = List.of(values());
+    private static final Random rand = new Random();
     private ArrayList<Character> extractedCards = new ArrayList<>(3);
 
     Character(int characterEffectCost) {
-
         this.characterEffectCost = characterEffectCost;
-
     }
 
     public static int getCharacterEffectCost(Character character) {
@@ -26,7 +24,6 @@ public enum Character {
     }
 
     public void extractCards(){
-
         int amountOfCards = 3;
 
         for(int i = 0; i < amountOfCards; i++){

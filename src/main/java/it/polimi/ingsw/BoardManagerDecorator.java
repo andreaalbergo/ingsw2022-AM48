@@ -1,16 +1,21 @@
 package it.polimi.ingsw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BoardManagerDecorator implements BoardManager {
     private final BoardManager decoratedBoardManager;
-    private List<Character> characterCards;
+    private final List<Character> characterCards;
     private int coinBag;
 
     public BoardManagerDecorator(BoardManager decoratedBoardManager) {
         this.decoratedBoardManager = decoratedBoardManager;
+        this.characterCards = new ArrayList<>();
         this.coinBag = 20;
-        //TODO
+
+        for (int i = 0; i < 3; i++) {
+            //TODO
+        }
     }
 
     @Override
@@ -21,15 +26,11 @@ public abstract class BoardManagerDecorator implements BoardManager {
         decoratedBoardManager.drawFromBagToClouds();
     }
 
-    //public void chooseThreeStudents() {}
-
-
     @Override
     public void setupAllSchoolEntrances() { decoratedBoardManager.setupAllSchoolEntrances(); }
 
     @Override
     public void checkProfessorAddition(int indexDiningRoomUpdated) {
-
         decoratedBoardManager.checkProfessorAddition(indexDiningRoomUpdated);
     }
 
@@ -63,8 +64,6 @@ public abstract class BoardManagerDecorator implements BoardManager {
     public void checkGameOverConditions() {
         decoratedBoardManager.checkGameOverConditions();
     }
-
-    //here setters from interface?
 
     public void takeCoinFromBag(){
         this.coinBag--;

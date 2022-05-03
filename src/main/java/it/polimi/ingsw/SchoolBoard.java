@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 public class SchoolBoard {
     private final String nickname;
-    private int entrance_size;
-    private ArrayList<Color> entrance;
-    private int[] diningRoom = new int[5];
-    private Boolean[] professors = new Boolean[5];
+    private final ArrayList<Color> entrance;
+    private final int[] diningRoom = new int[5];
+    private final Boolean[] professors = new Boolean[5];
     private int towers;
-    private ArrayList<Integer> collectedCoins;
-    private int movedstudents;
+    private final ArrayList<Integer> collectedCoins;
 
     public SchoolBoard(String nickname){
         this.nickname = nickname;
