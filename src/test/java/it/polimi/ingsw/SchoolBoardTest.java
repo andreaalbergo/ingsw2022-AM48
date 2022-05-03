@@ -8,7 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SchoolBoardTest {
 
-    SchoolBoard schoolBoard = new SchoolBoard("Andrea");
+    //BOZZ
+    //added Board constructor, re-check this
+    Board board = new Board(1, true);
+    SchoolBoard schoolBoard = new SchoolBoard("Andrea", board.getNumberOfPlayers(), board.isExpertMode());
 
     @Test
     void addStudentToDiningRoom() {

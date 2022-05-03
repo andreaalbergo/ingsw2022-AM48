@@ -32,3 +32,4 @@ public interface BoardManager {
     void checkMergingIslands(IslandTile islandTile);
     List<IslandTile> getPreviousNextIsland(IslandTile islandTile);
 }
+

@@ -256,3 +256,4 @@ public class CharacterCard {
         return characterList;
     }
 }
+

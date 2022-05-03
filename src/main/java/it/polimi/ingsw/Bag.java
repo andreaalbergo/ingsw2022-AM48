@@ -71,7 +71,6 @@ public class Bag {
     add extractSinglePawn() which returns the Color of the extracted pawn
      */
 
-
 }
 
 
