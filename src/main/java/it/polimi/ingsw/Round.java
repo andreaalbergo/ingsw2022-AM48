@@ -7,14 +7,16 @@ import java.util.Map;
 public class Round {
     private final Map<String,Integer> chosenCards;
     private final ArrayList<Player> turnOrder;
+    private final ArrayList<Player> nextChooseCardOrder;
     private int turnNumber;
 
     public Round(){
         this.chosenCards = new HashMap<>();
         this.turnOrder = new ArrayList<>();
+        this.nextChooseCardOrder = new ArrayList<>();
         this.turnNumber = 0;
     }
-    //called in assignNextTurn()? maybe rename this class in checkAssistantCard, then update the "else" case
+    //remake chooseAssistantCard in base of nextChooseCardOrder
     public void chooseAssistantCard(Player player, AssistantCard chosenAssistantCard) {
         if(player.getAssistantCards().contains(chosenAssistantCard)){
             player.getAssistantCards().remove(chosenAssistantCard);
@@ -38,45 +40,32 @@ public class Round {
                 turnOrder.add(player);
         }
 
-        this.turnOrder.get(0).assignTurn();
+        this.turnOrder.get(0).assignPlayerTurn();
     }
-    public void assignNextTurn() {
+
+    public ArrayList<Player> getTurnOrder() {
+        return turnOrder;
+    }
+    private void assignNextTurn() {
         this.turnNumber++;
     }
     public Player getCurrentPlayer(){
         return this.turnOrder.get(0);
     }
     public void setNextCurrentPlayer(){
-        this.turnOrder.remove(0);
+        this.turnOrder.get(0).removePlayerTurn();
+        if(!this.turnOrder.isEmpty()) {
+            this.turnOrder.get(1).assignPlayerTurn();
+            this.nextChooseCardOrder.add(0, this.turnOrder.get(0));
+            this.turnOrder.remove(0);
+        } else
+            assignNextTurn();
     }
     public Integer getCurrentPlayersAssistantCard(){
         return this.chosenCards.get(getCurrentPlayer().getNickname());
     }
 
-    /*
-    private void compareAssistantCard() {
-        for (int i = 0; i+1 < Board.getNumberOfPlayers(); i++) {
-            for (int j = i+1; j < Board.getNumberOfPlayers(); j++){
-                if(chosenCards.get(i).getValue() < chosenCards.get(j).getValue()) {
-                    if(chosenCards.get(i).getValue() < indexmin) {
-                        indexmin = i;
-                    }
-                    if(chosenCards.get(j).getValue() > indexmax) {
-                        indexmax = j;
-                    }
-                }
-                else{
-                    if(chosenCards.get(j).getValue() < indexmin) {
-                        indexmin = j;
-                    }
-                    if(chosenCards.get(i).getValue() > indexmax) {
-                        indexmax = i;
-                    }
-                }
-            }
-        }
-        assignRoundOrder();
+    public int getTurnNumber() {
+        return turnNumber;
     }
-     //when a player has finished his turn (after chooseCloudTile() in BoardManager
-    */
 }

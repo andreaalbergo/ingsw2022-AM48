@@ -61,10 +61,28 @@ public class SimpleBoardManager implements BoardManager {
     }
 
     @Override
-    public void checkProfessorAddition(/*int indexDiningRoomUpdated*/) {
-        for (Player player: players) {
-            if (!player.equals(this.turn.getCurrentPlayer())) {
-                //TODO maybe change hashmap to list of lists where it says which player has the professors and how many
+    public void checkProfessorAddition(int indexDiningRoomUpdated) {
+        if(this.professorsInUse.get(indexDiningRoomUpdated)
+                .equalsIgnoreCase(this.turn.getCurrentPlayer().getNickname())) {
+            for (Player player:players) {
+                if (!player.equals(this.turn.getCurrentPlayer())) {
+                    if(player.getSchoolBoard().getDiningRoom()[indexDiningRoomUpdated]==this.turn
+                            .getCurrentPlayer().getSchoolBoard().getDiningRoom()[indexDiningRoomUpdated]) {
+
+                        player.getSchoolBoard().removeProfessor(indexDiningRoomUpdated);
+                        this.turn.getCurrentPlayer().getSchoolBoard().removeProfessor(indexDiningRoomUpdated);
+                        this.professorsInUse.replace(indexDiningRoomUpdated, null);
+
+                    } else if (player.getSchoolBoard().getDiningRoom()[indexDiningRoomUpdated]<this.turn
+                            .getCurrentPlayer().getSchoolBoard().getDiningRoom()[indexDiningRoomUpdated]) {
+
+                        player.getSchoolBoard().removeProfessor(indexDiningRoomUpdated);
+                        this.turn.getCurrentPlayer().getSchoolBoard().addProfessor(indexDiningRoomUpdated);
+                        this.professorsInUse.replace(indexDiningRoomUpdated, this.turn.getCurrentPlayer()
+                                .getNickname());
+                    }
+                }
+
             }
         }
     }
@@ -114,12 +132,12 @@ public class SimpleBoardManager implements BoardManager {
         List<IslandTile> adjacentIslands;
         adjacentIslands = getPreviousNextIsland(islandTile);
 
-        if(adjacentIslands.get(0).getIslandOwner()==adjacentIslands.get(1).getIslandOwner()){
+        if(adjacentIslands.get(0).getIslandOwner().equalsIgnoreCase(adjacentIslands.get(1).getIslandOwner())){
             islandTile.mergeIslands(adjacentIslands.get(0), adjacentIslands.get(1));
             this.islandTiles.remove(adjacentIslands.get(1));
         }
 
-        if (adjacentIslands.get(0).getIslandOwner()==adjacentIslands.get(2).getIslandOwner()){
+        if (adjacentIslands.get(0).getIslandOwner().equalsIgnoreCase(adjacentIslands.get(2).getIslandOwner())){
             islandTile.mergeIslands(adjacentIslands.get(0), adjacentIslands.get(2));
             this.islandTiles.remove(adjacentIslands.get(2));
         }
@@ -148,7 +166,8 @@ public class SimpleBoardManager implements BoardManager {
 
     @Override
     public void chooseCloudTile(Cloud cloud) {
-        cloud.emptyCloud(this.turn.getCurrentPlayer().getSchoolBoard(), cloud);
+        cloud.emptyCloud(this.turn.getCurrentPlayer().getSchoolBoard());
+        this.turn.setNextCurrentPlayer();
     }
 
     @Override
@@ -159,6 +178,8 @@ public class SimpleBoardManager implements BoardManager {
         if(this.bag.isBagEmpty()){
             //TODO callGameOver()
         }
-        //also case when players drew last Assistant Card
+        if(this.turn.getTurnNumber()==10 && this.turn.getTurnOrder().isEmpty()){
+            //TODO callGameOver
+        }
     }
 }

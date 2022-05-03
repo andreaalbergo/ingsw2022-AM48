@@ -307,7 +307,7 @@ public class Old_BoardManager {
         boolean waitToFill = true;
         boolean gameOver;
 
-        cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);
+        cloud.emptyCloud(currentPlayer.getSchoolBoard());
 
         for(Cloud c : clouds) {
             for (int i = 0; i < 5; i++) {
@@ -335,7 +335,7 @@ public class Old_BoardManager {
 
         gameOver = checkGameOver();
         if(!gameOver){
-            turn.assignNextTurn();
+            //turn.assignNextTurn();
         }
 
         else{

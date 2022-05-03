@@ -59,9 +59,10 @@ public class Player {
         this.coins -= coins;
     }
 
-    public void assignTurn() {
+    public void assignPlayerTurn() {
         this.turn = true;
     }
+    public void removePlayerTurn() { this.turn = false; }
 
     public int getIdPlayerForTurn() {
         return idPlayerForTurn;

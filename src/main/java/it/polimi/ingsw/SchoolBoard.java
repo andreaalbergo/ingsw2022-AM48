@@ -31,7 +31,6 @@ public class SchoolBoard {
             collectedCoins.add(0, 0);
         }
 
-
     }
 
     public void addStudentToDiningRoom(Color color){
@@ -50,10 +49,12 @@ public class SchoolBoard {
     public void addProfessor(Color color){
         professors[color.getColorIndex()] = true ;
     }
-
+    public void addProfessor(int indexColor) { professors[indexColor] = true; }
     public void removeProfessor(Color color){
         professors[color.getColorIndex()] = false ;
     }
+
+    public void removeProfessor(int indexColor) { professors[indexColor] = false;}
 
     public Boolean[] getProfessors(){
         return this.professors;

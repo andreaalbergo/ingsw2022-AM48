@@ -5,7 +5,6 @@ import java.util.ArrayList;
 //CLASS MADE BY BARB, version 0.1-->OK
 public class Cloud {
     private static final int NUMBER_OF_PLAYERS = Board.getNumberOfPlayers();
-    private static int LAST_CLOUD_ID = 0;
     private final int cloudId;
     private final ArrayList<Color> cloudCells;
 
@@ -37,7 +36,7 @@ public class Cloud {
     }
     */
 
-    public void emptyCloud(SchoolBoard schoolBoard, Cloud cloud){
+    public void emptyCloud(SchoolBoard schoolBoard){
         for(int i = 0; i<Board.getNumberOfPlayers(); i++) {
             schoolBoard.addStudentToEntrance(cloudCells.get(i).getColorIndex());
             cloudCells.remove(cloudCells.get(i));

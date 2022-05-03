@@ -1,20 +1,26 @@
 package it.polimi.ingsw;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class IslandTile {
-    private static int lastIslandID = 0;
-    private int islandId;
+    private static final List<Integer> colorsForSetup = Arrays.asList(0, 0, 1, 1, 2, 2, 3, 3, 4, 4);
     private int archipelagoDimension;
     private String ownerNickname;
     private final int[] students;
 
     public IslandTile() {
-        lastIslandID++;
-        this.islandId = lastIslandID;
+        Random random = new Random();
+        int randomIndex = random.nextInt(colorsForSetup.size());
+        int randomStudent = colorsForSetup.get(randomIndex);
+        colorsForSetup.remove(randomIndex);
+
         this.archipelagoDimension = 1;
         this.ownerNickname = null;
         this.students = new int[5];
+        this.students[randomStudent]++;
+
     }
 
     public boolean isIslandWithoutTower() {
