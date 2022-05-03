@@ -31,12 +31,8 @@ public class SchoolBoard {
             collectedCoins.add(0, 0);
         }
 
-
     }
 
-
-    // probably going to implement a method that throws an exception in case the color is not present in the entrance
-    //BARB: ma se prendi indice del colore, non c'entra niente con array Entrance che ha 7 o 9 celle per gestirla
     public void addStudentToDiningRoom(Color color){
         diningRoom[color.getColorIndex()] += 1;
         removeFromEntrance(color);
@@ -131,7 +127,14 @@ public class SchoolBoard {
     public int getTowers() {
         return towers;
     }
+/*
+    public void decrementTowers() {
+        this.towers--;
+        if (towers==0)
+            callGameOver();
 
+    }
+*/
     //BOZZ
     public boolean getSingleProfessor(Color color){
         return professors[color.getColorIndex()];

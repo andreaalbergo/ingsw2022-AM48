@@ -46,6 +46,14 @@ public class Bag {
         }
     }
 
+    public boolean isBagEmpty(){
+        for (int i = 0; i < 5; i++) {
+           if (students[i]!=0)
+               return false;
+        }
+        return true;
+    }
+
     public int[] getStudents() {
         return students;
     }

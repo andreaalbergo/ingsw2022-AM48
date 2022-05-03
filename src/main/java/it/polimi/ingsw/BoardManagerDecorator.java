@@ -31,8 +31,9 @@ public abstract class BoardManagerDecorator implements BoardManager {
     public void setupAllSchoolEntrances() { decoratedBoardManager.setupAllSchoolEntrances(); }
 
     @Override
-    public void checkProfessorAddition() {
-        decoratedBoardManager.checkProfessorAddition();
+    public void checkProfessorAddition(int indexDiningRoomUpdated) {
+
+        decoratedBoardManager.checkProfessorAddition(indexDiningRoomUpdated);
     }
 
     @Override
