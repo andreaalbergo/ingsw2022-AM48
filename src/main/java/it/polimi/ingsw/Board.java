@@ -14,13 +14,12 @@ public class Board {
     private BoardManager boardManager;
 
     /**
-     * Constructor of public class Board and it creates a new game instance. DEFAULT value of number of
+     * Constructor Board creates a new game instance. DEFAULT value of number of
      * players is 2 and game mode "normal" (new simple board manager).
      */
     public Board() {
-        this.numberOfPlayers = 2;
-        /*
-        this.boardManager = new SimpleBoardManager(this.numberOfPlayers);*/
+        numberOfPlayers = 2;
+        /*this.boardManager = new SimpleBoardManager(this.numberOfPlayers);*/
     }
 
     /**
@@ -28,14 +27,14 @@ public class Board {
      *
      * @return int - the number of players playing the game.
      */
-    public int getNumberOfPlayers() { return this.numberOfPlayers; }
+    public int getNumberOfPlayers() { return numberOfPlayers; }
 
     /**
      * Method getBoardManager gets boardManager of current game.
      *
      * @return BoardManager - boardManager of active game.
      */
-    public BoardManager getBoardManager() { return this.boardManager; }
+    public BoardManager getBoardManager() { return boardManager; }
 
     /**
      * Method setNumberOfPlayers that sets the number of players playing the game; int value MUST BE between 2 and 4.
@@ -48,7 +47,7 @@ public class Board {
             return false;
         }
         this.numberOfPlayers = numberOfPlayers;
-        //this.boardManager.setNumberOfPlayers(numberOfPlayers);
+        //this.boardManager = new BoardManager(numberOfPlayers);
         return true;
     }
 
@@ -57,7 +56,7 @@ public class Board {
      * the simpleBoardManager.
      */
     public void setExpertMode() {
-        this.boardManager = new ExpertBoardManager(new SimpleBoardManager(numberOfPlayers));
+        boardManager = new ExpertBoardManager(new SimpleBoardManager(numberOfPlayers));
     }
 }
 

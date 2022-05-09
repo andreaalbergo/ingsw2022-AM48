@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class BoardTest tests Board class
+ * Class BoardTest tests Board class.
  *
  * @author David Barb
  * @see Board
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
     Board testBoard;
 
-    /** Method initialization initializes values. */
+    /** Method initialization that initializes values. */
     @BeforeEach
     void initialization() {
         testBoard = new Board();
@@ -30,10 +30,12 @@ class BoardTest {
     @Test
     @DisplayName("Test get number of players before and after setting new number of players")
     void updatedGetNumberOfPlayers() {
+        assertFalse(testBoard.setNumberOfPlayers(0));
         assertEquals(2, testBoard.getNumberOfPlayers());
         assertTrue(testBoard.setNumberOfPlayers(3));
         assertEquals(3, testBoard.getNumberOfPlayers());
         assertTrue(testBoard.setNumberOfPlayers(4));
+        assertFalse(testBoard.setNumberOfPlayers(-123));
         assertEquals(4, testBoard.getNumberOfPlayers());
         assertFalse(testBoard.setNumberOfPlayers(32));
     }
