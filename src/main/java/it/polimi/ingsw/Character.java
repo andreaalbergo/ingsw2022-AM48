@@ -23,7 +23,7 @@ public enum Character {
 
     }
 
-    public static int getCharacterEffectCost(Character character) {
+    public int getCharacterEffectCost(Character character) {
         return character.characterEffectCost;
     }
 

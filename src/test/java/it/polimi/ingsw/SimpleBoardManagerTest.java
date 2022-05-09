@@ -9,10 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 //ANDREA: TO TEST THIS CLASS CREATE EVERYTHING IT NEEDS NOT JUST THE BOARDMANAGER, the tests give some problem with the way SimpleBoardManager is structured
 
 class SimpleBoardManagerTest {
-/*
+
     //Board board = new Board(3, true);
     BoardManager boardManager = new SimpleBoardManager(3,false);
 
+    /*
     @Test
     void login() throws Exception {
 
@@ -24,6 +25,9 @@ class SimpleBoardManagerTest {
         assertFalse(boardManager.getPlayers().isEmpty());
     }
 
+     */
+
+    /*
     @Test
     void takeCoin() throws Exception {
 
@@ -41,6 +45,8 @@ class SimpleBoardManagerTest {
         assertEquals(2, boardManager.getCurrentPlayer().getCoins());
     }
 
+     */
+    /*
     @Test
     void getPlayerIndex() throws Exception {
 
@@ -53,7 +59,9 @@ class SimpleBoardManagerTest {
 
     }
 
+     */
 
+/*
     @Test
     void chooseStepsMotherNature() throws Exception {
 
@@ -74,8 +82,9 @@ class SimpleBoardManagerTest {
         assertEquals(3, motherNaturePosition);
 
     }
-*/
-    /*
+
+ */
+/*
     @Test
     void checkInfluence() throws Exception {
 
@@ -107,6 +116,8 @@ class SimpleBoardManagerTest {
 
 
  */
+
+
         /*to fix
         works only with few character
 
@@ -126,8 +137,8 @@ class SimpleBoardManagerTest {
 
     }
 
-         */
-/*
+
+
     @Test
     void checkToAddProfessor() throws Exception {
 
@@ -158,11 +169,11 @@ class SimpleBoardManagerTest {
         //assertFalse(boardManager.getPlayer(secondPlayerIndex).getSchoolBoard().getSingleProfessor(Color.YELLOW_GNOMES));  //third case.2
     }
 
- */
+
 
     //waiting for the implementation of CloudTile constructor which fills the cloud at the start
     //PROBLEM WITH THE CONSTRUCTOR OF Cloud()
-    /*
+
     @Test
     void drawFromBag() throws Exception {
 
@@ -177,8 +188,8 @@ class SimpleBoardManagerTest {
 
     }
 
-     */
-/*
+
+
     @Test
     void checkCloudsArray() throws Exception {
 
@@ -189,7 +200,7 @@ class SimpleBoardManagerTest {
         assertFalse(boardManager.getClouds().isEmpty());
 
     }
-*/
+
     //works, need to do assertException()
     /*
     @Test
@@ -237,8 +248,9 @@ class SimpleBoardManagerTest {
         assertEquals(1,  boardManager.getCurrentPlayer().getCoins());
 
     }
-    */
-/*
+
+*/
+        /*
     @Test
     void checkGameOver() throws Exception {
 
@@ -255,6 +267,8 @@ class SimpleBoardManagerTest {
 
     }
 
-*/
+         */
+
+
 }
 

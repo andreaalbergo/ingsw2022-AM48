@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpertBoardManager extends BoardManagerDecorator{
-    public ExpertBoardManager(BoardManager decoratedBoardManager) { super(decoratedBoardManager);}
 
+    public ExpertBoardManager(BoardManager decoratedBoardManager) {
+        super(decoratedBoardManager);
+    }
+
+    private Player currentPlayer;
+    private int remainingCoinCounter = 20;
 
     @Override
-    public void login(String nickname, Wizard chosenWizard, TowersColor towerColor) throws Exception {
+    public void login(String nickname, Wizard chosenWizard, TowersColor towerColor){
 
     }
 
@@ -27,14 +32,50 @@ public class ExpertBoardManager extends BoardManagerDecorator{
         return 0;
     }
 
-    @Override
     public void takeCoin() throws Exception {
+
+        int moneyCounter = 0;
+
+        for (int indexForChangeColor = 0; indexForChangeColor < 5; indexForChangeColor++) {    //for every index of the array control if there's a student on a place with a coin
+
+            int studentsNumber = currentPlayer.getSchoolBoard().getDiningRoom()[indexForChangeColor];
+
+            if(studentsNumber >= 3){
+                moneyCounter += 1;
+
+                if(studentsNumber >= 6){
+                    moneyCounter += 1;
+
+                    if(studentsNumber >= 9){
+                        moneyCounter += 1;
+                    }
+                }
+            }
+
+        }
+
+        if(remainingCoinCounter - moneyCounter >= 0) {
+            remainingCoinCounter = remainingCoinCounter - moneyCounter;
+        }
+
+        else {
+
+            if (remainingCoinCounter - moneyCounter <= 0 && remainingCoinCounter != 0) {
+                moneyCounter = remainingCoinCounter;
+                remainingCoinCounter = 0;
+            }
+
+            else {
+                throw new Exception("No coins available");
+            }
+        }
+
+        currentPlayer.addCoins(moneyCounter);
 
     }
 
     @Override
     public void chooseStepsMotherNature(int steps, int effect) {
-
     }
 
     @Override
@@ -63,17 +104,17 @@ public class ExpertBoardManager extends BoardManagerDecorator{
     }
 
     @Override
-    public void checkNickname(String givenNickname) throws Exception {
+    public void checkNickname(String givenNickname){
 
     }
 
     @Override
-    public void chooseCloudTile(Cloud cloud) throws Exception {
+    public void chooseCloudTile(Cloud cloud){
 
     }
 
     @Override
-    public void buyCharacterCards(Character card) throws Exception {
+    public void buyCharacterCards(Character card){
 
     }
 

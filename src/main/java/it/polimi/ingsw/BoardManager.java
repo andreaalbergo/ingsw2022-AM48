@@ -9,7 +9,6 @@ public interface BoardManager {
     ArrayList<Integer> sortFirstTurn();
     void setCurrentPlayer(Player player);
     int getPlayerIndex(String givenPlayer);
-    void takeCoin() throws Exception;
     void chooseStepsMotherNature(int steps, int effect);
     boolean checkInfluence(Old_Island island, int effect);
     boolean checkActiveCharacterCards();

@@ -21,16 +21,16 @@ public class SimpleBoardManager implements BoardManager{
     private CharacterCard characterCard;
     private Board board;
 
-    public SimpleBoardManager(int numberofplayers, boolean mode) {
+    public SimpleBoardManager(int numberOfPlayers, boolean mode) {
 
-        this.bag = new Bag(numberofplayers);
+        this.bag = new Bag(numberOfPlayers);
         this.clouds = new ArrayList<>();
         this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
         //this.unifiedIsland = new ArrayList<>();
         this.players = new ArrayList<>();
         this.motherNature = new MotherNature();
         //this.board = board;
-        this.numberofPlayers = numberofplayers;
+        this.numberofPlayers = numberOfPlayers;
         this.mode = mode;
 
 
@@ -40,8 +40,11 @@ public class SimpleBoardManager implements BoardManager{
 
     }
 
+    //for the setUp of the first turn
     private int indexPlayerForTurn = 0;
     private ArrayList<Integer> firstTurnSorted = new ArrayList<>(numberofPlayers);
+
+    //Maybe a SetUp players class with login() and sortFirstTurn(), checkNickname()
 
     @Override
     public void login(String nickname, Wizard chosenWizard, TowersColor towerColor) throws Exception {
@@ -132,49 +135,6 @@ public class SimpleBoardManager implements BoardManager{
 
     //calls when all students have been moved from entrance to diningRoom
     //basic implementation of the for, maybe to recheck
-    @Override
-    public void takeCoin() throws Exception {
-
-        int moneyCounter = 0;
-
-        for (int indexForChangeColor = 0; indexForChangeColor < 5; indexForChangeColor++) {    //for every index of the array control if there's a student on a place with a coin
-
-            int studentsNumber = currentPlayer.getSchoolBoard().getDiningRoom()[indexForChangeColor];
-
-            if(studentsNumber >= 3){
-                moneyCounter += 1;
-
-                if(studentsNumber >= 6){
-                    moneyCounter += 1;
-
-                    if(studentsNumber >= 9){
-                        moneyCounter += 1;
-                    }
-                }
-            }
-
-        }
-
-        if(remainingCoinCounter - moneyCounter >= 0) {
-            remainingCoinCounter = remainingCoinCounter - moneyCounter;
-        }
-
-        else {
-
-            if (remainingCoinCounter - moneyCounter <= 0 && remainingCoinCounter != 0) {
-                moneyCounter = remainingCoinCounter;
-                remainingCoinCounter = 0;
-            }
-
-            else {
-                throw new Exception("No coins available");
-            }
-        }
-
-        currentPlayer.addCoins(moneyCounter);
-
-    }
-
 
     //need help with this one
     @Override
@@ -505,12 +465,12 @@ public class SimpleBoardManager implements BoardManager{
         adjacentIslands = getPreviousNextIsland(islandTile);
 
         //usa equals se devi comparare due stringhe non gli ==
-        if(adjacentIslands.get(1).getIslandOwner() == adjacentIslands.get(0).getIslandOwner()){
+        if(adjacentIslands.get(1).getIslandOwner().equals(adjacentIslands.get(0).getIslandOwner())){
             islandTile.mergeIslands(adjacentIslands.get(0), adjacentIslands.get(1));
             this.islands.remove(adjacentIslands.get(1));
         }
 
-        if (adjacentIslands.get(0).getIslandOwner() == adjacentIslands.get(2).getIslandOwner()){
+        if (adjacentIslands.get(0).getIslandOwner().equals(adjacentIslands.get(2).getIslandOwner())){
             islandTile.mergeIslands(adjacentIslands.get(0), adjacentIslands.get(2));
             this.islands.remove(adjacentIslands.get(2));
         }
@@ -537,6 +497,7 @@ public class SimpleBoardManager implements BoardManager{
 
         return sublistIsland;
     }
+
     @Override
     public Board getBoard(){
         return this.board;
