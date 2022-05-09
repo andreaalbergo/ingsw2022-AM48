@@ -43,13 +43,13 @@ public class Board {
      *
      * @param numberOfPlayers of type int - number of players playing the game.
      */
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        if (numberOfPlayers<2 || numberOfPlayers>4)
-            throw new RuntimeException("Number of players MUST BE between 2 or 4 to start a game");
-        else {
-            this.numberOfPlayers = numberOfPlayers;
-            //this.boardManager.setNumberOfPlayers(numberOfPlayers);
+    public boolean setNumberOfPlayers(int numberOfPlayers) {
+        if (numberOfPlayers<2 || numberOfPlayers>4) {
+            return false;
         }
+        this.numberOfPlayers = numberOfPlayers;
+        //this.boardManager.setNumberOfPlayers(numberOfPlayers);
+        return true;
     }
 
     /**

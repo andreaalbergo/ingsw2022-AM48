@@ -29,12 +29,13 @@ class BoardTest {
      */
     @Test
     @DisplayName("Test get number of players before and after setting new number of players")
-    void updatedGetNumberOfPlayers(){
+    void updatedGetNumberOfPlayers() {
         assertEquals(2, testBoard.getNumberOfPlayers());
-        testBoard.setNumberOfPlayers(3);
+        assertTrue(testBoard.setNumberOfPlayers(3));
         assertEquals(3, testBoard.getNumberOfPlayers());
-        testBoard.setNumberOfPlayers(4);
+        assertTrue(testBoard.setNumberOfPlayers(4));
         assertEquals(4, testBoard.getNumberOfPlayers());
+        assertFalse(testBoard.setNumberOfPlayers(32));
     }
 
 }
