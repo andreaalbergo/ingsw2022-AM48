@@ -5,47 +5,59 @@ import java.util.List;
 import java.util.Random;
 
 public enum Character {
-    MONK(1), INNKEEPER(2), PRINCE(3),
-    HERALD(1), GROCER(2), CENTAUR(3),
-    JESTER(1), KNIGHT(2), MERCHANT(3),
-    MINSTREL(1), WARRIOR_PRINCESS(2), THIEF(3);
+    MONK(1, 1), INNKEEPER(2, 2), PRINCE(3, 3),
+    HERALD(4, 1), GROCER(5, 2), CENTAUR(6, 3),
+    JESTER(7, 1), KNIGHT(8, 2), MERCHANT(9, 3),
+    MINSTREL(10, 1), WARRIOR_PRINCESS(11, 2), THIEF(12, 3);
 
+    private final int idCharacter;
     private final int characterEffectCost;
-    private final List<Character> VALUES = List.of(values());
-    private static final Random rand = new Random();
-    private ArrayList<Character> extractedCards = new ArrayList<>(3);
+    private static ArrayList<Integer> values = new ArrayList<>();
+    private static Random rand = new Random();
+    private static ArrayList<Character> extractedCards = new ArrayList<>();
 
-    Character(int characterEffectCost) {
+    Character(int idCharacter, int characterEffectCost) {
+
+        this.idCharacter = idCharacter;
         this.characterEffectCost = characterEffectCost;
+
     }
 
-    public static int getCharacterEffectCost(Character character) {
+    public int getCharacterEffectCost(Character character) {
         return character.characterEffectCost;
     }
 
-    public void extractCards(){
+    public static ArrayList<Character> extractCards(){
+
         int amountOfCards = 3;
 
+        for(int i = 0; i < 12; i++){
+            values.add(i);
+        }
+
         for(int i = 0; i < amountOfCards; i++){
-            int randomIndex = rand.nextInt(VALUES.size());
-            Character randomElement = VALUES.get(randomIndex);
-            VALUES.remove(randomIndex);
-            switch(randomElement) {
-                case MONK: extractedCards.add(MONK);
-                case INNKEEPER: extractedCards.add(INNKEEPER);
-                case PRINCE: extractedCards.add(PRINCE);
-                case HERALD: extractedCards.add(HERALD);
-                case GROCER: extractedCards.add(GROCER);
-                case CENTAUR: extractedCards.add(CENTAUR);
-                case JESTER: extractedCards.add(JESTER);
-                case KNIGHT: extractedCards.add(KNIGHT);
-                case MERCHANT: extractedCards.add(MERCHANT);
-                case MINSTREL: extractedCards.add(MINSTREL);
-                case WARRIOR_PRINCESS: extractedCards.add(WARRIOR_PRINCESS);
-                case THIEF: extractedCards.add(THIEF);
-                default: System.out.println("ERROR --> extractCards() didn't work as expected");
+            int randomIndex = rand.nextInt(values.size());
+            int randomElement = values.get(randomIndex);
+            System.out.println(randomElement);
+            values.remove(randomIndex);
+            switch (randomElement) {
+                case 0 -> extractedCards.add(MONK);
+                case 1 -> extractedCards.add(INNKEEPER);
+                case 2 -> extractedCards.add(PRINCE);
+                case 3 -> extractedCards.add(HERALD);
+                case 4 -> extractedCards.add(GROCER);
+                case 5 -> extractedCards.add(CENTAUR);
+                case 6 -> extractedCards.add(JESTER);
+                case 7 -> extractedCards.add(KNIGHT);
+                case 8 -> extractedCards.add(MERCHANT);
+                case 9 -> extractedCards.add(MINSTREL);
+                case 10 -> extractedCards.add(WARRIOR_PRINCESS);
+                case 11 -> extractedCards.add(THIEF);
+                default -> System.out.println("ERROR --> extractCards() didn't work as expected");
             }
         }
+
+        return extractedCards;
 
     }
 
@@ -53,7 +65,8 @@ public enum Character {
         return characterEffectCost;
     }
 
-    public Character getExtractedCards(int index){
-        return extractedCards.get(index);
+    public static ArrayList<Character> getExtractedCards(){
+        return extractedCards;
     }
+
 }

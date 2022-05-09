@@ -14,3 +14,4 @@ public interface CharacterEffect {
     void warriorPrincessEffect();
     void thiefEffect();
 }
+

@@ -4,15 +4,26 @@ import java.util.ArrayList;
 
 public class SchoolBoard {
     private final String nickname;
-    private final ArrayList<Color> entrance;
-    private final int[] diningRoom = new int[5];
-    private final Boolean[] professors = new Boolean[5];
+    private int entrance_size;
+    private ArrayList<Color> entrance;
+    private int[] diningRoom = new int[5];
+    private Boolean[] professors = new Boolean[5];
     private int towers;
-    private final ArrayList<Integer> collectedCoins;
+    private ArrayList<Integer> collectedCoins;
+    private int movedstudents =0;
+    int numberOfPlayers;
+    private boolean mode;
 
-    public SchoolBoard(String nickname){
+    public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
-        if (Board.getNumberOfPlayers() == 3){
+        this.numberOfPlayers = numberOfPlayers;
+        this.mode = mode;
+        for (Boolean professor:
+             professors) {
+            professor = false;
+        }
+
+        if (numberOfPlayers == 3){
             this.entrance = new ArrayList<>(7);
             //entrance.add(0,null);
             this.towers = 6;
@@ -22,7 +33,7 @@ public class SchoolBoard {
             this.towers = 8;
         }
 
-        if(Board.isExpertMode()){
+        if(mode){
             this.collectedCoins = new ArrayList<>(5);
         }else{
             this.collectedCoins = new ArrayList<>(1);
@@ -32,8 +43,25 @@ public class SchoolBoard {
     }
 
     public void addStudentToDiningRoom(Color color){
-        diningRoom[color.getColorIndex()] += 1;
-        removeFromEntrance(color);
+        if((movedstudents == 4 && numberOfPlayers==2)|| (movedstudents == 3 && numberOfPlayers==3))
+            System.out.println("\nYou already moved the maximum number of students\n");
+        else {
+            diningRoom[color.getColorIndex()] += 1;
+            removeFromEntrance(color);
+
+            switch (numberOfPlayers) {
+                case 2:
+                    if (movedstudents < 4) {
+                        movedstudents++;
+                    }
+
+                case 3:
+                    if (movedstudents < 3) {
+                        movedstudents++;
+                    }
+
+            }
+        }
     }
 
     public String getNickname() {
@@ -48,6 +76,7 @@ public class SchoolBoard {
         professors[color.getColorIndex()] = true ;
     }
     public void addProfessor(int indexColor) { professors[indexColor] = true; }
+
     public void removeProfessor(Color color){
         professors[color.getColorIndex()] = false ;
     }
@@ -65,6 +94,7 @@ public class SchoolBoard {
     public void addStudentToEntrance(int index) {
         this.entrance.add(Color.colorFromIndex(index));
     }
+
 
     public ArrayList<Color> getEntrance(){
         return this.entrance;
@@ -88,15 +118,53 @@ public class SchoolBoard {
 
          */
     }
+    /* BOZZ
+        insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()
+        insert checkToAddProfessor() [BOARDMANAGER] in addStudentToDiningRoom()
+     */
+
+    /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
+    public void addStudentToIsland(Color color, Old_Island island){
+        switch (color){
+            case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
+                break;
+            case GREEN_FROGS: : island.addStudentToIsland(GREEN_FROGS);
+                break;
+            case YELLOW_GNOMES: : island.addStudentToIsland(YELLOW_GNOMES);
+                break;
+            case BLUE_UNICORNS: : island.addStudentToIsland(BLUE_UNICORNS);
+                break;
+            case PINK_FAIRIES: : island.addStudentToIsland(PINK_FAIRIES);
+                break;
+
+        }
+    }
+*/
+
+/* BARB: NON E' NECESSARIO SAPERE SE HO UNA TORRE SU UN ISOLA; SE HO UN OWNER DELL'ISOLA, IN AUTOMATICO HO UNA TOWER
+    public void addTowerToIsland(Island island, String nickname) throws Exception{
+        if(this.towers > 1){
+            this.towers--;
+        }else if(this.towers == 1){
+            this.towers = 0;
+            throw new Exception("Last Tower, check if the Game is ");
+        }
+    }
+*/
+
     public int getTowers() {
         return towers;
     }
-
+/*
     public void decrementTowers() {
         this.towers--;
-        /*TODO
         if (towers==0)
             callGameOver();
-         */
+
+    }
+*/
+    //BOZZ
+    public boolean getSingleProfessor(Color color){
+        return professors[color.getColorIndex()];
     }
 }

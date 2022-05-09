@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
 
-    SchoolBoard schoolBoard = new SchoolBoard("test");
-    Bag bag = new Bag();
-    Board board = new Board(2,true);
+    Board board = new Board(2,false);
+    SchoolBoard schoolBoard = new SchoolBoard("test",2, false);
+    Bag bag = new Bag(board.getNumberOfPlayers());
 
     /*@Test
     void extractPawnToCloud() {
@@ -18,15 +18,18 @@ class BagTest {
     }
     */
 
+    /*
     @Test
     void drawStudentsToSchoolEntrance() {
-        bag.drawStudentsToSchoolEntrance(schoolBoard);
+        bag.setupSchoolEntrance(schoolBoard);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
         for(Color c : entrance){
             System.out.println(c);
         }
         assertFalse(entrance.isEmpty());
     }
+
+     */
 
     @Test
     void setupSchoolEntrance() {
@@ -39,3 +42,5 @@ class BagTest {
         }
     }
 }
+
+//mvn clean test

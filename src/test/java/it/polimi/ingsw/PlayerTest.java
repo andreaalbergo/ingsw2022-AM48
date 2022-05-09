@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-
-    Player player = new Player("Albus",1,true, Wizard.WIZARD1,3,TowersColor.GRAY,true);
+    Player player = new Player("Albus",1,true, Wizard.WIZARD1,2,TowersColor.GRAY,true);
 
     @Test
     void getNickname() {
@@ -53,7 +52,7 @@ class PlayerTest {
         player.setIdPlayerForTurn(3);
         assertEquals(player.getIdPlayerForTurn(),3);
     }
-
+/*
     @Test
     void setTurn() {
         player.setTurn(false);
@@ -61,7 +60,7 @@ class PlayerTest {
         player.setTurn(true);
         assertTrue(player.isTurn());
     }
-
+*/
     @Test
     void addCoins() {
         int newcoins = 2;

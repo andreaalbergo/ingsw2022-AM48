@@ -6,31 +6,36 @@ public class CharacterCard {
 
     private Character character;
     private int characterEffectCost;
-    private final ArrayList<Character> characterList = new ArrayList<>(3);
-    private final ArrayList<Integer> characterCostList = new ArrayList<>(3);
+    private ArrayList<Character> characterList;
+    private ArrayList<Integer> characterCostList = new ArrayList<>(3);
     private boolean isActive = false;
     private Bag bag;
     private Color color;
-    private Old_BoardManager oldBoardManager;
-    private int firstMonk = 0, firstJester = 0, firstWarriorPrincess = 0;
+    private int firstMonk = 0, firstJester = 0, firstWarriorPrincess = 0; //look if the cost is equal to the initial cost
 
     public CharacterCard(){
-        for(int i = 0; i < 3; i++){
-            characterList.add(character.getExtractedCards(i));
-            characterCostList.add(Character.getCharacterEffectCost(characterList.get(i)));
+
+        characterList = Character.extractCards();
+
+        for(int indexExtractedCard = 0; indexExtractedCard < 3; indexExtractedCard++){
+
+            characterCostList.add(characterList.get(indexExtractedCard).getCharacterEffectCost());
 
         }
 
+        character = characterList.get(0);
+        characterEffectCost = characterCostList.get(0);
+
     }
 
-    private int extractedCardIndex(CharacterCard card) throws Exception {
+    private int extractedCardIndex(Character card) throws Exception {
 
         for(int i = 0; i < 3; i++){
 
             if(card.equals(characterList.get(i))){
 
                 character = characterList.get(i);
-                characterEffectCost = Character.getCharacterEffectCost(characterList.get(i));
+                characterEffectCost = characterCostList.get(i);
                 return i;
 
             }
@@ -38,10 +43,11 @@ public class CharacterCard {
         }
 
         throw new Exception("Card not found");
+
     }
 
 
-    public void chooseCharacterCard(CharacterCard card) throws Exception {
+    public void chooseCharacterCard(Character card) throws Exception {
 
         int index = extractedCardIndex(card); //throws error if the card chosen isn't in extractedCards arrayList
         incrementCharacterCost(index);
@@ -98,7 +104,7 @@ public class CharacterCard {
         for(int i = 0; i < 5; i++){
 
             //create the link between this class and BoardManager class
-            oldBoardManager.checkToAddProfessor(Color.colorFromIndex(i), 1);
+            //SimpleBoardManager.checkToAddProfessor(Color.colorFromIndex(i), 1);
 
         }
         //these passages below should be done by checkToAddProfessor() in BOARDMANAGER
@@ -113,7 +119,7 @@ public class CharacterCard {
 
         //chooseIslandId()
         //placePseudoMotherNature()
-        influence = oldBoardManager.checkInfluence(island, 1);
+        //influence = SimpleBoardManager.checkInfluence(island, 1);
         //then I can start turn normally by moving the real mother nature
     }
 
@@ -145,7 +151,7 @@ public class CharacterCard {
 
     //finished
     private void centaurEffect(Old_Island island) {
-        oldBoardManager.checkInfluence(island, 3);
+        //SimpleBoardManager.checkInfluence(island, 3);
     }
 
     private void jesterEffect() throws Exception {
@@ -242,8 +248,12 @@ public class CharacterCard {
         throw new Exception ("Card played wasn't in game");
     }
 
-    public int getCharacterCostList(CharacterCard card) throws Exception {
+    public int getCharacterCostList(Character card) throws Exception {
         return characterCostList.get(extractedCardIndex(card));
     }
 
+    public ArrayList<Character> getCharacterList() {
+        return characterList;
+    }
 }
+
