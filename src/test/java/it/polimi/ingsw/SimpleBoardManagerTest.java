@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SimpleBoardManagerTest {
 
     //Board board = new Board(3, true);
-    BoardManager boardManager = new SimpleBoardManager(3,false);
+    BoardManager boardManager = new SimpleBoardManager(3);
 
     /*
     @Test

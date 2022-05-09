@@ -139,6 +139,9 @@ public abstract class BoardManagerDecorator implements BoardManager {
         return decoratedBoardManager.getBoard();
     }
 
+    @Override
+    public void setNumberOfPlayers(int numberOfPlayers) { decoratedBoardManager.setNumberOfPlayers(numberOfPlayers); }
+
     //here setters from interface?
 
     public void takeCoinFromBag(){

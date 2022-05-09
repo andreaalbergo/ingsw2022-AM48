@@ -5,12 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 public class SimpleBoardManager implements BoardManager{
-
     private final int NUMBER_OF_ISLANDS = 12;
     private static int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
     private final Bag bag;
     private int numberofPlayers;
-    private boolean mode;
     private ArrayList<Cloud> clouds;
     private ArrayList<IslandTile> islands;
     //private ArrayList<Old_Island> unifiedIsland;  NEVER USED
@@ -21,8 +19,7 @@ public class SimpleBoardManager implements BoardManager{
     private CharacterCard characterCard;
     private Board board;
 
-    public SimpleBoardManager(int numberOfPlayers, boolean mode) {
-
+    public SimpleBoardManager(int numberOfPlayers) {
         this.bag = new Bag(numberOfPlayers);
         this.clouds = new ArrayList<>();
         this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
@@ -31,8 +28,6 @@ public class SimpleBoardManager implements BoardManager{
         this.motherNature = new MotherNature();
         //this.board = board;
         this.numberofPlayers = numberOfPlayers;
-        this.mode = mode;
-
 
         for(int numberOfIslands = 0; numberOfIslands < NUMBER_OF_ISLANDS; numberOfIslands++){
             islands.add(new IslandTile());
@@ -65,7 +60,7 @@ public class SimpleBoardManager implements BoardManager{
 
         playerTurn = (idPlayerForTurn == 1);
 
-        player = new Player(nickname, idPlayerForTurn, playerTurn, chosenWizard, numberofPlayers, towerColor, mode);
+        player = new Player(nickname, idPlayerForTurn, playerTurn, chosenWizard, numberofPlayers, towerColor, false);
 
         players.add(player);
 
@@ -502,6 +497,9 @@ public class SimpleBoardManager implements BoardManager{
     public Board getBoard(){
         return this.board;
     }
+
+    @Override
+    public void setNumberOfPlayers(int numberofPlayers) {this.numberofPlayers = numberofPlayers;}
 }
 
 

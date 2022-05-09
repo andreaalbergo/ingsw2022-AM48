@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
 
-    Board board = new Board(2,false);
+    Board board = new Board();
     SchoolBoard schoolBoard = new SchoolBoard("test",2, false);
     Bag bag = new Bag(board.getNumberOfPlayers());
 
