@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 import java.util.List;
 
+//BOZZ: to do all the methods in the case of ExpertBoardManager
+
 public class ExpertBoardManager extends BoardManagerDecorator{
 
     public ExpertBoardManager(BoardManager decoratedBoardManager) {
@@ -32,6 +34,14 @@ public class ExpertBoardManager extends BoardManagerDecorator{
         return 0;
     }
 
+    /**
+     * This methods is used to giva a coin to a player if he puts a student in the dining room on a space with a coin
+     *
+     * @throws Exception if there are no more coins in the game
+     */
+
+    //calls when all students have been moved from entrance to diningRoom
+    //basic implementation of the for, maybe to recheck
     public void takeCoin() throws Exception {
 
         int moneyCounter = 0;
