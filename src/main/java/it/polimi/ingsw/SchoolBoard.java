@@ -42,6 +42,11 @@ public class SchoolBoard {
 
     }
 
+    /**
+     * This method adds a student to its designated dining roomm
+     *
+     * @param color is the color of the student the player wants to move to the dining room
+     */
     public void addStudentToDiningRoom(Color color){
         if((movedstudents == 4 && numberOfPlayers==2)|| (movedstudents == 3 && numberOfPlayers==3))
             System.out.println("\nYou already moved the maximum number of students\n");
@@ -68,19 +73,48 @@ public class SchoolBoard {
         return nickname;
     }
 
+    /**
+     * This method is used to check if the player owns the professor for the given color
+     *
+     * @param color the color of the Professor that needs to be checked
+     * @return a boolean saying if the Player owns or not the professor for the parameter's color
+     */
     public boolean checkProfessor(Color color) {
         return professors[color.getColorIndex()];
     }
 
+    /**
+     * This method assigns the professor to the player
+     *
+     * @param color gives the method the specification to which professor is newly assigned to the player
+     */
     public void addProfessor(Color color){
         professors[color.getColorIndex()] = true ;
     }
+
+    /**
+     * This method assigns the professor to the player
+     *
+     * @param indexColor gives the method the specification to which professor is newly assigned to the player, similar to the
+     *                   one above but uses an Integer instead of Color
+     */
     public void addProfessor(int indexColor) { professors[indexColor] = true; }
 
+    /**
+     * The method is used to deprive the student of the professor after he doesn't have enough influence
+     *
+     * @param color gives the method the specification to which professor has to be removed from the player
+     */
     public void removeProfessor(Color color){
         professors[color.getColorIndex()] = false ;
     }
 
+    /**
+     * The method is used to deprive the student of the professor after he doesn't have enough influence
+     *
+     * @param indexColor gives the method the specification to which professor has to be removed from the player, using
+     *                   an Integer(indicating the Color's index) instead of a Color
+     */
     public void removeProfessor(int indexColor) { professors[indexColor] = false;}
 
     public Boolean[] getProfessors(){
@@ -91,6 +125,11 @@ public class SchoolBoard {
         return this.diningRoom;
     }
 
+    /**
+     * this method adds a student to the Player's entrance
+     *
+     * @param index of the color extracted or chosen to be added to
+     */
     public void addStudentToEntrance(int index) {
         this.entrance.add(Color.colorFromIndex(index));
     }
@@ -108,6 +147,7 @@ public class SchoolBoard {
     public void addStudentToIsland(Color color, Old_Island oldIsland) {
         removeFromEntrance(color);
         oldIsland.getStudents()[color.getColorIndex()]++;
+
 
         /*BOZZ
         MotherNature motherNature = null;

@@ -52,7 +52,7 @@ class PlayerTest {
         player.setIdPlayerForTurn(3);
         assertEquals(player.getIdPlayerForTurn(),3);
     }
-/*
+
     @Test
     void setTurn() {
         player.setTurn(false);
@@ -60,7 +60,7 @@ class PlayerTest {
         player.setTurn(true);
         assertTrue(player.isTurn());
     }
-*/
+
     @Test
     void addCoins() {
         int newcoins = 2;

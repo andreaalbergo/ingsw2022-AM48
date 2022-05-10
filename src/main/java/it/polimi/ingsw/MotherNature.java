@@ -11,6 +11,10 @@ public class MotherNature {
         return position;
     }
 
+    /**
+     * @param steps INTEGER -> represents the number of steps we want Mothernature to make
+     * @throws IllegalStateException in case the number of steps is different from the ones available from the card
+     */
     public void move(int steps) throws IllegalStateException{
         if (steps <= 5 && steps >= 1)
         {

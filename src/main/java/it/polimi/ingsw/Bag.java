@@ -6,7 +6,7 @@ public class Bag {
 
     private final int[] students; //BARB: for now I think it's good a simple int array
     //private Board board;
-    private int numberOfPlayers;
+    private final int numberOfPlayers;
 
     public Bag(int numberOfPlayers) {
         students = new int[5];
@@ -33,6 +33,13 @@ public class Bag {
     //I found the solution to problem of exception, if it's 2 players 20 turns, if 3 or 4 12 turns
     //I moved extractPawnsToCloud in BoardManager
 
+    /**
+     * This method is used to setup the entrance for the Schoolboards, extracting the correct number of students at the
+     * start of the game
+     *
+     * @param schoolBoard parameter indicates which one of the SchoolBoard needs to be filled
+     *
+     */
     public void setupSchoolEntrance(SchoolBoard schoolBoard) {
         int randomColor;
         if(numberOfPlayers == 3){
@@ -48,6 +55,11 @@ public class Bag {
         }
     }
 
+    /**
+     * This method checks if the Bag is empty, may be the case, the game is over.
+     *
+     * @return a boolean signaling if the Bag is emtpty(1) or not;
+     */
     public boolean isBagEmpty(){
         for (int i = 0; i < 5; i++) {
            if (students[i]!=0)
@@ -56,6 +68,11 @@ public class Bag {
         return true;
     }
 
+    /**
+     * Used to have a reference to students still present in the Bag
+     *
+     * @return the studenst array
+     */
     public int[] getStudents() {
         return students;
     }
@@ -71,6 +88,7 @@ public class Bag {
 
     /*BOZZ
     add extractSinglePawn() which returns the Color of the extracted pawn
+    getRandomCOLOR FROM BAG
      */
 
 }
