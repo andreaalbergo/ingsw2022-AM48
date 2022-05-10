@@ -7,7 +7,6 @@ import java.util.List;
 public class Player {
     private final String nickname;
     private final int playerID;
-    private int idPlayerForTurn;
     private int chosenCard;
     private final List<AssistantCard> assistantCardList;
     private int coins;
@@ -15,11 +14,6 @@ public class Player {
     private final Wizard chosenWizard;
     private final TowersColor towersColor;
     private SchoolBoard schoolBoard;
-
-
-    public int getPlayerID() {
-        return playerID;
-    }
 
     public Player(String nickname, int playerID, Wizard chosenWizard, TowersColor towersColor) {
         this.nickname = nickname;
@@ -34,6 +28,14 @@ public class Player {
         this.towersColor = towersColor;
         this.playerID = playerID;
 
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public int getChosenCard() {
+        return chosenCard;
     }
 
     /**
@@ -81,7 +83,7 @@ public class Player {
     }
 
     /**
-     * This method is used to set the Turn variable to 1 or 0 when the turn changes
+     * This method is used to set the Round variable to 1 or 0 when the turn changes
      * @param turn     specification (1 your turn, 0 ended your turn)
      */
     public void setTurn(boolean turn) {
@@ -94,14 +96,6 @@ public class Player {
      */
     public String getChosenWizard() {
         return chosenWizard.toString();
-    }
-
-    /**
-     * This methods sets the order number to which the player will be considered active for the turn
-     * @param idPlayerForTurn is a number from 1 to the number of players playing the game
-     */
-    public void setIdPlayerForTurn(int idPlayerForTurn) {
-        this.idPlayerForTurn = idPlayerForTurn;
     }
 
     /**
@@ -121,20 +115,11 @@ public class Player {
     }
 
     /**
-     * This method return the order in which this player will play
-     * @return an integer from 1 to the max number of players
-     */
-    public int getIdPlayerForTurn() {
-        return idPlayerForTurn;
-    }
-
-    /**
      * This method is used to get hold of the Player's Schoolboard
      * @return the SchoolBoard reference for this player
      */
     public SchoolBoard getSchoolBoard() {
         return schoolBoard;
     }
-
 
 }

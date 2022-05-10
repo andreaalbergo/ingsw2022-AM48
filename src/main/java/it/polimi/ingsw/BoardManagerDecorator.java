@@ -100,8 +100,8 @@ public abstract class BoardManagerDecorator implements BoardManager {
     }
 
     @Override
-    public  Round getTurn(){
-        return decoratedBoardManager.getTurn();
+    public void getTurn(){
+        decoratedBoardManager.getTurn();
     }
 
     @Override

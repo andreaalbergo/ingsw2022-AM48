@@ -15,9 +15,9 @@ import java.util.Random;
 public class IslandTile {
     private static int numberOfIslands = 0;
     private static final List<Integer> colorsForSetup = Arrays.asList(0, 0, 1, 1, 2, 2, 3, 3, 4, 4);
-    private int archipelagoDimension;
+    private int archipelagoDimension = 1;
     private String ownerNickname;
-    private final int[] students;
+    private final int[] students = new int[5];
     private boolean isMotherPresent;
 
     /**
@@ -26,16 +26,11 @@ public class IslandTile {
      * 2 students for every color in total (picked randomly).
      */
     public IslandTile() {
-        archipelagoDimension = 1;
-        ownerNickname = null;
-        students = new int[5];
-        isMotherPresent = false;
-
         if(numberOfIslands>0 && numberOfIslands!=11) {
             Random random = new Random();
             int randomIndex = random.nextInt(colorsForSetup.size());
             int randomStudent = colorsForSetup.get(randomIndex);
-            colorsForSetup.remove(randomIndex);
+            //colorsForSetup.remove(randomIndex);
             this.students[randomStudent]++;
         } else if(numberOfIslands==0) {
             isMotherPresent = true;
@@ -84,6 +79,8 @@ public class IslandTile {
      * @return int - the number of connected islands in given archipelago.
      */
     public int howManyTowers() {
+        if (archipelagoDimension==1 && this.ownerNickname==null)
+            return 0;
         return this.archipelagoDimension;
     }
 

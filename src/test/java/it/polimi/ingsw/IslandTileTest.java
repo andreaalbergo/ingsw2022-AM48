@@ -3,6 +3,10 @@ package it.polimi.ingsw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -12,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see IslandTile
  */
 class IslandTileTest {
-    IslandTile testIsland;
+    List<IslandTile> islands = new ArrayList<>();
 
     /** Method initialization that initializes values. */
     @BeforeEach
     void initialization() {
-        testIsland = new IslandTile();
+        for (int i = 0; i < 12; i++) {
+            islands.add(new IslandTile());
+        }
     }
 
     /**
@@ -25,13 +31,24 @@ class IslandTileTest {
      */
     @Test
     void testFirstIsland() {
-        assertNull(testIsland.getIslandOwner());
-        assertTrue( testIsland.isMotherPresent());
-        assertEquals(1, testIsland.howManyTowers());
+        assertNull(islands.get(0).getIslandOwner());
+        assertTrue(islands.get(0).isMotherPresent());
+        assertEquals(0, islands.get(0).howManyTowers());
         for (int i = 0; i < 5; i++) {
-            assertEquals(0, testIsland.getColorStudent(i));
+            assertEquals(0, islands.get(0).getColorStudent(i));
         }
-
     }
+/*
+    @Test
+    void testSecondIsland(){
+
+
+        assertNull(testIslandTwo.getIslandOwner());
+        assertFalse(testIslandTwo.isMotherPresent());
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(testIslandTwo.getColorStudent(i));
+        }
+    }*/
 
 }

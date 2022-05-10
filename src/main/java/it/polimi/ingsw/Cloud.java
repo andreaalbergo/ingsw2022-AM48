@@ -2,7 +2,13 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 
-//CLASS MADE BY BARB, version 0.1-->OK
+/**
+ * Cloud class is an entity that has number of players instances and specific number of student cells that are filled
+ * up every game's turn from the Bag class; then they are picked from every player during the same turn to fill
+ * their own school entrances.
+ *
+ * @author David Barb
+ */
 public class Cloud {
     private final int NUMBER_OF_PLAYERS;
     private static int LAST_CLOUD_ID = 0;
@@ -13,8 +19,8 @@ public class Cloud {
     //when i call the constructor, it fills the clouds
     public Cloud(int cloudId, Board board) {
         this.cloudId = cloudId;
-        this.cloudCells = new ArrayList<>(getCloudDimension());
-        this.NUMBER_OF_PLAYERS = board.getNumberOfPlayers();
+        this.cloudCells = new ArrayList<>();
+        this.NUMBER_OF_PLAYERS = 2;
         this.board = board;
     }
 
@@ -46,7 +52,7 @@ public class Cloud {
     */
 
     public void emptyCloud(SchoolBoard schoolBoard, Cloud cloud){
-        for(int i = 0; i < board.getNumberOfPlayers(); i++) {
+        for(int i = 0; i < 2; i++) {
             schoolBoard.addStudentToEntrance(cloudCells.get(i).getColorIndex());
             cloudCells.remove(cloudCells.get(i));
         }

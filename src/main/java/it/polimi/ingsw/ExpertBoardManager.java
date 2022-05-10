@@ -150,11 +150,6 @@ public class ExpertBoardManager extends BoardManagerDecorator{
     }
 
     @Override
-    public Round getTurn() {
-        return null;
-    }
-
-    @Override
     public ArrayList<Integer> getFirstTurnSorted() {
         return null;
     }

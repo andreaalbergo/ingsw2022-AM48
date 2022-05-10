@@ -10,7 +10,7 @@ class BagTest {
 
     Board board = new Board();
     SchoolBoard schoolBoard = new SchoolBoard("test",2, false);
-    Bag bag = new Bag(board.getNumberOfPlayers());
+    Bag bag = new Bag();
 
     /*@Test
     void extractPawnToCloud() {

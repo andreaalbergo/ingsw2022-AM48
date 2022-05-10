@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface BoardManager {
-
     void login(String nickname, Wizard chosenWizard, TowersColor towerColor) throws Exception;
     ArrayList<Integer> sortFirstTurn();
     void setCurrentPlayer(Player player);
@@ -22,7 +21,7 @@ public interface BoardManager {
     ArrayList<Player> getPlayers();
     Player getCurrentPlayer();
     MotherNature getMotherNature();
-    Round getTurn();
+    void getTurn();
     ArrayList<Integer> getFirstTurnSorted();
     CharacterCard getCard();
     Player getPlayer(int index);

@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,10 +10,17 @@ import static org.junit.jupiter.api.Assertions.*;
 //ANDREA: TO TEST THIS CLASS CREATE EVERYTHING IT NEEDS NOT JUST THE BOARDMANAGER, the tests give some problem with the way SimpleBoardManager is structured
 
 class SimpleBoardManagerTest {
+    SimpleBoardManager testSimpleBoardManager;
 
-    //Board board = new Board(3, true);
-    BoardManager boardManager = new SimpleBoardManager(3);
+    @BeforeEach
+    void initialization() {
+        testSimpleBoardManager = new SimpleBoardManager(3);
+    }
 
+    @Test
+    void getNumberOfPlayers() {
+        testSimpleBoardManager.getNumberofPlayers();
+    }
     /*
     @Test
     void login() throws Exception {

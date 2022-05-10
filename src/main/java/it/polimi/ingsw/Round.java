@@ -1,5 +1,5 @@
 package it.polimi.ingsw;
-
+/*
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class Round {
      * @param chosenAssistantCard is the card chosen by player
      */
     //called in assignNextTurn()? maybe rename this class in checkAssistantCard, then update the "else" case
-    public void chooseAssistantCard(String player, AssistantCard chosenAssistantCard) {
+   /* public void chooseAssistantCard(String player, AssistantCard chosenAssistantCard) {
 
         int index = board.getBoardManager().getPlayerIndex(player);
 
@@ -89,7 +89,7 @@ public class Round {
      *
      * @throws Exception from playerFromTurnNumber(), it can't happen but there's still this case
      */
-
+/*
     public void assignNextRound() throws Exception {
 
         //set charactercCard = false if it has been played
@@ -149,7 +149,7 @@ public class Round {
     /**
      * This methods compare the assistant cards chosen by the player to assign the turn order
      */
-
+/*
     private void compareAssistantCards(){
 
         String playerMax = null;
@@ -188,7 +188,7 @@ public class Round {
      * @return the index of the player (in players arrayList)
      * @throws Exception if the player isn't found (can't happen but there's still this case)
      */
-
+/*
     private int playerFromTurnNumber(int turnNumber) throws Exception {
 
         for(int playerIndex = 0; playerIndex < board.getNumberOfPlayers(); playerIndex++){
@@ -223,7 +223,7 @@ public class Round {
     /**
      * This mathods changes the current player setting the turn in Player class
      */
-
+/*
     public void setUpCurrentPlayer(){
         currentPlayer.setTurn(false);
         currentPlayer = board.getBoardManager().getCurrentPlayer();
@@ -269,3 +269,4 @@ public class Round {
 }
 
 
+*/
