@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    Player player = new Player("Albus",1,true, Wizard.WIZARD1,2,TowersColor.GRAY,true);
+
+    Player player = new Player("Albus",1, Wizard.WIZARD1,TowersColor.GRAY);
+
 
     @Test
     void getNickname() {
@@ -66,5 +68,14 @@ class PlayerTest {
         int newcoins = 2;
         player.addCoins(newcoins);
         assertEquals(player.getCoins(),1+newcoins);
+    }
+
+    @Test
+    void createSchoolBoard(){
+        player.createSchoolBoard(false, 2);
+        SchoolBoard schoolBoard = player.getSchoolBoard();
+        assertEquals(2,schoolBoard.getNumberOfPlayers());
+        assertFalse(schoolBoard.isMode());
+        assertEquals("Albus",schoolBoard.getNickname());
     }
 }

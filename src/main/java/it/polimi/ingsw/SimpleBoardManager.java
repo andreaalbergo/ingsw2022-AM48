@@ -60,8 +60,8 @@ public class SimpleBoardManager implements BoardManager{
 
         playerTurn = (idPlayerForTurn == 1);
 
-        player = new Player(nickname, idPlayerForTurn, playerTurn, chosenWizard, numberofPlayers, towerColor, false);
-
+        player = new Player(nickname, idPlayerForTurn, chosenWizard, towerColor);
+        player.createSchoolBoard(false,numberofPlayers);
         players.add(player);
 
         System.out.println("You are the " + idPlayerForTurn + " player");

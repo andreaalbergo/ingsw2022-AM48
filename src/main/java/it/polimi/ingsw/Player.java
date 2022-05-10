@@ -6,28 +6,44 @@ import java.util.List;
 
 public class Player {
     private final String nickname;
+    private final int playerID;
     private int idPlayerForTurn;
+    private int chosenCard;
     private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
     private final Wizard chosenWizard;
     private final TowersColor towersColor;
     private SchoolBoard schoolBoard;
-    private int numberOfPlayers;
-    private boolean mode;
 
-    public Player(String nickname, int idPlayerForTurn, boolean turn, Wizard chosenWizard, int numberOfPlayers, TowersColor towersColor, boolean mode) {
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public Player(String nickname, int playerID, Wizard chosenWizard, TowersColor towersColor) {
         this.nickname = nickname;
-        this.idPlayerForTurn = idPlayerForTurn;
         this.assistantCardList = new LinkedList<>();
         Collections.addAll(assistantCardList, AssistantCard.values());
         this.coins = 1;
-        this.turn = false;
+        if (playerID == 1)
+            turn = true;
+        else
+            turn = false;
         this.chosenWizard = chosenWizard;
-        this.schoolBoard = new SchoolBoard(nickname, numberOfPlayers, mode);
         this.towersColor = towersColor;
-        this.numberOfPlayers = numberOfPlayers;
-        this.mode = mode;
+        this.playerID = playerID;
+
+    }
+
+    /**
+     * This method creates an Istance of SchoolBoard linked to Player that owns it
+     *
+     * @param mode specifies the rules the current game is following
+     * @param numberofPlayers specifies the number of players for this game
+     */
+    public void createSchoolBoard(boolean mode, int numberofPlayers){
+        this.schoolBoard = new SchoolBoard(nickname, numberofPlayers, mode);
     }
 
 
@@ -119,5 +135,6 @@ public class Player {
     public SchoolBoard getSchoolBoard() {
         return schoolBoard;
     }
+
 
 }

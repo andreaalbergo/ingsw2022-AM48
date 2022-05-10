@@ -11,8 +11,16 @@ public class SchoolBoard {
     private int towers;
     private ArrayList<Integer> collectedCoins;
     private int movedstudents =0;
-    int numberOfPlayers;
+    private int numberOfPlayers;
     private boolean mode;
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public boolean isMode() {
+        return mode;
+    }
 
     public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
