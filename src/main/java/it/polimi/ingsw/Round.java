@@ -31,6 +31,13 @@ public class Round {
         }
     }
 
+    //BOZZ: BARB add this javadoc
+    /**
+     *
+     *
+     * @param player is the nickname of the player
+     * @param chosenAssistantCard is the card chosen by player
+     */
     //called in assignNextTurn()? maybe rename this class in checkAssistantCard, then update the "else" case
     public void chooseAssistantCard(String player, AssistantCard chosenAssistantCard) {
 
@@ -76,6 +83,13 @@ public class Round {
 
      */
 
+    /**
+     * This methods is used to assign the turn, it checks the assistant cards played by the players and assign in nextRoundOrder the right order
+     * (in position 0 there's the turn number of the player 0 and so on)
+     *
+     * @throws Exception from playerFromTurnNumber(), it can't happen but there's still this case
+     */
+
     public void assignNextRound() throws Exception {
 
         //set charactercCard = false if it has been played
@@ -101,14 +115,6 @@ public class Round {
         }
 
     } //when a player has finished his turn (after chooseCloudTile() in BoardManager
-
-    public String getCurrentPlayer(){
-        return this.roundOrder.get(0);
-    }
-
-    public void setNextCurrentPlayer(){
-        this.roundOrder.remove(0);
-    }
 
     /*
     private int indexMin = 10, indexMax = 0;
@@ -138,6 +144,10 @@ public class Round {
     }
      //when a player has finished his turn (after chooseCloudTile() in BoardManager
 
+     */
+
+    /**
+     * This methods compare the assistant cards chosen by the player to assign the turn order
      */
 
     private void compareAssistantCards(){
@@ -171,13 +181,13 @@ public class Round {
 
     }
 
-    public int getChosenCardsNumber_of_Steps(AssistantCard assistantCard) {
-        return assistantCard.getNumber_of_steps();
-    }
-
-    public int getRoundNumber() {
-        return roundNumber;
-    }
+    /**
+     * This methods gives the index of the player from his turn number
+     *
+     * @param turnNumber is the turn of the player
+     * @return the index of the player (in players arrayList)
+     * @throws Exception if the player isn't found (can't happen but there's still this case)
+     */
 
     private int playerFromTurnNumber(int turnNumber) throws Exception {
 
@@ -210,6 +220,10 @@ public class Round {
 
      */
 
+    /**
+     * This mathods changes the current player setting the turn in Player class
+     */
+
     public void setUpCurrentPlayer(){
         currentPlayer.setTurn(false);
         currentPlayer = board.getBoardManager().getCurrentPlayer();
@@ -220,10 +234,16 @@ public class Round {
         players = board.getBoardManager().getPlayers();
     }
 
+    public int getChosenCardsNumber_of_Steps(AssistantCard assistantCard) {
+        return assistantCard.getNumber_of_steps();
+    }
+
+    public int getRoundNumber() {
+        return roundNumber;
+    }
+
     public int getCurrentPlayersAssistantCard() {
-
         return chosenCards.get(board.getBoardManager().getCurrentPlayer().getNickname());
-
     }
 
     public Map<String, Integer> getChosenCards() {
@@ -237,6 +257,15 @@ public class Round {
     public ArrayList<String> getNextRoundOrder() {
         return nextRoundOrder;
     }
+
+    public String getCurrentPlayer(){
+        return this.roundOrder.get(0);
+    }
+
+    public void setNextCurrentPlayer(){
+        this.roundOrder.remove(0);
+    }
+
 }
 
 
