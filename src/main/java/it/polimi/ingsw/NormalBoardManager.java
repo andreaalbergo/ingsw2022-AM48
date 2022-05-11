@@ -19,7 +19,11 @@ public class NormalBoardManager {
     private final List<Cloud> clouds = new ArrayList<>();
     private final MotherNature motherNature = new MotherNature();
 
-    /** Constructor NormalBoardManager creates a new "normal" mode container of the pieces of the game board. */
+    /** Constructor NormalBoardManager creates a new "normal" mode container of the pieces of the game board.
+     *  It also creates twelve instances of islands with the proper setup following the game's rules.
+     *
+     * @param board of type Board.
+     */
     public NormalBoardManager(Board board) {
         this.board = board;
         List<Integer> list = Stream.of(0,0,1,1,2,2,3,3,4,4).collect(Collectors.toList());
