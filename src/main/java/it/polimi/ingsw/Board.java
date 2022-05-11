@@ -92,6 +92,23 @@ public class Board {
     }
 
     /**
+     * Method getActivePlayers gives us back the list of players active in the game.
+     *
+     * @return of type List - activePlayers.
+     */
+    public List<Player> getActivePlayers() {
+        return activePlayers;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Player> getPlayersTurnOrder() {
+        return playersTurnOrder;
+    }
+
+    /**
      * Method that sets the new current player that is determined by the list playersTurnOrder.
      *
      * @param currentPlayer of type Player.
@@ -132,6 +149,7 @@ public class Board {
                 playersTurnOrder.add(1, player);
             }
         }
+        setCurrentPlayer(getPlayersTurnOrder().get(0));
     }
 
     /**

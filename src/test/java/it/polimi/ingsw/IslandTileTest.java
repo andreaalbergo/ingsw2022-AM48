@@ -31,5 +31,8 @@ class IslandTileTest {
     @Test
     void testFirstIsland() {
         assertNull(testIsland.getIslandOwner());
+        assertEquals(0, testIsland.howManyTowers());
+        testIsland.setIslandOwner(new Player("putin", 14, Wizard.WIZARD4, TowersColor.GRAY));
+        assertEquals(1, testIsland.howManyTowers());
     }
 }

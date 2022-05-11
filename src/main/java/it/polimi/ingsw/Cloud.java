@@ -16,7 +16,7 @@ public class Cloud {
     private final ArrayList<Color> cloudCells;
     private Board board;
 
-    //when i call the constructor, it fills the clouds
+    //when I call the constructor, it fills the clouds
     public Cloud(int cloudId, Board board) {
         this.cloudId = cloudId;
         this.cloudCells = new ArrayList<>();

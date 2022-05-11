@@ -122,4 +122,7 @@ public class Player {
         return schoolBoard;
     }
 
+    public void setChosenCard(int chosenCard) {
+        this.chosenCard = chosenCard;
+    }
 }

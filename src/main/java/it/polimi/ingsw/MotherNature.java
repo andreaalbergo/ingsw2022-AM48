@@ -4,7 +4,7 @@ public class MotherNature {
     private int position;
 
     public MotherNature() {
-        this.position = 1;
+        this.position = 0;
     }
 
     public int getPosition() {
@@ -18,8 +18,8 @@ public class MotherNature {
     public void move(int steps) throws IllegalStateException{
         if (steps <= 5 && steps >= 1)
         {
-            if(this.position + steps > 12){
-                this.position = (this.position + steps) -12;
+            if(this.position + steps > 11){
+                this.position = (this.position+steps)-12;
             }else
                 this.position = getPosition() + steps;
 
