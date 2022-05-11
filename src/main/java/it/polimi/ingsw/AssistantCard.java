@@ -1,5 +1,10 @@
 package it.polimi.ingsw;
 
+/**
+ * AssistantCard enumeration is...complete it.
+ *
+ * @author Andrea Albergo
+ */
 public enum AssistantCard {
     ONE(1, 1),
     TWO(2, 1),

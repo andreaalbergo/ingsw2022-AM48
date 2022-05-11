@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SimpleBoardManager implements BoardManager{
+public class SimpleBoardManager{
     private final int NUMBER_OF_ISLANDS = 12;
     private static int remainingCoinCounter = 20; //BARB: Per ora lascio così, poi sistemo con isExpertMode
     private final Bag bag;
     private int numberofPlayers;
     private ArrayList<Cloud> clouds;
     private ArrayList<IslandTile> islands;
-    //private ArrayList<Old_Island> unifiedIsland;  NEVER USED
     private ArrayList<Player> players;
     // Round round;
     private static Player currentPlayer;
@@ -30,7 +29,7 @@ public class SimpleBoardManager implements BoardManager{
         this.numberofPlayers = numberOfPlayers;
 
         for(int numberOfIslands = 0; numberOfIslands < NUMBER_OF_ISLANDS; numberOfIslands++){
-            islands.add(new IslandTile());
+            islands.add(new IslandTile(2));
         }
 
     }
@@ -45,7 +44,7 @@ public class SimpleBoardManager implements BoardManager{
 
     //Maybe a SetUp players class with login() and sortFirstTurn(), checkNickname()
 
-    @Override
+
     public void login(String nickname, Wizard chosenWizard, TowersColor towerColor) throws Exception {
 
         boolean playerTurn;
@@ -87,7 +86,6 @@ public class SimpleBoardManager implements BoardManager{
 
     }
 
-    @Override
     public ArrayList<Integer> sortFirstTurn(){
 
         ArrayList<Integer> givenList = new ArrayList<>(numberofPlayers);
@@ -111,12 +109,11 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     //called by Round class for changing round
-    @Override
+
     public void setCurrentPlayer(Player player){
         currentPlayer = player;
     }
 
-    @Override
     public int getPlayerIndex(String givenPlayer) {
 
         int i, index = -1;
@@ -136,7 +133,7 @@ public class SimpleBoardManager implements BoardManager{
     //basic implementation of the for, maybe to recheck
 
     //need help with this one
-    @Override
+
     public void chooseStepsMotherNature(int steps, int effect) {
         //effect is set = 2 if it's called by the characterCard heraldEffect(), otherwise is 0
         int index = getPlayerIndex(currentPlayer.getNickname());
@@ -149,10 +146,10 @@ public class SimpleBoardManager implements BoardManager{
             throw new IllegalStateException("You have to move Mother Nature between 1 and " + round.getCurrentPlayersAssistantCard());
         }*/
     }
-
+/*
     //called by addStudentToIsland() method in SchoolBoard
     @Override
-    public boolean checkInfluence(Old_Island island, int effect) {
+    public boolean checkInfluence(IslandTile island, int effect) {
         //effect = 0 if it's called by the normal game
         //effect = 1 if it's called by princeEffect() --> to relook, there's something missing
         //effect = 2 if it's called by grocerEffect()
@@ -165,7 +162,7 @@ public class SimpleBoardManager implements BoardManager{
                 //throw new Expection("Grocer card has been played, you can't build a tower here");
         }
          */
-
+/*
         ArrayList<Integer> influenceCounterList = new ArrayList<>();
 
         for(Player p: players){
@@ -206,7 +203,7 @@ public class SimpleBoardManager implements BoardManager{
         }
 
         return getPlayerIndex(currentPlayer.getNickname()) == indexMax;
-    }
+    }*/
 
     /*
     mergeIsland() to fix
@@ -246,7 +243,6 @@ public class SimpleBoardManager implements BoardManager{
      */
 
     //is this method useful?
-    @Override
     public boolean checkActiveCharacterCards() {
 
         return characterCard.isActive();
@@ -254,7 +250,6 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     //called by addStudentToDiningRoom() in SchoolBoard
-    @Override
     public void checkToAddProfessor(Color givenColor, int effect) {
         //effect is set to 1 if it's called by a CharacterCard, otherwise is 0
 
@@ -304,7 +299,6 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     //called by assignNextTurn() in Round
-    @Override
     public void drawFromBagToClouds() {
 
         extractPawnsToCloud(clouds);
@@ -312,7 +306,6 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     //to implements
-    @Override
     public void extractPawnsToCloud(ArrayList<Cloud> clouds) {
 
         int random_number;
@@ -328,7 +321,6 @@ public class SimpleBoardManager implements BoardManager{
 
     }
 
-    @Override
     public void checkNickname(String givenNickname) throws Exception {
 
         for (Player player : players) {
@@ -342,7 +334,6 @@ public class SimpleBoardManager implements BoardManager{
 
     //To add commands when GameOver = true
     //called after motherNature moved or after all students have been moved from entrance
-    @Override
     public void chooseCloudTile(Cloud cloud) throws Exception {
 
         boolean gameOver;
@@ -366,7 +357,6 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     //called when?
-    @Override
     public void buyCharacterCards(Character card) throws Exception {
 
         if (currentPlayer.getCoins() >= card.getCharacterEffectCost(card)){
@@ -380,7 +370,6 @@ public class SimpleBoardManager implements BoardManager{
 
     }
 
-    @Override
     public boolean checkGameOver() {
 
         boolean emptyBag = false;
@@ -413,52 +402,44 @@ public class SimpleBoardManager implements BoardManager{
 
     }
 
-    @Override
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    @Override
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    @Override
     public MotherNature getMotherNature() {
         return motherNature;
     }
 
-    @Override
     public void getTurn() {
         //return round;
     }
 
-    @Override
+
     public ArrayList<Integer> getFirstTurnSorted() {
         return firstTurnSorted;
     }
 
-    @Override
     public CharacterCard getCard() {
         return characterCard;
     }
 
-    @Override
     public Player getPlayer(int index){
         return players.get(index);
     }
 
-    @Override
     public ArrayList<Cloud> getClouds() {
         return clouds;
     }
 
-    @Override
     public Cloud getCloud(int index){
         return clouds.get(index);
     }
-
-    @Override
+    /*
     public void checkMergingIslands(IslandTile islandTile) {
         List<IslandTile> adjacentIslands;
         adjacentIslands = getPreviousNextIsland(islandTile);
@@ -475,7 +456,6 @@ public class SimpleBoardManager implements BoardManager{
         }
     }
 
-    @Override
     public List<IslandTile> getPreviousNextIsland(IslandTile islandTile) {
         int currentIslandIndex = this.islands.indexOf(islandTile);
         List<IslandTile> sublistIsland = new ArrayList<>();
@@ -503,7 +483,7 @@ public class SimpleBoardManager implements BoardManager{
     }
 
     @Override
-    public void setNumberOfPlayers(int numberofPlayers) {this.numberofPlayers = numberofPlayers;}
+    public void setNumberOfPlayers(int numberofPlayers) {this.numberofPlayers = numberofPlayers;}*/
 }
 
 

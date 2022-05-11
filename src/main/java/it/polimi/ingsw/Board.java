@@ -13,7 +13,7 @@ import java.util.Random;
  * @author David Barb
  */
 public class Board {
-    private final List<Player> activePLayers = new ArrayList<>();
+    private final List<Player> activePlayers = new ArrayList<>();
     private final List<Player> playersTurnOrder = new ArrayList<>();
     private Player currentPlayer;
     private int currentPlayerIndex;
@@ -25,35 +25,77 @@ public class Board {
      */
     public Board() {
         gameTurn = 1;
-        boardManager = new NormalBoardManager();
+        boardManager = new NormalBoardManager(this);
     }
 
+    /**
+     * Method createNewPlayer adds a player to activePlayers list. This list MUST BE minimum size of 2 and maximum size
+     * of 3.
+     *
+     * @param player of type Player.
+     */
     public void createNewPlayer(Player player) {
-        activePLayers.add(player);
+        activePlayers.add(player);
     }
 
+    /**
+     * Method getCurrentPlayer gives us the player that is having its turn during the game.
+     *
+     * @return of type Player - reference of current player.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Method getPlayerFromGivenNickname searches for the player with same nickname.
+     *
+     * @param nickname of type String.
+     * @return of type Player - player with same nickname.
+     */
     public Player getPlayerFromGivenNickname(String nickname) {
-        for(Player player : activePLayers)
+        for(Player player : activePlayers)
             if(player.getNickname().equalsIgnoreCase(nickname))
                 return player;
         return null;
     }
 
+    /**
+     * Method getPlayerFromGivenID tries to find the player with corresponding ID.
+     *
+     * @param id of type int.
+     * @return of type Player - player with same id param.
+     */
     public Player getPlayerFromGivenID(int id) {
-        for(Player player : activePLayers)
+        for(Player player : activePlayers)
             if(player.getPlayerID()==id)
                 return player;
         return null;
     }
 
+    /**
+     * Method getBoardManager that gives us the board manager.
+     *
+     * @return of type NormalBoardManager.
+     */
+    public NormalBoardManager getBoardManager() {
+        return boardManager;
+    }
+
+    /**
+     * Method getGameTurn give us back this game's turn.
+     *
+     * @return of type int - turn's game.
+     */
     public int getGameTurn() {
         return gameTurn;
     }
 
+    /**
+     * Method that sets the new current player that is determined by the list playersTurnOrder.
+     *
+     * @param currentPlayer of type Player.
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         currentPlayerIndex = playersTurnOrder.indexOf(currentPlayer);
@@ -65,8 +107,9 @@ public class Board {
      */
     public void pickFirstPlayerToStart() {
         Random random = new Random();
-        currentPlayerIndex = random.nextInt(activePLayers.size());
-        currentPlayer = activePLayers.get(currentPlayerIndex);
+        currentPlayerIndex = random.nextInt(activePlayers.size());
+        currentPlayer = activePlayers.get(currentPlayerIndex);
+        //need a method to take next player clockwise for the first time picking an assistant card
     }
 
     /**
@@ -75,10 +118,10 @@ public class Board {
      * list as currentPLayer.
      */
     public void setPlayerOrderTurn() {
-        int maxValue = activePLayers.get(0).getChosenCard();
+        int maxValue = activePlayers.get(0).getChosenCard();
         int minValue = maxValue;
 
-        for (Player player : activePLayers) {
+        for (Player player : activePlayers) {
             if (player.getChosenCard() >= maxValue) {
                 playersTurnOrder.add(player);
                 maxValue = player.getChosenCard();
@@ -105,6 +148,10 @@ public class Board {
         }
     }
 
+    /**
+     * Method setNextTurn increases the game's turn by one. If current turn is 10, it means it's the last and after that
+     * the model notifies the controller about reaching game over.
+     */
     public void setNextTurn() {
         if(gameTurn!=10)
             gameTurn++;

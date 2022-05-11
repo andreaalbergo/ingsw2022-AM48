@@ -14,10 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
     Board testBoard;
 
-    /** Method initialization that initializes values.
-     *
-     *  PROBLEM: DOESN'T WORK WHEN I CREATE A NEW SIMPLEBOARDMANAGER INSTANCE
-     */
+    /** Method initialization that initializes values. */
     @BeforeEach
     void initialization() {
         testBoard = new Board();

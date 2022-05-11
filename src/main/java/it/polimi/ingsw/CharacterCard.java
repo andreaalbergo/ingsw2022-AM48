@@ -77,7 +77,7 @@ public class CharacterCard {
     }
 
     //finished
-    private void monkEffect(Color color, Old_Island idIsland) {
+    private void monkEffect(Color color, IslandTile islandTile) {
 
         int[] studentMonk = new int[5];
 
@@ -93,7 +93,7 @@ public class CharacterCard {
         }
 
         studentMonk[color.getColorIndex()]--;
-        idIsland.getStudents()[color.getColorIndex()]++;
+        //idIsland.getStudents()[color.getColorIndex()]++;
         //studentMonk[color.getColorIndex(bag.extractSinglePawn())]++;
     }
 
@@ -113,7 +113,7 @@ public class CharacterCard {
     }
 
     //TO RELOOK, MISSING SOMETHING
-    private void princeEffect(Old_Island island) {
+    private void princeEffect(IslandTile islandTile) {
 
         boolean influence;
 
@@ -130,11 +130,10 @@ public class CharacterCard {
     }
 
     //need to redo this method
-    private void grocerEffect(Old_Island island) throws Exception {
+    private void grocerEffect(IslandTile islandTile) throws Exception {
 
         int noEntryTileCounter = 4;
 
-        //Old_Island island = chooseIslandId();
         if(noEntryTileCounter != 0) {
             //island.setNoEntryTile(true, island);
             noEntryTileCounter--;
@@ -144,13 +143,13 @@ public class CharacterCard {
             throw new Exception("There are no more No Entry Tile");
         }
 
-        //wait until mother nature goes on island on prohibition, if so call next method --> work on MotherNature Class with the parameter in Old_Island
+        //wait until mother nature goes on island on prohibition, if so call next method --> work on MotherNature Class with the parameter in IslandTile
         //placeProhibitionHolderBack()
-        //continuous effect because Prohibition are held on islands, so modify Old_Island
+        //continuous effect because Prohibition are held on islands, so modify IslandTile
     }
 
     //finished
-    private void centaurEffect(Old_Island island) {
+    private void centaurEffect(IslandTile islandTile) {
         //SimpleBoardManager.checkInfluence(island, 3);
     }
 

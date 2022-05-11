@@ -16,39 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see IslandTile
  */
 class IslandTileTest {
-    List<IslandTile> islands = new ArrayList<>();
+    IslandTile testIsland;
+
 
     /** Method initialization that initializes values. */
     @BeforeEach
     void initialization() {
-        for (int i = 0; i < 12; i++) {
-            islands.add(new IslandTile());
-        }
+        testIsland = new IslandTile(-1);
     }
 
     /**
-     * Method test TBD, because I need simpleBoardManager completed in order to handle a list of islandTiles
+     * Method test TBD
      */
     @Test
     void testFirstIsland() {
-        assertNull(islands.get(0).getIslandOwner());
-        assertTrue(islands.get(0).isMotherPresent());
-        assertEquals(0, islands.get(0).howManyTowers());
-        for (int i = 0; i < 5; i++) {
-            assertEquals(0, islands.get(0).getColorStudent(i));
-        }
+        assertNull(testIsland.getIslandOwner());
     }
-/*
-    @Test
-    void testSecondIsland(){
-
-
-        assertNull(testIslandTwo.getIslandOwner());
-        assertFalse(testIslandTwo.isMotherPresent());
-
-        for (int i = 0; i < 5; i++) {
-            System.out.println(testIslandTwo.getColorStudent(i));
-        }
-    }*/
-
 }

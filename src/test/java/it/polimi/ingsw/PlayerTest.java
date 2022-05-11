@@ -50,12 +50,6 @@ class PlayerTest {
     }
 
     @Test
-    void setIdPlayerForTurn() {
-        player.setIdPlayerForTurn(3);
-        assertEquals(player.getIdPlayerForTurn(),3);
-    }
-
-    @Test
     void setTurn() {
         player.setTurn(false);
         assertFalse(player.isTurn());

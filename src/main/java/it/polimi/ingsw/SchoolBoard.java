@@ -152,9 +152,9 @@ public class SchoolBoard {
         entrance.remove(color);
     }
 
-    public void addStudentToIsland(Color color, Old_Island oldIsland) {
+    public void addStudentToIsland(Color color, IslandTile islandTile) {
         removeFromEntrance(color);
-        oldIsland.getStudents()[color.getColorIndex()]++;
+        islandTile.getStudents()[color.getColorIndex()]++;
 
 
         /*BOZZ
@@ -172,7 +172,7 @@ public class SchoolBoard {
      */
 
     /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
-    public void addStudentToIsland(Color color, Old_Island island){
+    public void addStudentToIsland(Color color, IslandTile islandTile){
         switch (color){
             case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
                 break;
