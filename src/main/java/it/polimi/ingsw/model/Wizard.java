@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 /**
  * Wizard class is an enumeration containing the four types of wizards which a player can choose from the unpicked ones.

@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.IslandTile;
+import it.polimi.ingsw.model.NormalBoardManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

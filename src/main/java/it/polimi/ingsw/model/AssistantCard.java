@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 /**
  * AssistantCard enumeration is...complete it.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Board;
+import it.polimi.ingsw.model.Board;
 
 public class BoardHandler {
     //private final Server server;

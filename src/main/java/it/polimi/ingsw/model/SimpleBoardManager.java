@@ -1,7 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class SimpleBoardManager{
@@ -19,7 +18,7 @@ public class SimpleBoardManager{
     private Board board;
 
     public SimpleBoardManager(int numberOfPlayers) {
-        this.bag = new Bag();
+        this.bag = new Bag(board);
         this.clouds = new ArrayList<>();
         this.islands = new ArrayList<>(NUMBER_OF_ISLANDS);
         //this.unifiedIsland = new ArrayList<>();
@@ -78,9 +77,9 @@ public class SimpleBoardManager{
         if(players.size() == numberofPlayers){
 
             //this.round = new Round(board);
-            for(int numberOfClouds = 0; numberOfClouds < numberofPlayers; numberOfClouds++){
+            /*for(int numberOfClouds = 0; numberOfClouds < numberofPlayers; numberOfClouds++){
                 clouds.add(new Cloud(numberOfClouds, board));
-            }
+            }*/
 
         }
 
@@ -312,11 +311,11 @@ public class SimpleBoardManager{
         Random random = new Random();
 
         for(Cloud c : clouds){
-
+/*
             //is it only for 1 time or it fills four students?
             random_number = random.nextInt(1,6);
             c.addStudentToCloud(random_number);
-
+*/
         }
 
     }
@@ -337,13 +336,13 @@ public class SimpleBoardManager{
     public void chooseCloudTile(Cloud cloud) throws Exception {
 
         boolean gameOver;
-
-        cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);
-
+/*
+        cloud.emptyCloud(currentPlayer.getSchoolBoard(), cloud);*/
+    /*
         if(cloud.checkEmptyCloud()) {       // == true, controls if was the last cloud
             extractPawnsToCloud(clouds);
         }
-
+    */
         gameOver = checkGameOver();
         if(!gameOver){
             //round.assignNextRound();

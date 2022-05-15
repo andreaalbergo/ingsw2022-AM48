@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 /**
  * IslandTile class is the island object, which can contain a generic number of student discs, it can have an owner with

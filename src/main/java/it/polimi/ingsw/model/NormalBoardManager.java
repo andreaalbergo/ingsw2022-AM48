@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,14 +18,17 @@ public class NormalBoardManager {
     private final List<IslandTile> islands = new ArrayList<>();
     private final List<Cloud> clouds = new ArrayList<>();
     private final MotherNature motherNature = new MotherNature();
+    private final Bag bag;
 
     /** Constructor NormalBoardManager creates a new "normal" mode container of the pieces of the game board.
-     *  It also creates twelve instances of islands with the proper setup following the game's rules.
+     *  It also creates twelve instances of islands with the proper setup following the game's rules, and a bag with
+     *  26 students of each color.
      *
      * @param board of type Board.
      */
     public NormalBoardManager(Board board) {
         this.board = board;
+        bag = new Bag(board);
         List<Integer> list = Stream.of(0,0,1,1,2,2,3,3,4,4).collect(Collectors.toList());
         Collections.shuffle(list);
 
@@ -46,6 +49,23 @@ public class NormalBoardManager {
     public List<IslandTile> getIslands() {
         return islands;
     }
+
+    /**
+     *
+     * @return
+     */
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Bag getBag() {
+        return bag;
+    }
+
     //checkInfluence will be in Controller package
     //same with checkToAddProfessors
     //drawFromBagToClouds I think will be in Board Class

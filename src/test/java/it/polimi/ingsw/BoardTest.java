@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.TowersColor;
+import it.polimi.ingsw.model.Wizard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

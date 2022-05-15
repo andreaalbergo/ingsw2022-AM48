@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import java.util.Random;
 
@@ -7,9 +7,10 @@ import java.util.Random;
  */
 public class Bag {
     private final int[] students;
-    private final int  numberOfPlayers=2;
+    private final Board board;
 
-    public Bag() {
+    public Bag(Board board) {
+        this.board = board;
         students = new int[5];
         for (int i = 0; i < 5; i++) {
             students[i] = 24;
@@ -39,7 +40,7 @@ public class Bag {
      */
     public void setupSchoolEntrance(SchoolBoard schoolBoard) {
         int randomColor;
-        if(numberOfPlayers == 3){
+        if(board.getActivePlayers().size()==3){
             for (int i = 0; i < 9; i++) {
                 randomColor = this.getRandomColorFromBag();
                 schoolBoard.addStudentToEntrance(randomColor);
