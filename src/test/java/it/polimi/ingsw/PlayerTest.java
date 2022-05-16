@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SchoolBoard;
-import it.polimi.ingsw.model.TowersColor;
+import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Albus",1, Wizard.WIZARD1, TowersColor.GRAY);
+    Player player = new Player("Albus",1, Wizard.WIZARD1, Tower.GREY);
 
 
     @Test

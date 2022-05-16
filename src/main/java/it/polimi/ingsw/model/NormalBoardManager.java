@@ -38,7 +38,6 @@ public class NormalBoardManager {
             else
                 islands.add(new IslandTile(list.get(i-1)));
         }
-
     }
 
     /**
@@ -64,6 +63,12 @@ public class NormalBoardManager {
      */
     public Bag getBag() {
         return bag;
+    }
+
+    public void createCloudList() {
+        for (int i = 0; i < board.getActivePlayers().size(); i++) {
+            clouds.add(new Cloud(board));
+        }
     }
 
     //checkInfluence will be in Controller package

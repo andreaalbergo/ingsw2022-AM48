@@ -12,10 +12,10 @@ public class Player {
     private int coins;
     private boolean turn;
     private final Wizard chosenWizard;
-    private final TowersColor towersColor;
+    private final Tower tower;
     private SchoolBoard schoolBoard;
 
-    public Player(String nickname, int playerID, Wizard chosenWizard, TowersColor towersColor) {
+    public Player(String nickname, int playerID, Wizard chosenWizard, Tower tower) {
         this.nickname = nickname;
         this.assistantCardList = new LinkedList<>();
         Collections.addAll(assistantCardList, AssistantCard.values());
@@ -25,7 +25,7 @@ public class Player {
         else
             turn = false;
         this.chosenWizard = chosenWizard;
-        this.towersColor = towersColor;
+        this.tower = tower;
         this.playerID = playerID;
 
     }

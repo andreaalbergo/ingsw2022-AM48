@@ -1,9 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.TowersColor;
-import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +19,9 @@ class BoardTest {
     @BeforeEach
     void initialization() {
         testBoard = new Board();
-        testBoard.createNewPlayer(new Player("pinco", 12, Wizard.WIZARD1, TowersColor.WHITE));
-        testBoard.createNewPlayer(new Player("penguin", 54, Wizard.WIZARD2, TowersColor.BLACK));
-        testBoard.createNewPlayer(new Player("swagger", 76, Wizard.WIZARD4, TowersColor.GRAY));
+        testBoard.createNewPlayer(new Player("pinco", 12, Wizard.WIZARD1, Tower.WHITE));
+        testBoard.createNewPlayer(new Player("penguin", 54, Wizard.WIZARD2, Tower.BLACK));
+        testBoard.createNewPlayer(new Player("swagger", 76, Wizard.WIZARD4, Tower.GREY));
     }
 
     @Test
