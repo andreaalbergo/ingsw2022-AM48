@@ -7,16 +7,21 @@ import java.util.List;
  * Tower class is an enumeration containing the three tower colors which a player can choose from the unpicked ones.
  * The grey tower is only available for a game of 3 players.
  *
- * @author David Barb
+ * @author David Barb, Andrea Albergo
  */
 public enum Tower {
     WHITE, BLACK, GREY;
 
     private static final List<Tower> alreadyPicked = new ArrayList<>();
+    public static final List<Tower> available = new ArrayList<>();
 
     /** Method clear empties the alreadyPicked list. */
     public static void clear() {
         alreadyPicked.clear();
+        available.add(0, WHITE);
+        available.add(1, GREY);
+        available.add(2, BLACK);
+
     }
 
     /**
@@ -26,6 +31,7 @@ public enum Tower {
      */
     public static void choose(Tower tower) {
         alreadyPicked.add(tower);
+        available.remove(tower);
     }
 
     /**

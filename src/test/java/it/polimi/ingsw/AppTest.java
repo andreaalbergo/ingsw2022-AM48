@@ -11,15 +11,6 @@ import org.junit.jupiter.api.Test;
  */
 public class AppTest 
 {
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void test01()
-    {
-        MotherNature motherNature = new MotherNature();
-        assertEquals(1, motherNature.getPosition());
-    }
 
 
 }

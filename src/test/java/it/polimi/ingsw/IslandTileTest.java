@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.IslandTile;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.model.IslandTile;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Wizard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
