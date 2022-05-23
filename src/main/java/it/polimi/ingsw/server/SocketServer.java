@@ -13,8 +13,8 @@ import static java.lang.System.exit;
 
 public class SocketServer implements Runnable{
 
-    private int port;
-    private MultiplayerServer server;
+    private final int port;
+    private final MultiplayerServer server;
     private boolean active;
     private final ExecutorService executorService;
 
@@ -46,6 +46,7 @@ public class SocketServer implements Runnable{
         try{
             ServerSocket socketServer = new ServerSocket(port);
             System.out.println("Il Server ha aperto un socket alla porta: " + port);
+            MultiplayerServer.LOGGER.info("on the client -> \"Il Server ha aperto un socket alla porta: \" + port");
             acceptNewConnections(socketServer);
         }catch (IOException e){
             System.err.println(e.getMessage());

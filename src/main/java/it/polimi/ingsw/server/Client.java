@@ -56,9 +56,5 @@ public class Client {
         board.endGame(idClient);
     }
 
-
-
-
-
 }
 

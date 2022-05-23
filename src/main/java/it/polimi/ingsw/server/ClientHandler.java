@@ -43,6 +43,8 @@ public class ClientHandler implements Runnable {
         this.server = server;
         this.socket = socket;
 
+        MultiplayerServer.LOGGER.info("A new client has connected from : " + socket.getInetAddress());
+
         try {
             inputStream = new ObjectInputStream(socket.getInputStream());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -146,11 +148,10 @@ public class ClientHandler implements Runnable {
                     server.setNumber_of_Players(((NumberOfPlayers) m).NumberOfPlayers);
                     server.getIdtoClientMap().get(idClient).send(new CustomMessage("The number of players was set to " + ((NumberOfPlayers) m).NumberOfPlayers));
                     break;
-                    }
-                    else
+                    }else {
                         server.getIdtoClientMap().get(idClient).send(new GameError(Errors.DUPLICATENICKNAME));
                         server.getIdtoClientMap().get(idClient).send(new SetPlayersRequest("Choose a number of Players [2 or 3]"));
-
+                    }
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -169,7 +170,7 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
             BoardHandler board = server.getBoard();
             if (board.isStarted()){
-                server.getBoard().endGame(server.getIdNameMap().get(idClient));
+                board.endGame(server.getIdNameMap().get(idClient));
             }
         }
 

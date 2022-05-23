@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server;
 
 
-import it.polimi.ingsw.Costants.Constants;
+import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.*;
@@ -12,11 +12,12 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import static java.lang.System.exit;
 
 public class MultiplayerServer {
-    private int port;
+    private final int port;
     private BoardHandler board;
     private int number_of_Players = 0;
     private final Map<Integer, Client> idtoClientMap;
@@ -25,6 +26,7 @@ public class MultiplayerServer {
     private final Map<Client, ClientHandler> clientConnectionMap;
     private int assigned_clientID = -1;
     private final List<ClientHandler> waiting = new ArrayList<>();
+    public static final Logger LOGGER = Logger.getLogger(MultiplayerServer.class.getName());
 
     public SocketServer getSocketServer() {
         return socketServer;
@@ -41,6 +43,7 @@ public class MultiplayerServer {
         this.socketServer = new SocketServer(Constants.getPort(),this);
         Thread thread = new Thread(this::quitter);
         thread.start();
+
     }
 
     public Map<Integer, Client> getIdtoClientMap() {
@@ -64,6 +67,8 @@ public class MultiplayerServer {
         while(true){
             if(scanner.next().equalsIgnoreCase("Killserver")){
                 getSocketServer().setActiveStatus(false);
+                System.out.println("The server is now closing...");
+                System.exit(0);
                 break;
             }
         }
@@ -99,6 +104,7 @@ public class MultiplayerServer {
         return id;
     }
 
+/*
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
@@ -120,6 +126,8 @@ public class MultiplayerServer {
         executor.shutdown();
     }
 
+
+ */
     public void removeClientFromGame(Integer idClient) {
         board.unregisterPlayer(idClient);
         Client client = idtoClientMap.get(idClient);
@@ -191,9 +199,12 @@ public class MultiplayerServer {
             main(null);
         }
         Constants.setPort(port);
-        System.out.println("Initiating Server on port:");
+        System.out.println("Initiating Server on port:"  + Constants.getPort());
         MultiplayerServer server = new MultiplayerServer(Constants.getPort());
-        server.startServer();
+        ExecutorService executor = Executors.newCachedThreadPool();
+        executor.submit(new SocketServer(Constants.getPort(),server));
+
+
     }
 
 }

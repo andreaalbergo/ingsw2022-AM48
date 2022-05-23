@@ -10,6 +10,6 @@ public class LoseMessage implements Answer {
 
     @Override
     public String getMessage() {
-        return null;
+        return winner;
     }
 }
