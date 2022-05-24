@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.SerializedMessage;
+import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
 import it.polimi.ingsw.model.Tower;
@@ -42,9 +42,7 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, MultiplayerServer server) {
         this.server = server;
         this.socket = socket;
-
         MultiplayerServer.LOGGER.info("A new client has connected from : " + socket.getInetAddress());
-
         try {
             inputStream = new ObjectInputStream(socket.getInputStream());
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -58,16 +56,17 @@ public class ClientHandler implements Runnable {
 
     public synchronized void readFromStream() throws IOException, ClassNotFoundException{
         SerializedMessage input = (SerializedMessage) inputStream.readObject();
+        System.out.println(input);
         if ( input.message != null){
             Message command = input.message;
-            CommandLinker(command);
+            commandLinker(command);
         }else if (input.command!= null){
             UserCommand command = input.command;
-            CommandLinker(command);
+            commandLinker(command);
         }
     }
 
-    public void CommandLinker(UserCommand command) {
+    public void commandLinker(UserCommand command) {
 
         //ancora da implementare
 
@@ -77,9 +76,11 @@ public class ClientHandler implements Runnable {
         this.active = active;
     }
 
-    public void CommandLinker(Message command) {
+    public void commandLinker(Message command) {
         if (command instanceof SetupConnection){
                 idClient = server.addClientToGame(((SetupConnection) command).getNickname(), this);
+                System.out.println("\ncheck received nickname\n");
+                System.out.println(idClient);
                 if (idClient == null){
                     setActive(false);
                 }
@@ -114,9 +115,10 @@ public class ClientHandler implements Runnable {
 
     public void sendSocketMessage(SerializedAnswer message) {
         try{
-            this.outputStream.reset();
-            this.outputStream.writeObject(message);
-            this.outputStream.flush();
+            System.out.println("asking");
+            outputStream.reset();
+            outputStream.writeObject(message);
+            outputStream.flush();
 
         } catch (IOException e) {
             close();

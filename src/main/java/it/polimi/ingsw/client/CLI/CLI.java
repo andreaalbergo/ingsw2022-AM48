@@ -75,7 +75,7 @@ public class CLI implements Runnable{
         clientView.setName(player);
         try{
             if(!socket.registration(player, handler, clientView)){
-                System.err.println("The is no server with those specifications...");
+                System.err.println("There is no server with those specifications...");
                 CLI.main(null);
             }else System.out.println("> Socket Connection completed succesully < ");
         } catch (Exception e) {

@@ -19,8 +19,8 @@ public class Listener_FromServer implements Runnable{
         this.in = in;
     }
 
-    public void inputLinker(SerializedAnswer messsage){
-        view.setAnswer(messsage.getAnswer());
+    public void inputLinker(SerializedAnswer message){
+        view.setAnswer(message.getAnswer());
         commandHandler.answerHandler();
     }
 
@@ -29,6 +29,7 @@ public class Listener_FromServer implements Runnable{
         try{
             do{
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
+                System.out.println("AOOOOOOO");
                 inputLinker(answer);
             }while (view.getCli() == null || view.getCli().isActiveGame());
 

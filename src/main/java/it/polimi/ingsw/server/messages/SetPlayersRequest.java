@@ -9,7 +9,6 @@ public class SetPlayersRequest implements Answer {
         this.message = message;
     }
 
-
     @Override
     public Object getMessage() {
         return message;

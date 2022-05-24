@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.Message;
+import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.messages.SetupConnection;
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.server.messages.ConnectionMessage;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 public class ConnectionSocket {
@@ -39,11 +39,11 @@ public class ConnectionSocket {
 
     public boolean registration(String nickname, CommandHandler handler, ClientView view){
         try{
-            System.out.println("Opening a communication socket on Port: ");
+            System.out.println("Hi, Opening a communication socket on Port: ");
             System.out.print(Constants.getPort());
             Socket socket;
             try {
-                socket = new Socket(serverip,port);
+                socket = new Socket(serverip, port);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -84,14 +84,13 @@ public class ConnectionSocket {
 
     private void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);
-
         try {
             out.reset();
-            out.writeObject(message);
+            out.writeObject(serializedMessage);
             out.flush();
         } catch (IOException e) {
             System.err.println(e.getMessage());
-            System.out.println("Message couldn't be sent...");
+            System.out.println("\nMessage couldn't be sent...");
         }
     }
 

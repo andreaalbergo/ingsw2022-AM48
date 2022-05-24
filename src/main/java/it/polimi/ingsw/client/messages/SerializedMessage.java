@@ -1,9 +1,11 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.messages;
 
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.Message;
 
-public class SerializedMessage {
+import java.io.Serializable;
+
+public class SerializedMessage implements Serializable {
     public final Message message;
     public final UserCommand command;
 

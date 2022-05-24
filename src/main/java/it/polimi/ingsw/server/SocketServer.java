@@ -46,7 +46,6 @@ public class SocketServer implements Runnable{
         try{
             ServerSocket socketServer = new ServerSocket(port);
             System.out.println("Il Server ha aperto un socket alla porta: " + port);
-            MultiplayerServer.LOGGER.info("on the client -> \"Il Server ha aperto un socket alla porta: \" + port");
             acceptNewConnections(socketServer);
         }catch (IOException e){
             System.err.println(e.getMessage());

@@ -84,8 +84,10 @@ public class MultiplayerServer {
 
     public void lobby(ClientHandler client){
         waiting.add(client);
+        System.out.println(waiting.size());
         if(waiting.size() == 1){
-            client.setNumberofPlayers(new SetPlayersRequest("Select the number of Players [2 or 3] -> "));//gli passeremo il tipo di messaggio da mandare
+            System.out.println("COMMAND: Select the number of Players [2 or 3] -> ");
+            client.setNumberofPlayers(new SetPlayersRequest("Select the number of Players [2 or 3] -> "));
 
         }else if (waiting.size() == number_of_Players){
             waiting.clear();
@@ -99,8 +101,14 @@ public class MultiplayerServer {
     }
 
     public int update_assignedId(){
-        int id = assigned_clientID;
+        int id;
+        if(assigned_clientID == -1){
+            id = 0;
+            assigned_clientID = 1;
+        }else{
+        id = assigned_clientID;
         assigned_clientID++;
+        }
         return id;
     }
 
@@ -145,6 +153,7 @@ public class MultiplayerServer {
         Integer IDclient = nametoIdMap.get(nickname);
         if(IDclient == null) //player
         {
+            System.out.println("This is the first player!!");
             if(waiting.isEmpty()){
                 board = new BoardHandler();
             }
@@ -158,7 +167,9 @@ public class MultiplayerServer {
             board.setupPlayer(nickname, IDclient);
             Client virtualClient = new Client(IDclient, nickname, client, board);
             if (number_of_Players != 0 && waiting.size() > number_of_Players){
-                client.sendSocketMessage(new CustomMessage("Server is FULL"));
+                SerializedAnswer error = new SerializedAnswer();
+                error.setSerializedAnswer(new GameError(Errors.SERVER_IS_FULL));
+                client.sendSocketMessage(error);
                 return null;
             }
 
@@ -166,11 +177,14 @@ public class MultiplayerServer {
             nametoIdMap.put(nickname, IDclient);
             clientConnectionMap.put(virtualClient, client);
             idtoClientMap.put(IDclient, virtualClient);
+            System.out.println( "Client "+ virtualClient.getNickname() + ", identified by ID "+ virtualClient.getIdClient() + ", has successfully connected!");
+            virtualClient.send(new ConnectionMessage(true,"Connection was successfully set-up! You are now connected."));
 
 
 
         }else
         {
+            System.out.println("This is not the first player with that name, maybe you are reconnecting...!!");
             Client virtualClient = idtoClientMap.get(IDclient);
             if(virtualClient.isConnected()){
                 client.sendSocketMessage(new CustomMessage("The current nickname is already taken"));
@@ -191,12 +205,12 @@ public class MultiplayerServer {
             port = scanner.nextInt();
         } catch (InputMismatchException exception) {
             System.out.println("The input is invalid try again, try writing a Number");
-            exit(-1);
+            exit(-1); // magari metterei main(null)
         }
 
         if (port < Constants.MAX_PORT && port > Constants.MIN_PORT) {
             System.out.println("The port selected is reserved to other tasks, choose a port higher than 1024");
-            main(null);
+
         }
         Constants.setPort(port);
         System.out.println("Initiating Server on port:"  + Constants.getPort());

@@ -22,9 +22,6 @@ public class ClientView {
     }
 
 
-
-
-
     public CLI getCli() {
         return cli;
     }

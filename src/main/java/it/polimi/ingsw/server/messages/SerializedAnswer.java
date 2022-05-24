@@ -1,7 +1,5 @@
 package it.polimi.ingsw.server.messages;
 
-import it.polimi.ingsw.client.SerializedMessage;
-
 import java.io.Serializable;
 
 public class SerializedAnswer implements Serializable {
