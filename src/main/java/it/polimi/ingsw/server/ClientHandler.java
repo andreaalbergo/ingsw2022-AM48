@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static java.lang.System.exit;
+
 public class ClientHandler implements Runnable {
 
     private final  Socket socket;
@@ -23,21 +25,8 @@ public class ClientHandler implements Runnable {
 
 
 
-    public void sendSocketMessage(CustomMessage message) {
 
-    }
 
-    public Integer getIdClient() {
-        return idClient;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public Socket getSocket() {
-        return socket;
-    }
 
     public ClientHandler(Socket socket, MultiplayerServer server) {
         this.server = server;
@@ -49,18 +38,41 @@ public class ClientHandler implements Runnable {
             active = true;
             idClient = -1;
         } catch (IOException e) {
+            System.err.println("ERROR INITIALIZING Client");
             System.err.println(e.getMessage());
         }
 
     }
 
+    public void sendSocketMessage(CustomMessage message) {
+        try {
+            outputStream.reset();
+            outputStream.writeObject(message);
+            outputStream.flush();
+        } catch (IOException e) {
+            close();
+        }
+
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+    public Socket getSocket() {
+        return socket;
+    }
+    public Integer getIdClient() {
+        return idClient;
+    }
+
     public synchronized void readFromStream() throws IOException, ClassNotFoundException{
         SerializedMessage input = (SerializedMessage) inputStream.readObject();
-        System.out.println(input);
         if ( input.message != null){
+            System.out.println("\nSei nel ReadFromStream e ho letto questo messaggio: " + input.message + "\n");
             Message command = input.message;
             commandLinker(command);
         }else if (input.command!= null){
+            System.out.println("\nSei nel ReadFromStream e ho letto: " + input.command + "\n");
             UserCommand command = input.command;
             commandLinker(command);
         }
@@ -79,7 +91,6 @@ public class ClientHandler implements Runnable {
     public void commandLinker(Message command) {
         if (command instanceof SetupConnection){
                 idClient = server.addClientToGame(((SetupConnection) command).getNickname(), this);
-                System.out.println("\ncheck received nickname\n");
                 System.out.println(idClient);
                 if (idClient == null){
                     setActive(false);
@@ -115,7 +126,6 @@ public class ClientHandler implements Runnable {
 
     public void sendSocketMessage(SerializedAnswer message) {
         try{
-            System.out.println("asking");
             outputStream.reset();
             outputStream.writeObject(message);
             outputStream.flush();
@@ -157,6 +167,7 @@ public class ClientHandler implements Runnable {
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+                exit(-1);
             }
 
         }
@@ -167,13 +178,16 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try{
-            while (isActive()) readFromStream();
+            while (isActive()) {
+                readFromStream();
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             BoardHandler board = server.getBoard();
             if (board.isStarted()){
                 board.endGame(server.getIdNameMap().get(idClient));
             }
+            System.err.println(e.getMessage());
         }
 
     }

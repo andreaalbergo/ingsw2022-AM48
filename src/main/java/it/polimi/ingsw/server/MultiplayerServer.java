@@ -84,10 +84,10 @@ public class MultiplayerServer {
 
     public void lobby(ClientHandler client){
         waiting.add(client);
-        System.out.println(waiting.size());
+        System.out.println("\nNella lobby ci sono " + waiting.size() + " giocatori\n");
         if(waiting.size() == 1){
             System.out.println("COMMAND: Select the number of Players [2 or 3] -> ");
-            client.setNumberofPlayers(new SetPlayersRequest("Select the number of Players [2 or 3] -> "));
+            client.setNumberofPlayers(new SetPlayersRequest( idtoClientMap.get(client.getIdClient()).getNickname() + " please select the number of Players [2 or 3] -> "));
 
         }else if (waiting.size() == number_of_Players){
             waiting.clear();

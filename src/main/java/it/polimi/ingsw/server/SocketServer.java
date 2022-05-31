@@ -49,6 +49,7 @@ public class SocketServer implements Runnable{
             acceptNewConnections(socketServer);
         }catch (IOException e){
             System.err.println(e.getMessage());
+            System.exit(0);
         }
     }
 

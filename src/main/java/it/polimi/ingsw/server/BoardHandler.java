@@ -2,14 +2,22 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Tower;
+import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.Answer;
 import it.polimi.ingsw.server.messages.CustomMessage;
+
+import java.beans.PropertyChangeSupport;
 
 public class BoardHandler {
     private final MultiplayerServer server;
     private final GameController controller;
     private final Board board;
     private int numberOfPlayers;
+
+    private final PropertyChangeSupport controllerListener = new PropertyChangeSupport(this);
+
     private boolean isExpertMode;
     //private int currentPlayer;
     private boolean isStarted;
@@ -23,6 +31,7 @@ public class BoardHandler {
         isStarted = false;
         board = new Board();
         controller = new GameController(board, this);
+        controllerListener.addPropertyChangeListener(controller);
 
     }
 
@@ -46,7 +55,7 @@ public class BoardHandler {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void addPlayer(){}
+    public void addPlayer(String nickname, int clientID){}
 
     public void unregisterPlayer(Integer idClient) {
     }
@@ -63,6 +72,8 @@ public class BoardHandler {
 
 
     public void setupPlayer(String nickname, Integer iDclient) {
+        board.createNewPlayer(new Player(nickname,iDclient, Wizard.WIZARD1, Tower.BLACK));//Per ora ho messo wizard e torri gia pre impostate mo cambio
+
     }
 
     public void endGame(String s) {

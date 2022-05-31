@@ -29,7 +29,7 @@ public class Listener_FromServer implements Runnable{
         try{
             do{
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
-                System.out.println("AOOOOOOO");
+                System.out.println("\nSERVER: " + answer.getAnswer().getMessage());
                 inputLinker(answer);
             }while (view.getCli() == null || view.getCli().isActiveGame());
 

@@ -5,10 +5,12 @@ import it.polimi.ingsw.client.CommandHandler;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.costanti.Constants;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CLI implements Runnable{
+public class CLI implements Runnable, PropertyChangeListener {
 
     private final Scanner in;
 
@@ -26,7 +28,7 @@ public class CLI implements Runnable{
         in = new Scanner(System.in);
         out = new PrintStream(System.out);
         clientView = new ClientView(this);
-        handler = new CommandHandler();
+        handler = new CommandHandler(clientView,this);
 
     }
 
@@ -70,6 +72,7 @@ public class CLI implements Runnable{
         while (player == null){
             System.out.println("Insert your Nickname here ->");
             player = in.nextLine();
+            System.out.println("You chose "+ player);
         }
         socket = new ConnectionSocket();
         clientView.setName(player);
@@ -77,9 +80,21 @@ public class CLI implements Runnable{
             if(!socket.registration(player, handler, clientView)){
                 System.err.println("There is no server with those specifications...");
                 CLI.main(null);
-            }else System.out.println("> Socket Connection completed succesully < ");
+            }else System.out.println("\n> Socket Connection completed succesully < ");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            startCLI();
         }
+    }
+
+
+    /**
+     * Waits for the arrival of the Server Answer that is sent here (after it was processed) by the CommandHandler;
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
