@@ -18,14 +18,14 @@ public class Board {
     private Player currentPlayer;
     private int currentPlayerIndex;
     private int gameTurn;
-    private final NormalBoardManager boardManager;
+    private final BoardManager boardManager;
 
     /**
      * Constructor Board creates a new game instance.
      */
     public Board() {
         gameTurn = 1;
-        boardManager = new NormalBoardManager(this);
+        boardManager = new BoardManager(this);
     }
 
     /**
@@ -76,9 +76,9 @@ public class Board {
     /**
      * Method getBoardManager that gives us the board manager.
      *
-     * @return of type NormalBoardManager.
+     * @return of type BoardManager.
      */
-    public NormalBoardManager getBoardManager() {
+    public BoardManager getBoardManager() {
         return boardManager;
     }
 
@@ -101,8 +101,9 @@ public class Board {
     }
 
     /**
+     * getPlayersTurnOrder
      *
-     * @return
+     * @return of type List<> - the order of players' turn.
      */
     public List<Player> getPlayersTurnOrder() {
         return playersTurnOrder;
@@ -159,21 +160,14 @@ public class Board {
     public void setNextPlayer() {
         if (currentPlayerIndex == playersTurnOrder.size()-1) {
             currentPlayerIndex = 0;
-            setNextTurn();
         } else {
             currentPlayerIndex++;
             setCurrentPlayer(playersTurnOrder.get(currentPlayerIndex));
         }
     }
 
-    /**
-     * Method setNextTurn increases the game's turn by one. If current turn is 10, it means it's the last and after that
-     * the model notifies the controller about reaching game over.
-     */
-    public void setNextTurn() {
-        if(gameTurn!=10)
-            gameTurn++;
-        //else: call gameOver; it is the job of the controller I think.
+    public int getCurrentPlayerIndex(){
+        return currentPlayerIndex;
     }
 }
 

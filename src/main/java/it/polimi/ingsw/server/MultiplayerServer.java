@@ -155,7 +155,7 @@ public class MultiplayerServer {
         {
             System.out.println("This is the first player!!");
             if(waiting.isEmpty()){
-                board = new BoardHandler();
+                board = new BoardHandler(this);
             }
             if (nametoIdMap.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
                 SerializedAnswer error = new SerializedAnswer();

@@ -87,7 +87,7 @@ public class ClientHandler implements Runnable {
                 server.lobby(this);
         }else if (command instanceof ChooseWizard){
             if(!Wizard.isAlreadyChosen(((ChooseWizard) command).getWizard())){
-                server.getBoard().getController()/*.setPlayerWizard(((ChooseWizard)command).getWizard, idClient)*/;//Bisogna aggiungere in Controller;
+                server.getBoard().getController()/*.setPlayerWizard(((ChooseWizard)command).getWizard, idClient)*/;//Bisogna aggiungere in GameController;
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard().toString()));
                 //server.getBoard().setup();
                 Wizard.choose(((ChooseWizard) command).getWizard());

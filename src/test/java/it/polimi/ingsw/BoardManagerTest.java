@@ -1,34 +1,34 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.BoardManager;
 import it.polimi.ingsw.model.IslandTile;
-import it.polimi.ingsw.model.NormalBoardManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class NormalBoardManagerTest tests NormalBoardManager class.
+ * Class BoardManagerTest tests BoardManager class.
  *
  * @author Edoardo Bozzini, David Barb
- * @see NormalBoardManager
+ * @see BoardManager
  */
-class NormalBoardManagerTest {
+class BoardManagerTest {
     Board testBoard;
-    NormalBoardManager testNormalBoardManager;
+    BoardManager testBoardManager;
 
     @BeforeEach
     void initialization() {
         testBoard = new Board();
-        testNormalBoardManager = testBoard.getBoardManager();
+        testBoardManager = testBoard.getBoardManager();
     }
 
     @Test
     void testIslandStudentsRandomized() {
-        assertEquals(12, testNormalBoardManager.getIslands().size());
-        for (IslandTile island : testNormalBoardManager.getIslands()) {
-            System.out.println("Island number "+ testNormalBoardManager.getIslands().indexOf(island));
+        assertEquals(12, testBoardManager.getIslands().size());
+        for (IslandTile island : testBoardManager.getIslands()) {
+            System.out.println("Island number "+ testBoardManager.getIslands().indexOf(island));
             for (int i = 0; i < 5; i++)
                 System.out.println("Color of index "+i+" is: "+island.getStudents()[i]);
         }

@@ -1,29 +1,45 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.server.messages.Answer;
 import it.polimi.ingsw.server.messages.CustomMessage;
 
 public class BoardHandler {
-    //private final Server server;
-    private final Controller controller;
+    private final MultiplayerServer server;
+    private final GameController controller;
     private final Board board;
-    private boolean gameStarted;
     private int numberOfPlayers;
-    private int currentPlayer;
+    private boolean isExpertMode;
+    //private int currentPlayer;
     private boolean isStarted;
 
-    public Controller getController() {
+    public GameController getController() {
         return controller;
     }
 
-    public BoardHandler(/*Server server*/) {
-        //this.server = server;
-        gameStarted = false;
+    public BoardHandler(MultiplayerServer server) {
+        this.server = server;
+        isStarted = false;
         board = new Board();
-        controller = new Controller();// gli dovremo passare questo boardhandler e l'istanza di Board che creiamo;
+        controller = new GameController(board, this);
 
+    }
+
+    /**
+     * startGame method notifies the server that notifies all players in the lobby that a new game is started, also the
+     * controller is notified by this event.
+     */
+    public void startGame(){
+        isStarted = true;
+    }
+
+    public void setExpertMode(boolean expertMode) {
+        isExpertMode = expertMode;
+    }
+
+    public boolean isExpertMode() {
+        return isExpertMode;
     }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
