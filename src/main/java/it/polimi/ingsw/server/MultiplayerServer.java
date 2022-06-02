@@ -28,9 +28,6 @@ public class MultiplayerServer {
     private final List<ClientHandler> waiting = new ArrayList<>();
     public static final Logger LOGGER = Logger.getLogger(MultiplayerServer.class.getName());
 
-    public SocketServer getSocketServer() {
-        return socketServer;
-    }
 
     private final SocketServer socketServer;
 
@@ -62,11 +59,12 @@ public class MultiplayerServer {
         return clientConnectionMap;
     }
 
+
     public void quitter(){
         Scanner scanner = new Scanner(System.in);
         while(true){
             if(scanner.next().equalsIgnoreCase("Killserver")){
-                getSocketServer().setActiveStatus(false);
+                socketServer.setActiveStatus(false);
                 System.out.println("The server is now closing...");
                 System.exit(0);
                 break;

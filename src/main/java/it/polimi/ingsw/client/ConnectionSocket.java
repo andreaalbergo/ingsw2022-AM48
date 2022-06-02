@@ -82,7 +82,7 @@ public class ConnectionSocket {
 
     }
 
-    private void send(Message message) {
+    public void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);
         try {
             out.reset();
