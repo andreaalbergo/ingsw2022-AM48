@@ -28,7 +28,7 @@ public class RequestWizard implements Answer{
     }
 
     public void updateRemaining(List<Wizard> wizards){
-
+        remaining_wizards = wizards;
     }
 
     public List<Wizard> getRemaining_wizards(){

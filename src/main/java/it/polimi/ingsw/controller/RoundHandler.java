@@ -7,20 +7,29 @@ package it.polimi.ingsw.controller;
 public class RoundHandler {
     private final GameController mainController;
     private final TurnHandler turn;
-    private int gameTurn = 1;
+    private int gameRound = 1;
 
-    public RoundHandler(GameController mainController, boolean isExpertMode) {
+    public RoundHandler(GameController mainController, TurnHandler turn) {
         this.mainController = mainController;
-        turn = new TurnHandler(isExpertMode);
+        this.turn = turn;
     }
 
     /**
-     * Method iterateTurn increases the game's turn by one. If current turn is 10, it means it's the last and after that
+     * Method getGameTurn give us back this game's turn.
+     *
+     * @return of type int - turn's game.
+     */
+    public int getGameRound() {
+        return gameRound;
+    }
+
+    /**
+     * Method iterateTurn increases the game's round by one. If current turn is 10, it means it's the last and after that
      * the model notifies the controller about reaching game over.
      */
-    public void iterateTurn() {
-        if(gameTurn!=10)
-            gameTurn++;
+    public void iterateRound() {
+        if(gameRound!=10)
+            gameRound++;
         else
             mainController.gameOver();
     }

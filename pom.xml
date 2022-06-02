@@ -15,7 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <sonar.exclusions></sonar.exclusions>
+    <!--<sonar.exclusions></sonar.exclusions>-->
   </properties>
 
   <dependencies>
@@ -35,7 +35,7 @@
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (can be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>

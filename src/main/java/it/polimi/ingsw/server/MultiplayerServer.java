@@ -19,7 +19,7 @@ import static java.lang.System.exit;
 public class MultiplayerServer {
     private final int port;
     private BoardHandler board;
-    private int number_of_Players = 0;
+    private int number_of_Players;
     private final Map<Integer, Client> idtoClientMap;
     private final Map<String, Integer> nametoIdMap;
     private final Map<Integer, String> idNameMap;
@@ -85,7 +85,8 @@ public class MultiplayerServer {
         System.out.println("\nNella lobby ci sono " + waiting.size() + " giocatori\n");
         if(waiting.size() == 1){
             System.out.println("COMMAND: Select the number of Players [2 or 3] -> ");
-            client.setNumberofPlayers(new SetPlayersRequest( idtoClientMap.get(client.getIdClient()).getNickname() + " please select the number of Players [2 or 3] -> "));
+            client.setNumberofPlayers(new SetPlayersRequest( idtoClientMap.get(client.getIdClient()).getNickname()
+                    + " please select the number of Players [2 or 3] -> "));
 
         }else if (waiting.size() == number_of_Players){
             waiting.clear();

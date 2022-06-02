@@ -49,9 +49,7 @@ class BoardTest {
         System.out.println("second current player: "+testBoard.getCurrentPlayer().getNickname());
         testBoard.setNextPlayer();
         System.out.println("third current player: "+testBoard.getCurrentPlayer().getNickname());
-        System.out.println("Game's turn: "+testBoard.getGameTurn());
         testBoard.setNextPlayer();
         System.out.println("new current player: "+testBoard.getCurrentPlayer().getNickname());
-        System.out.println("Next game's turn: "+testBoard.getGameTurn());
     }
 }

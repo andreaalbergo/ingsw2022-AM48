@@ -24,7 +24,6 @@ public class Board {
      * Constructor Board creates a new game instance.
      */
     public Board() {
-        gameTurn = 1;
         boardManager = new BoardManager(this);
     }
 
@@ -80,15 +79,6 @@ public class Board {
      */
     public BoardManager getBoardManager() {
         return boardManager;
-    }
-
-    /**
-     * Method getGameTurn give us back this game's turn.
-     *
-     * @return of type int - turn's game.
-     */
-    public int getGameTurn() {
-        return gameTurn;
     }
 
     /**

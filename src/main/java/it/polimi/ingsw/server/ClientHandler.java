@@ -107,7 +107,7 @@ public class ClientHandler implements Runnable {
                 server.getIdtoClientMap().get(idClient).send(new GameError( Errors.ALREADYCHOSEN , "The Wizard you chose is already taken, choose one of these: " + Wizard.available));
             }
         }else if (command instanceof ChooseTowerColor){
-            if(Tower.isAlreadyChosen(((ChooseTowerColor)command).getTower())){
+            if(Tower.available().contains(((ChooseTowerColor)command).getTower())){
                 server.getBoard().getController()/*Qui metteremo metodo per settare il tower color del player*/;
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + " :You chose  " + ((ChooseTowerColor)command).getTower().toString() ));
                 //server.getBoard().setup();

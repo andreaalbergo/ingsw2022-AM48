@@ -11,7 +11,8 @@ public class TurnHandler {
     private Board model;
     private int phase;
 
-    public TurnHandler(boolean isExpert) {
+    public TurnHandler(boolean isExpert, Board model) {
+        this.model = model;
         if(isExpert)
             expertPhase = new ExpertPhaseHandler();
     }
