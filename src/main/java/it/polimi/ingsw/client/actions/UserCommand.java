@@ -1,4 +1,6 @@
 package it.polimi.ingsw.client.actions;
 
-public interface UserCommand {
+import java.io.Serializable;
+
+public interface UserCommand extends Serializable {
 }

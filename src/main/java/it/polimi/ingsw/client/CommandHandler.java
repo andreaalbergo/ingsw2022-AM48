@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.messages.ChooseTowerColor;
 import it.polimi.ingsw.server.messages.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.logging.Level;
 
 public class CommandHandler {
 
@@ -27,10 +28,18 @@ public class CommandHandler {
     public void answerHandler() {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
-        if(model.getPhase() == 0){
+        cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
+        if(model.getPhase() < 3){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
+        else if (answer instanceof ConnectionMessage) {
+            if (cli != null ){
+                view.firePropertyChange("connectionClosed",null,answer);
+                cli.setActive(false);
+            }
+
+        }
         if (answer instanceof CustomMessage) {
             fireCustomMessage(answer);
         } else if (answer instanceof GameError) {
@@ -54,21 +63,26 @@ public class CommandHandler {
 
     private void setupGame(Answer answer) {
         if(answer instanceof SetPlayersRequest){
-            view.firePropertyChange("setup phase",null, "SetPlayersRequest");
+            view.firePropertyChange("setup",null, "SetPlayersRequest");
         } else if (answer instanceof RequestWizard) {
             if(((RequestWizard) answer).getWizard() != null){
-                view.firePropertyChange("setup phase", null, "RequestWizard");
+                view.firePropertyChange("setup", null, "RequestWizard");
             }else {
                 model.setWizard(((RequestWizard) answer).getWizard());
             }
 
         } else if (answer instanceof TowerRequest) {
             if(((TowerRequest) answer).getTower() != null){
-                view.firePropertyChange("setup phase", null, "TowerRequest");
+                view.firePropertyChange("setup", null, "TowerRequest");
             }else {
                 model.setTower(((TowerRequest) answer).getTower());
             }
-        }
-        model.setPhase(1);
+        } else if (answer instanceof MatchStarted) {
+            view.firePropertyChange("matchStarted",null,null);
+            model.setPhase(1);
+        } else if (answer instanceof SetMode) {
+                view.firePropertyChange("setup", null, "SetMode");
+            }
+
     }
 }

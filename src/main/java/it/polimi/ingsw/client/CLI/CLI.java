@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.CLI;
 
 import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.CommandHandler;
+import it.polimi.ingsw.client.CommandParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.messages.ChooseMode;
 import it.polimi.ingsw.client.messages.ChooseTowerColor;
@@ -22,6 +23,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CLI implements Runnable, PropertyChangeListener {
 
@@ -32,6 +35,8 @@ public class CLI implements Runnable, PropertyChangeListener {
     private final PrintStream out;
     private boolean active;
     private ConnectionSocket socket;
+
+    public final Logger logger = Logger.getLogger(getClass().getName());
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
 
@@ -41,7 +46,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         out = new PrintStream(System.out);
         clientView = new ClientView(this);
         handler = new CommandHandler(clientView,this);
-
+        active = true;
     }
 
     public static void main(String[] args) {
@@ -63,9 +68,10 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void run() {
         startCLI();
         while(isActiveGame()){
-            if(clientView.getPhase() == 0 /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
+            if(clientView.getPhase() == 5 /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
                 in.reset();
                 String received = in.nextLine();
+                System.out.println("Check da run di CLI: " + received);
                 listeners.firePropertyChange("action",null, received);
 
             }
@@ -99,6 +105,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         } catch (Exception e) {
             startCLI();
         }
+        listeners.addPropertyChangeListener("action", new CommandParser(socket,clientView));
     }
 
     public void choosePlayerNumber(){
@@ -106,12 +113,14 @@ public class CLI implements Runnable, PropertyChangeListener {
         while (true){
             try {
                 System.out.println("Insert here: ");
+                //logger.log(Level.SEVERE,"Insert here: ");
                 numberofplayers = Integer.parseInt(in.nextLine());
                 break;
             } catch (NumberFormatException exception){
                 System.out.println("The input is invalid...");
             }
         }
+        logger.log(Level.INFO,"Stai mandandao messaggio con " + numberofplayers + "giocatori");
         socket.send(new NumberOfPlayers(numberofplayers));
         clientView.setPhase(1);
 
@@ -164,14 +173,15 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void chooseMode(){
         while(true){
             try{
-                System.out.println("What mode would you like to play? Expert or Normal");
-                System.out.println("Choose here!\n");
-                System.out.println("->");
-                String choice = in.nextLine().toUpperCase();
+                logger.log(Level.INFO,"Sei nella choosemode");
+                System.out.println("(WRITE ALL CAPS)->");
+                String choice = in.nextLine();
+                choice = choice.toUpperCase();
+                System.out.println("You selected the " + choice.toUpperCase() + " mode");
                 if(choice.equals(Mode.EXPERT.toString())){
-                    socket.send(new ChooseMode(Mode.EXPERT));
+                    socket.send(new ChooseMode(true));
                 } else if (choice.equals(Mode.NORMAL.toString())){
-                    socket.send(new ChooseMode(Mode.NORMAL));
+                    socket.send(new ChooseMode(false));
                 }
                 clientView.setPhase(2);
                 break;
@@ -184,7 +194,8 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void initialSetup(String value){
         switch (value) {
             case "SetPlayersRequest" -> {
-                System.out.println(((SetPlayersRequest)clientView.getAnswer()).getMessage());
+                //logger.log(Level.SEVERE,"Ok stai elaborando nell'initial setup");
+                System.out.println("Choose the number of players [2 or 3]");
                 choosePlayerNumber();
             }
             case "RequestWizard" -> {
@@ -219,6 +230,14 @@ public class CLI implements Runnable, PropertyChangeListener {
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        String command = (evt.getNewValue() != null) ? evt.getNewValue().toString() : null;
+        switch (evt.getPropertyName()) {
+            case "setup" -> {
+                assert command != null;
+                logger.log(Level.SEVERE,"Ho ricevuto il comando: " + command);
+                initialSetup(command);
+            }
 
+        }
     }
 }

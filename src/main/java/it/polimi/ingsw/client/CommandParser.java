@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.actions.UserCommand;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -22,8 +24,26 @@ public class CommandParser implements PropertyChangeListener {
         verifier = new InputCheck(socket, view);
     }
 
+    public synchronized boolean action(String input) {
+        String[] action = input.split(" ");
+        String command = action[0];
+        UserCommand message;
+        /*
+        try{
+            switch (command.toUpperCase()){
+                //case "MOVEMOTHERNATURE" -> message = verifier.
+            }
+        }catch (){}
+        */
+        return false;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if(!view.isInputEnabler()){
+            System.out.println("NOT YOUR TURN");
+        }else if (action(evt.getNewValue().toString())){
+            view.setInputEnabler(false);
+        }else view.setInputEnabler(true);
     }
 }

@@ -26,10 +26,6 @@ public class ConnectionSocket {
     private ObjectOutputStream out;
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
-    public ConnectionSocket(String serverip, int port) {
-        this.serverip = serverip;
-        this.port = port;
-    }
 
     public ConnectionSocket() {
         this.serverip = Constants.getAddress();
@@ -43,8 +39,7 @@ public class ConnectionSocket {
             System.out.print(Constants.getPort());
             Socket socket;
             try {
-                socket = new Socket(serverip, port);
-
+                socket = new Socket(Constants.getAddress(), Constants.getPort());
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
@@ -56,13 +51,14 @@ public class ConnectionSocket {
                     send(new SetupConnection(nickname));
                     SerializedAnswer answer = (SerializedAnswer) in.readObject();
                     if(answer.getAnswer() instanceof ConnectionMessage && ((ConnectionMessage)answer.getAnswer()).isCheck()){
+                        System.out.println("\nRegistration (connsocket): " + answer.getAnswer().getMessage());
                         break;
                     } else if (answer.getAnswer() instanceof GameError && ((GameError)answer.getAnswer()).getError().equals(Errors.DUPLICATENICKNAME)) {
                         System.err.println("The nickname you chose is already in use, please pick another one");
                         //potremmo creare delle eccezioni...
                     } else if (answer.getAnswer() instanceof GameError && ((GameError)answer.getAnswer()).getError().equals(Errors.SERVER_IS_FULL)) {
                         System.err.println("The server will not accept more players because is full");
-                        System.exit(0);
+                        System.exit(45);
                         //potremmo creare delle eccezioni...
                     }
                 } catch (ClassNotFoundException e) {
@@ -76,11 +72,14 @@ public class ConnectionSocket {
         } catch (IOException e) {
             System.err.println(e.getMessage());
             System.out.println("Socket didn't start properly, application closing");
-            System.exit(0);
+            System.exit(12);
             return false;
         }
 
     }
+
+
+
 
     public void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);

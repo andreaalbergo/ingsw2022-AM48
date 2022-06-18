@@ -5,10 +5,7 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.Answer;
-import it.polimi.ingsw.server.messages.CustomMessage;
-import it.polimi.ingsw.server.messages.RequestWizard;
-import it.polimi.ingsw.server.messages.TowerRequest;
+import it.polimi.ingsw.server.messages.*;
 
 import java.beans.PropertyChangeSupport;
 
@@ -62,20 +59,41 @@ public class BoardHandler {
         //call end game
     }
 
-    public void setup() {
+    public void setupWizard() {
         if(!isStarted)
             startGame();
         RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
-        TowerRequest towerReq = new TowerRequest("Please choose a tower's color: ");
-
-        if (numberOfPlayers==2 && Tower.available().size()>1){
-            //TODO
-        } else if (numberOfPlayers==3 && Tower.available().size()>0) {
-            //TODO
-        } else{
-            //TODO
-            //Do i need else? bohhh
+        wizardReq.updateRemaining(Wizard.available);
+        if(numberOfPlayers==2 && Wizard.available.size()>2){
+            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.available.size() + 2).getNickname();
+            sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
+            sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
+        } else if (numberOfPlayers==3 && Wizard.available.size()>1) {
+            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.available.size() + 1).getNickname();
+            sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
+            sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         }
+
+
+    }
+
+    public void setup() {
+        TowerRequest request = new TowerRequest("Please choose a tower: ");
+        request.setRemaining_towers(Tower.available);
+        String player = null;
+        if(Tower.available.size()>1) {
+            if(numberOfPlayers == 2){
+                player = board.getActivePlayers().get(numberOfPlayers - Tower.available.size() + 1).getNickname();
+            } else if (numberOfPlayers == 3) {
+                player = board.getActivePlayers().get(numberOfPlayers - Tower.available.size()).getNickname();
+            }
+            sendtoPlayer(request, server.getNametoIdMap().get(player));
+            sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
+        }
+    }
+
+    private void sendtoPlayer( Answer answer, int id) {
+        server.getIdtoClientMap().get(id).send(answer);
     }
 
     public void sendAll(CustomMessage customMessage) {

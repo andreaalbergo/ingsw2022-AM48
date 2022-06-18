@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
+import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.*;
@@ -89,13 +90,22 @@ public class ClientHandler implements Runnable {
     }
 
     public void commandLinker(Message command) {
-        if (command instanceof SetupConnection){
-                idClient = server.addClientToGame(((SetupConnection) command).getNickname(), this);
-                System.out.println(idClient);
-                if (idClient == null){
-                    setActive(false);
-                }
-                server.lobby(this);
+        if (command instanceof SetupConnection) {
+            try{
+            idClient = server.addClientToGame(((SetupConnection) command).getNickname(), this);
+            System.out.println(idClient);
+            if (idClient == null) {
+                setActive(false);
+            }
+            server.lobby(this);
+            }catch (InterruptedException e)
+            {
+                System.err.println(e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        } else if (command instanceof ChooseMode) {
+            server.getBoard().getController();//.Setmode
+            server.setMode(((ChooseMode) command).getMode());
         }else if (command instanceof ChooseWizard){
             if(!Wizard.isAlreadyChosen(((ChooseWizard) command).getWizard())){
                 server.getBoard().getController()/*.setPlayerWizard(((ChooseWizard)command).getWizard, idClient)*/;//Bisogna aggiungere in GameController;
@@ -126,6 +136,7 @@ public class ClientHandler implements Runnable {
 
     public void sendSocketMessage(SerializedAnswer message) {
         try{
+            System.out.println("SENDSOCKET IN CLIENT HANDLER -> system answer: " + message.getAnswer().getMessage().toString());
             outputStream.reset();
             outputStream.writeObject(message);
             outputStream.flush();
@@ -148,6 +159,7 @@ public class ClientHandler implements Runnable {
     public void setNumberofPlayers(SetPlayersRequest message){
         SerializedAnswer answer = new SerializedAnswer();
         answer.setSerializedAnswer(message);
+        System.out.println("The prepared message is: " + answer.getAnswer().toString());
         sendSocketMessage(answer);
         while(true){
             try{
@@ -191,6 +203,35 @@ public class ClientHandler implements Runnable {
         }
 
     }
+
+
+    public void setMode(SetMode message) {
+        SerializedAnswer answer = new SerializedAnswer();
+        answer.setSerializedAnswer(message);
+        System.out.println("The prepared message is: " + answer.getAnswer().toString());
+        sendSocketMessage(answer);
+        while(true){
+            try{
+                SerializedMessage input = (SerializedMessage) inputStream.readObject();
+                System.out.println("Dalla SetMode è arrivato questo...." + input);
+                Message m = input.message;
+                if( m instanceof ChooseMode)
+                    {
+                        server.getBoard().setExpertMode(((ChooseMode) m).getMode());
+                        System.out.println("The mode was set to "+ ((ChooseMode) m).getMode() + " by " + server.getIdNameMap().get(0));
+                        break;
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+
+
+
 
 
 }

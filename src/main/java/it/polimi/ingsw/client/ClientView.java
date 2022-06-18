@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.Answer;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.server.messages.Answer;
 import java.util.ArrayList;
 
 public class ClientView {
+
 
     private final CLI cli;
     private String nickname;
@@ -26,7 +28,7 @@ public class ClientView {
 
     public void setWizard(String wizard) {
         String compare = wizard.toLowerCase();
-        switch (wizard){
+        switch (compare){
             case "wizard1" : this.wizard = Wizard.WIZARD1;
             case "wizard2" : this.wizard = Wizard.WIZARD2;
             case "wizard3" : this.wizard = Wizard.WIZARD3;
@@ -36,7 +38,7 @@ public class ClientView {
 
     public void setTower(String tower) {
         String compare = tower.toLowerCase();
-        switch (tower){
+        switch (compare){
             case  "white": this.tower = Tower.WHITE;
             case  "black" : this.tower = Tower.BLACK;
             case  "grey" : this.tower = Tower.GREY;

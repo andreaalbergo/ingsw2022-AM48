@@ -6,12 +6,10 @@ import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.*;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static java.lang.System.exit;
@@ -19,6 +17,17 @@ import static java.lang.System.exit;
 public class MultiplayerServer {
     private final int port;
     private BoardHandler board;
+
+    private Boolean mode;
+
+    public Boolean isExpert() {
+        return mode;
+    }
+
+    public void setMode(Boolean mode) {
+        this.mode = mode;
+    }
+
     private int number_of_Players;
     private final Map<Integer, Client> idtoClientMap;
     private final Map<String, Integer> nametoIdMap;
@@ -80,15 +89,24 @@ public class MultiplayerServer {
         return board;
     }
 
-    public void lobby(ClientHandler client){
+    public void lobby(ClientHandler client) throws InterruptedException {
         waiting.add(client);
         System.out.println("\nNella lobby ci sono " + waiting.size() + " giocatori\n");
         if(waiting.size() == 1){
             System.out.println("COMMAND: Select the number of Players [2 or 3] -> ");
             client.setNumberofPlayers(new SetPlayersRequest( idtoClientMap.get(client.getIdClient()).getNickname()
                     + " please select the number of Players [2 or 3] -> "));
+            if(number_of_Players > 0){
+                client.setMode( new SetMode(idtoClientMap.get(client.getIdClient()).getNickname() + " as the host select a mode between EXPERT and NORMAL"));
+            }
+
 
         }else if (waiting.size() == number_of_Players){
+            for (int i = 3; i > 0; i++) {
+                board.sendAll(new CustomMessage("Match is starting in " + i));
+                TimeUnit.SECONDS.sleep(1);
+            }
+            board.sendAll(new CustomMessage("Match started"));
             waiting.clear();
             Wizard.clear();
             Tower.clear();
