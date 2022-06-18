@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.messages.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.Random;
 
 public class BoardHandler {
     private final MultiplayerServer server;
@@ -58,8 +59,12 @@ public class BoardHandler {
         //TODO
         //call end game
     }
-
-    public void setupWizard() {
+    public void setup(){
+        if(setupWizard()){
+            setupTower();
+        }
+    }
+    public Boolean setupWizard() {
         if(!isStarted)
             startGame();
         RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
@@ -73,11 +78,10 @@ public class BoardHandler {
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         }
-
-
+        return true;
     }
 
-    public void setup() {
+    public void setupTower() {
         TowerRequest request = new TowerRequest("Please choose a tower: ");
         request.setRemaining_towers(Tower.available);
         String player = null;
@@ -89,10 +93,13 @@ public class BoardHandler {
             }
             sendtoPlayer(request, server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
+
         }
+
     }
 
-    private void sendtoPlayer( Answer answer, int id) {
+
+        private void sendtoPlayer( Answer answer, int id) {
         server.getIdtoClientMap().get(id).send(answer);
     }
 
@@ -111,7 +118,7 @@ public class BoardHandler {
 
 
     public void setupPlayer(String nickname, Integer iDclient) {
-        board.createNewPlayer(new Player(nickname,iDclient, Wizard.WIZARD1, Tower.BLACK));
+        board.createNewPlayer(new Player(nickname,iDclient));
     }
 
     public void endGame(String s) {

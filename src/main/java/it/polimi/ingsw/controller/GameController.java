@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Tower;
+import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.BoardHandler;
 
 import java.beans.PropertyChangeEvent;
@@ -67,7 +70,12 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
-
+    public void setWizard(Wizard wizard, int id){
+        model.getActivePlayers().get(id).setWizard(wizard);
+    }
+    public void setTower(Tower tower, int id){
+        model.getActivePlayers().get(id).setTower(tower);
+    }
 
     public void gameOver(){
         System.out.println("Last round finished, Game Over!!!");

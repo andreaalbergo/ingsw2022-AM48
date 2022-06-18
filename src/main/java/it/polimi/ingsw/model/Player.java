@@ -11,8 +11,8 @@ public class Player {
     private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
-    private final Wizard chosenWizard;
-    private final Tower tower;
+    private Wizard chosenWizard;
+    private Tower tower;
     private SchoolBoard schoolBoard;
 
     public Player(String nickname, int playerID, Wizard chosenWizard, Tower tower) {
@@ -29,6 +29,28 @@ public class Player {
         this.playerID = playerID;
 
     }
+
+    public Player(String nickname, int playerID) {
+        this.nickname = nickname;
+        this.assistantCardList = new LinkedList<>();
+        Collections.addAll(assistantCardList, AssistantCard.values());
+        this.coins = 1;
+        if (playerID == 1)
+            turn = true;
+        else
+            turn = false;
+        this.playerID = playerID;
+
+    }
+
+    public void setTower(Tower tower){
+        this.tower = tower;
+    }
+
+    public void setWizard(Wizard wizard){
+        this.chosenWizard = wizard;
+    }
+
 
     public int getPlayerID() {
         return playerID;

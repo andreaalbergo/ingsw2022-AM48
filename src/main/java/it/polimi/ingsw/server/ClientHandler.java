@@ -108,9 +108,9 @@ public class ClientHandler implements Runnable {
             server.setMode(((ChooseMode) command).getMode());
         }else if (command instanceof ChooseWizard){
             if(!Wizard.isAlreadyChosen(((ChooseWizard) command).getWizard())){
-                server.getBoard().getController()/*.setPlayerWizard(((ChooseWizard)command).getWizard, idClient)*/;//Bisogna aggiungere in GameController;
+                server.getBoard().getController().setWizard(((ChooseWizard)command).getWizard(), idClient);//Bisogna aggiungere in GameController;
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard().toString()));
-                //server.getBoard().setup();
+                server.getBoard().setupTower();
                 Wizard.choose(((ChooseWizard) command).getWizard());
             }else
             {
@@ -118,9 +118,9 @@ public class ClientHandler implements Runnable {
             }
         }else if (command instanceof ChooseTowerColor){
             if(Tower.available().contains(((ChooseTowerColor)command).getTower())){
-                server.getBoard().getController()/*Qui metteremo metodo per settare il tower color del player*/;
+                server.getBoard().getController().setTower(((ChooseTowerColor) command).getTower(),idClient);
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + " :You chose  " + ((ChooseTowerColor)command).getTower().toString() ));
-                //server.getBoard().setup();
+                server.getBoard().setupWizard();
                 Tower.choose(((ChooseTowerColor)command).getTower());
             }else{
                 server.getIdtoClientMap().get(idClient).send(new GameError(Errors.ALREADYCHOSEN,"The Wizard you chose is already taken, choose one of these: " + Tower.available));
