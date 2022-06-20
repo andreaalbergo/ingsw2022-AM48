@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.server.messages.Answer;
-import it.polimi.ingsw.server.messages.LoseMessage;
-import it.polimi.ingsw.server.messages.SerializedAnswer;
+import it.polimi.ingsw.server.servermessages.Answer;
+import it.polimi.ingsw.server.servermessages.LoseMessage;
+import it.polimi.ingsw.server.servermessages.SerializedAnswer;
 
 public class Client {
     private String nickname;

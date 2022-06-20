@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.messages;
+package it.polimi.ingsw.server.servermessages;
 
 public class GameError implements Answer {
     private final String message;

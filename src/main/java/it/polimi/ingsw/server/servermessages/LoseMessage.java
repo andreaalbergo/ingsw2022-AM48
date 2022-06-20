@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.messages;
+package it.polimi.ingsw.server.servermessages;
 
 public class LoseMessage implements Answer {
     private final String winner;

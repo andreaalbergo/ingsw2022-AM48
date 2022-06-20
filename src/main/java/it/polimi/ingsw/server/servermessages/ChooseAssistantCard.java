@@ -1,6 +1,4 @@
-package it.polimi.ingsw.server.messages;
-
-import it.polimi.ingsw.model.AssistantCard;
+package it.polimi.ingsw.server.servermessages;
 
 public class ChooseAssistantCard implements Answer{
 

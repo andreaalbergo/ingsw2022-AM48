@@ -2,10 +2,9 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.model.AssistantCard;
-import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.Answer;
+import it.polimi.ingsw.server.servermessages.Answer;
 
 import java.util.ArrayList;
 
@@ -27,13 +26,15 @@ public class ClientView {
     private ArrayList<AssistantCard> assistantCards;
 
     public void setWizard(String wizard) {
-        String compare = wizard.toLowerCase();
-        switch (compare){
-            case "wizard1" : this.wizard = Wizard.WIZARD1;
-            case "wizard2" : this.wizard = Wizard.WIZARD2;
-            case "wizard3" : this.wizard = Wizard.WIZARD3;
-            case "wizard4" : this.wizard = Wizard.WIZARD4;
+        /*switch (compare){
+            case "ciccio" : this.wizard = Wizard.WIZARD1;
+            case "pinco" : this.wizard = Wizard.WIZARD2;
+            case "pallo" : this.wizard = Wizard.WIZARD3;
+            case "fratm" : this.wizard = Wizard.WIZARD4;
         }
+
+         */
+        this.wizard = Wizard.parseInput(wizard);
     }
 
     public void setTower(String tower) {

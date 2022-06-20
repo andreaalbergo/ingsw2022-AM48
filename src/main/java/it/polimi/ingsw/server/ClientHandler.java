@@ -3,10 +3,9 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
-import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.*;
+import it.polimi.ingsw.server.servermessages.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -114,7 +113,7 @@ public class ClientHandler implements Runnable {
                 Wizard.choose(((ChooseWizard) command).getWizard());
             }else
             {
-                server.getIdtoClientMap().get(idClient).send(new GameError( Errors.ALREADYCHOSEN , "The Wizard you chose is already taken, choose one of these: " + Wizard.available));
+                server.getIdtoClientMap().get(idClient).send(new GameError( Errors.ALREADYCHOSEN , "The Wizard you chose is already taken, choose one of these: " + Wizard.getAvailable()));
             }
         }else if (command instanceof ChooseTowerColor){
             if(Tower.available().contains(((ChooseTowerColor)command).getTower())){

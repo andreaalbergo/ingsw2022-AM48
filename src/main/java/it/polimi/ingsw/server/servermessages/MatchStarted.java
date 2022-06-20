@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.messages;
+package it.polimi.ingsw.server.servermessages;
 
 import java.util.HashMap;
 import java.util.Map;

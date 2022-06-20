@@ -4,7 +4,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.*;
+import it.polimi.ingsw.server.servermessages.*;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -102,13 +102,14 @@ public class MultiplayerServer {
 
 
         }else if (waiting.size() == number_of_Players){
-            for (int i = 3; i > 0; i++) {
+            for (int i = 3; i > 0; i--) {
                 board.sendAll(new CustomMessage("Match is starting in " + i));
                 TimeUnit.SECONDS.sleep(1);
             }
             board.sendAll(new CustomMessage("Match started"));
             waiting.clear();
-            Wizard.clear();
+            Wizard.setLists();
+            //board.sendAll(new CustomMessage("We now have to chose between these wizards"+Wizard));
             Tower.clear();
             board.setup();
 

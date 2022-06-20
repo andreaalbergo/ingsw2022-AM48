@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.server.messages.SerializedAnswer;
+import it.polimi.ingsw.server.servermessages.SerializedAnswer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,8 +30,8 @@ public class Listener_FromServer implements Runnable{
 
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
                 System.out.println(answer.getAnswer().getMessage());
-                view.getCli().logger.log(Level.SEVERE, "HOLAAA"+answer.getAnswer().toString());
                 view.setAnswer(answer.getAnswer());
+                view.getCli().logger.log(Level.SEVERE, " HOLAAA -> "+answer.getAnswer().getMessage()+ " setto " + view.getAnswer().getMessage());
                 commandHandler.answerHandler();
             }while (view.getCli() == null || view.getCli().isActiveGame());
         } catch (IOException | ClassNotFoundException e) {

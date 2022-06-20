@@ -9,19 +9,19 @@ import java.util.List;
  * @author David Barb, Andrea Albergo
  */
 public enum Wizard {
-    WIZARD1,WIZARD2,WIZARD3,WIZARD4;
+    ANDREA,LORENZO,GIOVANNI,EDOARDO;
 
     private static final List<Wizard> alreadyPicked = new ArrayList<>();
-    public static final List<Wizard> available= new ArrayList<>();
+    private static final ArrayList<Wizard> available = new ArrayList<>();
 
-    /** Method clear empties the alreadyPicked list. */
-    public static void clear() {
+    /** Method setLists empties the alreadyPicked list. */
+    public static void setLists() {
+        available.clear();
         alreadyPicked.clear();
-        available.add(0,WIZARD1);
-        available.add(1,WIZARD2);
-        available.add(2,WIZARD3);
-        available.add(3,WIZARD4);
-
+        available.add(ANDREA);
+        available.add(LORENZO);
+        available.add(GIOVANNI);
+        available.add(EDOARDO);
     }
 
 
@@ -42,9 +42,8 @@ public enum Wizard {
      * @return boolean true if the wizard has already been chosen.
      */
     public static boolean isAlreadyChosen(Wizard wizard) {
-        return alreadyPicked.contains(wizard);
+        return !alreadyPicked.contains(wizard);
     }
-
 
     /**
      * Method alreadyPicked returns the list of picked wizards.
@@ -55,6 +54,9 @@ public enum Wizard {
         return alreadyPicked;
     }
 
+    public static ArrayList<Wizard> getAvailable() {
+        return available;
+    }
 
     /**
      * Method parseInput parses a type String input for wizard choosing.

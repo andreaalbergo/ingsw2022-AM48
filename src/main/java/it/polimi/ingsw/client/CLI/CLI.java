@@ -12,17 +12,16 @@ import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.RequestWizard;
-import it.polimi.ingsw.server.messages.SetMode;
-import it.polimi.ingsw.server.messages.SetPlayersRequest;
-import it.polimi.ingsw.server.messages.TowerRequest;
+import it.polimi.ingsw.server.servermessages.RequestWizard;
+import it.polimi.ingsw.server.servermessages.SetMode;
+import it.polimi.ingsw.server.servermessages.TowerRequest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,17 +131,20 @@ public class CLI implements Runnable, PropertyChangeListener {
             try {
                 System.out.println("Choose your Wizard: ");
                 wizard = Wizard.parseInput(in.nextLine());
-                if(Wizard.available.contains(wizard)){
+                System.out.println("You selected " + wizard + ", let's see if it's still available...");
+                TimeUnit.MILLISECONDS.sleep(500);
+                if(Wizard.isAlreadyChosen(wizard)){
                     socket.send(new ChooseWizard(wizard));
-                    clientView.setPhase(4);
+                    System.out.println("The wizard was set to "+ wizard);
+                    int phase = clientView.getPhase();
+                    clientView.setPhase(phase + 1);
                     break;
                 }else {
                     System.out.println("The Wizard is not available");
                 }
 
-            } catch (IllegalArgumentException exception){
+            } catch (IllegalArgumentException | InterruptedException exception){
                 System.out.println("The input is invalid... Choose a Wizard not a random object dumbo");
-
             }
         }
 
@@ -156,7 +158,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 tower = Tower.parseInput(in.nextLine());
                 if(Tower.available.contains(tower)){
                     socket.send(new ChooseTowerColor(tower));
-                    clientView.setPhase(3);
+                    clientView.setPhase(4);
                     break;
                 }else {
                     System.out.println("The Tower's Color you picked is not available");
@@ -200,7 +202,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
             case "RequestWizard" -> {
                 System.out.println(((RequestWizard)clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
-                Wizard.available.forEach(wizard -> System.out.print(wizard + " ,"));
+                ((RequestWizard) clientView.getAnswer()).getRemaining_wizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
                 chooseWizard();
             }

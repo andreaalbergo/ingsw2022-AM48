@@ -1,7 +1,6 @@
-package it.polimi.ingsw.server.messages;
+package it.polimi.ingsw.server.servermessages;
 
 import it.polimi.ingsw.model.Tower;
-import it.polimi.ingsw.model.Wizard;
 
 import java.util.ArrayList;
 import java.util.List;

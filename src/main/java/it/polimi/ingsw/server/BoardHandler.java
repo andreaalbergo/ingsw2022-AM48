@@ -5,10 +5,9 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.messages.*;
+import it.polimi.ingsw.server.servermessages.*;
 
 import java.beans.PropertyChangeSupport;
-import java.util.Random;
 
 public class BoardHandler {
     private final MultiplayerServer server;
@@ -68,13 +67,13 @@ public class BoardHandler {
         if(!isStarted)
             startGame();
         RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
-        wizardReq.updateRemaining(Wizard.available);
-        if(numberOfPlayers==2 && Wizard.available.size()>2){
-            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.available.size() + 2).getNickname();
+        wizardReq.updateRemaining(Wizard.getAvailable());
+        if(numberOfPlayers==2 && Wizard.getAvailable().size()>2){
+            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.getAvailable().size() + 2).getNickname();
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
-        } else if (numberOfPlayers==3 && Wizard.available.size()>1) {
-            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.available.size() + 1).getNickname();
+        } else if (numberOfPlayers==3 && Wizard.getAvailable().size()>1) {
+            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.getAvailable().size() + 1).getNickname();
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.messages;
+package it.polimi.ingsw.server.servermessages;
 
 import it.polimi.ingsw.model.Wizard;
 

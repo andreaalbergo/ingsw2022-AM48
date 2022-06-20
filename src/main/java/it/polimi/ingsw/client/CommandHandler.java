@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
-import it.polimi.ingsw.client.messages.ChooseTowerColor;
-import it.polimi.ingsw.server.messages.*;
+import it.polimi.ingsw.server.servermessages.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
@@ -29,7 +28,7 @@ public class CommandHandler {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
         cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
-        if(model.getPhase() < 3){
+        if(model.getPhase() < 7){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
@@ -65,14 +64,14 @@ public class CommandHandler {
         if(answer instanceof SetPlayersRequest){
             view.firePropertyChange("setup",null, "SetPlayersRequest");
         } else if (answer instanceof RequestWizard) {
-            if(((RequestWizard) answer).getWizard() != null){
+            if(((RequestWizard) answer).getWizard() == null){
                 view.firePropertyChange("setup", null, "RequestWizard");
             }else {
                 model.setWizard(((RequestWizard) answer).getWizard());
             }
 
         } else if (answer instanceof TowerRequest) {
-            if(((TowerRequest) answer).getTower() != null){
+            if(((TowerRequest) answer).getTower() == null){
                 view.firePropertyChange("setup", null, "TowerRequest");
             }else {
                 model.setTower(((TowerRequest) answer).getTower());

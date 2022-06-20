@@ -14,7 +14,7 @@ public enum Tower {
 
     public static final List<Tower> available = new ArrayList<>();
 
-    /** Method clear empties the alreadyPicked list. */
+    /** Method setLists empties the alreadyPicked list. */
     public static void clear() {
         available.add(0, WHITE);
         available.add(1, GREY);

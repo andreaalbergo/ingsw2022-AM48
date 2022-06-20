@@ -5,10 +5,10 @@ import it.polimi.ingsw.client.messages.Message;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.messages.SetupConnection;
 import it.polimi.ingsw.costanti.Constants;
-import it.polimi.ingsw.server.messages.ConnectionMessage;
-import it.polimi.ingsw.server.messages.Errors;
-import it.polimi.ingsw.server.messages.GameError;
-import it.polimi.ingsw.server.messages.SerializedAnswer;
+import it.polimi.ingsw.server.servermessages.ConnectionMessage;
+import it.polimi.ingsw.server.servermessages.Errors;
+import it.polimi.ingsw.server.servermessages.GameError;
+import it.polimi.ingsw.server.servermessages.SerializedAnswer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
