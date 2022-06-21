@@ -1,1 +1,11 @@
--Nella classe clientview aggiusta i nomi dei maghi che non so quali sono
+-Nella classe clientview aggiusta i nomi dei maghi che non so quali sono (BARB: dalle immagini degli asset grafici ho
+deciso di chiamarli Druid, Witch, Emir (principe arabo, mi fa molto orientale con magia nera) e Samurai (o OldSamurai o
+WiseSamurai).
+
+
+-BARB: Se scelgo un mago per la prima volta mi dice "already chosen try again" e mi mostra di nuovo che maghi scegliere,
+ovvero qualsiasi mago possibile e scegliendo nuovamente il mago si blocca. Se non sistemi te Andre faccio io appena
+posso.
+
+-SECONDO PROBLEMA: con due player diversi se scelgo lo stesso nickname non mi da alcun problema, quando invece dovrebbe
+esserlo

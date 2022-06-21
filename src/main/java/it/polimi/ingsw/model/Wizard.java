@@ -9,7 +9,7 @@ import java.util.List;
  * @author David Barb, Andrea Albergo
  */
 public enum Wizard {
-    ANDREA,LORENZO,GIOVANNI,EDOARDO;
+    DRUID, WITCH, EMIR, OLDSAMURAI;
 
     private static final List<Wizard> alreadyPicked = new ArrayList<>();
     private static final ArrayList<Wizard> available = new ArrayList<>();
@@ -18,10 +18,10 @@ public enum Wizard {
     public static void setLists() {
         available.clear();
         alreadyPicked.clear();
-        available.add(ANDREA);
-        available.add(LORENZO);
-        available.add(GIOVANNI);
-        available.add(EDOARDO);
+        available.add(DRUID);
+        available.add(WITCH);
+        available.add(EMIR);
+        available.add(OLDSAMURAI);
     }
 
 

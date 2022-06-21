@@ -26,15 +26,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CLI implements Runnable, PropertyChangeListener {
-
     private final Scanner in;
-
     private final ClientView clientView;
     private final CommandHandler handler;
     private final PrintStream out;
     private boolean active;
     private ConnectionSocket socket;
-
     public final Logger logger = Logger.getLogger(getClass().getName());
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
@@ -48,14 +45,36 @@ public class CLI implements Runnable, PropertyChangeListener {
         active = true;
     }
 
+    /**
+     * main method of class CLI, it runs after choosing option "1" in Eryantis app, it asks for IP address, then port to
+     * create a socket connection; after that nickname and if first player (as host of the lobby) choose number of
+     * players and game mode. Finally, before starting the game every player need to choose a tower, a wizard and first
+     * assistant card to draw for first turn sorting.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        System.out.println("WELCOME TO ERYANTIS");
-        System.out.println("The following game was developed by:");
-        System.out.println("Andrea Albergo, Loredan Barb, Edoardo Bozzini\n\n");
+        System.out.println(
+                        "      ___           ___           ___           ___           ___           ___                       ___     \n" +
+                        "     /\\  \\         /\\  \\         |\\__\\         /\\  \\         /\\__\\         /\\  \\          ___        /\\  \\    \n" +
+                        "    /::\\  \\       /::\\  \\        |:|  |       /::\\  \\       /::|  |        \\:\\  \\        /\\  \\      /::\\  \\   \n" +
+                        "   /:/\\:\\  \\     /:/\\:\\  \\       |:|  |      /:/\\:\\  \\     /:|:|  |         \\:\\  \\       \\:\\  \\    /:/\\ \\  \\  \n" +
+                        "  /::\\~\\:\\  \\   /::\\~\\:\\  \\      |:|__|__   /::\\~\\:\\  \\   /:/|:|  |__       /::\\  \\      /::\\__\\  _\\:\\~\\ \\  \\ \n" +
+                        " /:/\\:\\ \\:\\__\\ /:/\\:\\ \\:\\__\\     /::::\\__\\ /:/\\:\\ \\:\\__\\ /:/ |:| /\\__\\     /:/\\:\\__\\  __/:/\\/__/ /\\ \\:\\ \\ \\__\\\n" +
+                        " \\:\\~\\:\\ \\/__/ \\/_|::\\/:/  /    /:/~~/~    \\/__\\:\\/:/  / \\/__|:|/:/  /    /:/  \\/__/ /\\/:/  /    \\:\\ \\:\\ \\/__/\n" +
+                        "  \\:\\ \\:\\__\\      |:|::/  /    /:/  /           \\::/  /      |:/:/  /    /:/  /      \\::/__/      \\:\\ \\:\\__\\  \n" +
+                        "   \\:\\ \\/__/      |:|\\/__/     \\/__/            /:/  /       |::/  /     \\/__/        \\:\\__\\       \\:\\/:/  /  \n" +
+                        "    \\:\\__\\        |:|  |                       /:/  /        /:/  /                    \\/__/        \\::/  /   \n" +
+                        "     \\/__/         \\|__|                       \\/__/         \\/__/                                   \\/__/    \n"
+                +"The following game was developed by:\t\t\t\t   "
+                +Constants.ANSI_RESET+"\n"+Constants.ANSI_BACKGROUND_BLACK+Constants.ANSI_RED
+                +"Andrea Albergo, "+Constants.ANSI_BLUE+"Loredan Barb, "
+                +Constants.ANSI_YELLOW+"Edoardo Bozzini."+Constants.ANSI_RESET+"\n"
+        );
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert the server's IP address (es. 127.0.0.1) -> ");
+        System.out.println("Insert the server's IP address (E.g. \"127.0.0.1\") -> ");
         String ipAddress = scanner.nextLine();
-        System.out.println("Insert the port that the server is listening on (es. 1234) -> ");
+        System.out.println("Insert the port that the server is listening on (E.g. \"1234\") -> ");
         int port = scanner.nextInt();
         Constants.setPort(port);
         Constants.setAddress(ipAddress);

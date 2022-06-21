@@ -26,14 +26,13 @@ public class ClientView {
     private ArrayList<AssistantCard> assistantCards;
 
     public void setWizard(String wizard) {
-        /*switch (compare){
-            case "ciccio" : this.wizard = Wizard.WIZARD1;
-            case "pinco" : this.wizard = Wizard.WIZARD2;
-            case "pallo" : this.wizard = Wizard.WIZARD3;
-            case "fratm" : this.wizard = Wizard.WIZARD4;
+        switch (wizard){
+            case "druid" : this.wizard = Wizard.DRUID;
+            case "witch" : this.wizard = Wizard.WITCH;
+            case "emir" : this.wizard = Wizard.EMIR;
+            case "old samurai" : this.wizard = Wizard.OLDSAMURAI;
         }
 
-         */
         this.wizard = Wizard.parseInput(wizard);
     }
 
@@ -56,7 +55,6 @@ public class ClientView {
     public void setAnswer(Answer answer) {
         this.answer = answer;
     }
-
 
     public CLI getCli() {
         return cli;
