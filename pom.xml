@@ -26,6 +26,16 @@
       <version>RELEASE</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>18</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>18</version>
+    </dependency>
       <dependency>
           <groupId>org.jetbrains</groupId>
           <artifactId>annotations</artifactId>
@@ -46,6 +56,11 @@
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.8</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>

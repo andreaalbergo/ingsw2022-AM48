@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Controller">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Images/First_Background.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="276.0" layoutY="288.0" mnemonicParsing="false" text="PLAY" />
+      <Button layoutX="431.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToRules" text="RULES" />
+      <Button layoutX="107.0" layoutY="262.0" mnemonicParsing="false" onAction="#switchToCredits" text="CREDITS" />
+      <TextField editable="false" layoutX="141.0" layoutY="360.0" prefHeight="26.0" prefWidth="329.0" text="Made by: Andrea Albergo, Loredan Barb, Edoardo Bozzini" />
+   </children>
+</AnchorPane>
