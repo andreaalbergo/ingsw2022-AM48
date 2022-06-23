@@ -31,7 +31,7 @@ public class Listener_FromServer implements Runnable{
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
                 System.out.println(answer.getAnswer().getMessage());
                 view.setAnswer(answer.getAnswer());
-                view.getCli().logger.log(Level.SEVERE, " HOLAAA -> "+answer.getAnswer().getMessage()+ " setto " + view.getAnswer().getMessage());
+                view.getCli().logger.log(Level.SEVERE, " Il Messaggio che ho letto è -> "+ answer.getAnswer().getMessage() + " setto " + view.getAnswer().getMessage());
                 commandHandler.answerHandler();
             }while (view.getCli() == null || view.getCli().isActiveGame());
         } catch (IOException | ClassNotFoundException e) {

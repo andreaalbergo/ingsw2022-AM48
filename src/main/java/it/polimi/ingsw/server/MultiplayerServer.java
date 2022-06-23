@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.System.exit;
@@ -28,7 +29,7 @@ public class MultiplayerServer {
         this.mode = mode;
     }
 
-    private int number_of_Players;
+    private int number_of_Players = -1;
     private final Map<Integer, Client> idtoClientMap;
     private final Map<String, Integer> nametoIdMap;
     private final Map<Integer, String> idNameMap;
@@ -81,15 +82,17 @@ public class MultiplayerServer {
         }
     }
 
-    public void setNumber_of_Players(int number_of_Players) {
-        this.number_of_Players = number_of_Players;
+    public void setNumber_of_Players(int number_of_Players){
+
+            this.number_of_Players = number_of_Players;
+
     }
 
     public BoardHandler getBoard() {
         return board;
     }
 
-    public void lobby(ClientHandler client) throws InterruptedException {
+    public synchronized void lobby(ClientHandler client) throws InterruptedException {
         waiting.add(client);
         System.out.println("\nNella lobby ci sono " + waiting.size() + " giocatori\n");
         if(waiting.size() == 1){
@@ -110,8 +113,14 @@ public class MultiplayerServer {
             waiting.clear();
             Wizard.setLists();
             //board.sendAll(new CustomMessage("We now have to chose between these wizards"+Wizard));
-            Tower.clear();
-            board.setup();
+            Tower.setList();
+            for(int i = 0; i < number_of_Players; i++ ){
+                board.setupWizard();
+            }
+            for(int i = 0; i < number_of_Players; i++ ){
+                board.setupTower();
+            }
+
 
         }else
             board.sendAll(new CustomMessage("There are still" + (number_of_Players - waiting.size()) + "slots left"));
@@ -154,7 +163,7 @@ public class MultiplayerServer {
 
 
  */
-    public void removeClientFromGame(Integer idClient) {
+    public synchronized void removeClientFromGame(Integer idClient) {
         board.unregisterPlayer(idClient);
         Client client = idtoClientMap.get(idClient);
         System.out.println("Removing the player: " + idtoClientMap.get(idClient).getNickname() + "...\n");
@@ -167,24 +176,27 @@ public class MultiplayerServer {
 
     }
 
-    public Integer addClientToGame(String nickname, ClientHandler client) {
+    public synchronized Integer addClientToGame(String nickname, ClientHandler client) {
         Integer IDclient = nametoIdMap.get(nickname);
+        System.out.println("ADDCLIENTTOGAME: DAL NICKNAME "+ nickname + "HO TROVATO L'ID" + IDclient);
         if(IDclient == null) //player
         {
-            System.out.println("This is the first player!!");
+            //System.out.println("This is the first player!!");
             if(waiting.isEmpty()){
                 board = new BoardHandler(this);
             }
             if (nametoIdMap.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
+                System.out.println("MMMM c'è una corrispondenza");
                 SerializedAnswer error = new SerializedAnswer();
                 error.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME));
                 client.sendSocketMessage(error);
+                //client.sendSocketMessage(new CustomMessage("This nickname is already chosen pick another one"));
                 return null;
             }
             IDclient = update_assignedId();
             board.setupPlayer(nickname, IDclient);
             Client virtualClient = new Client(IDclient, nickname, client, board);
-            if (number_of_Players != 0 && waiting.size() > number_of_Players){
+            if (number_of_Players != -1 && waiting.size() > number_of_Players){
                 SerializedAnswer error = new SerializedAnswer();
                 error.setSerializedAnswer(new GameError(Errors.SERVER_IS_FULL));
                 client.sendSocketMessage(error);
@@ -197,18 +209,19 @@ public class MultiplayerServer {
             idtoClientMap.put(IDclient, virtualClient);
             System.out.println( "Client "+ virtualClient.getNickname() + ", identified by ID "+ virtualClient.getIdClient() + ", has successfully connected!");
             virtualClient.send(new ConnectionMessage(true,"Connection was successfully set-up! You are now connected."));
-
-
-
-        }else
-        {
-            System.out.println("This is not the first player with that name, maybe you are reconnecting...!!");
-            Client virtualClient = idtoClientMap.get(IDclient);
-            if(virtualClient.isConnected()){
-                client.sendSocketMessage(new CustomMessage("The current nickname is already taken"));
+        } else {
+            Client player = idtoClientMap.get(IDclient);
+            System.out.println("Controllo che il primo " + player.getNickname() + "sia connesso...");
+            if (player.isConnected()){
+                System.out.println("...lo è...");
+                SerializedAnswer answer = new SerializedAnswer();
+                answer.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME));
+                LOGGER.log(Level.INFO,answer.getAnswer().toString());
+                client.sendSocketMessage(answer);
                 return null;
             }
         }
+
         return IDclient;
     }
 

@@ -58,47 +58,52 @@ public class BoardHandler {
         //TODO
         //call end game
     }
-    public void setup(){
-        if(setupWizard()){
-            setupTower();
-        }
-    }
-    public Boolean setupWizard() {
+
+    public synchronized void setupWizard() {
         if(!isStarted)
             startGame();
         RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
         wizardReq.updateRemaining(Wizard.getAvailable());
         if(numberOfPlayers==2 && Wizard.getAvailable().size()>2){
-            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.getAvailable().size() + 2).getNickname();
+            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 2).getNickname();
+            sendAllExcept(new CustomMessage(player + " is choosing his wizard"),server.getNametoIdMap().get(player));
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
-            sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         } else if (numberOfPlayers==3 && Wizard.getAvailable().size()>1) {
-            String player = board.getActivePlayers().get(numberOfPlayers - Wizard.getAvailable().size() + 1).getNickname();
+            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         }
-        return true;
     }
 
-    public void setupTower() {
+    public synchronized void setupTower() {
+        if(!isStarted)
+            startGame();
         TowerRequest request = new TowerRequest("Please choose a tower: ");
         request.setRemaining_towers(Tower.available);
-        String player = null;
         if(Tower.available.size()>1) {
             if(numberOfPlayers == 2){
-                player = board.getActivePlayers().get(numberOfPlayers - Tower.available.size() + 1).getNickname();
+                String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
+                sendtoPlayer(request, server.getNametoIdMap().get(player));
+                sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
             } else if (numberOfPlayers == 3) {
-                player = board.getActivePlayers().get(numberOfPlayers - Tower.available.size()).getNickname();
+                String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size()).getNickname();
+                sendtoPlayer(request, server.getNametoIdMap().get(player));
+                sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
             }
-            sendtoPlayer(request, server.getNametoIdMap().get(player));
-            sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
+
 
         }
 
     }
 
+    private void chooseAssistantCard(){
+        Player player = board.getCurrentPlayer();
+        ChooseAssistantCard request = new ChooseAssistantCard("Please choose of these cards in your Deck: \n", player.getNickname(), board.getCurrentPlayer().getAssistantCards());
+        sendtoPlayer(request,player.getPlayerID());
+    }
 
-        private void sendtoPlayer( Answer answer, int id) {
+
+    private void sendtoPlayer(Answer answer, int id) {
         server.getIdtoClientMap().get(id).send(answer);
     }
 

@@ -39,7 +39,7 @@ public class Client {
     }
 
     public boolean isConnected() {
-        return true;
+        return clientConnection != null;
     }
 
     public void send(Answer serverAnswer) {

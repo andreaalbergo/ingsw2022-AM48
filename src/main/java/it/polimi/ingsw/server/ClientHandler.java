@@ -92,9 +92,10 @@ public class ClientHandler implements Runnable {
         if (command instanceof SetupConnection) {
             try{
             idClient = server.addClientToGame(((SetupConnection) command).getNickname(), this);
-            System.out.println(idClient);
+            System.out.println("STO REGISTRANDO IL "+ idClient + " CLIENT");
             if (idClient == null) {
                 setActive(false);
+                return;
             }
             server.lobby(this);
             }catch (InterruptedException e)
@@ -108,8 +109,7 @@ public class ClientHandler implements Runnable {
         }else if (command instanceof ChooseWizard){
             if(!Wizard.isAlreadyChosen(((ChooseWizard) command).getWizard())){
                 server.getBoard().getController().setWizard(((ChooseWizard)command).getWizard(), idClient);//Bisogna aggiungere in GameController;
-                server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard().toString()));
-                server.getBoard().setupTower();
+                server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard()));
                 Wizard.choose(((ChooseWizard) command).getWizard());
             }else
             {
@@ -119,7 +119,6 @@ public class ClientHandler implements Runnable {
             if(Tower.available().contains(((ChooseTowerColor)command).getTower())){
                 server.getBoard().getController().setTower(((ChooseTowerColor) command).getTower(),idClient);
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + " :You chose  " + ((ChooseTowerColor)command).getTower().toString() ));
-                server.getBoard().setupWizard();
                 Tower.choose(((ChooseTowerColor)command).getTower());
             }else{
                 server.getIdtoClientMap().get(idClient).send(new GameError(Errors.ALREADYCHOSEN,"The Wizard you chose is already taken, choose one of these: " + Tower.available));

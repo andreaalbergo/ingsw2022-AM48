@@ -28,7 +28,7 @@ public class CommandHandler {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
         cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
-        if(model.getPhase() < 7){
+        if(model.getPhase() < 6 ){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)

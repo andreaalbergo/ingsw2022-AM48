@@ -9,9 +9,11 @@ import it.polimi.ingsw.client.messages.ChooseTowerColor;
 import it.polimi.ingsw.client.messages.ChooseWizard;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.costanti.Constants;
+import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.server.servermessages.ChooseAssistantCard;
 import it.polimi.ingsw.server.servermessages.RequestWizard;
 import it.polimi.ingsw.server.servermessages.SetMode;
 import it.polimi.ingsw.server.servermessages.TowerRequest;
@@ -86,7 +88,7 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void run() {
         startCLI();
         while(isActiveGame()){
-            if(clientView.getPhase() == 5 /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
+            if(clientView.getPhase() >= 4  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
                 in.reset();
                 String received = in.nextLine();
                 System.out.println("Check da run di CLI: " + received);
@@ -120,7 +122,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 System.err.println("There is no server with those specifications...");
                 CLI.main(null);
             }else System.out.println("\n> Socket Connection completed succesully < ");
-        } catch (Exception e) {
+        } catch (DuplicateNicknameException e) {
             startCLI();
         }
         listeners.addPropertyChangeListener("action", new CommandParser(socket,clientView));
@@ -138,7 +140,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 System.out.println("The input is invalid...");
             }
         }
-        logger.log(Level.INFO,"Stai mandandao messaggio con " + numberofplayers + "giocatori");
+        logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberofplayers + "giocatori");
         socket.send(new NumberOfPlayers(numberofplayers));
         clientView.setPhase(1);
 
@@ -152,11 +154,11 @@ public class CLI implements Runnable, PropertyChangeListener {
                 wizard = Wizard.parseInput(in.nextLine());
                 System.out.println("You selected " + wizard + ", let's see if it's still available...");
                 TimeUnit.MILLISECONDS.sleep(500);
-                if(Wizard.isAlreadyChosen(wizard)){
+                if(!Wizard.isAlreadyChosen(wizard)){
                     socket.send(new ChooseWizard(wizard));
                     System.out.println("The wizard was set to "+ wizard);
-                    int phase = clientView.getPhase();
-                    clientView.setPhase(phase + 1);
+                    //int phase = clientView.getPhase();
+                    //clientView.setPhase(phase + 1);
                     break;
                 }else {
                     System.out.println("The Wizard is not available");
@@ -177,7 +179,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 tower = Tower.parseInput(in.nextLine());
                 if(Tower.available.contains(tower)){
                     socket.send(new ChooseTowerColor(tower));
-                    clientView.setPhase(4);
+                    //clientView.setPhase(4);
                     break;
                 }else {
                     System.out.println("The Tower's Color you picked is not available");
@@ -220,7 +222,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 choosePlayerNumber();
             }
             case "RequestWizard" -> {
-                System.out.println(((RequestWizard)clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
+                System.out.println((clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
                 ((RequestWizard) clientView.getAnswer()).getRemaining_wizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
                 chooseWizard();
@@ -236,10 +238,17 @@ public class CLI implements Runnable, PropertyChangeListener {
                 chooseMode();
             }
             case "ChooseAssistandCard" -> {
-                System.out.println(((SetMode)clientView.getAnswer()).getMessage());
-
+                System.out.println(((SetMode)clientView.getAnswer()).getMessage() + "\n Available Cards: ");
+                ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
+                chooseAssistantCard();
             }
         }
+    }
+
+    private void chooseAssistantCard() {
+        System.out.println("Select a card: ");
+        System.out.println(">");
+
     }
 
 

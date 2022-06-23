@@ -42,7 +42,7 @@ public enum Wizard {
      * @return boolean true if the wizard has already been chosen.
      */
     public static boolean isAlreadyChosen(Wizard wizard) {
-        return !alreadyPicked.contains(wizard);
+        return alreadyPicked.contains(wizard);
     }
 
     /**
