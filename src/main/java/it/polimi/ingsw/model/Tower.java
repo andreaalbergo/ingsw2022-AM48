@@ -16,6 +16,7 @@ public enum Tower {
 
     /** Method setLists empties the alreadyPicked list. */
     public static void setList() {
+        available().clear();
         available.add(0, WHITE);
         available.add(1, GREY);
         available.add(2, BLACK);

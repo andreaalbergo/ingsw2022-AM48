@@ -23,11 +23,6 @@ public class ClientHandler implements Runnable {
     private Integer idClient;
     private boolean active;
 
-
-
-
-
-
     public ClientHandler(Socket socket, MultiplayerServer server) {
         this.server = server;
         this.socket = socket;
@@ -107,7 +102,7 @@ public class ClientHandler implements Runnable {
             server.getBoard().getController();//.Setmode
             server.setMode(((ChooseMode) command).getMode());
         }else if (command instanceof ChooseWizard){
-            if(!Wizard.isAlreadyChosen(((ChooseWizard) command).getWizard())){
+            if(Wizard.notChosen(((ChooseWizard) command).getWizard())){
                 server.getBoard().getController().setWizard(((ChooseWizard)command).getWizard(), idClient);//Bisogna aggiungere in GameController;
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard()));
                 Wizard.choose(((ChooseWizard) command).getWizard());
@@ -116,7 +111,7 @@ public class ClientHandler implements Runnable {
                 server.getIdtoClientMap().get(idClient).send(new GameError( Errors.ALREADYCHOSEN , "The Wizard you chose is already taken, choose one of these: " + Wizard.getAvailable()));
             }
         }else if (command instanceof ChooseTowerColor){
-            if(Tower.available().contains(((ChooseTowerColor)command).getTower())){
+            if(Tower.available().contains(((ChooseTowerColor) command).getTower())){
                 server.getBoard().getController().setTower(((ChooseTowerColor) command).getTower(),idClient);
                 server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + " :You chose  " + ((ChooseTowerColor)command).getTower().toString() ));
                 Tower.choose(((ChooseTowerColor)command).getTower());
@@ -194,6 +189,7 @@ public class ClientHandler implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             BoardHandler board = server.getBoard();
+            server.removeClientFromGame(idClient);
             if (board.isStarted()){
                 board.endGame(server.getIdNameMap().get(idClient));
             }

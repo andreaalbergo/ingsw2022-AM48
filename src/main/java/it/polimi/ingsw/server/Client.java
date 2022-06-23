@@ -10,16 +10,16 @@ public class Client {
     private ClientHandler clientConnection;
     private BoardHandler board;
 
-    public String getNickname(){
-         return this.nickname;
-    }
-
     public Client(Integer idClient, String nickname, ClientHandler clientConnection, BoardHandler board) {
         this.idClient = idClient;
         this.nickname = nickname;
         this.clientConnection = clientConnection;
         this.board = board;
 
+    }
+
+    public String getNickname(){
+        return this.nickname;
     }
 
     public Integer getIdClient() {

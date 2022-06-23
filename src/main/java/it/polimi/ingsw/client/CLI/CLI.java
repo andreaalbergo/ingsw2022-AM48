@@ -154,7 +154,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 wizard = Wizard.parseInput(in.nextLine());
                 System.out.println("You selected " + wizard + ", let's see if it's still available...");
                 TimeUnit.MILLISECONDS.sleep(500);
-                if(!Wizard.isAlreadyChosen(wizard)){
+                if(!Wizard.notChosen(wizard)){
                     socket.send(new ChooseWizard(wizard));
                     System.out.println("The wizard was set to "+ wizard);
                     //int phase = clientView.getPhase();

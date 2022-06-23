@@ -30,7 +30,7 @@ public class ClientView {
             case "druid" : this.wizard = Wizard.DRUID;
             case "witch" : this.wizard = Wizard.WITCH;
             case "emir" : this.wizard = Wizard.EMIR;
-            case "old samurai" : this.wizard = Wizard.OLDSAMURAI;
+            case "old samurai" : this.wizard = Wizard.SAMURAI;
         }
 
         this.wizard = Wizard.parseInput(wizard);
