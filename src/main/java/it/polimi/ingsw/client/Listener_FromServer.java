@@ -28,6 +28,7 @@ public class Listener_FromServer implements Runnable{
             do{
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
                 System.out.println(answer.getAnswer().getMessage());
+                //view.getCli().logger.log(Level.INFO, answer.getAnswer().getMessage().toString());
                 view.setAnswer(answer.getAnswer());
                 view.getCli().logger.log(Level.SEVERE, " Il Messaggio che ho letto è -> "+ answer.getAnswer().getMessage() + " setto " + view.getAnswer().getMessage());
                 commandHandler.answerHandler();

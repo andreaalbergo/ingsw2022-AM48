@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.lang.System.exit;
 
@@ -22,6 +24,8 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream outputStream;
     private Integer idClient;
     private boolean active;
+
+    private final Logger logger = Logger.getLogger(getClass().getName());
 
     public ClientHandler(Socket socket, MultiplayerServer server) {
         this.server = server;
@@ -101,15 +105,25 @@ public class ClientHandler implements Runnable {
         } else if (command instanceof ChooseMode) {
             server.getBoard().getController();//.Setmode
             server.setMode(((ChooseMode) command).getMode());
-        }else if (command instanceof ChooseWizard){
-            if(Wizard.notChosen(((ChooseWizard) command).getWizard())){
-                server.getBoard().getController().setWizard(((ChooseWizard)command).getWizard(), idClient);//Bisogna aggiungere in GameController;
-                server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + ": You chose " + ((ChooseWizard)command).getWizard()));
-                Wizard.choose(((ChooseWizard) command).getWizard());
-            }else
-            {
-                server.getIdtoClientMap().get(idClient).send(new GameError( Errors.ALREADYCHOSEN , "The Wizard you chose is already taken, choose one of these: " + Wizard.getAvailable()));
+        }else if (command instanceof ChooseDetails){
+            System.out.println("Ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
+            if(Tower.isAlreadyPicked(((ChooseDetails) command).getTower()) || Wizard.isAlreadyPicked(((ChooseDetails) command).getWizard())){
+                server.getIdtoClientMap().get(idClient).send(new SetDatails("This selection is invalid, check if one of the choices isn't already picked"));
+                return;
             }
+            System.out.println("check 1");
+            server.getBoard().getController().setTower(((ChooseDetails) command).getTower(),idClient);
+            System.out.println("check 2");
+            server.getBoard().getController().setWizard(((ChooseDetails) command).getWizard(),idClient);
+            System.out.println("check 3");
+            Wizard.choose(((ChooseDetails) command).getWizard());
+            System.out.println("check 4");
+            Tower.choose(((ChooseDetails) command).getTower());
+            System.out.println("check 5");
+            server.getBoard().sendtoPlayer(new SetDatails("\n",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
+            System.out.println("check 6");
+            server.getBoard().setup();
+            /*
         }else if (command instanceof ChooseTowerColor){
             if(Tower.available().contains(((ChooseTowerColor) command).getTower())){
                 server.getBoard().getController().setTower(((ChooseTowerColor) command).getTower(),idClient);
@@ -118,7 +132,7 @@ public class ClientHandler implements Runnable {
             }else{
                 server.getIdtoClientMap().get(idClient).send(new GameError(Errors.ALREADYCHOSEN,"The Wizard you chose is already taken, choose one of these: " + Tower.available));
             }
-
+             */
         }else if( command instanceof QuitMessage){
             server.getBoard().sendAll(new CustomMessage(server.getIdNameMap().get(idClient) + " has quit the game, Game ending... "));
             server.getBoard().endGame(server.getIdNameMap().get(idClient));
@@ -166,7 +180,7 @@ public class ClientHandler implements Runnable {
                     server.getIdtoClientMap().get(idClient).send(new CustomMessage("The number of players was set to " + ((NumberOfPlayers) m).NumberOfPlayers));
                     break;
                     }else {
-                        server.getIdtoClientMap().get(idClient).send(new GameError(Errors.DUPLICATENICKNAME));
+                        server.getIdtoClientMap().get(idClient).send(new GameError(Errors.DUPLICATENICKNAME,"The nickname is already chosen"));
                         server.getIdtoClientMap().get(idClient).send(new SetPlayersRequest("Choose a number of Players [2 or 3]"));
                     }
                 }

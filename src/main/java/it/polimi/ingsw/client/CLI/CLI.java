@@ -4,19 +4,15 @@ import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.CommandHandler;
 import it.polimi.ingsw.client.CommandParser;
 import it.polimi.ingsw.client.ConnectionSocket;
+import it.polimi.ingsw.client.messages.ChooseDetails;
 import it.polimi.ingsw.client.messages.ChooseMode;
-import it.polimi.ingsw.client.messages.ChooseTowerColor;
-import it.polimi.ingsw.client.messages.ChooseWizard;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.servermessages.ChooseAssistantCard;
-import it.polimi.ingsw.server.servermessages.RequestWizard;
-import it.polimi.ingsw.server.servermessages.SetMode;
-import it.polimi.ingsw.server.servermessages.TowerRequest;
+import it.polimi.ingsw.server.servermessages.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -146,20 +142,15 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     }
 
-    public void chooseWizard(List<Wizard> availableWizards){
+    public Wizard chooseWizard(List<Wizard> availableWizards){
         Wizard wizard;
         while (true){
             try {
                 System.out.println("Choose your Wizard: ");
-                System.out.println("Here's the list of available wizards: "+Wizard.getAvailable());
+                //System.out.println("Here's the list of available wizards: "+Wizard.getAvailable());
                 wizard = Wizard.parseInput(in.nextLine());
                 if(availableWizards.contains(wizard)){
-                    int phase = clientView.getPhase();
-
-                    socket.send(new ChooseWizard(wizard));
-                    System.out.println("The wizard was set to "+ wizard);
-                    clientView.setPhase(phase++);
-                    return;
+                    return wizard;
                 } else {
                     System.out.println("Wizard not available!");
                     //then I should create a class to reflush buffer and clean it without deleting all the entire stream
@@ -171,16 +162,14 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     }
 
-    public void chooseTower(){
+    public Tower chooseTower(List<Tower> remainingTowers){
         Tower tower;
         while (true){
             try {
                 System.out.println("Choose your Tower's Color: ");
                 tower = Tower.parseInput(in.nextLine());
-                if(Tower.available.contains(tower)){
-                    socket.send(new ChooseTowerColor(tower));
-                    //clientView.setPhase(4);
-                    break;
+                if(remainingTowers.contains(tower)){
+                    return tower;
                 }else {
                     System.out.println("The Tower's Color you picked is not available");
                 }
@@ -221,18 +210,17 @@ public class CLI implements Runnable, PropertyChangeListener {
                 System.out.println("Choose the number of players [2 or 3]");
                 choosePlayerNumber();
             }
-            case "RequestWizard" -> {
+            case "SetDatails" -> {
                 System.out.println((clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
-                ((RequestWizard) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
+                ((SetDatails) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
-                chooseWizard(((RequestWizard) clientView.getAnswer()).getRemainingWizards());
+                Wizard wizard = chooseWizard(((SetDatails) clientView.getAnswer()).getRemainingWizards());
+                System.out.println("\nRemaining Towers: ");
+                ((SetDatails) clientView.getAnswer()).getRemainingTowers().forEach(n -> System.out.print(n + ", "));
+                Tower tower = chooseTower(((SetDatails) clientView.getAnswer()).getRemainingTowers());
+                socket.send(new ChooseDetails(tower,wizard));
             }
-            case "TowerRequest" -> {
-                System.out.println(((TowerRequest)clientView.getAnswer()).getMessage() + "\nRemaining Towers: ");
-                Tower.available.forEach(tower -> System.out.print( tower + " ,"));
-                System.out.print(".\n");
-                chooseTower();
-            }
+
             case "SetMode" -> {
                 System.out.println(((SetMode)clientView.getAnswer()).getMessage());
                 chooseMode();

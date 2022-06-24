@@ -33,6 +33,6 @@ public class TowerRequest implements Answer{
 
     @Override
     public Object getMessage() {
-        return tower;
+        return message;
     }
 }

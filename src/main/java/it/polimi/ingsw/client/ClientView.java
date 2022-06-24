@@ -30,8 +30,8 @@ public class ClientView {
 
     public void setWizard(String wizard) {
         String magician = wizard.toLowerCase();
-        System.out.println("I AM IN SETWIZARD METHOD");
-        System.out.println("THIS IS THE WIZARD CHOSEN: "+wizard);
+        //System.out.println("I AM IN SETWIZARD METHOD");
+        //System.out.println("THIS IS THE WIZARD CHOSEN: "+wizard);
         switch (magician){
             case "druid" : this.wizard = Wizard.DRUID;
             case "witch" : this.wizard = Wizard.WITCH;

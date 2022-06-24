@@ -61,17 +61,12 @@ public class CommandHandler {
     private void setupGame(Answer answer) {
         if(answer instanceof SetPlayersRequest){
             view.firePropertyChange("setup",null, "SetPlayersRequest");
-        } else if (answer instanceof RequestWizard) {
-            if(((RequestWizard) answer).getWizard() == null){
-                view.firePropertyChange("setup", null, "RequestWizard");
+        } else if (answer instanceof SetDatails) {
+            if(((SetDatails) answer).getWizard() == null){
+                view.firePropertyChange("setup", null, "SetDatails");
             }else {
-                model.setWizard(((RequestWizard) answer).getWizard());
-            }
-        } else if (answer instanceof TowerRequest) {
-            if(((TowerRequest) answer).getTower() == null){
-                view.firePropertyChange("setup", null, "TowerRequest");
-            }else {
-                model.setTower(((TowerRequest) answer).getTower());
+                model.setWizard(((SetDatails) answer).getWizard().toString());
+                model.setTower(((SetDatails) answer).getTower().toString());
             }
         } else if (answer instanceof MatchStarted) {
             view.firePropertyChange("matchStarted",null,null);

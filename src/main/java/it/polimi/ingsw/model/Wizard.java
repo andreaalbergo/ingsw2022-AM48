@@ -35,8 +35,8 @@ public enum Wizard {
      * @param wizard of type Wizard - the chosen wizard.
      * @return boolean true if the wizard has already been chosen.
      */
-    public static boolean notChosen(Wizard wizard) {
-        return available.contains(wizard);
+    public static boolean isAlreadyPicked(Wizard wizard) {
+        return !(available.contains(wizard));
     }
 
     public static ArrayList<Wizard> getAvailable() {

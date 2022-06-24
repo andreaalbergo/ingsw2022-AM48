@@ -113,14 +113,21 @@ public class MultiplayerServer {
             waiting.clear();
             Wizard.setLists(); //ok setta bene
             Tower.setList(); //ok setta bene
-            for(int i = 0; i < number_of_Players; i++ ){
-                board.setupWizard();
+            board.setup();
+            /*
+            while(true){
+                int i = 0;
+                i = board.setupWizard(i);
+                if (i == number_of_Players){
+                    break;
+                }
             }
-            for(int i = 0; i < number_of_Players; i++ ){
-                board.setupTower();
+            while(true){
+                if (board.setupTower()){
+                    break;
+                }
             }
-
-
+            */
         }else
             board.sendAll(new CustomMessage("There are still" + (number_of_Players - waiting.size()) + "slots left"));
 
@@ -187,7 +194,7 @@ public class MultiplayerServer {
             if (nametoIdMap.keySet().stream().anyMatch(nickname::equalsIgnoreCase)) {
                 System.out.println("MMMM c'è una corrispondenza");
                 SerializedAnswer error = new SerializedAnswer();
-                error.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME));
+                error.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME,"The nickname has already been picked"));
                 client.sendSocketMessage(error);
                 //client.sendSocketMessage(new CustomMessage("This nickname is already chosen pick another one"));
                 return null;
@@ -197,7 +204,7 @@ public class MultiplayerServer {
             Client virtualClient = new Client(IDclient, nickname, client, board);
             if (number_of_Players != -1 && waiting.size() > number_of_Players){
                 SerializedAnswer error = new SerializedAnswer();
-                error.setSerializedAnswer(new GameError(Errors.SERVER_IS_FULL));
+                error.setSerializedAnswer(new GameError(Errors.SERVER_IS_FULL,"The server is full :("));
                 client.sendSocketMessage(error);
                 return null;
             }
@@ -214,7 +221,7 @@ public class MultiplayerServer {
             if (player.isConnected()){
                 System.out.println("...lo è...");
                 SerializedAnswer answer = new SerializedAnswer();
-                answer.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME));
+                answer.setSerializedAnswer(new GameError(Errors.DUPLICATENICKNAME,"The nickname is already chosen"));
                 LOGGER.log(Level.INFO,answer.getAnswer().toString());
                 client.sendSocketMessage(answer);
                 return null;

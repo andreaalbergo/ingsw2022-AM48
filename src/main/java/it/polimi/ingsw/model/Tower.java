@@ -12,18 +12,22 @@ import java.util.List;
 public enum Tower {
     WHITE, BLACK, GREY;
 
-    public static final List<Tower> available = new ArrayList<>();
+    private static final ArrayList<Tower> available = new ArrayList<>();
 
     /** Method setLists empties the alreadyPicked list. */
     public static void setList() {
         available().clear();
-        available.add(0, WHITE);
-        available.add(1, GREY);
-        available.add(2, BLACK);
+        available.add(WHITE);
+        available.add( GREY);
+        available.add( BLACK);
     }
 
     public static List<Tower> available() {
         return available;
+    }
+
+    public static boolean isAlreadyPicked(Tower tower){
+        return !(available.contains(tower));
     }
 
     /**
@@ -44,5 +48,6 @@ public enum Tower {
     public static Tower parseInput(String input) {
         return Enum.valueOf(Tower.class, input.toUpperCase());
     }
+
 }
 
