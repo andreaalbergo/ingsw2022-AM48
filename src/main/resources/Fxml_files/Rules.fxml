@@ -7,22 +7,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Controller">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.IntroController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@../Images/First_Background.jpg" />
-         </image>
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="421.0" layoutX="35.0" layoutY="159.0" pickOnBounds="true" preserveRatio="true">
-         <image>
             <Image url="@../Images/Regole.png" />
-         </image>
       </ImageView>
-      <Button layoutX="437.0" layoutY="247.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Return to Main Menu" />
-      <Hyperlink layoutX="122.0" layoutY="325.0" text="https://bit.ly/3zW1ns5" />
+      <Button layoutX="463.0" layoutY="247.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Main Menu" />
+      <Hyperlink layoutX="122.0" layoutY="325.0" onAction="#openItalianRuleLink" text="https://bit.ly/3zW1ns5" />
       <Label layoutX="34.0" layoutY="325.0" text="Italian Version:" />
       <Label layoutX="34.0" layoutY="351.0" text="English Version:" />
-      <Hyperlink layoutX="122.0" layoutY="351.0" text="https://bit.ly/3ykVio9" />
+      <Hyperlink layoutX="122.0" layoutY="351.0" onAction="#openEnglishRuleLink" text="https://bit.ly/3ykVio9" />
+      <Button layoutX="475.0" layoutY="289.0" mnemonicParsing="false" onAction="#switchToCredits" text="Credits" />
    </children>
 </AnchorPane>
