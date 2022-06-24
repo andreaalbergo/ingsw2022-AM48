@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.server.MultiplayerServer;
 
 import java.util.InputMismatchException;
@@ -40,7 +41,10 @@ public class Eryantis
                 System.out.println("You chose CLI, opening instance...");
                 CLI.main(null);
             }
-            case 2 -> System.out.println("You chose GUI, opening window...");//GUI.main(null);
+            case 2 -> {
+                System.out.println("You chose GUI, opening window...");
+                GUI.main(null);
+            }
             default -> System.err.println("""
                     Invalid argument, try again with valid input:
                     0.Server

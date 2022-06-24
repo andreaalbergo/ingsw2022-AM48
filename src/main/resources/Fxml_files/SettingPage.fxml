@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.TextField?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.ControllerSettingPage">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="611.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Images/Sfondochiaro.png" />
+      </ImageView>
+      <Label fx:id="welcomeLabel" layoutX="23.0" layoutY="14.0" text="Welcome ">
+         <font>
+            <Font name="Verdana" size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="23.0" layoutY="84.0" text="Choose your wizard:" />
+      <ImageView fitHeight="150.0" fitWidth="119.0" layoutX="37.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Images/Wizards/Druid.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="119.0" layoutX="175.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Images/Wizards/Emir.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="119.0" layoutX="323.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Images/Wizards/Witch.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="119.0" layoutX="470.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../Images/Wizards/Old_samurai.png" />
+      </ImageView>
+      <RadioButton fx:id="druid" layoutX="59.0" layoutY="269.0" mnemonicParsing="false" text="Druid" toggleGroup="$Wizards">
+         <toggleGroup>
+            <ToggleGroup fx:id="Wizards" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="emir" layoutX="200.0" layoutY="269.0" mnemonicParsing="false" text="Emir" toggleGroup="$Wizards" />
+      <RadioButton fx:id="old_samurai" layoutX="327.0" layoutY="269.0" mnemonicParsing="false" text="Old Samurai" toggleGroup="$Wizards" />
+      <RadioButton fx:id="witch" layoutX="491.0" layoutY="269.0" mnemonicParsing="false" text="Witch" toggleGroup="$Wizards" />
+      <Label layoutX="44.5" layoutY="307.0" text="Number of Players:" />
+      <CheckBox fx:id="expertModeBox" layoutX="408.7" layoutY="307.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="99.0" text="Expert Game" />
+      <Button layoutX="254.0" layoutY="337.0" mnemonicParsing="false" onAction="#switchToLoadingPage" prefHeight="31.0" prefWidth="103.0" text="START GAME" />
+      <TextField fx:id="numberOfPlayerField" layoutX="149.0" layoutY="303.0" prefHeight="26.0" prefWidth="53.0" />
+   </children>
+</AnchorPane>

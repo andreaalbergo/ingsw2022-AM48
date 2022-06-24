@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.GUI;
 
+import it.polimi.ingsw.client.ClientView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application {
 
+    //private final ClientView clientView;
     @Override
     public void start(Stage stage) {
         try {
@@ -23,6 +25,12 @@ public class GUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public GUI(){
+
+        //clientView = new ClientView(this);
+
     }
 }
 

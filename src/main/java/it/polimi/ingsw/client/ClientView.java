@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
@@ -12,6 +13,7 @@ public class ClientView {
 
 
     private final CLI cli;
+    //private final GUI gui;
     private String nickname;
 
     private Wizard wizard;
@@ -50,6 +52,12 @@ public class ClientView {
     public ClientView(CLI cli) {
         this.cli = cli;
     }
+    /*
+    public ClientView(GUI gui){
+        this.gui = gui;
+    }
+
+     */
 
 
     public void setAnswer(Answer answer) {
