@@ -59,15 +59,17 @@ public class BoardHandler {
         //call end game
     }
 
+    //FUNZIONA MA MI FA SCEGLIERE DUE VOLTE MA SOLO ALL'HOST E NON ALL'ALTRO PLAYER
     public synchronized void setupWizard() {
         if(!isStarted)
             startGame();
         RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
         wizardReq.updateRemaining(Wizard.getAvailable());
         if(numberOfPlayers==2 && Wizard.getAvailable().size()>2){
-            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 2).getNickname();
-            sendAllExcept(new CustomMessage(player + " is choosing his wizard"),server.getNametoIdMap().get(player));
-            sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
+            String player = board.getPlayerFromGivenID(numberOfPlayers - Wizard.getAvailable().size() +2).getNickname();
+            sendAllExcept(new CustomMessage("User "+player+" is choosing his wizard"),server.getNametoIdMap().get(player));
+            sendtoPlayer(wizardReq, server.getNametoIdMap().get(player));
+            return;
         } else if (numberOfPlayers==3 && Wizard.getAvailable().size()>1) {
             String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
@@ -103,7 +105,7 @@ public class BoardHandler {
     }
 
 
-    private void sendtoPlayer(Answer answer, int id) {
+    private void sendtoPlayer(Answer answer, Integer id) {
         server.getIdtoClientMap().get(id).send(answer);
     }
 
@@ -112,10 +114,12 @@ public class BoardHandler {
             server.getIdtoClientMap().get(player.getPlayerID()).send(customMessage);
     }
 
+
+    //STO METODO FUNZIONA MA STAMPA DUE VOLTE...
     public void sendAllExcept(Answer answer, Integer idClient) {
         for (Player player: board.getActivePlayers()) {
-            if(player.getPlayerID()!=idClient){
-                server.getIdtoClientMap().get(idClient).send(answer);
+            if(server.getNametoIdMap().get(player.getNickname())!=idClient){
+                server.getIdtoClientMap().get(player.getPlayerID()).send(answer);
             }
         }
     }

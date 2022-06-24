@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Hello world!
  *
  */
-public class Eryantis
+public class Eriantys
 {
         /**
          * Method main selects CLI, GUI or Server based on the arguments provided.
@@ -18,7 +18,7 @@ public class Eryantis
          * @param args of type String[]
          */
         public static void main(String[] args){
-        System.out.println("Welcome to Eryantis!\nPlease choose one of the following options to launch");
+        System.out.println("Welcome to Eriantys!\nPlease choose one of the following options to launch");
         System.out.println("0.SERVER\n1.CLIENT CLI (COMMAND LINE INTERFACE)\n2.CLIENT GUI (GRAPHIC USER INTERFACE)");
         System.out.println("Type the option's number you desire to launch:");
         System.out.print(">");

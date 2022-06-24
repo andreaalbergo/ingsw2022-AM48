@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RequestWizard implements Answer{
-
     private final String message;
-
     private final String wizard;
 
-    private List<Wizard> remaining_wizards = new ArrayList<>();
+    private List<Wizard> remainingWizards = new ArrayList<>();
 
     public RequestWizard(String message, String wizard) {
         this.message = message;
@@ -28,11 +26,11 @@ public class RequestWizard implements Answer{
     }
 
     public void updateRemaining(List<Wizard> wizards){
-        remaining_wizards = wizards;
+        remainingWizards = wizards;
     }
 
-    public List<Wizard> getRemaining_wizards(){
-        return remaining_wizards;
+    public List<Wizard> getRemainingWizards(){
+        return remainingWizards;
     }
 
     @Override

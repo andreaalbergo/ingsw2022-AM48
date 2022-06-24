@@ -22,8 +22,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +48,7 @@ public class CLI implements Runnable, PropertyChangeListener {
     }
 
     /**
-     * main method of class CLI, it runs after choosing option "1" in Eryantis app, it asks for IP address, then port to
+     * main method of class CLI, it runs after choosing option "1" in Eriantys app, it asks for IP address, then port to
      * create a socket connection; after that nickname and if first player (as host of the lobby) choose number of
      * players and game mode. Finally, before starting the game every player need to choose a tower, a wizard and first
      * assistant card to draw for first turn sorting.
@@ -129,42 +129,42 @@ public class CLI implements Runnable, PropertyChangeListener {
     }
 
     public void choosePlayerNumber(){
-        int numberofplayers;
+        int numberOfPlayers;
         while (true){
             try {
                 System.out.println("Insert here: ");
                 //logger.log(Level.SEVERE,"Insert here: ");
-                numberofplayers = Integer.parseInt(in.nextLine());
+                numberOfPlayers = Integer.parseInt(in.nextLine());
                 break;
             } catch (NumberFormatException exception){
-                System.out.println("The input is invalid...");
+                System.out.println("The input is invalid...it must be a number between 2 and 3");
             }
         }
-        logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberofplayers + "giocatori");
-        socket.send(new NumberOfPlayers(numberofplayers));
+        logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
+        socket.send(new NumberOfPlayers(numberOfPlayers));
         clientView.setPhase(1);
 
     }
 
-    public void chooseWizard(){
+    public void chooseWizard(List<Wizard> availableWizards){
         Wizard wizard;
         while (true){
             try {
                 System.out.println("Choose your Wizard: ");
+                System.out.println("Here's the list of available wizards: "+Wizard.getAvailable());
                 wizard = Wizard.parseInput(in.nextLine());
-                System.out.println("You selected " + wizard + ", let's see if it's still available...");
-                TimeUnit.MILLISECONDS.sleep(500);
-                if(!Wizard.notChosen(wizard)){
+                if(availableWizards.contains(wizard)){
+                    int phase = clientView.getPhase();
+
                     socket.send(new ChooseWizard(wizard));
                     System.out.println("The wizard was set to "+ wizard);
-                    //int phase = clientView.getPhase();
-                    //clientView.setPhase(phase + 1);
-                    break;
-                }else {
-                    System.out.println("The Wizard is not available");
+                    clientView.setPhase(phase++);
+                    return;
+                } else {
+                    System.out.println("Wizard not available!");
+                    //then I should create a class to reflush buffer and clean it without deleting all the entire stream
                 }
-
-            } catch (IllegalArgumentException | InterruptedException exception){
+            } catch (IllegalArgumentException e){
                 System.out.println("The input is invalid... Choose a Wizard not a random object dumbo");
             }
         }
@@ -223,9 +223,9 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
             case "RequestWizard" -> {
                 System.out.println((clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
-                ((RequestWizard) clientView.getAnswer()).getRemaining_wizards().forEach(n -> System.out.print(n + ", "));
+                ((RequestWizard) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
-                chooseWizard();
+                chooseWizard(((RequestWizard) clientView.getAnswer()).getRemainingWizards());
             }
             case "TowerRequest" -> {
                 System.out.println(((TowerRequest)clientView.getAnswer()).getMessage() + "\nRemaining Towers: ");

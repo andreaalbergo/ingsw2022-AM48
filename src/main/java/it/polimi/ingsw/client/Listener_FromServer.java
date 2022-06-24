@@ -13,7 +13,6 @@ public class Listener_FromServer implements Runnable{
     private final ClientView view;
     private final CommandHandler commandHandler;
     private final ObjectInputStream in;
-
     private final Logger logger = Logger.getLogger(getClass().getName());
 
     public Listener_FromServer(Socket socket, ClientView view, CommandHandler commandHandler, ObjectInputStream input) {
@@ -27,7 +26,6 @@ public class Listener_FromServer implements Runnable{
     public void run() {
         try{
             do{
-
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
                 System.out.println(answer.getAnswer().getMessage());
                 view.setAnswer(answer.getAnswer());

@@ -21,13 +21,15 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * ConnectionSocket class creates a server socket that accepts connections from new clients and instantiates a new
+ * thread to work with it.
+ *
+ */
 public class ConnectionSocket {
-
     private final String serverip;
     private final int port;
-
     private Listener_FromServer listener;
-
     private ObjectOutputStream out;
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
 

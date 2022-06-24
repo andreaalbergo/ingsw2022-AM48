@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 /**
- * RoundHandler is a class that handles the "Planning Phase" of every Eryantis round, so it handles the chosen assistant
+ * RoundHandler is a class that handles the "Planning Phase" of every Eriantys round, so it handles the chosen assistant
  * cards to order the players' turns for the "Action Phase".
  */
 public class RoundHandler {

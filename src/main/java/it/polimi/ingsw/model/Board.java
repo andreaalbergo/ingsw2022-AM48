@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Board class contains the main logic of "Eryantis", which is divided into some areas. The first one, the most
+ * Board class contains the main logic of "Eriantys", which is divided into some areas. The first one, the most
  * important one, is the player who has a SchoolBoard, a set of 10 different assistant cards (and a counter of coins if
  * game mode is set to "expert"). Second one is the BoardManager, which contains information about the status of the
  * islands, bag, clouds, mother nature, round of the game and current player's round.

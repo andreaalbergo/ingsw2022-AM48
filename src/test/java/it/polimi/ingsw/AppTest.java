@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.MotherNature;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit test for simple Eryantis.
+ * Unit test for simple Eriantys.
  */
 public class AppTest 
 {

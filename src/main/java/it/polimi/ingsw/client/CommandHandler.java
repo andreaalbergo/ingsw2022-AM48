@@ -7,11 +7,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
 
 public class CommandHandler {
-
     private final ClientView model;
 
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
-
     private CLI cli;
 
     public CommandHandler(ClientView model, CLI cli) {
@@ -28,7 +26,7 @@ public class CommandHandler {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
         cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
-        if(model.getPhase() < 6 ){
+        if(model.getPhase()<6){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
@@ -69,7 +67,6 @@ public class CommandHandler {
             }else {
                 model.setWizard(((RequestWizard) answer).getWizard());
             }
-
         } else if (answer instanceof TowerRequest) {
             if(((TowerRequest) answer).getTower() == null){
                 view.firePropertyChange("setup", null, "TowerRequest");

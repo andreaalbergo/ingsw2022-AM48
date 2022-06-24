@@ -111,9 +111,8 @@ public class MultiplayerServer {
             }
             board.sendAll(new CustomMessage("Match started"));
             waiting.clear();
-            Wizard.setLists();
-            //board.sendAll(new CustomMessage("We now have to chose between these wizards"+Wizard));
-            Tower.setList();
+            Wizard.setLists(); //ok setta bene
+            Tower.setList(); //ok setta bene
             for(int i = 0; i < number_of_Players; i++ ){
                 board.setupWizard();
             }
@@ -229,7 +228,7 @@ public class MultiplayerServer {
     public static void main(String[] args) {
 
         int port = 0;
-        System.out.println("Hey, Welcome to the Eryantis Server!\n");
+        System.out.println("Hey, Welcome to the Eriantys Server!\n");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Which port do you want the server to work on? ->");
         try {
