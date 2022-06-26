@@ -2,36 +2,34 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.server.BoardHandler;
 import it.polimi.ingsw.server.servermessages.Answer;
-import it.polimi.ingsw.server.servermessages.CustomMessage;
 
 import java.util.ArrayList;
 
 public class ClientView {
-
     private final CLI cli;
-    //private final GUI gui;
+    private final GUI gui;
     private String nickname;
-
+    private String currentPlayer;
     private Wizard wizard;
-
     private Answer answer;
-
-    private int phase = 0;
-
+    private int gamePhase;
+    private int turnPhase;
     private boolean inputEnabler;
     private Tower tower;
-
     private ArrayList<AssistantCard> assistantCards;
+    private boolean characterCardActive;
+    //private GameBoard gameBoard;
+    private String characterCardInfo;
+    private boolean turnActive;
+
 
     public void setWizard(String wizard) {
         String magician = wizard.toLowerCase();
-        //System.out.println("I AM IN SETWIZARD METHOD");
-        //System.out.println("THIS IS THE WIZARD CHOSEN: "+wizard);
         switch (magician){
             case "druid" : this.wizard = Wizard.DRUID;
             case "witch" : this.wizard = Wizard.WITCH;
@@ -53,14 +51,19 @@ public class ClientView {
 
     public ClientView(CLI cli) {
         this.cli = cli;
+        //gameBoard = new GameBoard();
+        gui = null;
     }
-    /*
-    public ClientView(GUI gui){
+
+    public ClientView(GUI gui) {
         this.gui = gui;
+        //gameBoard = new GameBoard();
+        cli = null;
     }
 
-     */
-
+    public Answer getAnswer() {
+        return answer;
+    }
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
@@ -70,6 +73,8 @@ public class ClientView {
         return cli;
     }
 
+    public GUI getGui() {return gui; }
+
     public void setName(String name) {
         this.nickname = name;
     }
@@ -78,18 +83,17 @@ public class ClientView {
         return nickname;
     }
 
-    public int getPhase() {
-        return phase;
+    public int getGamePhase() {
+        return gamePhase;
     }
 
-    public void setPhase(int phase) {
-        this.phase = phase;
+    public void setGamePhase(int gamePhase) {
+        this.gamePhase = gamePhase;
     }
 
+    public int getTurnPhase() { return turnPhase; }
 
-    public Answer getAnswer() {
-        return answer;
-    }
+    public void setTurnPhase(int turnPhase) { this.turnPhase = turnPhase; }
 
     public boolean isInputEnabler() {
         return inputEnabler;
@@ -98,4 +102,35 @@ public class ClientView {
     public void setInputEnabler(boolean inputEnabler) {
         this.inputEnabler = inputEnabler;
     }
+
+    public boolean isTurnActive() { return turnActive; }
+
+    public void setTurnActive(boolean turnActive) { this.turnActive = turnActive; }
+
+    public void setCharacterEffectInfo(String characterCardInfo) {
+        if (characterCardInfo.length() > 100) {
+            String tmpOne = characterCardInfo.substring(0, 100);
+            String tmpTwo = characterCardInfo.substring(100);
+            if (Character.toString(tmpTwo.charAt(0)).equals(" ")) {
+                characterCardInfo = tmpOne + "\n" + tmpTwo.substring(1);
+            } else {
+                characterCardInfo = tmpOne + "-" + "\n" + tmpTwo;
+            }
+        }
+        this.characterCardInfo = characterCardInfo;
+    }
+
+    public String getCharacterCardInfo() {
+        return characterCardInfo;
+    }
+
+   /* public synchronized GameBoard getBoard() { return gameBoard; }*/
+
+    public boolean isCharacterCardActive() { return characterCardActive; }
+
+    public void setCharacterCardActive(boolean characterCardActive) { this.characterCardActive = characterCardActive; }
+
+    public String getCurrentPlayer() { return currentPlayer; }
+
+    public void setCurrentPlayer(String currentPlayer) { this.currentPlayer = currentPlayer; }
 }

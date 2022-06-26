@@ -78,7 +78,7 @@ public class BoardHandler {
             sendAllExcept(new CustomMessage("User "+ player +" is choosing his wizard"),server.getNametoIdMap().get(player));
             sendtoPlayer(wizardReq, server.getNametoIdMap().get(player));
         } else if (numberOfPlayers==3 && Wizard.getAvailable().size()>1) {
-            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
+            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() +1).getNickname();
             sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
         } else if(Wizard.getAvailable().size() == 4 - numberOfPlayers){

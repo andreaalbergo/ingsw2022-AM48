@@ -84,7 +84,7 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void run() {
         startCLI();
         while(isActiveGame()){
-            if(clientView.getPhase() >= 4  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
+            if(clientView.getGamePhase() >= 4  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
                 in.reset();
                 String received = in.nextLine();
                 System.out.println("Check da run di CLI: " + received);
@@ -138,7 +138,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
         logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
         socket.send(new NumberOfPlayers(numberOfPlayers));
-        clientView.setPhase(1);
+        clientView.setGamePhase(1);
 
     }
 
@@ -195,7 +195,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 } else if (choice.equals(Mode.NORMAL.toString())){
                     socket.send(new ChooseMode(false));
                 }
-                clientView.setPhase(2);
+                clientView.setGamePhase(2);
                 break;
             }catch (IllegalArgumentException exception){
                 System.out.println("Choose a mode (expert or normal) not a random thing.....dumbo");

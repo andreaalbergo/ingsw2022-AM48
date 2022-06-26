@@ -25,8 +25,8 @@ public class CommandHandler {
     public void answerHandler() {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
-        cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
-        if(model.getPhase()<6){
+        cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getGamePhase());
+        if(model.getGamePhase()<6){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
@@ -70,7 +70,7 @@ public class CommandHandler {
             }
         } else if (answer instanceof MatchStarted) {
             view.firePropertyChange("matchStarted",null,null);
-            model.setPhase(1);
+            model.setGamePhase(1);
         } else if (answer instanceof SetMode) {
                 view.firePropertyChange("setup", null, "SetMode");
             }
