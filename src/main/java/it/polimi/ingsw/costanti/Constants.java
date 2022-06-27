@@ -9,6 +9,14 @@ public class Constants {
 
     private static String address;
     private static int port;
+    public static final int CLOUD_MIN_PLAYERS = 3;
+    public static final int CLOUD_MAX_PLAYERS = 4;
+    public static final int TOWERS_MIN_PLAYERS = 8;
+    public static final int TOWERS_MAX_PLAYERS = 6;
+    public static final int HALL_MIN_PLAYERS = 7;
+    public static final int HALL_MAX_PLAYERS = 9;
+    public static final int NUMBER_OF_ISLANDS = 12;
+    public static final int NUMBER_OF_COLOR_TYPES = 5;
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 3; // We could up it to 4 for AF
     public static final int MIN_PORT = 0;
@@ -24,6 +32,9 @@ public class Constants {
     public static final String ANSI_WHITE = "\033[37m";
     public static final String ANSI_BACKGROUND_BLACK = "\033[40m";
     public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
+
+    public static final String GAME_RULES = "\n Click the following link in order to read Eriantys' rules: " +
+            "https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf";
 
     public static String getAddress() {
         return address;
