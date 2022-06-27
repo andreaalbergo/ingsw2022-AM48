@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.Answer;
 import it.polimi.ingsw.server.servermessages.CustomMessage;
 
+import java.lang.Character;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ClientView {
     private List<Cloud> clouds;
 
     private Answer answer;
-    private int gamePhase;
+    private int phase;
     private int turnPhase;
     private boolean inputEnabler;
     private Tower tower;
