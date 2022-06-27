@@ -157,7 +157,7 @@ public class ConnectionSocket {
         }
     }
 
-    private void send(UserCommand command){
+    public void send(UserCommand command){
         SerializedMessage serializedMessage = new SerializedMessage(command);
         try {
             out.reset();

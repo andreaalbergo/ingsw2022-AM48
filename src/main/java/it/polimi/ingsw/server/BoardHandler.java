@@ -1,11 +1,12 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
+import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Tower;
-import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.servermessages.*;
+import it.polimi.ingsw.server.servermessages.gamemessages.StartTurnMessage;
+
 import java.beans.PropertyChangeSupport;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,11 @@ import java.util.logging.Logger;
 public class BoardHandler {
     private final MultiplayerServer server;
     private final GameController controller;
+
+    public Board game() {
+        return board;
+    }
+
     private final Board board;
     private int numberOfPlayers;
 
@@ -26,6 +32,16 @@ public class BoardHandler {
     private boolean isExpertMode;
     //private int currentPlayer;
     private boolean isStarted;
+
+    public int getPhase() {
+        return phase;
+    }
+
+    public void setPhase(int phase) {
+        this.phase = phase;
+    }
+
+    private int phase = 0;
     private Logger logger =  Logger.getLogger(getClass().getName());
 
     public GameController getController() {
@@ -47,6 +63,19 @@ public class BoardHandler {
      */
     public void startGame(){
         isStarted = true;
+        phase = 1;
+        for(Player player : board.getActivePlayers() ){
+            setupPlayerSchoolBoard(player);
+        }
+        //devo mettere il fatto che setta le isole e le nuvolette
+        board.getBoardManager().createCloudList();
+        setClouds();
+    }
+
+    public void setClouds(){
+        for (Cloud cloud : board.getBoardManager().getClouds()){
+            cloud.fillStudents();
+        }
     }
 
     public void setExpertMode(boolean expertMode) {
@@ -66,54 +95,6 @@ public class BoardHandler {
         //call end game
     }
 
-    /*
-    //FUNZIONA MA MI FA SCEGLIERE DUE VOLTE MA SOLO ALL'HOST E NON ALL'ALTRO PLAYER
-    public void setupWizard() {
-        if(!isStarted)
-            startGame();
-        RequestWizard wizardReq = new RequestWizard("Please choose a wizard: ");
-        wizardReq.updateRemaining(Wizard.getAvailable());
-        if(numberOfPlayers==2 && Wizard.getAvailable().size()>2){
-            String player = board.getPlayerFromGivenID(numberOfPlayers - Wizard.getAvailable().size() + 2).getNickname();
-            sendAllExcept(new CustomMessage("User "+ player +" is choosing his wizard"),server.getNametoIdMap().get(player));
-            sendtoPlayer(wizardReq, server.getNametoIdMap().get(player));
-        } else if (numberOfPlayers==3 && Wizard.getAvailable().size()>1) {
-            String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
-            sendtoPlayer(wizardReq,server.getNametoIdMap().get(player));
-            sendAllExcept(new CustomMessage(player + "is choosing his wizard"),server.getNametoIdMap().get(player));
-        } else if(Wizard.getAvailable().size() == 4 - numberOfPlayers){
-        }
-    }
-
-    /*
-    public boolean setupTower() {
-
-        if(!isStarted)
-            startGame();
-
-        TowerRequest request = new TowerRequest("Please choose a tower: ");
-        request.setRemaining_towers(Tower.available);
-        if(Tower.available.size()>1) {
-            if(numberOfPlayers == 2){
-                String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size() + 1).getNickname();
-                sendtoPlayer(request, server.getNametoIdMap().get(player));
-                sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
-                return true;
-            } else if (numberOfPlayers == 3) {
-                String player = board.getPlayerFromGivenID(numberOfPlayers - Tower.available.size()).getNickname();
-                sendtoPlayer(request, server.getNametoIdMap().get(player));
-                sendAllExcept(new CustomMessage(player + "is choosing his Tower"), server.getNametoIdMap().get(player));
-                return true;
-            }else if(Wizard.getAvailable().size() == 4 - numberOfPlayers){
-                return false;
-            }
-
-
-        }
-
-        return false;
-    }
-*/
     private void chooseAssistantCard(){
         Player player = board.getCurrentPlayer();
         ChooseAssistantCard request = new ChooseAssistantCard("Please choose of these cards in your Deck: \n", player.getNickname(), board.getCurrentPlayer().getAssistantCards());
@@ -128,6 +109,10 @@ public class BoardHandler {
     public void sendAll(CustomMessage customMessage) {
         for(Player player: board.getActivePlayers())
             server.getIdtoClientMap().get(player.getPlayerID()).send(customMessage);
+    }
+    public void sendAll(Answer message) {
+        for(Player player: board.getActivePlayers())
+            server.getIdtoClientMap().get(player.getPlayerID()).send(message);
     }
 
 
@@ -144,6 +129,12 @@ public class BoardHandler {
     public void setupPlayer(String nickname, Integer iDclient) {
         board.createNewPlayer(new Player(nickname,iDclient));
     }
+
+    public void setupPlayerSchoolBoard(Player player){
+        player.createSchoolBoard(isExpertMode,numberOfPlayers);
+        board.getBoardManager().getBag().setupSchoolEntrance(player.getSchoolBoard());
+    }
+
 
     public void endGame(String s) {
         //TODO
@@ -169,7 +160,7 @@ public class BoardHandler {
             String player = board.getActivePlayers().get(numberOfPlayers - Tower.available().size() + 1).getNickname();
             logger.log(Level.INFO,"Devo mandare messaggio a " + player);
             sendtoPlayer(request, server.getNametoIdMap().get(player));
-            sendAllExcept(new CustomMessage(player + "is making his choice"), server.getNametoIdMap().get(player));
+            sendAllExcept(new CustomMessage(player + " is making his choice"), server.getNametoIdMap().get(player));
             return;
         } else if (numberOfPlayers == 3 && !Tower.available().isEmpty()) {
             String nickname = board.getActivePlayers().get(numberOfPlayers - Tower.available().size()).getNickname();
@@ -192,9 +183,56 @@ public class BoardHandler {
         }
         board.setCurrentPlayer(board.getActivePlayers().get(rnd.nextInt(numberOfPlayers)));
         logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer());
+        phase = 2;
+        sendAll(new MatchStarted(board.getBoardManager().getClouds(),board.getBoardManager().getIslands()));
+        sendAll(new StartTurnMessage());
+        sendAll(new CustomMessage("The first round is starting, brace yourself..."));
+        sendtoPlayer( new ChooseAssistantCard("You have been picked to start the turn, choose an Assistant Card for the first round\n>",
+                        board.getCurrentPlayer().getNickname(),
+                        board.getCurrentPlayer().getAssistantCards()),
+                board.getCurrentPlayerIndex());
+        sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his assistant card...please wait"), board.getCurrentPlayerIndex());
+        //game().setNextPlayer();
+
     }
 
 
+
+    public void makeAction(UserCommand command, String type) {
+        logger.log(Level.INFO, "Stai facendo questa azione dal make action: " + type);
+        switch (type){
+            case "RoundDecider" -> startRoundPhase(command);
+            case "turnController" -> controllerListener.firePropertyChange(type,null,command);
+            default -> sendtoPlayer(new GameError(Errors.INVALIDMOVE), board.getCurrentPlayerIndex());
+        }
+    }
+
+    private void startRoundPhase(UserCommand command) {
+        setClouds();
+        synchronized (this){
+            controllerListener.firePropertyChange("ChooseAssistantCard",null,((ChoiceAssistantCard) command).getCard());
+        }
+            if(board.getPlayerAssistantCardHashMap().size() < numberOfPlayers){
+                sendtoPlayer(new ChooseAssistantCard(board.getCurrentPlayer().getNickname() + " please choose you assistant card from one of the list below.\n\n",
+                                board.getCurrentPlayer().getNickname() ,
+                                board.getCurrentPlayer().getAssistantCards()),
+                        board.getCurrentPlayerIndex());
+                sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his card..."),
+                        board.getCurrentPlayerIndex());
+                //game().setNextPlayer();
+            } else if (board.getPlayerAssistantCardHashMap().size() == numberOfPlayers-1) {
+                sendtoPlayer(new ChooseAssistantCard(board.getCurrentPlayer().getNickname() + " please choose you assistant card from one of the list below.\n\n",
+                                board.getCurrentPlayer().getNickname() ,
+                                board.getCurrentPlayer().getAssistantCards()),
+                        board.getCurrentPlayerIndex());
+                sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his card..."),
+                        board.getCurrentPlayerIndex());
+                phase++;
+            }
+
+
+
+    }
 
 
 

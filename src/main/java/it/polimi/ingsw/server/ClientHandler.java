@@ -1,8 +1,11 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
+import it.polimi.ingsw.exceptions.InvalidSelection;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.*;
@@ -78,9 +81,25 @@ public class ClientHandler implements Runnable {
     }
 
     public void commandLinker(UserCommand command) {
+        Board game = server.getBoard().game();
+        if (game.getCurrentPlayerIndex() != idClient){
+            server.getBoard().sendtoPlayer(new GameError(Errors.NOTYOURTURN,"It's not your turn...be patient"), idClient);
+            return;
+        }
+        if(command instanceof ChoiceAssistantCard) {
+            logger.log(Level.INFO, "Ho ricevuto la scelta da " + server.getIdNameMap().get(idClient) + ": " + ((ChoiceAssistantCard) command).card + ", La board è in fase " + server.getBoard().getPhase() );
+            if (server.getBoard().getPhase() > 2 && game.isStartedRound()) {
+                server.getBoard().sendtoPlayer(new GameError(
+                                Errors.INVALIDINPUT,
+                                "Not in correct game phase to perform this command!"),
+                        idClient);
+                return;
+            }
+                server.getBoard().makeAction(command, "RoundDecider");
 
-        //ancora da implementare
 
+        }
+        server.getBoard().makeAction(command,"turnController");
     }
 
     public void setActive(boolean active) {
@@ -103,7 +122,7 @@ public class ClientHandler implements Runnable {
                 Thread.currentThread().interrupt();
             }
         } else if (command instanceof ChooseMode) {
-            server.getBoard().getController();//.Setmode
+            server.getBoard().getController().setMode(((ChooseMode) command).getMode());
             server.setMode(((ChooseMode) command).getMode());
         }else if (command instanceof ChooseDetails){
             System.out.println("Ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
@@ -111,28 +130,13 @@ public class ClientHandler implements Runnable {
                 server.getIdtoClientMap().get(idClient).send(new SetDatails("This selection is invalid, check if one of the choices isn't already picked"));
                 return;
             }
-            System.out.println("check 1");
             server.getBoard().getController().setTower(((ChooseDetails) command).getTower(),idClient);
-            System.out.println("check 2");
             server.getBoard().getController().setWizard(((ChooseDetails) command).getWizard(),idClient);
-            System.out.println("check 3");
             Wizard.choose(((ChooseDetails) command).getWizard());
-            System.out.println("check 4");
             Tower.choose(((ChooseDetails) command).getTower());
-            System.out.println("check 5");
             server.getBoard().sendtoPlayer(new SetDatails("\n",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
-            System.out.println("check 6");
             server.getBoard().setup();
-            /*
-        }else if (command instanceof ChooseTowerColor){
-            if(Tower.available().contains(((ChooseTowerColor) command).getTower())){
-                server.getBoard().getController().setTower(((ChooseTowerColor) command).getTower(),idClient);
-                server.getIdtoClientMap().get(idClient).send(new CustomMessage(server.getIdtoClientMap().get(idClient).getNickname() + " :You chose  " + ((ChooseTowerColor)command).getTower().toString() ));
-                Tower.choose(((ChooseTowerColor)command).getTower());
-            }else{
-                server.getIdtoClientMap().get(idClient).send(new GameError(Errors.ALREADYCHOSEN,"The Wizard you chose is already taken, choose one of these: " + Tower.available));
-            }
-             */
+
         }else if( command instanceof QuitMessage){
             server.getBoard().sendAll(new CustomMessage(server.getIdNameMap().get(idClient) + " has quit the game, Game ending... "));
             server.getBoard().endGame(server.getIdNameMap().get(idClient));

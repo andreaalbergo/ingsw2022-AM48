@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.actions.UserCommand;
+import it.polimi.ingsw.costanti.Constants;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -18,6 +19,10 @@ public class CommandParser implements PropertyChangeListener {
 
     private final InputCheck verifier;
 
+    private static final String RED = Constants.ANSI_RED;
+
+    private static final String RST = Constants.ANSI_RESET;
+
     public CommandParser(ConnectionSocket socket, ClientView view) {
         this.socket = socket;
         this.view = view;
@@ -27,23 +32,47 @@ public class CommandParser implements PropertyChangeListener {
     public synchronized boolean action(String input) {
         String[] action = input.split(" ");
         String command = action[0];
-        UserCommand message;
-        /*
+        UserCommand response;
+
         try{
             switch (command.toUpperCase()){
-                //case "MOVEMOTHERNATURE" -> message = verifier.
+                case "MOVEMOTHERNATURE" -> response = verifier.moveMotherNature(action);
+                case "MOVESTUDENT" -> response = verifier.moveStudent(action);
+                //case "PICKCLOUD" -> verifier.
+                //case "BUYCARD" ->verifier.
+                //case "END" -> verifier.
+                case "QUIT" -> {
+                    verifier.quit();
+                    return true;
+                }
+                default -> {
+                    System.out.println("The input you just gave doesn't make sense to me :( ... try again");
+                    return false;
+                }
+
+
+
+
             }
-        }catch (){}
-        */
+        }catch (NumberFormatException e){
+            System.out.println(RED + "PSS PSS insert a number this time"+ RST);
+            return false;
+        }
+        if( response != null){
+            socket.send(response);
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(!view.isInputEnabler()){
-            System.out.println("NOT YOUR TURN");
+            System.out.println(RED + "NOT YOUR TURN" + RST);
         }else if (action(evt.getNewValue().toString())){
             view.setInputEnabler(false);
-        }else view.setInputEnabler(true);
+        }else
+            view.setInputEnabler(true);
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.server.servermessages.*;
+import it.polimi.ingsw.server.servermessages.gamemessages.StartTurnMessage;
 
 import java.beans.PropertyChangeSupport;
 import java.util.logging.Level;
@@ -26,7 +27,7 @@ public class CommandHandler {
         //System.out.println("MO SVILUPPA");
         Answer answer = model.getAnswer();
         cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
-        if(model.getPhase()<6){
+        if(model.getPhase()<2){
             setupGame(answer);
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
@@ -36,6 +37,11 @@ public class CommandHandler {
                 cli.setActive(false);
             }
 
+        } else if (answer instanceof StartTurnMessage) {
+            model.setPhase(3);
+        }
+        if(answer instanceof ChooseAssistantCard){
+            fireChoiceAssistantCard(answer);
         }
         if (answer instanceof CustomMessage) {
             fireCustomMessage(answer);
@@ -43,6 +49,11 @@ public class CommandHandler {
             fireError(answer);
         }
 
+    }
+
+    private void fireChoiceAssistantCard(Answer answer) {
+        view.firePropertyChange("ChooseAssistantCard",null,answer);
+        model.setInputEnabler(true);
     }
 
     private void fireCustomMessage(Answer answer) {
@@ -62,18 +73,23 @@ public class CommandHandler {
         if(answer instanceof SetPlayersRequest){
             view.firePropertyChange("setup",null, "SetPlayersRequest");
         } else if (answer instanceof SetDatails) {
+            model.setPhase(1);
             if(((SetDatails) answer).getWizard() == null){
                 view.firePropertyChange("setup", null, "SetDatails");
             }else {
                 model.setWizard(((SetDatails) answer).getWizard().toString());
                 model.setTower(((SetDatails) answer).getTower().toString());
             }
-        } else if (answer instanceof MatchStarted) {
-            view.firePropertyChange("matchStarted",null,null);
-            model.setPhase(1);
         } else if (answer instanceof SetMode) {
                 view.firePropertyChange("setup", null, "SetMode");
-            }
+        } else if (answer instanceof MatchStarted) {
+            model.setIslands(((MatchStarted) answer).getIslands());
+            model.setClouds(((MatchStarted) answer).getClouds());
+            //forse anche la schoolboard?
+            model.setPhase(2);
+        }
 
     }
+
+
 }

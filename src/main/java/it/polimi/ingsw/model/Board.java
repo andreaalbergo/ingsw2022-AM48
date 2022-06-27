@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -17,7 +18,33 @@ public class Board {
     private final List<Player> playersTurnOrder = new ArrayList<>();
     private Player currentPlayer;
     private int currentPlayerIndex;
-    private int gameTurn;
+
+    private boolean startedRound;
+
+    public boolean isStartedRound() {
+        return startedRound;
+    }
+
+    public void setStartedRound(boolean startedRound) {
+        this.startedRound = startedRound;
+    }
+
+    public void setPlayerAssistantCardHashMap(AssistantCard assistantCard) {
+        playerAssistantCardHashMap.put(getCurrentPlayer(), assistantCard);
+        currentPlayer.setChosenCard(assistantCard.getValue());
+        currentPlayer.getAssistantCards().remove(assistantCard);
+    }
+
+    public void resetAssistantCards() {
+        playerAssistantCardHashMap.clear();
+    }
+
+    public HashMap<Player, AssistantCard> getPlayerAssistantCardHashMap() {
+        return playerAssistantCardHashMap;
+    }
+
+    private HashMap <Player, AssistantCard> playerAssistantCardHashMap;
+
     private final BoardManager boardManager;
 
     /**
@@ -25,6 +52,7 @@ public class Board {
      */
     public Board() {
         boardManager = new BoardManager(this);
+        playerAssistantCardHashMap = new HashMap<>();
     }
 
     /**

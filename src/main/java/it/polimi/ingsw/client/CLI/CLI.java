@@ -4,15 +4,19 @@ import it.polimi.ingsw.client.ClientView;
 import it.polimi.ingsw.client.CommandHandler;
 import it.polimi.ingsw.client.CommandParser;
 import it.polimi.ingsw.client.ConnectionSocket;
+import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
+import it.polimi.ingsw.client.actions.MoveMotherNature;
 import it.polimi.ingsw.client.messages.ChooseDetails;
 import it.polimi.ingsw.client.messages.ChooseMode;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.*;
+import it.polimi.ingsw.server.servermessages.gamemessages.MovedMotherNature;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -84,10 +88,10 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void run() {
         startCLI();
         while(isActiveGame()){
-            if(clientView.getPhase() >= 4  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
+            if(clientView.getPhase() >= 3  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
                 in.reset();
                 String received = in.nextLine();
-                System.out.println("Check da run di CLI: " + received);
+                System.out.println("SERVER: " + received);
                 listeners.firePropertyChange("action",null, received);
 
             }
@@ -195,7 +199,6 @@ public class CLI implements Runnable, PropertyChangeListener {
                 } else if (choice.equals(Mode.NORMAL.toString())){
                     socket.send(new ChooseMode(false));
                 }
-                clientView.setPhase(2);
                 break;
             }catch (IllegalArgumentException exception){
                 System.out.println("Choose a mode (expert or normal) not a random thing.....dumbo");
@@ -219,24 +222,46 @@ public class CLI implements Runnable, PropertyChangeListener {
                 ((SetDatails) clientView.getAnswer()).getRemainingTowers().forEach(n -> System.out.print(n + ", "));
                 Tower tower = chooseTower(((SetDatails) clientView.getAnswer()).getRemainingTowers());
                 socket.send(new ChooseDetails(tower,wizard));
+                clientView.setPhase(1);
             }
 
             case "SetMode" -> {
                 System.out.println(((SetMode)clientView.getAnswer()).getMessage());
                 chooseMode();
             }
-            case "ChooseAssistandCard" -> {
-                System.out.println(((SetMode)clientView.getAnswer()).getMessage() + "\n Available Cards: ");
-                ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
-                chooseAssistantCard();
-            }
+
         }
     }
 
-    private void chooseAssistantCard() {
+    private void chooseAssistantCard(List<AssistantCard> assistantCards) {
         System.out.println("Select a card: ");
         System.out.println(">");
+        AssistantCard assistantCard = AssistantCard.parseInput(in.nextLine());
+        while (!assistantCards.contains(assistantCard)){
+            System.out.println("You already selected this card in the past, is not like you can use it twice...");
+            System.out.println("Pick one of these: \n");
+            ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
+            System.out.println(".");
+            assistantCard = AssistantCard.parseInput(in.nextLine());
+        }
+        clientView.setChosenCard(assistantCard);
+        socket.send(new ChoiceAssistantCard(assistantCard));
+    }
 
+    public void gamePhase(String value){
+        switch (value){
+            case "ChooseAssistandCard" -> {
+                System.out.println(((ChooseAssistantCard)clientView.getAnswer()).getMessage() + "\n Available Cards: ");
+                ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
+                System.out.println(".");
+                chooseAssistantCard(((ChooseAssistantCard)clientView.getAnswer()).getAvailable_cards());
+            }
+
+            case "MovedMotherNature" -> {
+                System.out.println((MovedMotherNature)clientView.getAnswer().getMessage());
+                //Metodo dove cambio la board con la posizione di madre natura
+            }
+        }
     }
 
 
@@ -255,6 +280,19 @@ public class CLI implements Runnable, PropertyChangeListener {
                 logger.log(Level.SEVERE,"Ho ricevuto il comando: " + command);
                 initialSetup(command);
             }
+            case "chooseAssistantCard" -> {
+                assert command != null;
+                logger.log(Level.INFO,"CHOOSE ASSISTANT CARD COMMAND: " + command);
+                gamePhase(command);
+            }
+
+            case "movedMotherNature" -> {
+                assert command != null;
+                logger.log(Level.INFO,"MOVE MOTHERNATURE CHECK: " + command);
+                gamePhase(command);
+            }
+
+
 
         }
     }
