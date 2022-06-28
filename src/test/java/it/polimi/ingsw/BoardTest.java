@@ -19,9 +19,9 @@ class BoardTest {
     @BeforeEach
     void initialization() {
         testBoard = new Board();
-        testBoard.createNewPlayer(new Player("pinco", 12, Wizard.WIZARD1, Tower.WHITE));
-        testBoard.createNewPlayer(new Player("penguin", 54, Wizard.WIZARD2, Tower.BLACK));
-        testBoard.createNewPlayer(new Player("swagger", 76, Wizard.WIZARD4, Tower.GREY));
+        testBoard.createNewPlayer(new Player("pinco", 12, Wizard.WITCH, Tower.WHITE));
+        testBoard.createNewPlayer(new Player("penguin", 54, Wizard.EMIR, Tower.BLACK));
+        testBoard.createNewPlayer(new Player("swagger", 76, Wizard.DRUID, Tower.GREY));
     }
 
     @Test

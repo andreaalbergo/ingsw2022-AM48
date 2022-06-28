@@ -1,37 +1,37 @@
 package it.polimi.ingsw.server.servermessages;
 
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.IslandTile;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MatchStarted implements Answer{
 
-    private final Map<String,String> playerMapTower;
 
-    private final Map<String,String> playermapWizard;
 
-    public MatchStarted(){
-        playerMapTower = new HashMap<>();
-        playermapWizard = new HashMap<>();
+
+        private final List<Cloud> clouds;
+
+        private final List<IslandTile> islands;
+
+        public MatchStarted(List<Cloud> cloudList,List<IslandTile> islandTiles){
+            clouds = cloudList;
+            islands = islandTiles;
+        }
+
+
+    public List<Cloud> getClouds() {
+        return clouds;
     }
 
-    public void setPlayerMapTower(String player, String tower){
-        playerMapTower.put(player, tower);
-    }
-
-    public void setPlayerMapWizard(String player, String wizard){
-        playerMapTower.put(player, wizard);
-    }
-
-    public Map<String, String> getPlayermapWizard() {
-        return playermapWizard;
-    }
-
-    public Map<String, String> getPlayerMapTower() {
-        return playerMapTower;
+    public List<IslandTile> getIslands() {
+        return islands;
     }
 
     @Override
     public Object getMessage() {
-        return null;
+        return "UTILITY : MATCH STARTED";
     }
 }

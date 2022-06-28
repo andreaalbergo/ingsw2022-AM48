@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Albus",1, Wizard.WIZARD1, Tower.GREY);
+    Player player = new Player("Albus",1, Wizard.EMIR, Tower.GREY);
 
 
     @Test

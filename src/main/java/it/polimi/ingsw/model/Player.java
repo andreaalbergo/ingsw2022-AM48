@@ -35,10 +35,6 @@ public class Player {
         this.assistantCardList = new LinkedList<>();
         Collections.addAll(assistantCardList, AssistantCard.values());
         this.coins = 1;
-        if (playerID == 1)
-            turn = true;
-        else
-            turn = false;
         this.playerID = playerID;
 
     }

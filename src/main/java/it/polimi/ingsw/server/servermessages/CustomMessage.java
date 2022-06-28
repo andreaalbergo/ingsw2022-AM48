@@ -10,6 +10,11 @@ public class CustomMessage implements Answer {
         this.message = message;
     }
 
+    public CustomMessage(String message, boolean enabler) {
+        this.message = message;
+        this.enabler = enabler;
+    }
+
     @Override
     public Object getMessage() {
         return message;

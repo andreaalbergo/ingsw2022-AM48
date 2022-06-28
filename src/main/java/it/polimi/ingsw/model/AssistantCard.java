@@ -25,6 +25,10 @@ public enum AssistantCard {
         this.number_of_steps = number_of_steps;
     }
 
+    public static AssistantCard parseInput(String nextLine) {
+        return Enum.valueOf(AssistantCard.class,nextLine.toUpperCase());
+    }
+
     public int getValue() {
         return value;
     }

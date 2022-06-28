@@ -2,13 +2,20 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.BoardHandler;
+import it.polimi.ingsw.server.Client;
 import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.Answer;
+import it.polimi.ingsw.server.servermessages.CustomMessage;
 
+import java.lang.Character;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ClientView {
     private final CLI cli;
@@ -16,17 +23,58 @@ public class ClientView {
     private String nickname;
     private String currentPlayer;
     private Wizard wizard;
+
+    private List<IslandTile> islands;
+
+
+    private List<Cloud> clouds;
+
     private Answer answer;
-    private int gamePhase;
+    private int phase;
     private int turnPhase;
     private boolean inputEnabler;
     private Tower tower;
+
+    public void setAssistantCards() {
+        Collections.addAll(this.assistantCards, AssistantCard.values());
+    }
+
     private ArrayList<AssistantCard> assistantCards;
     private boolean characterCardActive;
     //private GameBoard gameBoard;
     private String characterCardInfo;
     private boolean turnActive;
 
+
+    private AssistantCard chosenCard = null;
+
+    public AssistantCard getChosenCard() {
+        return chosenCard;
+    }
+
+    public void setChosenCard(AssistantCard chosenCard) {
+        if(chosenCard == null){
+            setAssistantCards();
+        }
+        this.chosenCard = chosenCard;
+        assistantCards.remove(chosenCard);
+    }
+
+    public List<IslandTile> getIslands() {
+        return islands;
+    }
+
+    public void setIslands(List<IslandTile> islands) {
+        this.islands = islands;
+    }
+
+    public List<Cloud> getClouds() {
+        return clouds;
+    }
+
+    public void setClouds(List<Cloud> clouds) {
+        this.clouds = clouds;
+    }
 
     public void setWizard(String wizard) {
         String magician = wizard.toLowerCase();
@@ -83,12 +131,12 @@ public class ClientView {
         return nickname;
     }
 
-    public int getGamePhase() {
-        return gamePhase;
+    public int getPhase() {
+        return phase;
     }
 
-    public void setGamePhase(int gamePhase) {
-        this.gamePhase = gamePhase;
+    public void setPhase(int phase) {
+        this.phase = phase;
     }
 
     public int getTurnPhase() { return turnPhase; }
@@ -101,6 +149,15 @@ public class ClientView {
 
     public void setInputEnabler(boolean inputEnabler) {
         this.inputEnabler = inputEnabler;
+    }
+
+
+    public Tower getTower() {
+        return tower;
+    }
+
+    public Wizard getWizard() {
+        return wizard;
     }
 
     public boolean isTurnActive() { return turnActive; }
