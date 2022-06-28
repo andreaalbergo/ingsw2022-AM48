@@ -23,15 +23,20 @@ public class Constants {
     public static final int MAX_PORT = 1024;
     public static final String ANSI_UNDERLINE = "\033[4m";
     public static final String ANSI_RESET = "\033[0m";
-    public static final String ANSI_RED = "\033[31m";
-    public static final String ANSI_GREEN = "\033[32m";
+    public static final String ANSI_RED = "\033[91m";
+    public static final String ANSI_BLACK= "\033[30m";
+    public static final String ANSI_GREEN = "\033[92m";
     public static final String ANSI_YELLOW = "\033[33m";
     public static final String ANSI_BLUE = "\033[34m";
+    public static final String ANSI_PINK = "\033[38;5;206m";
     public static final String ANSI_PURPLE = "\033[35m";
     public static final String ANSI_CYAN = "\033[36m";
     public static final String ANSI_WHITE = "\033[37m";
     public static final String ANSI_BACKGROUND_BLACK = "\033[40m";
+    public static final String ANSI_BACKGROUND_YELLOW = "\033[43m";
     public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
+    public static final String ANSI_BACKGROUND_GREY = "\033[47m";
+    public static final String RECTANGLE = "\033[51m";
 
     public static final String GAME_RULES = "\n Click the following link in order to read Eriantys' rules: " +
             "https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf";
