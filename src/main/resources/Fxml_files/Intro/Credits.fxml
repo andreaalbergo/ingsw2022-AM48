@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Pre_Game.ControllerIntro">
+   <children>
+      <ImageView fitHeight="412.0" fitWidth="606.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Backgrounds/First_Background.jpg" />
+      </ImageView>
+      <Button layoutX="450.0" layoutY="312.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Main Menu" />
+      <TextArea layoutX="14.0" layoutY="180.0" prefHeight="157.0" prefWidth="204.0" text="Autore: Leo Colovini&#10;Sviluppo: Simone Luciani&#10;Illustrazioni: Alessandro Costa Kapakkione&#10;Grafica: Elisabetta Micucci&#10;Regole: Stefania Niccolini&#10;Edizione a cura di: Giuliano Acquati" wrapText="true" />
+      <TextField layoutX="14.0" layoutY="348.0" prefHeight="25.0" prefWidth="300.0" text="©2021 Cranio Creations S.r.l.: Tutti i diritti riservati" />
+      <TextArea layoutX="389.0" layoutY="218.0" prefHeight="81.0" prefWidth="200.0" text="Made By:&#10;Andrea Albergo&#10;Loredan Barb&#10;Edoardo Bozzini" />
+      <ImageView fitHeight="157.0" fitWidth="122.0" layoutX="246.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/CranioLogo.png" />
+      </ImageView>
+      <Button layoutX="462.0" layoutY="348.0" mnemonicParsing="false" onAction="#switchToRules" text="Rules" />
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>

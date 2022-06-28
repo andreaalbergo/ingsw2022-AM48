@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="401.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.ControllerIslandTiles">
+   <children>
+      <ImageView fitHeight="439.0" fitWidth="667.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/Backgrounds/Sfondochiaro.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="-1.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="141.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="258.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="374.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="517.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="516.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="507.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="388.0" layoutY="296.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="254.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="118.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="9.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="142.0" fitWidth="166.0" layoutX="4.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <Label layoutX="215.0" layoutY="151.0" text="CLICK ON AN ISLAND FOR MORE INFO" />
+      <Button layoutX="20.0" layoutY="24.0" mnemonicParsing="false" onAction="#pressedIsland1" prefHeight="100.0" prefWidth="111.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="154.0" layoutY="25.0" mnemonicParsing="false" onAction="#pressedIsland2" prefHeight="97.0" prefWidth="100.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="270.0" layoutY="25.0" mnemonicParsing="false" onAction="#pressedIsland3" prefHeight="97.0" prefWidth="108.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="399.0" layoutY="26.0" mnemonicParsing="false" onAction="#pressedIsland4" prefHeight="97.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="529.0" layoutY="26.0" mnemonicParsing="false" onAction="#pressedIsland5" prefHeight="97.0" prefWidth="102.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="530.0" layoutY="174.0" mnemonicParsing="false" onAction="#pressedIsland6" prefHeight="97.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="535.0" layoutY="325.0" mnemonicParsing="false" onAction="#pressedIsland7" prefHeight="93.0" prefWidth="104.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="407.0" layoutY="320.0" mnemonicParsing="false" onAction="#pressedIsland8" prefHeight="93.0" prefWidth="96.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="275.0" layoutY="327.0" mnemonicParsing="false" onAction="#pressedIsland9" prefHeight="91.0" prefWidth="90.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="151.0" layoutY="320.0" mnemonicParsing="false" onAction="#pressedIsland10" prefHeight="95.0" prefWidth="96.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="23.0" layoutY="306.0" mnemonicParsing="false" onAction="#pressedIsland11" prefHeight="102.0" prefWidth="104.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <Button layoutX="11.0" layoutY="175.0" mnemonicParsing="false" onAction="#pressedIsland12" prefHeight="99.0" prefWidth="114.0" style="-fx-background-color: transparent; -fx-text-fill: transparent; -fx-border-fill: transparent;" text="Button" />
+      <TextField fx:id="numberOfStepsString" layoutX="350.0" layoutY="181.0" prefHeight="25.0" prefWidth="32.0" />
+      <Label layoutX="228.0" layoutY="185.0" text="Move Mother Nature" />
+      <Label layoutX="390.0" layoutY="185.0" text="steps" />
+      <ImageView fx:id="motherNature" fitHeight="77.0" fitWidth="90.0" layoutX="30.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/GameElements/MotherNature.png" />
+      </ImageView>
+      <Button layoutX="306.0" layoutY="219.0" mnemonicParsing="false" onAction="#moveMotherNature" text="Next" />
+   </children>
+</AnchorPane>

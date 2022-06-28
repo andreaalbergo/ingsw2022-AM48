@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
+import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.server.servermessages.*;
 import it.polimi.ingsw.server.servermessages.gamemessages.StartTurnMessage;
 
@@ -12,11 +13,19 @@ public class CommandHandler {
 
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
     private CLI cli;
+    private GUI gui;
 
     public CommandHandler(ClientView model, CLI cli) {
         this.model = model;
         this.cli = cli;
         view.addPropertyChangeListener(cli);
+    }
+
+
+    public CommandHandler(ClientView model, GUI gui) {
+        this.model = model;
+        this.gui = gui;
+        view.addPropertyChangeListener(gui);
     }
 
     public void inGamePhase(Answer answer){

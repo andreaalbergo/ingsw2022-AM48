@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.GameMenuController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Backgrounds/Sfondochiaro.png" />
+      </ImageView>
+      <Button layoutX="39.0" layoutY="99.0" mnemonicParsing="false" onAction="#openSchoolBoardPopUp" text="Schoolboard" />
+      <Button layoutX="31.0" layoutY="227.0" mnemonicParsing="false" text="Assistant Cards" />
+      <Button layoutX="44.0" layoutY="131.0" mnemonicParsing="false" onAction="#openIslandsPopUp" text="Island Tiles" />
+      <Button layoutX="55.0" layoutY="163.0" mnemonicParsing="false" text="Clouds" />
+      <Button layoutX="29.0" layoutY="196.0" mnemonicParsing="false" text="Character Cards" />
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="153.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="236.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="305.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="382.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="465.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="461.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="457.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="389.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="305.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="229.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="160.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType2.png" />
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="156.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Islands/IslandType3.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="353.0" layoutX="171.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/SchoolBoard/SchoolBoard.png" />
+      </ImageView>
+      <ImageView fitHeight="87.0" fitWidth="88.0" layoutX="23.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Coin.png" />
+      </ImageView>
+      <Label fx:id="moneyCounter" layoutX="61.0" layoutY="315.0" text="2" textFill="#fde910">
+         <font>
+            <Font name="Bodoni 72 Book" size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard1.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard2.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard3.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard4.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard5.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard6.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard7.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard8.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard9.png" />
+      </ImageView>
+      <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/AssistantCards/AssistantCard10.png" />
+      </ImageView>
+   </children>
+</AnchorPane>

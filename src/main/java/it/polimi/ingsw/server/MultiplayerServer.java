@@ -258,5 +258,8 @@ public class MultiplayerServer {
 
     }
 
+    public int getWaitingSize() {
+        return waiting.size();
+    }
 }
 
