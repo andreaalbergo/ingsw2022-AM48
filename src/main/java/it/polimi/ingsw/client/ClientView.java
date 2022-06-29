@@ -42,6 +42,15 @@ public class ClientView {
     private String characterCardInfo;
     private boolean turnActive;
 
+    public List<Color> getEntrance() {
+        return entrance;
+    }
+
+    public void setEntrance(List<Color> entrance) {
+        this.entrance = entrance;
+    }
+
+    private List<Color> entrance;
 
     private AssistantCard chosenCard = null;
 

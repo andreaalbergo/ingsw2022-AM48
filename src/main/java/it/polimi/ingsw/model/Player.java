@@ -7,7 +7,7 @@ import java.util.List;
 public class Player {
     private final String nickname;
     private final int playerID;
-    private int chosenCard;
+    private AssistantCard chosenCard;
     private final List<AssistantCard> assistantCardList;
     private int coins;
     private boolean turn;
@@ -54,7 +54,7 @@ public class Player {
         return playerID;
     }
 
-    public int getChosenCard() {
+    public AssistantCard getChosenCard() {
         return chosenCard;
     }
 
@@ -142,7 +142,7 @@ public class Player {
         return schoolBoard;
     }
 
-    public void setChosenCard(int chosenCard) {
+    public void setChosenCard(AssistantCard chosenCard) {
         this.chosenCard = chosenCard;
     }
 }

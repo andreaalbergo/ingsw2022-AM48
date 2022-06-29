@@ -3,6 +3,9 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.server.servermessages.*;
+import it.polimi.ingsw.server.servermessages.gamemessages.GameOver;
+import it.polimi.ingsw.server.servermessages.gamemessages.MoveMessage;
+import it.polimi.ingsw.server.servermessages.gamemessages.ProfessorAnswer;
 import it.polimi.ingsw.server.servermessages.gamemessages.StartTurnMessage;
 
 import java.beans.PropertyChangeSupport;
@@ -48,16 +51,38 @@ public class CommandHandler {
 
         } else if (answer instanceof StartTurnMessage) {
             model.setPhase(3);
+            view.firePropertyChange("StartTurnMessage",null, answer);
+
         }
         if(answer instanceof ChooseAssistantCard){
             fireChoiceAssistantCard(answer);
         }
         if (answer instanceof CustomMessage) {
             fireCustomMessage(answer);
+
         } else if (answer instanceof GameError) {
             fireError(answer);
+
+        } else if (answer instanceof ProfessorAnswer) {
+            fireProfessor(answer);
+
+        } else if (answer instanceof MoveMessage) {
+            view.firePropertyChange("MoveMessage",null,answer);
+
+
+        } else if (answer instanceof GameOver){
+            view.firePropertyChange("gameOver",null,answer);
         }
 
+    }
+
+    private void fireProfessor(Answer answer) {
+        ProfessorAnswer professorAnswer = (ProfessorAnswer) answer;
+        if(professorAnswer.isGained()){
+            //TODO
+            return;
+        }
+        //TODO
     }
 
     private void fireChoiceAssistantCard(Answer answer) {
@@ -94,7 +119,7 @@ public class CommandHandler {
         } else if (answer instanceof MatchStarted) {
             model.setIslands(((MatchStarted) answer).getIslands());
             model.setClouds(((MatchStarted) answer).getClouds());
-            //forse anche la schoolboard?
+            model.setEntrance(((MatchStarted) answer).getEntrance());
             model.setPhase(2);
         }
 

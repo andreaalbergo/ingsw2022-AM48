@@ -28,4 +28,8 @@ public class ChoiceAssistantCard implements UserCommand{
         this.card = card;
         this.starting_Player = starting_Player;
     }
+
+    public String toString(){
+        return "ChoiceAssistantCard";
+    }
 }

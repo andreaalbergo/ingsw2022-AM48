@@ -5,6 +5,8 @@ import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.*;
+import it.polimi.ingsw.server.servermessages.gamemessages.GameOver;
+import it.polimi.ingsw.server.servermessages.gamemessages.WinMessage;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -179,7 +181,9 @@ public class MultiplayerServer {
         idNameMap.remove(idClient);
         clientConnectionMap.remove(client);
         System.out.println("Player removed");
-
+        board.sendtoPlayer(new WinMessage(),board.checkWinner().getId());
+        board.sendAll(new GameOver("A player has disconnected from the Game...see you next time"));
+        System.exit(0);
     }
 
     public synchronized Integer addClientToGame(String nickname, ClientHandler client) {

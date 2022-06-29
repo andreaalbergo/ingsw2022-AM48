@@ -4,7 +4,7 @@ public class CustomMessage implements Answer {
 
     private final String message;
 
-    private boolean enabler;
+    private boolean enabler = false;
 
     public CustomMessage(String message) {
         this.message = message;

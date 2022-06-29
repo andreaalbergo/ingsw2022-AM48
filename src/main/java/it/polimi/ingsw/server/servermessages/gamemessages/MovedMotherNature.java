@@ -7,11 +7,14 @@ public class MovedMotherNature implements Answer {
 
     private final int steps;
 
-    private final IslandTile islandTile;
+    private final Integer islandTile;
 
-    public MovedMotherNature(int steps, IslandTile islandTile) {
+    private final boolean check;
+
+    public MovedMotherNature(int steps, Integer islandTile, boolean check) {
         this.steps = steps;
         this.islandTile = islandTile;
+        this.check = check;
     }
 
     @Override

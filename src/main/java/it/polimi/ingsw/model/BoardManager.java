@@ -17,7 +17,6 @@ public class BoardManager {
     private final Board board;
     private final List<IslandTile> islands = new ArrayList<>();
     private final List<Cloud> clouds = new ArrayList<>();
-
     private final MotherNature motherNature = new MotherNature();
     private final Bag bag;
 

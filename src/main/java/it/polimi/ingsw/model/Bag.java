@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameOverException;
+
 import java.util.Random;
 
 /**
@@ -17,10 +19,23 @@ public class Bag {
         }
     }
 
-    public int getRandomColorFromBag() {
+    private boolean checkEmpty(){
+        int count = 0;
+        for(int i = 0; i < 5; i++){
+            count = count + this.students[i];
+        }
+        if(count == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public int getRandomColorFromBag() throws GameOverException {
         int colorIndex;
         Random random = new Random();
-
+        if(checkEmpty()){
+            throw new GameOverException();
+        }
         while (true){
             colorIndex = random.nextInt(0,5);
             if(this.students[colorIndex] > 0){
@@ -38,7 +53,7 @@ public class Bag {
      * @param schoolBoard parameter indicates which one of the SchoolBoard needs to be filled
      *
      */
-    public void setupSchoolEntrance(SchoolBoard schoolBoard) {
+    public void setupSchoolEntrance(SchoolBoard schoolBoard) throws GameOverException {
         int randomColor;
         if(board.getActivePlayers().size()==3){
             for (int i = 0; i < 9; i++) {

@@ -40,5 +40,9 @@ public enum Color {
         }
         return toBeReturned;
     }
+
+    public static Color parseInput(String input) {
+        return Enum.valueOf(Color.class, input.toUpperCase());
+    }
 }
 

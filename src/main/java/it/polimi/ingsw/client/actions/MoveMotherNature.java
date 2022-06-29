@@ -11,4 +11,12 @@ public class MoveMotherNature implements UserCommand {
     public MoveMotherNature(String[] in) {
         this.number_of_steps = Integer.parseInt(in[1]);
     }
+
+    public int getNumber_of_steps() {
+        return number_of_steps;
+    }
+
+    public String toString(){
+        return "MoveMotherNature";
+    }
 }

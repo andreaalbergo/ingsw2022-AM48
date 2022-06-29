@@ -6,23 +6,27 @@ import it.polimi.ingsw.client.CommandParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
 import it.polimi.ingsw.client.actions.MoveMotherNature;
+import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.client.messages.ChooseDetails;
 import it.polimi.ingsw.client.messages.ChooseMode;
 import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.costanti.Constants;
+import it.polimi.ingsw.costanti.Move;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.*;
-import it.polimi.ingsw.server.servermessages.gamemessages.MovedMotherNature;
+import it.polimi.ingsw.server.servermessages.gamemessages.*;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +41,9 @@ public class CLI implements Runnable, PropertyChangeListener {
     public final Logger logger = Logger.getLogger(getClass().getName());
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
+
+
+    private GameBoard gameBoard;
 
 
     public CLI() {
@@ -88,12 +95,11 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void run() {
         startCLI();
         while(isActiveGame()){
-            if(clientView.getPhase() >= 3  /* >  fase dopo aver fatto le scelte che differenziano il player dagl'altri, lo zero l'ho messo solo per ora*/){
+            if(clientView.getPhase() >= 3 ){
                 in.reset();
                 String received = in.nextLine();
-                System.out.println("SERVER: " + received);
+                System.out.println("ACTION: " + received);
                 listeners.firePropertyChange("action",null, received);
-
             }
         }
         in.close();
@@ -143,6 +149,8 @@ public class CLI implements Runnable, PropertyChangeListener {
         logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
         socket.send(new NumberOfPlayers(numberOfPlayers));
         clientView.setPhase(1);
+        gameBoard = new GameBoard(numberOfPlayers);
+
 
     }
 
@@ -251,15 +259,35 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void gamePhase(String value){
         switch (value){
             case "ChooseAssistandCard" -> {
-                System.out.println(((ChooseAssistantCard)clientView.getAnswer()).getMessage() + "\n Available Cards: ");
+                System.out.println(clientView.getAnswer().getMessage() + "\n Available Cards: ");
                 ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
                 System.out.println(".");
                 chooseAssistantCard(((ChooseAssistantCard)clientView.getAnswer()).getAvailable_cards());
+                //clientView.setPhase(3);
+                clientView.setTurnPhase(0);
             }
 
             case "MovedMotherNature" -> {
-                System.out.println((MovedMotherNature)clientView.getAnswer().getMessage());
+                System.out.println(clientView.getAnswer().getMessage());
                 //Metodo dove cambio la board con la posizione di madre natura
+                //Sposta la posizione di madre natura sulla ClientBoard
+                clientView.setInputEnabler(((StartTurnMessage)clientView.getAnswer()).getEnabler());
+                clientView.setTurnPhase(2);
+                clientView.setPhase(4);
+            }
+
+            case "StartTurnMessage" -> {
+                System.out.println(((StartTurnMessage)clientView.getAnswer()).getMessage());
+                clientView.setInputEnabler(((StartTurnMessage)clientView.getAnswer()).getEnabler());
+                clientView.setPhase(3);
+                clientView.setTurnPhase(1);
+                clientView.setTurnActive(true);
+            }
+
+            case "WinMessage" ->{
+                System.out.println((clientView.getAnswer()).getMessage());
+                System.out.println("Congratulations " + clientView.getNickname());
+                System.exit(0);
             }
         }
     }
@@ -290,10 +318,81 @@ public class CLI implements Runnable, PropertyChangeListener {
                 assert command != null;
                 logger.log(Level.INFO,"MOVE MOTHERNATURE CHECK: " + command);
                 gamePhase(command);
+
             }
 
+            case "gameError" -> {
+                assert command != null;
+                logger.log(Level.INFO,"ERRORE CHECK: " + command);
+                errorHandling((GameError) evt.getNewValue());
 
+            }
+            case "StartTurnMessage" -> {
+                assert command != null;
+                logger.log(Level.INFO,"INIZIA TURNO CHECK: " + command);
+
+            }
+            case "gameOver" -> {
+                assert command != null;
+                logger.log(Level.INFO, String.valueOf(((GameOver) evt.getNewValue()).getMessage()));
+                String reason = ((GameOver) evt.getNewValue()).getReason();
+                if(reason != null){
+                    System.out.println(reason);
+                }
+                System.exit(0);
+            }
+
+            case "winMessage" ->{
+                assert command != null;
+                gamePhase(command);
+            }
+            case "MoveMessage" -> updateCLI((MoveMessage) evt.getNewValue());
 
         }
+    }
+
+    private void updateCLI(MoveMessage message) {
+        //TODO
+        Move move = message.getMessage();
+        if(move.getId().equals(clientView.getNickname())){
+            clientView.setInputEnabler(true);
+        }
+        if(move.getMoved_students() == 4 && gameBoard.getNumber_of_Players() == 2 ){
+            clientView.setTurnPhase(3);
+        }
+        if(move.getMoved_students() == 3 && gameBoard.getNumber_of_Players() == 3 ){
+            clientView.setTurnPhase(3);
+        }
+        if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
+            //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
+            clientView.setInputEnabler(false);
+
+            //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
+        }
+        //mando alla clientboard i vari dati
+        //clientView.setInputEnabler(true);
+    }
+
+    private void errorHandling(GameError error) {
+        switch (error.getError()) {
+            case INVALIDINPUT,INVALIDMOVE,NOTYOURTURN,ALREADYCHOSEN,OUTOFBOUNDINPUT -> {
+                if (error.getMessage() != null) {
+                    System.out.println(error.getMessage());
+                }
+                clientView.setTurnActive(true);
+                clientView.setInputEnabler(true);
+
+            }
+            case SERVER_IS_FULL -> {
+                System.out.println("Sorry the server is FULL already, closing connection now");
+                System.exit(0);
+            }
+            default -> System.out.println("Generic error!");
+
+        }
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 }

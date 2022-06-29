@@ -43,13 +43,19 @@ public class Board {
     }
 
     public void setPlayerAssistantCardHashMap(AssistantCard assistantCard) {
-        playerAssistantCardHashMap.put(getCurrentPlayer(), assistantCard);
-        currentPlayer.setChosenCard(assistantCard.getValue());
+        playerAssistantCardHashMap.put(currentPlayer, assistantCard);
+        currentPlayer.setChosenCard(assistantCard);
         currentPlayer.getAssistantCards().remove(assistantCard);
     }
 
     public void resetAssistantCards() {
         playerAssistantCardHashMap.clear();
+    }
+
+    public void resetMovedStudents(){
+        for(Player player : activePlayers){
+            player.getSchoolBoard().setMovedstudents(0);
+        }
     }
 
     public HashMap<Player, AssistantCard> getPlayerAssistantCardHashMap() {
@@ -155,16 +161,16 @@ public class Board {
      * list as currentPLayer.
      */
     public void setPlayerOrderTurn() {
-        int maxValue = activePlayers.get(0).getChosenCard();
+        int maxValue = activePlayers.get(0).getChosenCard().getValue();
         int minValue = maxValue;
 
         for (Player player : activePlayers) {
-            if (player.getChosenCard() >= maxValue) {
+            if (player.getChosenCard().getValue() >= maxValue) {
                 playersTurnOrder.add(player);
-                maxValue = player.getChosenCard();
-            } else if(player.getChosenCard() < minValue) {
+                maxValue = player.getChosenCard().getValue();
+            } else if(player.getChosenCard().getValue() < minValue) {
                 playersTurnOrder.add(0, player);
-                minValue = player.getChosenCard();
+                minValue = player.getChosenCard().getValue();
             } else {
                 playersTurnOrder.add(1, player);
             }

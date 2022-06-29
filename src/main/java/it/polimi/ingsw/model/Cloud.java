@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameOverException;
+
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,7 @@ public class Cloud {
         this.board = board;
     }
 
-    public void fillStudents(){
+    public void fillStudents() throws GameOverException {
         if(board.getActivePlayers().size()==3) {
             for (int i = 0; i < 4; i++) {
                 addStudentToCloud(Color.colorFromIndex(board.getBoardManager().getBag().getRandomColorFromBag()));

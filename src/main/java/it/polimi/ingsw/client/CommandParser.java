@@ -37,21 +37,18 @@ public class CommandParser implements PropertyChangeListener {
         try{
             switch (command.toUpperCase()){
                 case "MOVEMOTHERNATURE" -> response = verifier.moveMotherNature(action);
-                case "MOVESTUDENT" -> response = verifier.moveStudent(action);
-                //case "PICKCLOUD" -> verifier.
-                //case "BUYCARD" ->verifier.
-                //case "END" -> verifier.
+                case "MOVESTUDENTTO" -> response = verifier.moveStudent(action);
+                //case "BUYCARD" -> response = verifier.
+                case "PICKCLOUD" -> response = verifier.pickCloud(action);
                 case "QUIT" -> {
                     verifier.quit();
                     return true;
                 }
                 default -> {
-                    System.out.println("The input you just gave doesn't make sense to me :( ... try again");
+                    System.out.println("The input you just gave doesn't make sense to me :( ... try again, look at the " +
+                            "command list on the right");
                     return false;
                 }
-
-
-
 
             }
         }catch (NumberFormatException e){

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameOverException;
+
 /**
  * IslandTile class is the island object, which can contain a generic number of student discs, it can have an owner with
  * its tower color, it can be merged with other islands. There MUST BE 12 instances of this class at the beginning
@@ -9,9 +11,10 @@ package it.polimi.ingsw.model;
  * @author David Barb
  */
 public class IslandTile {
+
     private int archipelagoDimension = 1;
     private int islandId;
-    private Player islandOwner;
+    private Player islandOwner = null;
     private final int[] students = new int[5];
 
     /**
@@ -60,8 +63,15 @@ public class IslandTile {
      *
      * @param islandOwner of type Player - new owner of the island.
      */
-    public void setIslandOwner(Player islandOwner) {
+    public void setIslandOwner(Player islandOwner) throws GameOverException {
         this.islandOwner = islandOwner;
+        int players_towers = islandOwner.getSchoolBoard().getTowers();
+        if(players_towers >= archipelagoDimension){
+            islandOwner.getSchoolBoard().setTowers(players_towers - archipelagoDimension);
+        }
+        if(players_towers == 0){
+            throw new GameOverException();
+        }
     }
 
     /**
@@ -101,7 +111,7 @@ public class IslandTile {
      * @param adjacentIslandTile of type IslandTile - adjacent island.
      */
     public void mergeIslands(IslandTile adjacentIslandTile) {
-        archipelagoDimension++;
+        archipelagoDimension = archipelagoDimension + adjacentIslandTile.getArchipelagoDimension();
         for (int i = 0; i < 5; i++) {
             students[i] = students[i] + adjacentIslandTile.students[i];
         }

@@ -1,10 +1,11 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
-import it.polimi.ingsw.client.actions.MoveMotherNature;
-import it.polimi.ingsw.client.actions.UserCommand;
+import it.polimi.ingsw.client.actions.*;
 import it.polimi.ingsw.client.messages.QuitMessage;
 import it.polimi.ingsw.costanti.Constants;
+import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.IslandTile;
 
 public class InputCheck {
 
@@ -23,6 +24,9 @@ public class InputCheck {
     }
 
     public MoveMotherNature moveMotherNature(String[] in){
+        if(view.getTurnPhase() > 1){
+            System.out.println("Not in the correct game phase to perform this command");
+        }
         MoveMotherNature action = null;
         try {
             action = new MoveMotherNature(in);
@@ -45,7 +49,38 @@ public class InputCheck {
     }
 
     public UserCommand moveStudent(String[] action) {
-        //DA implementare
+        if(view.getTurnPhase() != 2){
+            System.out.println("Not in the correct game phase to perform this command");
+        }
+        String whereto = action[1].toUpperCase();
+        if(whereto.equals("DININGROOM")){
+            Color color = Color.parseInput(action[2]);
+            return new MoveStudentToDiningRoom(color);
+        }
+        if(whereto.equals("ISLAND")){
+            int index = Integer.parseInt(action[2]);
+            Color color = Color.parseInput(action[3]);
+            IslandTile islandTile = view.getIslands().get(index - 1); // meno uno perche penso isole 1 -> 12
+            return new MoveStudentToIsland(islandTile,color);
+        }
         return null;
+    }
+
+    public EndTurn pickCloud(String[] in) {
+        if(view.getTurnPhase() != 3){
+            System.out.println("Not in the correct game phase to perform this command");
+        }
+        int index = Integer.parseInt(in[1]);
+       try{
+           Cloud cloud = view.getClouds().get(index);
+       } catch (IndexOutOfBoundsException e){
+           System.out.println("The cloud that you selected...vanished, or was never there" +
+                   ", you tell me...but you have to pick another one... :( ");
+           return null;
+       }
+        if (view.getClouds().size() == 1){
+            return new EndTurn(view.getClouds().get(0),true);
+        }
+        return new EndTurn(view.getClouds().get(index));
     }
 }

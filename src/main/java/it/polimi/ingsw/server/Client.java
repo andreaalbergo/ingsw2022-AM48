@@ -53,7 +53,7 @@ public class Client {
         winMessage.setSerializedAnswer(win);
         clientConnection.sendSocketMessage(winMessage);
         board.sendAllExcept(new LoseMessage(nickname), idClient);
-        board.endGame(idClient);
+        board.endGame("");
     }
 
 }

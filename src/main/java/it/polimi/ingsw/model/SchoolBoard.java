@@ -1,15 +1,35 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.InvalidSelection;
+
 import java.util.ArrayList;
 
 public class SchoolBoard {
     private final String nickname;
     private ArrayList<Color> entrance;
-    private int[] diningRoom = new int[5];
+    private final int[] diningRoom = new int[5];
     private Boolean[] professors = new Boolean[5];
+
+    public void setTowers(int tower) {
+        this.towers = tower;
+    }
+
+    public void setTowers() {
+        this.towers = towers - 1;
+    }
+
     private int towers;
     private ArrayList<Integer> collectedCoins;
-    private int movedstudents =0;
+
+    public int getMovedstudents() {
+        return movedstudents;
+    }
+
+    public void setMovedstudents(int movedstudents) {
+        this.movedstudents = movedstudents;
+    }
+
+    private int movedstudents = 0;
     private int numberOfPlayers;
     private boolean mode;
 
@@ -54,13 +74,13 @@ public class SchoolBoard {
      *
      * @param color is the color of the student the player wants to move to the dining room
      */
-    public void addStudentToDiningRoom(Color color){
+    public void addStudentToDiningRoom(Color color) throws InvalidSelection{
         if((movedstudents == 4 && numberOfPlayers==2)|| (movedstudents == 3 && numberOfPlayers==3))
-            System.out.println("\nYou already moved the maximum number of students\n");
+            //System.out.println("\nYou already moved the maximum number of students\n");
+            throw new InvalidSelection();
         else {
             diningRoom[color.getColorIndex()] += 1;
             removeFromEntrance(color);
-
             switch (numberOfPlayers) {
                 case 2:
                     if (movedstudents < 4) {
@@ -146,24 +166,22 @@ public class SchoolBoard {
         return this.entrance;
     }
 
-    private void removeFromEntrance(Color color) {
-        //check if color exists in entrance[], if not raise an exception
-        entrance.remove(color);
-    }
-
-    public void addStudentToIsland(Color color, IslandTile islandTile) {
-        removeFromEntrance(color);
-        islandTile.getStudents()[color.getColorIndex()]++;
-
-
-        /*BOZZ
-        MotherNature motherNature = null;
-        int position = motherNature.getPosition();
-        if(!(oldIsland.getNoEntryTile(oldIsland) == true)){
-            BoardManager.checkInfluence(oldIsland);
+    private void removeFromEntrance(Color color) throws InvalidSelection {
+        if(!entrance.contains(color)){
+            throw new InvalidSelection();
         }
 
-         */
+        entrance.remove(color);
+        movedstudents++;
+    }
+
+    public void addStudentToIsland(Color color, IslandTile islandTile) throws InvalidSelection {
+        removeFromEntrance(color);
+        if((movedstudents == 4 && numberOfPlayers==2)|| (movedstudents == 3 && numberOfPlayers==3))
+            //System.out.println("\nYou already moved the maximum number of students\n");
+            throw new InvalidSelection();
+        islandTile.getStudents()[color.getColorIndex()]++;
+
     }
     /* BOZZ
         insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()

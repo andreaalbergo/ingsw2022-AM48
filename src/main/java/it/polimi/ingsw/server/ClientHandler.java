@@ -74,7 +74,7 @@ public class ClientHandler implements Runnable {
             Message command = input.message;
             commandLinker(command);
         }else if (input.command!= null){
-            System.out.println("\nSei nel ReadFromStream e ho letto: " + input.command + "\n");
+            System.out.println("\nSei nel ReadFromStream e ho letto il comando: " + input.command + "\n");
             UserCommand command = input.command;
             commandLinker(command);
         }
@@ -95,8 +95,7 @@ public class ClientHandler implements Runnable {
                         idClient);
                 return;
             }
-                server.getBoard().makeAction(command, "RoundDecider");
-
+            server.getBoard().makeAction(command, "RoundDecider");
 
         }
         server.getBoard().makeAction(command,"turnController");
@@ -138,7 +137,7 @@ public class ClientHandler implements Runnable {
             server.getBoard().setup();
 
         }else if( command instanceof QuitMessage){
-            server.getBoard().sendAll(new CustomMessage(server.getIdNameMap().get(idClient) + " has quit the game, Game ending... "));
+            server.getBoard().sendAll(new CustomMessage(server.getIdNameMap().get(idClient) + " has quit the game, Game ending... ",false));
             server.getBoard().endGame(server.getIdNameMap().get(idClient));
             close();
         }
@@ -181,7 +180,7 @@ public class ClientHandler implements Runnable {
                     {
                     server.getBoard().setNumberOfPlayers(((NumberOfPlayers) m).NumberOfPlayers);
                     server.setNumber_of_Players(((NumberOfPlayers) m).NumberOfPlayers);
-                    server.getIdtoClientMap().get(idClient).send(new CustomMessage("The number of players was set to " + ((NumberOfPlayers) m).NumberOfPlayers));
+                    server.getIdtoClientMap().get(idClient).send(new CustomMessage("The number of players was set to " + ((NumberOfPlayers) m).NumberOfPlayers,false));
                     break;
                     }else {
                         server.getIdtoClientMap().get(idClient).send(new GameError(Errors.DUPLICATENICKNAME,"The nickname is already chosen"));
