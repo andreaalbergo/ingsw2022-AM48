@@ -1,15 +1,18 @@
+/*
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public enum Character {
+    /*
     MONK(1, 1), INNKEEPER(2, 2), //PRINCE(3, 3),
     HERALD(3, 1), //GROCER(5, 2),
     CENTAUR(4, 3),
     JESTER(5, 1), KNIGHT(6, 2), MERCHANT(7, 3),
     //MINSTREL(10, 1),
     WARRIOR_PRINCESS(8, 2); //THIEF(12, 3)
+
 
     private final int idCharacter;
     private final int characterEffectCost;
@@ -28,20 +31,21 @@ public enum Character {
 
         this.idCharacter = idCharacter;
         this.characterEffectCost = characterEffectCost;
-        extractCards();
-        setExtractedCardsCost();
+        //extractCards();
+        //setExtractedCardsCost();
         isActive = false;
 
     }
-
+/*
     public int getCharacterEffectCost() {
         return characterEffectCost;
     }
 
+
     /**
      * This methods is used to extract 3 random character cards from the 8/12 given
      */
-
+    /*
     public void extractCards(){
 
         int amountOfCards = 3;
@@ -65,12 +69,11 @@ public enum Character {
                 case 5 -> extractedCards.add(KNIGHT);
                 case 6 -> extractedCards.add(MERCHANT);
                 case 7 -> extractedCards.add(WARRIOR_PRINCESS);
-                /*
                 case 8 -> extractedCards.add(PRINCE);
                 case 9 -> extractedCards.add(GROCER);
                 case 10 -> extractedCards.add(MINSTREL);
                 case 11 -> extractedCards.add(THIEF);
-                 */
+
                 default -> System.out.println("ERROR --> extractCards() didn't work as expected");
             }
 
@@ -89,6 +92,7 @@ public enum Character {
         }
     }
 
+/*
     //connect with Bag class
     private void setUpCard(Character card){
 
@@ -124,7 +128,7 @@ public enum Character {
 
         }
 
-        /*
+
         Already in the first if --> with this case there are some code repetition
 
         if(card == WARRIOR_PRINCESS){
@@ -139,10 +143,11 @@ public enum Character {
 
         }
 
-         */
+
 
     }
 
+    /*
     public void setExtractedCardsCost(){
 
         for(Character c : extractedCards){
@@ -171,9 +176,10 @@ public enum Character {
 
     }
 
+/*
     public void chooseCharacterCard(Character card) {
 
-        incrementCardCost(card);
+        //incrementCardCost(card);
         setActive(true);
 
         switch (card) {
@@ -193,19 +199,20 @@ public enum Character {
     //use Bag and SchoolBoard
     private void monkEffect() {
 
-        /*
+
         schoolBoard.addStudentToIsland(color, islandTile);
         monkStudents[color.getColorIndex()]--;
         monkStudents[bag.getRandomColorFromBag()]++;
-         */
+
 
     }
 
+/*
     private void innkeeperEffect() {
 
-        /*
-        simpleBoardManager.checkToAddProfessor(color, 1);
-         */
+
+        //simpleBoardManager.checkToAddProfessor(color, 1);
+
         //need to re assign the professor after this card
 
     }
@@ -216,11 +223,15 @@ public enum Character {
 
     }
 
+
+
     private void centaurEffect(){
 
         //simpleBoardManager.checkInfluence(island, 1);
 
     }
+
+
 
     private void jesterEffect(){
         /*
@@ -244,8 +255,10 @@ public enum Character {
             jesterStudents[bag.getRandomColorFromBag()]++;
         }
 
-         */
+
     }
+
+
 
     private void knightEffect(){
 
@@ -260,7 +273,7 @@ public enum Character {
         int effect = color.getColorIndex() + 3;
 
         simpleBoardManager.checkInfluence(island, effect);
-         */
+
 
     }
 
@@ -271,10 +284,11 @@ public enum Character {
         schoolBoard.addStudentToDiningRoom(color);
         warriorPrincessStudents[color.getColorIndex()]--;
         warriorPrincessStudents[bag.getRandomColorFromBag()]++;
-         */
+
     }
 
     public void setActive(boolean active) {
         isActive = active;
     }
 }
+*/

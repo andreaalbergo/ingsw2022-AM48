@@ -17,6 +17,7 @@ public class BoardManager {
     private final Board board;
     private final List<IslandTile> islands = new ArrayList<>();
     private final List<Cloud> clouds = new ArrayList<>();
+
     private final MotherNature motherNature = new MotherNature();
     private final Bag bag;
 
@@ -51,7 +52,7 @@ public class BoardManager {
 
     /**
      *
-     * @return
+     * @return clouds list reference
      */
     public List<Cloud> getClouds() {
         return clouds;
@@ -59,7 +60,7 @@ public class BoardManager {
 
     /**
      *
-     * @return
+     * @return bag reference
      */
     public Bag getBag() {
         return bag;
@@ -69,6 +70,10 @@ public class BoardManager {
         for (int i = 0; i < board.getActivePlayers().size(); i++) {
             clouds.add(new Cloud(board));
         }
+    }
+
+    public MotherNature getMotherNature() {
+        return motherNature;
     }
 
     //checkInfluence will be in GameController package

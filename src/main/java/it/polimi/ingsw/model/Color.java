@@ -6,8 +6,8 @@ package it.polimi.ingsw.model;
  * @author Andrea
  */
 public enum Color {
-    YELLOW_GNOMES(0), BLUE_UNICORNS(1), GREEN_FROGS(2),
-    RED_DRAGONS(3),PINK_FAIRIES(4);
+    GREEN_FROGS(0), RED_DRAGONS(1), YELLOW_GNOMES(2),
+    PINK_FAIRIES(3),BLUE_UNICORNS(4);
 
     private final int colorIndex;
 

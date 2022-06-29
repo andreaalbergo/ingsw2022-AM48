@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.DetailedIslandController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="616.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/Backgrounds/Sfondochiaro.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="islandType" fitHeight="380.0" fitWidth="422.0" layoutX="181.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/GameElements/Islands/IslandType1.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="idIsland" layoutX="14.0" layoutY="48.0" text="Id island: " />
+      <Label fx:id="tower" layoutX="14.0" layoutY="78.0" text="Tower:" />
+      <Label fx:id="motherNature" layoutX="14.0" layoutY="109.0" text="Mother Nature:" />
+      <Label fx:id="students" layoutX="14.0" layoutY="140.0" text="Students:" />
+      <ImageView fx:id="towerImageView" fitHeight="150.0" fitWidth="200.0" layoutX="219.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/GameElements/Towers/BlackTower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="motherNatureImage" fitHeight="150.0" fitWidth="200.0" layoutX="326.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/GameElements/MotherNature.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="studentsPanel" layoutX="273.0" layoutY="149.0" prefHeight="132.0" prefWidth="221.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

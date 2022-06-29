@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Pre_Game.ControllerIntro">
+   <children>
+      <ImageView fitHeight="418.0" fitWidth="609.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Backgrounds/Sfondochiaro.png" />
+      </ImageView>
+      <TextField fx:id="usernameField" layoutX="35.0" layoutY="201.0" />
+      <Text layoutX="39.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username (at least one letter):" />
+      <TextField fx:id="ipAddressField" layoutX="35.0" layoutY="263.0" />
+      <Text layoutX="39.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IP address (es: 127.0.0.0):" />
+      <Text layoutX="37.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port Number (Between 1024 and 64000):" />
+      <TextField fx:id="portField" layoutX="35.0" layoutY="322.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="36.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Teams/BlueUnicorns.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="253.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Teams/GreenFrogs.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="388.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Teams/PinkFairies.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="205.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Teams/RedDragons.png" />
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="388.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/Teams/YellowGnomes.png" />
+      </ImageView>
+      <Button layoutX="476.0" layoutY="263.0" mnemonicParsing="false" onAction="#switchToMainMenu" text="Main Menu" />
+      <Button layoutX="494.0" layoutY="308.0" mnemonicParsing="false" onAction="#switchToSettingPage" text="Next" />
+   </children>
+</AnchorPane>
