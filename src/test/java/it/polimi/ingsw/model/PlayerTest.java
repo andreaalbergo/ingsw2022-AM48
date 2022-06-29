@@ -1,17 +1,19 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.SchoolBoard;
-import it.polimi.ingsw.model.Tower;
-import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
-    Player player = new Player("Albus",1, Wizard.EMIR, Tower.GREY);
+    Player player;
 
+    @BeforeEach
+    void initialize(){
+        player = new Player("Albus",1, Wizard.EMIR, Tower.GREY);
+    }
 
     @Test
     void getNickname() {
@@ -21,21 +23,22 @@ class PlayerTest {
     @Test
     void getAssistantCards() {
         assertNotNull(player.getAssistantCards());
-        /*for (int i=0; i<player.getAssistantCards().size();i++) {
+        /*
+        for (int i=0; i<player.getAssistantCards().size();i++) {
             System.out.println(player.getAssistantCards().get(i));
-            AssistantCard card = (AssistantCard) player.getAssistantCards().get(i);
+            AssistantCard card = player.getAssistantCards().get(i);
             System.out.println(card.getValue());
             System.out.println(card.getNumber_of_steps());
         }
         player.getAssistantCards().remove(4);
         for (int i=0; i<player.getAssistantCards().size();i++) {
             System.out.println(player.getAssistantCards().get(i));
-            AssistantCard card = (AssistantCard) player.getAssistantCards().get(i);
+            AssistantCard card = player.getAssistantCards().get(i);
             System.out.println(card.getValue());
             System.out.println(card.getNumber_of_steps());
         }
-
          */
+
     }
 
     @Test
@@ -54,11 +57,15 @@ class PlayerTest {
     }
 
     @Test
-    void setTurn() {
-        player.setTurn(false);
-        assertFalse(player.isTurn());
+    void setTurn1() {
         player.setTurn(true);
         assertTrue(player.isTurn());
+    }
+
+    @Test
+    void setTurn2() {
+        player.setTurn(false);
+        assertFalse(player.isTurn());
     }
 
     @Test
@@ -69,11 +76,32 @@ class PlayerTest {
     }
 
     @Test
-    void createSchoolBoard(){
+    void createSchoolBoard1(){
         player.createSchoolBoard(false, 2);
         SchoolBoard schoolBoard = player.getSchoolBoard();
         assertEquals(2,schoolBoard.getNumberOfPlayers());
+    }
+
+    @Test
+    void createSchoolBoard2() {
+        player.createSchoolBoard(false, 2);
+        SchoolBoard schoolBoard = player.getSchoolBoard();
+
         assertFalse(schoolBoard.isMode());
+    }
+
+    @Test
+    void createSchoolBoard3() {
+        player.createSchoolBoard(false, 2);
+        SchoolBoard schoolBoard = player.getSchoolBoard();
+
         assertEquals("Albus",schoolBoard.getNickname());
+    }
+
+    @Test
+    void removeCoins() {
+        player.addCoins(3);
+        player.removeCoin(2);
+        assertEquals(2,player.getCoins());
     }
 }

@@ -21,6 +21,19 @@ public class Board {
 
     private boolean startedRound;
 
+    private HashMap <Player, AssistantCard> playerAssistantCardHashMap;
+
+    private final BoardManager boardManager;
+
+    /**
+     * Constructor Board creates a new game instance.
+     */
+    public Board() {
+        boardManager = new BoardManager(this);
+        playerAssistantCardHashMap = new HashMap<>();
+    }
+
+
     public boolean isStartedRound() {
         return startedRound;
     }
@@ -41,18 +54,6 @@ public class Board {
 
     public HashMap<Player, AssistantCard> getPlayerAssistantCardHashMap() {
         return playerAssistantCardHashMap;
-    }
-
-    private HashMap <Player, AssistantCard> playerAssistantCardHashMap;
-
-    private final BoardManager boardManager;
-
-    /**
-     * Constructor Board creates a new game instance.
-     */
-    public Board() {
-        boardManager = new BoardManager(this);
-        playerAssistantCardHashMap = new HashMap<>();
     }
 
     /**
