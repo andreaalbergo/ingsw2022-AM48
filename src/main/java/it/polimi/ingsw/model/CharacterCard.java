@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameOverException;
+import it.polimi.ingsw.exceptions.InvalidSelection;
+
 import java.util.*;
 
 public enum CharacterCard {
@@ -17,7 +20,7 @@ public enum CharacterCard {
     //board is null --> to connect in some way
     private static Board board;
 
-    public static void chooseThreeRandomCharacters() {
+    public static void chooseThreeRandomCharacters() throws GameOverException {
         List<CharacterCard> VALUES = new ArrayList<>(Arrays.asList(CharacterCard.values()));
         Collections.shuffle(VALUES);
 
@@ -27,7 +30,7 @@ public enum CharacterCard {
         }
     }
 
-    public static void addCharacterCard(CharacterCard characterCard) {
+    public static void addCharacterCard(CharacterCard characterCard) throws GameOverException {
         switch (characterCard) {
             case MONK, HERALD, JESTER -> chosen.put(characterCard, 1);
             case  INNKEEPER, KNIGHT, WARRIOR_PRINCESS -> chosen.put(characterCard, 2);
@@ -45,7 +48,7 @@ public enum CharacterCard {
         return chosen;
     }
 
-    public static void setUpCards(CharacterCard characterCard){
+    public static void setUpCards(CharacterCard characterCard) throws GameOverException {
 
         if(characterCard == MONK){
             for(int i = 0; i < 4; i++){
@@ -75,7 +78,7 @@ public enum CharacterCard {
         chosen.replace(characterCard, chosen.get(characterCard) + 1);
     }
 
-    public static void chosenCard(CharacterCard characterCard){
+    public static void chosenCard(CharacterCard characterCard) throws GameOverException, InvalidSelection {
 
         setIsActive(true);
         setCost(characterCard);
@@ -102,7 +105,7 @@ public enum CharacterCard {
     }
 
     //color and islandTile are from input --> how to declare??
-    public static void monkEffect(){
+    public static void monkEffect() throws GameOverException, InvalidSelection {
 
         Color color = null;
         IslandTile islandTile = null;
@@ -141,7 +144,7 @@ public enum CharacterCard {
     }
 
     //removeColorFromEntrance and moveColor are from input --> how to declare??
-    public static void jesterEffect() {
+    public static void jesterEffect() throws GameOverException {
 
         int studentsMoved = 0;
         int counter = 0;
@@ -193,7 +196,7 @@ public enum CharacterCard {
     }
 
     //color is from input --> how to declare??
-    public static void warriorPrincessEffect(){
+    public static void warriorPrincessEffect() throws InvalidSelection, GameOverException {
 
         Color color = null;
 
