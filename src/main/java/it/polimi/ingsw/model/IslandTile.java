@@ -10,6 +10,7 @@ package it.polimi.ingsw.model;
  */
 public class IslandTile {
     private int archipelagoDimension = 1;
+    private int islandId;
     private Player islandOwner;
     private final int[] students = new int[5];
 
@@ -18,9 +19,10 @@ public class IslandTile {
      * if it's the twelfth and last instance, the island is empty; the others have each one student disc, there MUST BE
      * 2 students for every color in total (picked randomly).
      */
-    public IslandTile(int colorIndex) {
+    public IslandTile(int colorIndex, int islandId) {
         if (colorIndex!=-1)
             students[colorIndex]++;
+        this.islandId = islandId;
     }
 
     /**
@@ -35,13 +37,22 @@ public class IslandTile {
 
 
     /**
-     * Method getStudents gives us the array of student discs organized by colors and it shows how many of them are
+     * Method getStudents gives us the array of student discs organized by colors, it shows how many of them are
      * present on given islandTile.
      *
-     * @return of type int[] - array of student discs.
+     * @return int[] - array of student discs.
      */
     public int[] getStudents() {
         return students;
+    }
+
+    /**
+     * Method getArchipelagoDimension gets the dimension of the archipelago formed with islands with the same ID.
+     *
+     * @return int - dimension of the archipelago.
+     */
+    public int getArchipelagoDimension() {
+        return archipelagoDimension;
     }
 
     /**
@@ -66,8 +77,26 @@ public class IslandTile {
     }
 
     /**
-     * Method that takes the island where mother nature is positioned and merges with one of the two adjacent island
-     * that has the same tower color as this one.
+     * Method getIslandId gets the ID of the island.
+     *
+     * @return int - island ID.
+     */
+    public int getIslandId() {
+        return islandId;
+    }
+
+    /**
+     * Method setIslandId that sets new island ID.
+     *
+     * @param islandId of type int.
+     */
+    public void setIslandId(int islandId) {
+        this.islandId = islandId;
+    }
+
+    /**
+     * Method mergeIslands that takes the island where mother nature is positioned and merges with one of the two
+     * adjacent island that has the same tower color as this one.
      *
      * @param adjacentIslandTile of type IslandTile - adjacent island.
      */

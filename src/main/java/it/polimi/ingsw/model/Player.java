@@ -39,6 +39,8 @@ public class Player {
 
     }
 
+    public Tower getTower() { return tower; }
+
     public void setTower(Tower tower){
         this.tower = tower;
     }

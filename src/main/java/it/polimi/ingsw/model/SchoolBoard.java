@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class SchoolBoard {
     private final String nickname;
-    private int entrance_size;
     private ArrayList<Color> entrance;
     private int[] diningRoom = new int[5];
     private Boolean[] professors = new Boolean[5];

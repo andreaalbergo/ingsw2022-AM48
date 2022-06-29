@@ -23,10 +23,7 @@ public class ClientView {
     private String nickname;
     private String currentPlayer;
     private Wizard wizard;
-
     private List<IslandTile> islands;
-
-
     private List<Cloud> clouds;
 
     private Answer answer;
