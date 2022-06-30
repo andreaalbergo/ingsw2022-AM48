@@ -13,7 +13,6 @@ import java.util.logging.Level;
 
 public class CommandHandler {
     private final ClientView model;
-
     private final PropertyChangeSupport view = new PropertyChangeSupport(this);
     private CLI cli;
     private GUI gui;
@@ -44,7 +43,7 @@ public class CommandHandler {
         }
         //Inserire tutte le possibili risposte diverse dal movimento del gioco (vincita sconfitta ....)
         else if (answer instanceof ConnectionMessage) {
-            if (cli != null ){
+            if (cli != null){
                 view.firePropertyChange("connectionClosed",null,answer);
                 cli.setActive(false);
             }
@@ -109,7 +108,7 @@ public class CommandHandler {
         } else if (answer instanceof SetDatails) {
             model.setPhase(1);
             if(((SetDatails) answer).getWizard() == null){
-                view.firePropertyChange("setup", null, "SetDatails");
+                view.firePropertyChange("setup", null, "SetDetails");
             }else {
                 model.setWizard(((SetDatails) answer).getWizard().toString());
                 model.setTower(((SetDatails) answer).getTower().toString());

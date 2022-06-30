@@ -1,46 +1,72 @@
 package it.polimi.ingsw.client.gameBoard;
 
-import it.polimi.ingsw.costanti.Constants;
+import it.polimi.ingsw.model.Color;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+/**
+ * CloudGrid class is used to handle every player's move on the clouds, like emptying one of them or the game filling
+ * them. It is useful for the class GameBoard.
+ *
+ * @author David Barb
+ */
 public class CloudGrid {
+    private final HashMap <Integer, int[]> clouds = new LinkedHashMap<>();
     private final int cloudDimension;
-    private final String[][] cloudGrid;
 
+    /**
+     * CloudGrid constructor, to create the hashmap of the clouds given the number of players.
+     *
+     * @param numberOfPlayers of type int - the number of players.
+     */
     public CloudGrid(int numberOfPlayers) {
-        cloudDimension = numberOfPlayers;
-       if (cloudDimension==Constants.MAX_PLAYERS) {
-           cloudGrid = new String[Constants.MAX_PLAYERS][Constants.CLOUD_MAX_PLAYERS];
-           for (int i = 0; i < Constants.MAX_PLAYERS; i++)
-               for (int j = 0; j < Constants.CLOUD_MAX_PLAYERS; j++)
-                   cloudGrid[i][j] = null;
-       } else {
-           cloudGrid = new String[Constants.MIN_PLAYERS][Constants.CLOUD_MIN_PLAYERS];
-           for (int i = 0; i < Constants.MIN_PLAYERS; i++)
-               for (int j = 0; j < Constants.CLOUD_MIN_PLAYERS; j++)
-                   cloudGrid[i][j] = null;
-       }
+        if (numberOfPlayers==3)
+            cloudDimension=4;
+        else
+            cloudDimension=3;
+
+        for (int i = 0; i < numberOfPlayers; i++) {
+            clouds.put(i, new int[cloudDimension]);
+        }
     }
 
-    public String[][] getCloudGrid() {
-        return cloudGrid;
+    /**
+     * Method updateSingleCloud is used by class GameBoard to keep track of filling the cloud with given student colors.
+     * @param cloudID of type int - the ID of the cloud.
+     * @param colors of type ArrayList<> - the list of colors to fill given cloud.
+     */
+    public void updateSingleCloud(int cloudID, ArrayList<Color> colors) {
+        for (int i = 0; i < cloudDimension; i++) {
+            clouds.get(cloudID)[i] = colors.get(i).getColorIndex();
+        }
     }
 
-    public String getSingleCloud(int cloudId) throws IllegalArgumentException{
-        if(cloudId<0 && cloudId>cloudDimension) throw new IllegalArgumentException();
-
-        StringBuilder cloudArray = new StringBuilder("[");
-        for (int i = 0; i < cloudDimension; i++)
-            cloudArray.append(cloudGrid[cloudId][i]).append(", ");
-        cloudArray.append("]");
-
-        return cloudArray.toString();
+    /**
+     * Method emptySingleCloud is used by class GameBoard to empty a given cloud when chosen by specific player.
+     *
+     * @param cloudID of type int - the ID of the cloud.
+     */
+    public void emptySingleCloud(int cloudID) {
+        for (int i = 0; i < cloudDimension; i++) {
+           clouds.get(cloudID)[i] = 5;
+        }
     }
 
-    public void emptyCloud(int cloudId) {
-        //TODO
-    }
+    /**
+     * Method getAllStudents returns an array of int useful for the class Blueprint in order to print the clouds.
+     *
+     * @return of type int[] - the array of students of all clouds.
+     */
+    public int[] getAllStudents(){
+        int[] studentsAllClouds = new int[cloudDimension*clouds.size()];
 
-    public void fillClouds() {
-        //TODO
+        for (int i = 0; i < clouds.size(); i++) {
+            for (int j = 0; j < cloudDimension; j++) {
+                studentsAllClouds[i*cloudDimension+j] = clouds.get(i)[j];
+            }
+        }
+        return studentsAllClouds;
     }
 }

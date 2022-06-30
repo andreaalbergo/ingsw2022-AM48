@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.exceptions.GameOverException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +32,7 @@ class CloudTest {
     }
 
     @Test
-    void emptyCloud(){
+    void emptyCloud() throws GameOverException {
 
         SchoolBoard schoolBoard = new SchoolBoard("hammer", 3, false);
 

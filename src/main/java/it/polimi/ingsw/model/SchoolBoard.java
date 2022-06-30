@@ -45,17 +45,16 @@ public class SchoolBoard {
         this.nickname = nickname;
         this.numberOfPlayers = numberOfPlayers;
         this.mode = mode;
-        for (Boolean professor:
-             professors) {
-            professor = false;
+        for (int i = 0; i < 5; i++) {
+            professors[i] = false;
         }
 
         if (numberOfPlayers == 3){
-            this.entrance = new ArrayList<>(7);
+            this.entrance = new ArrayList<>(9);
             //entrance.add(0,null);
             this.towers = 6;
         }else{
-            this.entrance = new ArrayList<>(9);
+            this.entrance = new ArrayList<>(7);
             //entrance.add(0,null);
             this.towers = 8;
         }

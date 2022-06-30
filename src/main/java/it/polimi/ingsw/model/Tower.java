@@ -10,9 +10,14 @@ import java.util.List;
  * @author David Barb, Andrea Albergo
  */
 public enum Tower {
-    WHITE, BLACK, GREY;
+    WHITE(0), BLACK(1), GREY(2);
 
     private static final ArrayList<Tower> available = new ArrayList<>();
+    private final int towerIndex;
+
+    Tower(int towerIndex) {
+        this.towerIndex = towerIndex;
+    }
 
     /** Method setLists empties the alreadyPicked list. */
     public static void setList() {
@@ -22,8 +27,22 @@ public enum Tower {
         available.add( BLACK);
     }
 
+    /**
+     * Method available gets the list of available towers, useful for first setup before starting the game.
+     *
+     * @return of type List<> - the list of available towers
+     */
     public static List<Tower> available() {
         return available;
+    }
+
+    /**
+     * Method getIndex gives the number of chosen tower, useful for GameBoard class in order to print the CLI view.
+     *
+     * @return of type int - the ID of the tower.
+     */
+    public int getIndex(){
+        return towerIndex;
     }
 
     public static boolean isAlreadyPicked(Tower tower){

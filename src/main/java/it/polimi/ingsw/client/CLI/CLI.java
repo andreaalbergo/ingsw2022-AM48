@@ -40,9 +40,6 @@ public class CLI implements Runnable, PropertyChangeListener {
     private ConnectionSocket socket;
     public final Logger logger = Logger.getLogger(getClass().getName());
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-
-
-
     private GameBoard gameBoard;
 
 
@@ -347,7 +344,6 @@ public class CLI implements Runnable, PropertyChangeListener {
                 gamePhase(command);
             }
             case "MoveMessage" -> updateCLI((MoveMessage) evt.getNewValue());
-
         }
     }
 
@@ -357,10 +353,10 @@ public class CLI implements Runnable, PropertyChangeListener {
         if(move.getId().equals(clientView.getNickname())){
             clientView.setInputEnabler(true);
         }
-        if(move.getMoved_students() == 4 && gameBoard.getNumber_of_Players() == 2 ){
+        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 2){
             clientView.setTurnPhase(3);
         }
-        if(move.getMoved_students() == 3 && gameBoard.getNumber_of_Players() == 3 ){
+        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 3){
             clientView.setTurnPhase(3);
         }
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){

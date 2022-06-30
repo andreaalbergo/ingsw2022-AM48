@@ -57,9 +57,9 @@ class BoardTest {
 
     @Test
     void testSetPlayerOrderTurn() {
-        testBoard.getActivePlayers().get(2).setChosenCard(6);
-        testBoard.getActivePlayers().get(0).setChosenCard(5);
-        testBoard.getActivePlayers().get(1).setChosenCard(10);
+        testBoard.getActivePlayers().get(2).setChosenCard(AssistantCard.SIX);
+        testBoard.getActivePlayers().get(0).setChosenCard(AssistantCard.FIVE);
+        testBoard.getActivePlayers().get(1).setChosenCard(AssistantCard.TEN);
         testBoard.setPlayerOrderTurn();
 
         for(Player player : testBoard.getPlayersTurnOrder()) {

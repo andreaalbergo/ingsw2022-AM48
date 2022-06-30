@@ -11,10 +11,10 @@ import it.polimi.ingsw.exceptions.GameOverException;
  * @author David Barb
  */
 public class IslandTile {
-
+    private static int numberOfIslands = 0;
     private int archipelagoDimension = 1;
-    private int islandId;
     private Player islandOwner = null;
+    private int islandID;
     private final int[] students = new int[5];
 
     /**
@@ -22,10 +22,11 @@ public class IslandTile {
      * if it's the twelfth and last instance, the island is empty; the others have each one student disc, there MUST BE
      * 2 students for every color in total (picked randomly).
      */
-    public IslandTile(int colorIndex, int islandId) {
+    public IslandTile(int colorIndex) {
+        islandID = numberOfIslands;
+        numberOfIslands++;
         if (colorIndex!=-1)
             students[colorIndex]++;
-        this.islandId = islandId;
     }
 
     /**
@@ -59,6 +60,15 @@ public class IslandTile {
     }
 
     /**
+     * Method setArchipelagoDimension is used to set new number of merged islands, so they will have same ID.
+     *
+     * @param archipelagoDimension of type int.
+     */
+    public void setArchipelagoDimension(int archipelagoDimension) {
+        this.archipelagoDimension = archipelagoDimension;
+    }
+
+    /**
      * Method setIslandOwner that sets new island owner, by taking reference of the player that conquered the island.
      *
      * @param islandOwner of type Player - new owner of the island.
@@ -75,6 +85,24 @@ public class IslandTile {
     }
 
     /**
+     * method getIslandID is used by GameBoard class in order to handle the merged islands with its own students.
+     *
+     * @return int - the ID of the island.
+     */
+    public int getIslandID() {
+        return islandID;
+    }
+
+    /**
+     * Method setIslandID is used to set new island ID after merge.
+     *
+     * @param islandID of type int
+     */
+    public void setIslandID(int islandID) {
+        this.islandID = islandID;
+    }
+
+    /**
      * Method howManyTowers that shows how many towers are in the archipelago; one tower or none if single island is
      * conquered or not.
      *
@@ -87,24 +115,6 @@ public class IslandTile {
     }
 
     /**
-     * Method getIslandId gets the ID of the island.
-     *
-     * @return int - island ID.
-     */
-    public int getIslandId() {
-        return islandId;
-    }
-
-    /**
-     * Method setIslandId that sets new island ID.
-     *
-     * @param islandId of type int.
-     */
-    public void setIslandId(int islandId) {
-        this.islandId = islandId;
-    }
-
-    /**
      * Method mergeIslands that takes the island where mother nature is positioned and merges with one of the two
      * adjacent island that has the same tower color as this one.
      *
@@ -112,9 +122,8 @@ public class IslandTile {
      */
     public void mergeIslands(IslandTile adjacentIslandTile) {
         archipelagoDimension = archipelagoDimension + adjacentIslandTile.getArchipelagoDimension();
-        for (int i = 0; i < 5; i++) {
-            students[i] = students[i] + adjacentIslandTile.students[i];
-        }
+        adjacentIslandTile.setIslandID(this.getIslandID());
+        adjacentIslandTile.setArchipelagoDimension(0);
     }
 
 }

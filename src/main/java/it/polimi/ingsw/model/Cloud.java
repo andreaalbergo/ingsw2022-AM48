@@ -31,6 +31,9 @@ public class Cloud {
         }
     }
 
+    public ArrayList<Color> getCloudCells() {
+        return cloudCells;
+    }
 
     public void emptyCloud(SchoolBoard schoolBoard){
         for(int i = 0; i < cloudCells.size(); i++) {

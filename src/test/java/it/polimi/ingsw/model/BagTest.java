@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Bag;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.SchoolBoard;
+import it.polimi.ingsw.exceptions.GameOverException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -26,7 +23,7 @@ class BagTest {
     }
 
     @RepeatedTest(10)
-    void RandomColorNotNull() {
+    void RandomColorNotNull() throws GameOverException {
         int colorIndex;
 
         colorIndex = bag.getRandomColorFromBag();
@@ -36,7 +33,7 @@ class BagTest {
     }
 
     @Test
-    void RandomColorRangeExpected(){
+    void RandomColorRangeExpected() throws GameOverException {
         boolean included = false;
 
         int colorIndex = bag.getRandomColorFromBag();
@@ -49,7 +46,7 @@ class BagTest {
     }
 
     @Test
-    void setupSchoolEntrance() {
+    void setupSchoolEntrance() throws GameOverException {
 
         bag.setupSchoolEntrance(schoolBoard);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
@@ -58,7 +55,7 @@ class BagTest {
     }
 
     @Test
-    void setUpSchoolEntranceFalse(){
+    void setUpSchoolEntranceFalse() throws GameOverException {
 
         bag.setupSchoolEntrance(schoolBoard);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
@@ -79,7 +76,7 @@ class BagTest {
     }
 
     @Test
-    void isBagEmptyTrue(){
+    void isBagEmptyTrue() throws GameOverException {
 
         ArrayList<Integer> allStudents = new ArrayList<>();
 

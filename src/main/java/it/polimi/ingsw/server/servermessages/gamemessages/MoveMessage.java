@@ -21,7 +21,7 @@ public class MoveMessage implements Answer {
         this.message = new Move(null,moved_students,entrance,null,islandTiles, id_move);
     }
     //update dopo aver scelto nuvola
-    public MoveMessage(List<Cloud> clouds  ,List<Color> entrance, String id_move){
+    public MoveMessage(List<Cloud> clouds, List<Color> entrance, String id_move){
         this.message = new Move(null,null,entrance,clouds,null, id_move);
     }
 

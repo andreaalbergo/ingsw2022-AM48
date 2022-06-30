@@ -34,9 +34,9 @@ public class BoardManager {
 
         for (int i = 0; i < 12; i++) {
             if(i==0 || i==11)
-                islands.add(new IslandTile(-1, i));
+                islands.add(new IslandTile(-1));
             else
-                islands.add(new IslandTile(list.get(i-1), i));
+                islands.add(new IslandTile(list.get(i-1)));
         }
     }
 

@@ -72,6 +72,7 @@ public class ClientView {
 
     public void setIslands(List<IslandTile> islands) {
         this.islands = islands;
+        cli.getGameBoard().setArchipelagoGrid(islands, getPhase());
     }
 
     public List<Cloud> getClouds() {
@@ -80,6 +81,7 @@ public class ClientView {
 
     public void setClouds(List<Cloud> clouds) {
         this.clouds = clouds;
+        cli.getGameBoard().setCloudGrid(clouds, getPhase(), false);
     }
 
     public void setWizard(String wizard) {

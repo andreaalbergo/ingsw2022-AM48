@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.InvalidSelection;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.SchoolBoard;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class SchoolBoardTest {
     }
 
     @Test
-    void addStudentToDiningRoom1() {
+    void addStudentToDiningRoom1() throws InvalidSelection {
         int [] diningRoom;
         diningRoom = schoolBoard.getDiningRoom();
         ArrayList<Color> entrance = schoolBoard.getEntrance();
@@ -30,7 +31,7 @@ class SchoolBoardTest {
             System.out.println(diningRoom[i]);
         }
          */
-        schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);
+        schoolBoard.addStudentToDiningRoom(Color.GREEN_FROGS);
         /*
         for (int i = 0; i < 5; i++) {
             System.out.println(diningRoom[i]);
@@ -40,7 +41,7 @@ class SchoolBoardTest {
     }
 
     @Test
-    void addStudentToDiningRoom2() {
+    void addStudentToDiningRoom2() throws InvalidSelection {
         int[] diningRoom;
         diningRoom = schoolBoard.getDiningRoom();
         ArrayList<Color> entrance = schoolBoard.getEntrance();
@@ -154,7 +155,7 @@ class SchoolBoardTest {
     }
 
     @Test
-    void removeFromEntrance2() {
+    void removeFromEntrance2() throws InvalidSelection {
         schoolBoard.addStudentToEntrance(3);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
         schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);

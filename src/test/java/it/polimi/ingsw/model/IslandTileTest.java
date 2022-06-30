@@ -1,12 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.IslandTile;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Tower;
-import it.polimi.ingsw.model.Wizard;
-import it.polimi.ingsw.model.IslandTile;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Wizard;
+import it.polimi.ingsw.exceptions.GameOverException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,19 +38,19 @@ class IslandTileTest {
     }
 
     @Test
-    void testTowers(){
+    void testTowers() throws GameOverException {
         testIsland.setIslandOwner(new Player("nick", 14, Wizard.SAMURAI, Tower.GREY));
         assertEquals(1, testIsland.howManyTowers());
     }
 
     @Test
-    void setIslandOwner(){
+    void setIslandOwner() throws GameOverException {
         testIsland.setIslandOwner(player1);
         assertEquals(player1, testIsland.getIslandOwner());
     }
 
     @Test
-    void mergeIsland(){
+    void mergeIsland() throws GameOverException {
 
         IslandTile islandTile1 = new IslandTile(1);
         System.out.println(islandTile1.getStudents()[1]);
