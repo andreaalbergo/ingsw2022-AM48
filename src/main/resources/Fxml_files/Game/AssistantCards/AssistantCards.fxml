@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.AssistantCards.AssistantCardsController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="609.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/Backgrounds/Sfondochiaro.png" />
+      </ImageView>
+      <ImageView fx:id="assistant1" fitHeight="161.0" fitWidth="105.0" layoutX="27.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard1.png" />
+      </ImageView>
+      <ImageView fx:id="assistant2" fitHeight="164.0" fitWidth="105.0" layoutX="139.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard2.png" />
+      </ImageView>
+      <ImageView fx:id="assistant3" fitHeight="164.0" fitWidth="105.0" layoutX="251.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard3.png" />
+      </ImageView>
+      <ImageView fx:id="assistant4" fitHeight="164.0" fitWidth="105.0" layoutX="363.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard4.png" />
+      </ImageView>
+      <ImageView fx:id="assistant5" fitHeight="164.0" fitWidth="105.0" layoutX="475.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard5.png" />
+      </ImageView>
+      <ImageView fx:id="assistant6" fitHeight="161.0" fitWidth="105.0" layoutX="27.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard6.png" />
+      </ImageView>
+      <ImageView fx:id="assistant7" fitHeight="164.0" fitWidth="105.0" layoutX="139.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard7.png" />
+      </ImageView>
+      <ImageView fx:id="assistant8" fitHeight="164.0" fitWidth="105.0" layoutX="251.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard8.png" />
+      </ImageView>
+      <ImageView fx:id="assistant9" fitHeight="164.0" fitWidth="105.0" layoutX="363.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard9.png" />
+      </ImageView>
+      <ImageView fx:id="assistant10" fitHeight="164.0" fitWidth="105.0" layoutX="475.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Image url="@../../../Images/GameElements/AssistantCards/AssistantCard10.png" />
+      </ImageView>
+      <Button fx:id="button1" disable="true" layoutX="27.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button2" disable="true" layoutX="139.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button3" disable="true" layoutX="251.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button4" disable="true" layoutX="363.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button5" disable="true" layoutX="475.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button6" disable="true" layoutX="27.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button7" disable="true" layoutX="139.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button8" disable="true" layoutX="251.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button9" disable="true" layoutX="363.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Button fx:id="button10" disable="true" layoutX="475.0" layoutY="215.0" mnemonicParsing="false" opacity="0.0" prefHeight="154.0" prefWidth="105.0" visible="false" onAction="#pressedButton" />
+      <Label layoutX="169.0" layoutY="189.0" text="Click on the assistant that you want ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="538.0" layoutY="369.0" mnemonicParsing="false" onAction="#closeWindow" text="Close" />
+   </children>
+</AnchorPane>

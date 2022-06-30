@@ -12,11 +12,11 @@
       <ImageView fitHeight="400.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/Backgrounds/Sfondochiaro.png" />
       </ImageView>
-      <Button layoutX="39.0" layoutY="99.0" mnemonicParsing="false" onAction="#openSchoolBoardPopUp" text="Schoolboard" />
-      <Button layoutX="31.0" layoutY="227.0" mnemonicParsing="false" text="Assistant Cards" />
-      <Button layoutX="44.0" layoutY="131.0" mnemonicParsing="false" onAction="#openIslandsPopUp" text="Island Tiles" />
-      <Button layoutX="55.0" layoutY="163.0" mnemonicParsing="false" text="Clouds" />
-      <Button layoutX="29.0" layoutY="196.0" mnemonicParsing="false" text="Character Cards" />
+      <Button layoutX="41.0" layoutY="210.0" mnemonicParsing="false" onAction="#openSchoolBoardPopUp" text="School Board" />
+      <Button layoutX="33.0" layoutY="338.0" mnemonicParsing="false" onAction="#openAssistantCardsPopUp" text="Assistant Cards" />
+      <Button layoutX="46.0" layoutY="242.0" mnemonicParsing="false" onAction="#openIslandsPopUp" text="Island Tiles" />
+      <Button layoutX="57.0" layoutY="274.0" mnemonicParsing="false" onAction="#openCloudsPopUp" text="Clouds" />
+      <Button layoutX="31.0" layoutY="307.0" mnemonicParsing="false" onAction="#openCharacterCardsPopUp" text="Character Cards" />
       <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="153.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
       </ImageView>
@@ -53,13 +53,13 @@
       <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="156.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/Islands/IslandType3.png" />
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="353.0" layoutX="171.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="353.0" layoutX="152.0" layoutY="231.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/SchoolBoard/SchoolBoard.png" />
       </ImageView>
-      <ImageView fitHeight="87.0" fitWidth="88.0" layoutX="23.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="87.0" fitWidth="88.0" layoutX="503.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/Coin.png" />
       </ImageView>
-      <Label fx:id="moneyCounter" layoutX="61.0" layoutY="315.0" text="2" textFill="#fde910">
+      <Label fx:id="moneyCounter" layoutX="541.0" layoutY="305.0" text="2" textFill="#fde910">
          <font>
             <Font name="Bodoni 72 Book" size="36.0" />
          </font>
@@ -93,6 +93,26 @@
       </ImageView>
       <ImageView fitHeight="90.0" fitWidth="69.0" layoutX="541.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/AssistantCards/AssistantCard10.png" />
+      </ImageView>
+      <Button layoutX="168.0" layoutY="25.0" mnemonicParsing="false" opacity="0.0" prefHeight="198.0" prefWidth="361.0" onAction="#openIslandsPopUp" />
+      <Button layoutX="545.0" layoutY="8.0" mnemonicParsing="false" opacity="0.0" prefHeight="227.0" prefWidth="57.0" onAction="#openAssistantCardsPopUp" />
+      <Button layoutX="152.0" layoutY="232.0" mnemonicParsing="false" opacity="0.0" prefHeight="150.0" prefWidth="346.0" onAction="#openSchoolBoardPopUp" />
+      <Button layoutX="524.0" layoutY="304.0" mnemonicParsing="false" opacity="0.0" prefHeight="45.0" prefWidth="51.0" onAction="#openCharacterCardsPopUp" />
+      <Label layoutX="38.0" layoutY="147.0" prefHeight="17.0" prefWidth="104.0" text="Click on a button" />
+      <Label layoutX="79.0" layoutY="165.0" prefHeight="17.0" prefWidth="20.0" text="or" />
+      <Label layoutX="16.0" layoutY="185.0" prefHeight="17.0" prefWidth="166.0" text="Click on a graphic element" />
+      <ImageView fitHeight="90.0" fitWidth="97.0" layoutX="12.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Clouds/Cloud2Players/Cloud1.png" />
+      </ImageView>
+      <ImageView fitHeight="84.0" fitWidth="83.0" layoutX="66.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Clouds/Cloud3Players/Cloud2.png" />
+      </ImageView>
+      <Button layoutX="15.0" layoutY="20.0" mnemonicParsing="false" opacity="0.0" prefHeight="99.0" prefWidth="129.0" onAction="#openCloudsPopUp" />
+      <ImageView fitHeight="67.0" fitWidth="77.0" layoutX="19.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Clouds/Cloud3Players/Cloud4.png" />
+      </ImageView>
+      <ImageView fitHeight="112.0" fitWidth="89.0" layoutX="63.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../Images/GameElements/Clouds/Cloud2Players/Cloud4.png" />
       </ImageView>
    </children>
 </AnchorPane>

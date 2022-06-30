@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.GUI;
+package it.polimi.ingsw.client.GUI.Pre_Game;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +16,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoadingPageController implements Initializable {
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     /*
     @FXML
@@ -68,9 +64,9 @@ public class LoadingPageController implements Initializable {
     public void switchToGameMenu(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml_files/Game/GameMenu.fxml"));
-        root = loader.load();
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
 
