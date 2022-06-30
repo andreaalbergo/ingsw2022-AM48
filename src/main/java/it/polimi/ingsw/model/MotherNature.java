@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 public class MotherNature {
     private int position;
 
+
     private int numberofIslands;
 
     public MotherNature() {
