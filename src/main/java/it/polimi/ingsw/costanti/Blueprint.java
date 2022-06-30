@@ -1,12 +1,14 @@
 package it.polimi.ingsw.costanti;
 
 import it.polimi.ingsw.client.gameBoard.GameBoard;
+import it.polimi.ingsw.client.gameBoard.SchoolGrid;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.SchoolBoard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Blueprint class contains all grid assets for our CLI view.
@@ -29,6 +31,12 @@ public class Blueprint {
     private final String ASCII_217 = "┘";
     private final String ASCII_218 = "┌";
 
+    /**
+     * Method getUpperBoxCloud gets the upper part of the cloud body.
+     *
+     * @param cloudId of type int - the cloud ID.
+     * @return of type String.
+     */
     private String getUpperBoxCloud(Integer cloudId) {
         return "┌──────" + Constants.RECTANGLE + " CLOUD_" + cloudId.toString() + " " + Constants.ANSI_RESET + "──────┐";
     }
@@ -280,7 +288,7 @@ public class Blueprint {
         return printable;
     }
 
-    private String getStudentHall(int row, ArrayList<Color> entrance, int numberOfPlayers) {
+    private String getStudentHall(int row, List<Color> entrance, int numberOfPlayers) {
         int amount = entrance.size();
         String emptyCells = Constants.ANSI_BACKGROUND_GREY + Constants.ANSI_WHITE + EMPTY_STUDENT_SLOT +
                 Constants.ANSI_RESET + " " + Constants.ANSI_BACKGROUND_GREY + Constants.ANSI_WHITE +
@@ -485,7 +493,7 @@ public class Blueprint {
 
         return printable;
     }
-    public String getSchoolBoardMinPlayers(HashMap<Integer, SchoolBoard> schools) {
+    public String getSchoolBoardMinPlayers(HashMap<Integer, SchoolGrid> schools) {
         return " ───────────────────────────────────────────────────────────"+"        "+
                 " ───────────────────────────────────────────────────────────"+"\n"+
                 ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+Constants.ANSI_RESET+
@@ -537,7 +545,7 @@ public class Blueprint {
                 Constants.RECTANGLE+" "+schools.get(1).getNickname()+"'s SCHOOL "+Constants.ANSI_RESET+"\n\n";
     }
 
-    public String getSchoolBoardMaxPlayers(HashMap<Integer, SchoolBoard> schools) {
+    public String getSchoolBoardMaxPlayers(HashMap<Integer, SchoolGrid> schools) {
         return " ───────────────────────────────────────────────────────────"+"        "+
                 " ───────────────────────────────────────────────────────────"+"\n"+
                 ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+Constants.ANSI_RESET+
@@ -608,35 +616,6 @@ public class Blueprint {
                 "                  "+Constants.RECTANGLE+" "+schools.get(2).getNickname()+"'s SCHOOL "+Constants.ANSI_RESET+"\n\n";
     }
 
-    private final String TAB_MIN_PLAYERS_NORMAL = Constants.RECTANGLE+Constants.ANSI_BLUE+" PLAYER_1's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" PLAYER_2's HAND: "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"\n";
-
-    private final String TAB_MAX_PLAYERS_NORMAL = Constants.RECTANGLE+Constants.ANSI_BLUE+" PLAYER_1's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" PLAYER_2's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_RED+" PLAYER_3's HAND: "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_RED+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"\n";
-
-    private final String TAB_MIN_PLAYERS_EXPERT = Constants.RECTANGLE+Constants.ANSI_BLUE+" PLAYER_1's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" PLAYER_2's HAND: "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" COIN BAG ──>"+" N "+"COINS "+Constants.ANSI_RESET+"                             "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" COIN BAG ──>"+" N "+"COINS "+Constants.ANSI_RESET+"\n";
-
-    private final String TAB_MAX_PLAYERS_EXPERT = Constants.RECTANGLE+Constants.ANSI_BLUE+" PLAYER_1's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" PLAYER_2's HAND: "+Constants.ANSI_RESET+"                                 "+
-            Constants.RECTANGLE+Constants.ANSI_RED+" PLAYER_3's HAND: "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"   "+
-            Constants.RECTANGLE+Constants.ANSI_RED+" Assistant cards not used: "+"1,2,3,4,5,6,7,8,9,10 "+Constants.ANSI_RESET+"\n"+
-            Constants.RECTANGLE+Constants.ANSI_BLUE+" COIN BAG ──>"+" N "+"COINS "+Constants.ANSI_RESET+"                             "+
-            Constants.RECTANGLE+Constants.ANSI_YELLOW+" COIN BAG ──>"+" N "+"COINS "+Constants.ANSI_RESET+"                             "+
-            Constants.RECTANGLE+Constants.ANSI_RED+" COIN BAG ──>"+" N "+"COINS "+Constants.ANSI_RESET+"\n";
-
     private final String[] CHARACTERS = new String[] { "MONK CARD", "INNKEEPER CARD", "PRINCE CARD", "HERALD CARD", "GROCER CARD",
             "CENTAUR CARD", "JESTER CARD", "KNIGHT CARD", "MERCHANT CARD", "MINSTREL CARD", "W_PRINCESS CARD", "THIEF CARD"};
 
@@ -670,9 +649,11 @@ public class Blueprint {
         if (numberOfPlayers==2) {
             printable+=getCloudsMinPlayers(gameBoard.getClouds().getAllStudents());
             printable+=getArchipelago(gameBoard.getArchipelago().getConfiguration());
+            printable+=getSchoolBoardMinPlayers(gameBoard.getSchools());
         } else {
             printable+=getCloudsMaxPlayers(gameBoard.getClouds().getAllStudents());
             printable+=getArchipelago(gameBoard.getArchipelago().getConfiguration());
+            printable+=getSchoolBoardMaxPlayers(gameBoard.getSchools());
         }
 
         return printable;
@@ -723,8 +704,6 @@ public class Blueprint {
         schools.put(0, school_1);
         schools.put(1, school_2);
         schools.put(2, school_3);
-
-        System.out.println(test.getSchoolBoardMaxPlayers(schools));
         //System.out.println(test.getCloudsMaxPlayers(new int[] {0,0,0,0,0,0,0,0,0,0,0,0}));
         /*
         System.out.println(test.getArchipelago());

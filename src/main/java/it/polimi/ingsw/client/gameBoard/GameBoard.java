@@ -4,9 +4,9 @@ import it.polimi.ingsw.costanti.Blueprint;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.IslandTile;
 
-import it.polimi.ingsw.model.MotherNature;
+import it.polimi.ingsw.model.Tower;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,10 +16,13 @@ import java.util.List;
  */
 public class GameBoard {
     private final ArchipelagoGrid archipelagoGrid;
+    private int numberOfSchools;
     private final CloudGrid clouds;
-    private ArrayList<SchoolGrid> schools;
+    private HashMap<Integer, SchoolGrid> schools;
     private final int NUMBER_OF_PLAYERS;
     private final Blueprint boardScheme = new Blueprint();
+
+    private Integer motherNaturePosition;
 
 
     /**
@@ -27,10 +30,6 @@ public class GameBoard {
      *
      * @param numberOfPlayers of type int - the number of players.
      */
-
-    private Integer motherNature_position;
-
-
     public GameBoard(int numberOfPlayers) {
         archipelagoGrid = new ArchipelagoGrid();
         clouds = new CloudGrid(numberOfPlayers);
@@ -56,15 +55,36 @@ public class GameBoard {
     }
 
     /**
-     * Method getSchools is used to get
-     * @return
+     * Method getSchools is used to get all the schoolBoards for the CLI view.
+     *
+     * @return of type ArrayList<> - the list of schools.
      */
-    public ArrayList<SchoolGrid> getSchools() {
+    public HashMap<Integer, SchoolGrid> getSchools() {
         return schools;
     }
 
+    /**
+     * Method getNumberOfPlayers is used to get the number of players
+     *
+     * @return of type int.
+     */
     public int getNumberOfPlayers() {
         return NUMBER_OF_PLAYERS;
+    }
+
+    /**
+     * Method insertNicknameToTower is used to create a hashmap with nicknames as keys and Tower as value.
+     *
+     * @param nickname of type String - the chosen name of given player.
+     * @param tower of type Tower - the chosen tower by given nickname.
+     */
+    public void insertNicknameToTower(String nickname, Tower tower) {
+        schools.put(numberOfSchools, new SchoolGrid(getNumberOfPlayers(), tower.getIndex(), nickname));
+        numberOfSchools++;
+    }
+
+    public SchoolGrid getSchoolFromNickname(String nickname) {
+        return schools.get(nickname);
     }
 
     /**
@@ -72,9 +92,9 @@ public class GameBoard {
      * game" phase, we print at the end which is after player's hands in normal mode, after character cards in expert
      * mode).
      *
-     * @param clouds
-     * @param phase
-     * @param toEmpty
+     * @param clouds of type List<> - the list of clouds.
+     * @param phase of type int - the phase of the game.
+     * @param toEmpty of type boolean - true if clouds are full and need to be emptied.
      */
     public void setCloudGrid(List<Cloud> clouds, int phase, boolean toEmpty) {
         if (phase==1) {
@@ -94,6 +114,13 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Method setArchipelagoGrid is used to set the archipelago structure for the CLI view and it checks for the game
+     * phase (if phase is 1 it means game started and setup phase).
+     *
+     * @param islands of type List<> - the list of islands.
+     * @param phase of type int - the game phase.
+     */
     public void setArchipelagoGrid(List<IslandTile> islands, int phase) {
         if(phase==1) {
             for (int i = 1; i < 11; i++) {
@@ -109,7 +136,7 @@ public class GameBoard {
         } else {
             for (int i = 0; i < 12; i++) {
                 archipelagoGrid.updateIsland(i, 0, islands.get(i).getIslandID());
-                archipelagoGrid.updateIsland(i, 1, 0 /*MI SERVE METODO SETMOTHERNATURE*/);
+                archipelagoGrid.updateIsland(i, 1, getMotherNaturePosition());
 
                 if (islands.get(i).getIslandOwner()!=null)
                     archipelagoGrid.updateIsland(i, 2, islands.get(i).getIslandOwner().getTower().getIndex());
@@ -128,11 +155,18 @@ public class GameBoard {
         }
     }
 
-    public void updateSchool(int schoolID, String typeOfUpdate) {
-        //TODO, attendo Andrea per avere metodi in ClientView o CommandHandler per stampare le scuole
+    /**
+     * Method updateSchools is used to print all schoolboards for the CLI view.
+     */
+    public void printCLI() {
+        boardScheme.printBoard(getNumberOfPlayers(), this);
     }
 
-    public void setMotherNature_position(Integer islandTile) {
-        motherNature_position = islandTile;
+    public void setMotherNaturePosition(Integer islandTile) {
+        motherNaturePosition = islandTile;
+    }
+
+    public Integer getMotherNaturePosition() {
+        return motherNaturePosition;
     }
 }

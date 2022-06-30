@@ -2,46 +2,94 @@ package it.polimi.ingsw.client.gameBoard;
 
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.model.Color;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 
+/**
+ * SchoolGrid class is used by class GameBoard to update and print the CLI view of all the school boards.
+ *
+ * @author David Barb
+ */
 public class SchoolGrid {
-    private final int tower;
-    private final int hallDimension;
-    private final ArrayList<Color> hall = new ArrayList<>();
-    private final HashMap<Color, Integer> diningRoom= new LinkedHashMap<>();
-    private final ArrayList<String> professorsTable = new ArrayList<>();
+    private int towers;
+    private final int towerColor;
+    private final String nickname;
+    private List<Color> entrance = new ArrayList<>();
+    private int[] diningRoom= new int[5];
+    private boolean[] professors = new boolean[5];
 
-    public SchoolGrid(int numberOfPlayers) {
-        if (numberOfPlayers==Constants.MAX_PLAYERS) {
-            tower = Constants.TOWERS_MAX_PLAYERS;
-            hallDimension = Constants.HALL_MAX_PLAYERS;
-        } else {
-            tower = Constants.TOWERS_MIN_PLAYERS;
-            hallDimension = Constants.HALL_MIN_PLAYERS;
-        }
+    /**
+     * SchoolGrid is the school constructor.
+     *
+     * @param numberOfPlayers of type int - the number of players.
+     * @param towerColor of type int - the tower color.
+     */
+    public SchoolGrid(int numberOfPlayers, int towerColor, String nickname) {
+        this.towerColor = towerColor;
+        this.nickname = nickname;
+        if (numberOfPlayers==Constants.MAX_PLAYERS)
+            towers = Constants.TOWERS_MAX_PLAYERS;
+        else
+            towers = Constants.TOWERS_MIN_PLAYERS;
 
         for (int i = 0; i < Constants.NUMBER_OF_COLOR_TYPES; i++) {
-            diningRoom.put(Color.colorFromIndex(i), 0);
+            diningRoom[i] = 0;
+            professors[i] = false;
         }
     }
 
-    public void updateHall(int newValue){
 
+    /**
+     * Method setEntrance is used to update given school entrance for the CLI view.
+     *
+     * @param entrance of type List<> - the list of students present in the entrance.
+     */
+    public void setEntrance(List<Color> entrance) {
+        this.entrance = entrance;
     }
 
-    public void updateDining(int newValue){
-
+    /**
+     * Method setDining is used to update given school dining room for the CLI view.
+     *
+     * @param diningRoom of type int[] - the array of students.
+     */
+    public void setDining(int[] diningRoom) {
+        this.diningRoom = diningRoom;
     }
 
-    public void updateProfessor(Color color, boolean removeProfessor) {
-
+    /**
+     * Method setProfessors is used to update given school professor's table for the CLI view.
+     *
+     * @param professors of type boolean[] - the array of owned professors.
+     */
+    public void setProfessors(boolean[] professors) {
+        this.professors = professors;
     }
 
-    public void updateTowerContainer(int newValue) {
-
+    /**
+     * Method updateTowerCell is used to update given school tower container by decreasing its counter.
+     */
+    public void updateTowerCells() {
+        towers--;
     }
 
+    public List<Color> getEntrance() {
+        return entrance;
+    }
+
+    public int[] getDiningRoom() {
+        return diningRoom;
+    }
+
+    public boolean checkProfessor(Color color) {
+        return professors[color.getColorIndex()];
+    }
+
+    public int getTowers() {
+        return towers;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
 }

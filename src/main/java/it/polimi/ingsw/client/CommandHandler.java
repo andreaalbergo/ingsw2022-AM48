@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
-import it.polimi.ingsw.model.IslandTile;
 import it.polimi.ingsw.server.servermessages.*;
 import it.polimi.ingsw.server.servermessages.gamemessages.*;
 
@@ -106,7 +105,7 @@ public class CommandHandler {
             view.firePropertyChange("MovedMotherNature",null,motherNature);
             return;
         }
-        cli.getGameBoard().setMotherNature_position(motherNature.getIslandTile());
+        cli.getGameBoard().setMotherNaturePosition(motherNature.getIslandTile());
         model.setInputEnabler(false);
     }
 
@@ -134,9 +133,6 @@ public class CommandHandler {
         model.setInputEnabler(true);
         view.firePropertyChange("gameError",null, answer);
     }
-
-
-
 
     private void setupGame(Answer answer) {
         if(answer instanceof SetPlayersRequest){

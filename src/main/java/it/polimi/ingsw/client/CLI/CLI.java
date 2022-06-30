@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.CommandHandler;
 import it.polimi.ingsw.client.CommandParser;
 import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
-import it.polimi.ingsw.client.actions.MoveMotherNature;
 import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.client.messages.ChooseDetails;
 import it.polimi.ingsw.client.messages.ChooseMode;
@@ -20,7 +19,6 @@ import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.*;
 import it.polimi.ingsw.server.servermessages.gamemessages.*;
-import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -219,7 +217,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 System.out.println("Choose the number of players [2 or 3]");
                 choosePlayerNumber();
             }
-            case "SetDatails" -> {
+            case "SetDetails" -> {
                 System.out.println((clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
                 ((SetDatails) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
@@ -278,7 +276,7 @@ public class CLI implements Runnable, PropertyChangeListener {
 
             case "MovedMotherNature" -> {
                 MovedMotherNature message = (MovedMotherNature)clientView.getAnswer();
-                gameBoard.setMotherNature_position(message.getIslandTile());
+                gameBoard.setMotherNaturePosition(message.getIslandTile());
                     //Metodo dove cambio la board con la posizione di madre natura
                     //Sposta la posizione di madre natura sulla ClientBoard
                 clientView.setInputEnabler(false);
@@ -372,13 +370,16 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
         if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3){
             clientView.setTurnPhase(3);
+            getGameBoard().printCLI();
         }
         if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2){
             clientView.setTurnPhase(3);
+            getGameBoard().printCLI();
         }
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
             //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
             clientView.setInputEnabler(false);
+            getGameBoard().printCLI();
 
             //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
         }

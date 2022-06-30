@@ -30,3 +30,5 @@ madre natura dopo un comando di un player per la visualizzazione a CLI
 
 5)IMPORTANTISSIMO!!!!! ANDRE devi mettere in CommandHandler o ClientView metodi di set per diningRoom, professori,
 torri rimanenti oltre al set della entranceRoom. ASPETTO TE
+
+6)FINISCI LA VIEW DEI PLAYER's TABS.

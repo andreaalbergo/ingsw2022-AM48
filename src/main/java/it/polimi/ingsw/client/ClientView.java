@@ -3,14 +3,10 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.server.BoardHandler;
-import it.polimi.ingsw.server.Client;
-import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
 import it.polimi.ingsw.server.servermessages.Answer;
-import it.polimi.ingsw.server.servermessages.CustomMessage;
 
 import java.lang.Character;
 import java.util.ArrayList;
@@ -26,7 +22,6 @@ public class ClientView {
     private Wizard wizard;
     private List<IslandTile> islands;
     private List<Cloud> clouds;
-
     private HashMap<String,Tower> nameToTower;
     private Answer answer;
     private int phase;
@@ -34,8 +29,14 @@ public class ClientView {
     private boolean inputEnabler;
     private Tower tower;
 
+    public boolean[] getProfessor() {
+        return professor;
+    }
+
     public void setProfessor(int index, boolean check) {
         this.professor[index] = check;
+        cli.getGameBoard().getSchoolFromNickname(getNickname()).setProfessors(getProfessor());
+        cli.getGameBoard().printCLI();
     }
 
     private boolean professor[];
@@ -61,7 +62,7 @@ public class ClientView {
 
     private HashMap<String,List<Color>> nameToEntrance;
 
-    private HashMap<String,int[]> nameToHall;
+    private HashMap<String,int[]> nameToDining;
 
 
 
@@ -113,16 +114,19 @@ public class ClientView {
         this.wizard = Wizard.parseInput(wizard);
     }
 
-    public HashMap<String, int[]> getNameToHall() {
-        return nameToHall;
+    public HashMap<String, int[]> getNameToDining() {
+        return nameToDining;
     }
 
-    public void insertNameToHall(String name, int[] hall) {
-        nameToHall.replace(name,hall);
+    public void insertNameToDining(String name, int[] hall) {
+        nameToDining.put(name,hall);
+
     }
 
-    public void updateHall(String nickname, int[] hall){
-        nameToHall.replace(nickname,hall);
+    public void updateDining(String nickname, int[] dining){
+        nameToDining.replace(nickname,dining);
+        cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
+        cli.getGameBoard().printCLI();
     }
     public HashMap<String, List<Color>> getNameToEntrance() {
         return nameToEntrance;
@@ -134,6 +138,8 @@ public class ClientView {
 
     public void updateEntrance(String nickname, List<Color> entrance){
         nameToEntrance.replace(nickname,entrance);
+        cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
+        cli.getGameBoard().printCLI();
     }
 
     public void setTower(String tower) {
@@ -150,7 +156,7 @@ public class ClientView {
         //gameBoard = new GameBoard();
         gui = null;
         nameToEntrance = new HashMap<>();
-        nameToHall = new HashMap<>();
+        nameToDining = new HashMap<>();
         nameToTower = new HashMap<>();
         professor = new boolean[5];
     }
@@ -248,6 +254,7 @@ public class ClientView {
     }
     public void insertNameToTower(String name, Tower tower) {
         nameToTower.put(name,tower);
+        cli.getGameBoard().insertNicknameToTower(nickname, tower);
     }
     public void updateNameToTower(String name, Tower tower) {
         nameToTower.replace(name,tower);
