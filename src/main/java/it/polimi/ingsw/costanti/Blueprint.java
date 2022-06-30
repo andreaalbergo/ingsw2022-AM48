@@ -659,6 +659,7 @@ public class Blueprint {
         return printable;
     }
 
+    /*
     public static void main(String[] args) {
         /*List<IslandTile> islands = new ArrayList<>();
         islands.add(new IslandTile(-1));
@@ -672,7 +673,7 @@ public class Blueprint {
         islands.add(new IslandTile(0));
         islands.add(new IslandTile(3));
         islands.add(new IslandTile(2));
-        islands.add(new IslandTile(-1));*/
+        islands.add(new IslandTile(-1));
 
         Blueprint test = new Blueprint();
         HashMap<Integer, SchoolBoard> schools = new LinkedHashMap<>();
@@ -705,8 +706,10 @@ public class Blueprint {
         schools.put(1, school_2);
         schools.put(2, school_3);
         //System.out.println(test.getCloudsMaxPlayers(new int[] {0,0,0,0,0,0,0,0,0,0,0,0}));
-        /*
+
         System.out.println(test.getArchipelago());
-    */
+
     }
+
+     */
 }

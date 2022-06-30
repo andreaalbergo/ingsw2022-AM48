@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.CLI.CLI;
 import it.polimi.ingsw.client.GUI.GUI;
+import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Tower;
@@ -15,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ClientView {
+
+    private boolean firstStart = true;
     private final CLI cli;
     private final GUI gui;
     private String nickname;
@@ -28,6 +31,7 @@ public class ClientView {
     private int turnPhase;
     private boolean inputEnabler;
     private Tower tower;
+    private GameBoard gameBoard;
 
     public boolean[] getProfessor() {
         return professor;
@@ -35,11 +39,12 @@ public class ClientView {
 
     public void setProfessor(int index, boolean check) {
         this.professor[index] = check;
+        assert cli != null;
         cli.getGameBoard().getSchoolFromNickname(getNickname()).setProfessors(getProfessor());
         cli.getGameBoard().printCLI();
     }
 
-    private boolean professor[];
+    private boolean[] professor;
 
     public void setAssistantCards() {
         Collections.addAll(this.assistantCards, AssistantCard.values());
@@ -57,6 +62,7 @@ public class ClientView {
 
     public void setEntrance(List<Color> entrance) {
         this.entrance = entrance;
+        System.out.println("Check da client view: Ho settato l'entrance");
     }
 
 
@@ -87,18 +93,20 @@ public class ClientView {
     }
 
     public void setIslands(List<IslandTile> islands) {
+        System.out.println("Check da client view: Ho settato le isole sono: " + islands.size());
         this.islands = islands;
-        assert cli != null;
-        cli.getGameBoard().setArchipelagoGrid(islands, getPhase());
     }
 
     public List<Cloud> getClouds() {
+
         return clouds;
     }
 
     public void setClouds(List<Cloud> clouds) {
+        System.out.println("Check da client view: Ho settato le nuvole sono: " + clouds.size());
         this.clouds = clouds;
         assert cli != null;
+
         cli.getGameBoard().setCloudGrid(clouds, getPhase(), false);
     }
 
@@ -112,6 +120,7 @@ public class ClientView {
         }
 
         this.wizard = Wizard.parseInput(wizard);
+        System.out.println("Check da client view: Ho settato il mago");
     }
 
     public HashMap<String, int[]> getNameToDining() {
@@ -149,6 +158,7 @@ public class ClientView {
             case  "black" : this.tower = Tower.BLACK;
             case  "grey" : this.tower = Tower.GREY;
         }
+        System.out.println("Check da client view: Ho settato la torre");
     }
 
     public ClientView(CLI cli) {
@@ -196,6 +206,7 @@ public class ClientView {
     public void setPhase(int phase) {
         this.phase = phase;
     }
+
 
     public int getTurnPhase() { return turnPhase; }
 
@@ -253,7 +264,9 @@ public class ClientView {
         return nameToTower;
     }
     public void insertNameToTower(String name, Tower tower) {
+        System.out.println("Sto aggiungengo "+ tower + " alla map");
         nameToTower.put(name,tower);
+        assert cli != null;
         cli.getGameBoard().insertNicknameToTower(nickname, tower);
     }
     public void updateNameToTower(String name, Tower tower) {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
-import it.polimi.ingsw.exceptions.InvalidSelection;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tower;
 import it.polimi.ingsw.model.Wizard;
@@ -126,16 +125,19 @@ public class ClientHandler implements Runnable {
         }else if (command instanceof ChooseDetails){
             System.out.println("Ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
             if(Tower.isAlreadyPicked(((ChooseDetails) command).getTower()) || Wizard.isAlreadyPicked(((ChooseDetails) command).getWizard())){
-                server.getIdtoClientMap().get(idClient).send(new SetDatails("This selection is invalid, check if one of the choices isn't already picked"));
+                server.getIdtoClientMap().get(idClient).send(new SetDetails("This selection is invalid, check if one of the choices isn't already picked"));
                 return;
             }
             server.getBoard().getController().setTower(((ChooseDetails) command).getTower(),idClient);
             server.getBoard().getController().setWizard(((ChooseDetails) command).getWizard(),idClient);
             Wizard.choose(((ChooseDetails) command).getWizard());
             Tower.choose(((ChooseDetails) command).getTower());
-            server.getBoard().sendAll(new SetDatails(((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower(),server.getBoard().game().getCurrentPlayer().getNickname()));
-            server.getBoard().sendtoPlayer(new SetDatails("\n",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
+            System.out.println("Ho settato la scelta");
+            //server.getBoard().sendAll(new SetDetails(((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower(),server.getBoard().game().getCurrentPlayer().getNickname()));
+            System.out.println("Sto mandando che ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
+            server.getBoard().sendtoPlayer(new SetDetails("Sono destinati alla view",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
             server.getBoard().setup();
+
 
         }else if( command instanceof QuitMessage){
             server.getBoard().sendAll(new CustomMessage(server.getIdNameMap().get(idClient) + " has quit the game, Game ending... ",false));
@@ -153,6 +155,9 @@ public class ClientHandler implements Runnable {
             outputStream.flush();
 
         } catch (IOException e) {
+            System.out.println("ERRORE SENDSOCKET");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             close();
         }
     }
@@ -205,6 +210,7 @@ public class ClientHandler implements Runnable {
                 readFromStream();
             }
         } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Sei nel run del CH");
             e.printStackTrace();
             BoardHandler board = server.getBoard();
             server.removeClientFromGame(idClient);
@@ -212,6 +218,7 @@ public class ClientHandler implements Runnable {
                 board.endGame(server.getIdNameMap().get(idClient));
             }
             System.err.println(e.getMessage());
+            System.exit(1);
         }
 
     }

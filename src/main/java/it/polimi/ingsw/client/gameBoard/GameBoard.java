@@ -17,24 +17,24 @@ import java.util.List;
 public class GameBoard {
     private final ArchipelagoGrid archipelagoGrid;
     private int numberOfSchools;
-    private final CloudGrid clouds;
+    private CloudGrid clouds;
     private HashMap<Integer, SchoolGrid> schools;
-    private final int NUMBER_OF_PLAYERS;
+    private int NUMBER_OF_PLAYERS;
     private final Blueprint boardScheme = new Blueprint();
 
-    private Integer motherNaturePosition;
+    private Integer motherNaturePosition = 0;
 
 
     /**
      * GameBoard constructor in order to make its instance.
-     *
-     * @param numberOfPlayers of type int - the number of players.
      */
     public GameBoard(int numberOfPlayers) {
         archipelagoGrid = new ArchipelagoGrid();
         clouds = new CloudGrid(numberOfPlayers);
         this.NUMBER_OF_PLAYERS = numberOfPlayers;
     }
+
+
 
     /**
      * Method getArchipelago is used to get the ArchipelagoGrid object. Check its class to know more about it.
@@ -159,7 +159,7 @@ public class GameBoard {
      * Method updateSchools is used to print all schoolboards for the CLI view.
      */
     public void printCLI() {
-        boardScheme.printBoard(getNumberOfPlayers(), this);
+        System.out.println(boardScheme.printBoard(getNumberOfPlayers(), this));
     }
 
     public void setMotherNaturePosition(Integer islandTile) {

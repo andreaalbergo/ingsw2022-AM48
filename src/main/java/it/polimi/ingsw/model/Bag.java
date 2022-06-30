@@ -15,7 +15,7 @@ public class Bag {
         this.board = board;
         students = new int[5];
         for (int i = 0; i < 5; i++) {
-            students[i] = 24;
+            students[i] = 26;
         }
     }
 
@@ -57,12 +57,12 @@ public class Bag {
         int randomColor;
         if(board.getActivePlayers().size()==3){
             for (int i = 0; i < 9; i++) {
-                randomColor = this.getRandomColorFromBag();
+                randomColor = getRandomColorFromBag();
                 schoolBoard.addStudentToEntrance(randomColor);
             }
         }else{
             for (int i = 0; i < 7; i++) {
-                randomColor = this.getRandomColorFromBag();
+                randomColor = getRandomColorFromBag();
                 schoolBoard.addStudentToEntrance(randomColor);
             }
         }
@@ -89,6 +89,17 @@ public class Bag {
     public int[] getStudents() {
         return students;
     }
+
+    public void setupCloud(Cloud cloud, int number_of_students) throws GameOverException {
+        int limit = 4;
+        if(number_of_students == 2) limit = 3;
+        for(int i = 0; i < limit; i++){
+            Color color = Color.colorFromIndex(getRandomColorFromBag());
+            cloud.addStudentToCloud(color);
+        }
+    }
+
+
 }
 
 

@@ -12,38 +12,36 @@ public class MatchStarted implements Answer{
 
         private final List<IslandTile> islands;
 
-
-    private final List<Color> entrance;
-
-    public String getName() {
-        return name;
-    }
-
-    private final String name;
-
-        public MatchStarted(List<Cloud> cloudList, List<IslandTile> islandTiles, List<Color> entrance, String name){
-            clouds = cloudList;
-            islands = islandTiles;
-            this.entrance = entrance;
-            this.name = name;
+        private final List<Color> entrance;
+        public String getName() {
+            return name;
         }
 
-    public List<Color> getEntrance() {
+        private final String name;
+
+    public MatchStarted(List<Cloud> cloudList, List<IslandTile> islandTiles, List<Color> entrance, String name){
+        clouds = cloudList;
+        islands = islandTiles;
+        this.entrance = entrance;
+        this.name = name;
+    }
+
+        public List<Color> getEntrance() {
         return entrance;
     }
 
 
 
-    public List<Cloud> getClouds() {
+        public List<Cloud> getClouds() {
         return clouds;
     }
 
-    public List<IslandTile> getIslands() {
+        public List<IslandTile> getIslands() {
         return islands;
     }
 
-    @Override
-    public Object getMessage() {
+        @Override
+        public Object getMessage() {
         return "UTILITY : MATCH STARTED";
     }
 }

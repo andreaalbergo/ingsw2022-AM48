@@ -69,6 +69,7 @@ public class BoardHandler {
         phase = 1;
         for(Player player : board.getActivePlayers() ){
             setupPlayerSchoolBoard(player);
+            System.out.println(player.getNickname()+ " ha questa entrance " + player.getSchoolBoard().getEntrance());
         }
         //le isole si settano con la creazione del board
         board.getBoardManager().createCloudList();
@@ -78,11 +79,24 @@ public class BoardHandler {
     public void setClouds() {
         for (Cloud cloud : board.getBoardManager().getClouds()){
             try {
-                cloud.fillStudents();
+                //TODO CHIAMA BAG PER SETTARE LE CLOUDS
+                //board.getBoardManager().getBag().setupCloud(cloud,board.getActivePlayers().size());
+                //cloud.fillStudents();
+                if(board.getActivePlayers().size()==3) {
+                    for (int i = 0; i < 4; i++) {
+                        cloud.addStudentToCloud(Color.colorFromIndex(board.getBoardManager().getBag().getRandomColorFromBag()));
+                    }
+                } else {
+                    for (int i = 0; i < 3; i++) {
+                        cloud.addStudentToCloud(Color.colorFromIndex(board.getBoardManager().getBag().getRandomColorFromBag()));
+                    }
+                }
+                System.out.println("Ho settato le clouds " + cloud.getCloudCells().get(0) + cloud.getCloudCells().get(1) + cloud.getCloudCells().get(2));
             } catch (GameOverException e) {
                 sendAll(new GameOver("The bag is empty so the game is ending..."));
             }
         }
+
     }
 
 
@@ -152,6 +166,7 @@ public class BoardHandler {
         Client winner = checkWinner();
         sendtoPlayer(new WinMessage(), winner.getIdClient());
         sendAllExcept(new GameOver(s),winner.getIdClient());
+
     }
 
     public void endGame(String s, int id) {
@@ -174,12 +189,12 @@ public class BoardHandler {
         return isStarted;
     }
 
-    public void setup() {
+    public synchronized void setup() {
         if (!isStarted()) {
             startGame();
         }
         logger.log(Level.INFO,"Sei nel setup");
-        SetDatails request = new SetDatails("Please choose your Wizard and your Tower.");
+        SetDetails request = new SetDetails("Please choose your Wizard and your Tower.");
         request.addRemaining(Wizard.getAvailable(), Tower.available());
         if (numberOfPlayers == 2 && Tower.available().size() > 1) {
             //logger.log(Level.INFO,"Sei nel setup con 2 giocatori");
@@ -207,14 +222,33 @@ public class BoardHandler {
                 return;
             }
         }
-        board.setCurrentPlayer(board.getActivePlayers().get(rnd.nextInt(numberOfPlayers)));
-        logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer());
+        System.out.println("Entrambi hanno scelto");
+        int random_index = rnd.nextInt(numberOfPlayers);
+        System.out.println(" Mi è capitato l'index " + random_index);
+        board.setCurrentPlayer(board.getActivePlayers().get(random_index));
+        //logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer().getNickname());
+        System.out.println("Inizia a scegliere" + board.getCurrentPlayer().getNickname());
         phase = 2;
+        System.out.println("Mi risultano attivi: " + board.getActivePlayers().get(0).getPlayerID() + " " + board.getActivePlayers().get(0).getNickname()  +  " e " + board.getActivePlayers().get(1).getPlayerID() + " " + board.getActivePlayers().get(1).getNickname());
 
         for(Player player : board.getActivePlayers()){
+            /*
+            System.out.println("Sto mandando a " + player.getNickname() + " il MatchStarted message");
+            System.out.println("Check Param 1 ");
+            board.getBoardManager().getClouds().forEach(n -> System.out.print(n.getCloudCells().size() + ", "));
+            System.out.println("Check Param 2 ");
+            board.getBoardManager().getIslands().forEach(n -> System.out.print(n.getIslandID() + ", "));
+            System.out.println("Check Param 3 ");
+            player.getSchoolBoard().getEntrance().forEach(n -> System.out.print(n + ", "));
+            System.out.println("Check Param 4 " + player.getNickname());
+
+
+             */
             sendAll(new MatchStarted(board.getBoardManager().getClouds(),board.getBoardManager().getIslands(),player.getSchoolBoard().getEntrance(), player.getNickname()));
         }
 
+
+        System.out.println("Sto dicendo di iniziare il turno a " + board.getCurrentPlayerIndex());
         sendtoPlayer(new StartTurnMessage(true),board.getCurrentPlayerIndex());
         sendAllExcept(new StartTurnMessage(), board.getCurrentPlayerIndex());
         sendAll(new CustomMessage("The first round is starting, brace yourself...", false));

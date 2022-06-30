@@ -47,9 +47,13 @@ public class CommandHandler {
 
         }else if (answer instanceof MatchStarted) {
             if (((MatchStarted) answer).getName().equals(model.getNickname())) {
+                System.out.println("Mi è arrivato il match started con i miei dati");
+                cli.createGameBoard(((MatchStarted) answer).getClouds().size());
                 model.setIslands(((MatchStarted) answer).getIslands());
                 model.setClouds(((MatchStarted) answer).getClouds());
+
             }
+            System.out.println("Mi è arrivato il match started con i suoi dati");
             model.insertNameToEntrance(((MatchStarted) answer).getName(), ((MatchStarted) answer).getEntrance());
         }
         else if (answer instanceof StartTurnMessage) {
@@ -139,26 +143,28 @@ public class CommandHandler {
             view.firePropertyChange("setup",null, "SetPlayersRequest");
         } else if (answer instanceof CustomMessage) {
             fireCustomMessage(answer);
-        } else if (answer instanceof SetDatails message) {
+        } else if (answer instanceof SetDetails message) {
             model.setPhase(1);
             if(message.getWizard() == null){
                 view.firePropertyChange("setup", null, "SetDetails");
             }else {
-                model.setWizard(((SetDatails) answer).getWizard().toString());
-                model.setTower(((SetDatails) answer).getTower().toString());
+                model.setWizard(((SetDetails) answer).getWizard().toString());
+                model.setTower(((SetDetails) answer).getTower().toString());
                 if(message.getName() != null){
                     model.insertNameToTower(message.getName(), message.getTower());
                 }
-
 
             }
         } else if (answer instanceof SetMode) {
                 view.firePropertyChange("setup", null, "SetMode");
         } else if (answer instanceof MatchStarted) {
             if(((MatchStarted)answer).getName().equals(model.getNickname())){
+                System.out.println("Mi è arrivato il match started con i miei dati");
+                cli.createGameBoard(((MatchStarted) answer).getClouds().size());
                 model.setIslands(((MatchStarted) answer).getIslands());
                 model.setClouds(((MatchStarted) answer).getClouds());
             }
+            System.out.println("Mi è arrivato il match started con i suoi dati");
             model.insertNameToEntrance(((MatchStarted)answer).getName(),((MatchStarted)answer).getEntrance());
             model.setPhase(2);
         }

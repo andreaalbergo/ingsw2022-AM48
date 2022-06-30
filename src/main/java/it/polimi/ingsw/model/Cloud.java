@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.GameOverException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,14 +12,14 @@ import java.util.ArrayList;
  *
  * @author David Barb
  */
-public class Cloud {
+public class Cloud implements Serializable{
     private final ArrayList<Color> cloudCells = new ArrayList<>();
-    private final Board board;
+    //private final Board board;
 
-    public Cloud(Board board) {
-        this.board = board;
+    public Cloud() {
+        //this.board = board;
     }
-
+/*
     public void fillStudents() throws GameOverException {
         if(board.getActivePlayers().size()==3) {
             for (int i = 0; i < 4; i++) {
@@ -30,6 +31,8 @@ public class Cloud {
             }
         }
     }
+
+ */
 
     public ArrayList<Color> getCloudCells() {
         return cloudCells;

@@ -148,6 +148,7 @@ public class ConnectionSocket {
     public void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);
         try {
+            System.out.println("Sto mandando questo messaggio" + message);
             out.reset();
             out.writeObject(serializedMessage);
             out.flush();
@@ -160,6 +161,7 @@ public class ConnectionSocket {
     public void send(UserCommand command){
         SerializedMessage serializedMessage = new SerializedMessage(command);
         try {
+            System.out.println("Sto mandando questo messaggio" + command);
             out.reset();
             out.writeObject(command);
             out.flush();

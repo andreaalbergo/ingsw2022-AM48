@@ -145,7 +145,6 @@ public class CLI implements Runnable, PropertyChangeListener {
         logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
         socket.send(new NumberOfPlayers(numberOfPlayers));
         clientView.setPhase(1);
-        gameBoard = new GameBoard(numberOfPlayers);
 
 
     }
@@ -219,12 +218,12 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
             case "SetDetails" -> {
                 System.out.println((clientView.getAnswer()).getMessage() + "\nRemaining Wizards: ");
-                ((SetDatails) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
+                ((SetDetails) clientView.getAnswer()).getRemainingWizards().forEach(n -> System.out.print(n + ", "));
                 System.out.print(".\n");
-                Wizard wizard = chooseWizard(((SetDatails) clientView.getAnswer()).getRemainingWizards());
+                Wizard wizard = chooseWizard(((SetDetails) clientView.getAnswer()).getRemainingWizards());
                 System.out.println("\nRemaining Towers: ");
-                ((SetDatails) clientView.getAnswer()).getRemainingTowers().forEach(n -> System.out.print(n + ", "));
-                Tower tower = chooseTower(((SetDatails) clientView.getAnswer()).getRemainingTowers());
+                ((SetDetails) clientView.getAnswer()).getRemainingTowers().forEach(n -> System.out.print(n + ", "));
+                Tower tower = chooseTower(((SetDetails) clientView.getAnswer()).getRemainingTowers());
                 socket.send(new ChooseDetails(tower,wizard));
                 clientView.setPhase(1);
             }
@@ -342,7 +341,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             case "StartTurnMessage" -> {
                 assert command != null;
                 logger.log(Level.INFO,"INIZIA TURNO CHECK: " + command);
-
+                //TODO stampa la mappa
             }
             case "gameOver" -> {
                 assert command != null;
@@ -370,11 +369,17 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
         if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3){
             clientView.setTurnPhase(3);
+            clientView.setEntrance(move.getEntrance());
             getGameBoard().printCLI();
         }
         if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2){
             clientView.setTurnPhase(3);
+            clientView.setEntrance(move.getEntrance());
             getGameBoard().printCLI();
+        }
+        if(move.getIslandTiles() != null){
+            clientView.setIslands(move.getIslandTiles());
+            gameBoard.setArchipelagoGrid(move.getIslandTiles(), clientView.getPhase());
         }
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
             //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
@@ -383,6 +388,7 @@ public class CLI implements Runnable, PropertyChangeListener {
 
             //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
         }
+
         //mando alla clientboard i vari dati
         //clientView.setInputEnabler(true);
     }
@@ -408,5 +414,9 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     public GameBoard getGameBoard() {
         return gameBoard;
+    }
+
+    public void createGameBoard(int size) {
+        gameBoard = new GameBoard(size);
     }
 }

@@ -2,9 +2,10 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.InvalidSelection;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SchoolBoard {
+public class SchoolBoard implements Serializable {
     private final String nickname;
     private ArrayList<Color> entrance;
     private final int[] diningRoom = new int[5];

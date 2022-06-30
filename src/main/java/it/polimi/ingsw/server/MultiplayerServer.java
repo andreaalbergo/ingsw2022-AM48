@@ -181,8 +181,8 @@ public class MultiplayerServer {
         idNameMap.remove(idClient);
         clientConnectionMap.remove(client);
         System.out.println("Player removed");
-        board.sendtoPlayer(new WinMessage(),board.checkWinner().getId());
-        board.sendAll(new GameOver("A player has disconnected from the Game...see you next time"));
+        //board.sendtoPlayer(new WinMessage(),board.checkWinner().getId());
+        //board.sendAll(new GameOver("A player has disconnected from the Game...see you next time"));
         this.socketServer.setActiveStatus(false);
         System.exit(0);
     }

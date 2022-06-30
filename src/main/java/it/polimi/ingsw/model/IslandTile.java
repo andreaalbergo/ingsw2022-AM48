@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.GameOverException;
 
+import java.io.Serializable;
+
 /**
  * IslandTile class is the island object, which can contain a generic number of student discs, it can have an owner with
  * its tower color, it can be merged with other islands. There MUST BE 12 instances of this class at the beginning
@@ -10,7 +12,7 @@ import it.polimi.ingsw.exceptions.GameOverException;
  *
  * @author David Barb
  */
-public class IslandTile {
+public class IslandTile implements Serializable {
     private static int numberOfIslands = 0;
     private int archipelagoDimension = 1;
     private Player islandOwner = null;
