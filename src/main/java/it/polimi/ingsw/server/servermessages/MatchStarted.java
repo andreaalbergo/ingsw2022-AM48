@@ -4,9 +4,7 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MatchStarted implements Answer{
 
@@ -17,15 +15,23 @@ public class MatchStarted implements Answer{
 
     private final List<Color> entrance;
 
-        public MatchStarted(List<Cloud> cloudList, List<IslandTile> islandTiles, List<Color> entrance){
+    public String getName() {
+        return name;
+    }
+
+    private final String name;
+
+        public MatchStarted(List<Cloud> cloudList, List<IslandTile> islandTiles, List<Color> entrance, String name){
             clouds = cloudList;
             islands = islandTiles;
             this.entrance = entrance;
+            this.name = name;
         }
 
     public List<Color> getEntrance() {
         return entrance;
     }
+
 
 
     public List<Cloud> getClouds() {

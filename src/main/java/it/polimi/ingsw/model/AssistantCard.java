@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.InvalidSelection;
+
+import java.util.Arrays;
+
 /**
  * AssistantCard enumeration is...complete it.
  *
@@ -25,7 +29,11 @@ public enum AssistantCard {
         this.number_of_steps = number_of_steps;
     }
 
-    public static AssistantCard parseInput(String nextLine) {
+    public static AssistantCard parseInput(String nextLine) throws InvalidSelection {
+        AssistantCard assistantCard = Enum.valueOf(AssistantCard.class,nextLine.toUpperCase());
+        if(!Arrays.stream(AssistantCard.values()).toList().contains(assistantCard)){
+            throw new InvalidSelection();
+        }
         return Enum.valueOf(AssistantCard.class,nextLine.toUpperCase());
     }
 

@@ -15,6 +15,7 @@ import it.polimi.ingsw.server.servermessages.CustomMessage;
 import java.lang.Character;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class ClientView {
@@ -26,11 +27,18 @@ public class ClientView {
     private List<IslandTile> islands;
     private List<Cloud> clouds;
 
+    private HashMap<String,Tower> nameToTower;
     private Answer answer;
     private int phase;
     private int turnPhase;
     private boolean inputEnabler;
     private Tower tower;
+
+    public void setProfessor(int index, boolean check) {
+        this.professor[index] = check;
+    }
+
+    private boolean professor[];
 
     public void setAssistantCards() {
         Collections.addAll(this.assistantCards, AssistantCard.values());
@@ -49,6 +57,13 @@ public class ClientView {
     public void setEntrance(List<Color> entrance) {
         this.entrance = entrance;
     }
+
+
+    private HashMap<String,List<Color>> nameToEntrance;
+
+    private HashMap<String,int[]> nameToHall;
+
+
 
     private List<Color> entrance;
 
@@ -72,6 +87,7 @@ public class ClientView {
 
     public void setIslands(List<IslandTile> islands) {
         this.islands = islands;
+        assert cli != null;
         cli.getGameBoard().setArchipelagoGrid(islands, getPhase());
     }
 
@@ -81,6 +97,7 @@ public class ClientView {
 
     public void setClouds(List<Cloud> clouds) {
         this.clouds = clouds;
+        assert cli != null;
         cli.getGameBoard().setCloudGrid(clouds, getPhase(), false);
     }
 
@@ -96,6 +113,29 @@ public class ClientView {
         this.wizard = Wizard.parseInput(wizard);
     }
 
+    public HashMap<String, int[]> getNameToHall() {
+        return nameToHall;
+    }
+
+    public void insertNameToHall(String name, int[] hall) {
+        nameToHall.replace(name,hall);
+    }
+
+    public void updateHall(String nickname, int[] hall){
+        nameToHall.replace(nickname,hall);
+    }
+    public HashMap<String, List<Color>> getNameToEntrance() {
+        return nameToEntrance;
+    }
+
+    public void insertNameToEntrance(String nickname, List<Color> entrance) {
+        nameToEntrance.put(nickname,entrance);
+    }
+
+    public void updateEntrance(String nickname, List<Color> entrance){
+        nameToEntrance.replace(nickname,entrance);
+    }
+
     public void setTower(String tower) {
         String compare = tower.toLowerCase();
         switch (compare){
@@ -109,6 +149,10 @@ public class ClientView {
         this.cli = cli;
         //gameBoard = new GameBoard();
         gui = null;
+        nameToEntrance = new HashMap<>();
+        nameToHall = new HashMap<>();
+        nameToTower = new HashMap<>();
+        professor = new boolean[5];
     }
 
     public ClientView(GUI gui) {
@@ -198,4 +242,14 @@ public class ClientView {
     public String getCurrentPlayer() { return currentPlayer; }
 
     public void setCurrentPlayer(String currentPlayer) { this.currentPlayer = currentPlayer; }
+
+    public HashMap<String, Tower> getNameToTower() {
+        return nameToTower;
+    }
+    public void insertNameToTower(String name, Tower tower) {
+        nameToTower.put(name,tower);
+    }
+    public void updateNameToTower(String name, Tower tower) {
+        nameToTower.replace(name,tower);
+    }
 }

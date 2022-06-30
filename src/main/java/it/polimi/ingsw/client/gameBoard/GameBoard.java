@@ -4,6 +4,8 @@ import it.polimi.ingsw.costanti.Blueprint;
 import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.IslandTile;
 
+import it.polimi.ingsw.model.MotherNature;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,10 @@ public class GameBoard {
      *
      * @param numberOfPlayers of type int - the number of players.
      */
+
+    private Integer motherNature_position;
+
+
     public GameBoard(int numberOfPlayers) {
         archipelagoGrid = new ArchipelagoGrid();
         clouds = new CloudGrid(numberOfPlayers);
@@ -126,4 +132,7 @@ public class GameBoard {
         //TODO, attendo Andrea per avere metodi in ClientView o CommandHandler per stampare le scuole
     }
 
+    public void setMotherNature_position(Integer islandTile) {
+        motherNature_position = islandTile;
+    }
 }

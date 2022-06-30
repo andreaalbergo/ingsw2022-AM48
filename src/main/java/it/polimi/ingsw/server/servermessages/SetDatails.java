@@ -24,10 +24,13 @@ public class SetDatails implements Answer{
 
     private List<Tower> remainingTowers = new ArrayList<>();
 
+    private final String name;
+
     public SetDatails(String message) {
         this.message = message;
         this.wizard = null;
         this.tower= null;
+        name = null;
     }
 
     public Wizard getWizard() {
@@ -42,6 +45,18 @@ public class SetDatails implements Answer{
         this.message = message;
         this.wizard = wizard;
         this.tower = tower;
+        name = null;
+    }
+
+    public SetDatails(Wizard wizard, Tower tower, String name) {
+        this.wizard = wizard;
+        this.tower = tower;
+        this.name = name;
+        message = "\n";
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addRemaining(List<Wizard> wizards, List<Tower> towers){

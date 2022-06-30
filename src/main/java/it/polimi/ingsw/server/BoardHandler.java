@@ -158,6 +158,7 @@ public class BoardHandler {
         Client winner = server.getIdtoClientMap().get(id);
         sendtoPlayer(new WinMessage(), winner.getIdClient());
         sendAllExcept(new GameOver(s),winner.getIdClient());
+
     }
 
     public Client checkWinner() {
@@ -211,8 +212,9 @@ public class BoardHandler {
         phase = 2;
 
         for(Player player : board.getActivePlayers()){
-            sendtoPlayer(new MatchStarted(board.getBoardManager().getClouds(),board.getBoardManager().getIslands(),player.getSchoolBoard().getEntrance()),player.getPlayerID());
+            sendAll(new MatchStarted(board.getBoardManager().getClouds(),board.getBoardManager().getIslands(),player.getSchoolBoard().getEntrance(), player.getNickname()));
         }
+
         sendtoPlayer(new StartTurnMessage(true),board.getCurrentPlayerIndex());
         sendAllExcept(new StartTurnMessage(), board.getCurrentPlayerIndex());
         sendAll(new CustomMessage("The first round is starting, brace yourself...", false));
@@ -232,7 +234,7 @@ public class BoardHandler {
         String commandtype = command.toString();
         switch (type){
             case "RoundDecider" -> startRoundPhase(command);
-            case "turnController" -> controllerListener.firePropertyChange(command.toString(),null,command);
+            case "turnController" -> controllerListener.firePropertyChange(commandtype,null,command);
             default -> sendtoPlayer(new GameError(Errors.INVALIDMOVE, "The command you gave is invalid"),
                     board.getCurrentPlayerIndex());
         }
@@ -253,8 +255,6 @@ public class BoardHandler {
                 phase = 3;
                 //setClouds();
             }
-
-
 
     }
 

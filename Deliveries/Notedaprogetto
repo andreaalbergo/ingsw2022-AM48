@@ -16,9 +16,6 @@ ROBA A CASO
 
 
 
-27/06
-Nello start game devo fare in modo di settare le isole e le nuvole...
-
 30/06 BARB:
 1) ho quasi finito gameBoard con metodi per stampare ad ogni comando la view della cli. INFATTI TALI METODI LI
 HO INSERITI NELLA CLASSE "ClientView" (ad esempio in setIslands per modificare la vista delle isole).

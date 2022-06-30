@@ -133,6 +133,7 @@ public class ClientHandler implements Runnable {
             server.getBoard().getController().setWizard(((ChooseDetails) command).getWizard(),idClient);
             Wizard.choose(((ChooseDetails) command).getWizard());
             Tower.choose(((ChooseDetails) command).getTower());
+            server.getBoard().sendAll(new SetDatails(((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower(),server.getBoard().game().getCurrentPlayer().getNickname()));
             server.getBoard().sendtoPlayer(new SetDatails("\n",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
             server.getBoard().setup();
 

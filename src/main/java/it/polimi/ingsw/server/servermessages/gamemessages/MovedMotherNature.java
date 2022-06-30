@@ -9,12 +9,26 @@ public class MovedMotherNature implements Answer {
 
     private final Integer islandTile;
 
+
+
     private final boolean check;
 
     public MovedMotherNature(int steps, Integer islandTile, boolean check) {
         this.steps = steps;
         this.islandTile = islandTile;
         this.check = check;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public Integer getIslandTile() {
+        return islandTile;
+    }
+
+    public boolean isCheck() {
+        return check;
     }
 
     @Override

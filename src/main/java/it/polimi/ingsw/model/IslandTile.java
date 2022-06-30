@@ -122,6 +122,9 @@ public class IslandTile {
      */
     public void mergeIslands(IslandTile adjacentIslandTile) {
         archipelagoDimension = archipelagoDimension + adjacentIslandTile.getArchipelagoDimension();
+        for (int i = 0; i < 5; i++) {
+            students[i] = students[i] + adjacentIslandTile.students[i];
+        }
         adjacentIslandTile.setIslandID(this.getIslandID());
         adjacentIslandTile.setArchipelagoDimension(0);
     }

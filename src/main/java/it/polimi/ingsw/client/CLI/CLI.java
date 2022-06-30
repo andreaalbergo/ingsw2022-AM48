@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.messages.NumberOfPlayers;
 import it.polimi.ingsw.costanti.Constants;
 import it.polimi.ingsw.costanti.Move;
 import it.polimi.ingsw.exceptions.DuplicateNicknameException;
+import it.polimi.ingsw.exceptions.InvalidSelection;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Mode;
 import it.polimi.ingsw.model.Tower;
@@ -241,13 +242,24 @@ public class CLI implements Runnable, PropertyChangeListener {
     private void chooseAssistantCard(List<AssistantCard> assistantCards) {
         System.out.println("Select a card: ");
         System.out.println(">");
-        AssistantCard assistantCard = AssistantCard.parseInput(in.nextLine());
+        AssistantCard assistantCard = null;
+        try {
+            assistantCard = AssistantCard.parseInput(in.nextLine());
+        } catch (InvalidSelection e) {
+            System.out.println("That's not a valid input, choose again");
+            System.out.println(">");
+        }
         while (!assistantCards.contains(assistantCard)){
             System.out.println("You already selected this card in the past, is not like you can use it twice...");
             System.out.println("Pick one of these: \n");
             ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
             System.out.println(".");
-            assistantCard = AssistantCard.parseInput(in.nextLine());
+            try {
+                assistantCard = AssistantCard.parseInput(in.nextLine());
+            } catch (InvalidSelection e) {
+                System.out.println("That's not a valid input, choose again");
+                System.out.println(">");
+            }
         }
         clientView.setChosenCard(assistantCard);
         socket.send(new ChoiceAssistantCard(assistantCard));
@@ -265,12 +277,17 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
 
             case "MovedMotherNature" -> {
-                System.out.println(clientView.getAnswer().getMessage());
-                //Metodo dove cambio la board con la posizione di madre natura
-                //Sposta la posizione di madre natura sulla ClientBoard
-                clientView.setInputEnabler(((StartTurnMessage)clientView.getAnswer()).getEnabler());
-                clientView.setTurnPhase(2);
-                clientView.setPhase(4);
+                MovedMotherNature message = (MovedMotherNature)clientView.getAnswer();
+                gameBoard.setMotherNature_position(message.getIslandTile());
+                    //Metodo dove cambio la board con la posizione di madre natura
+                    //Sposta la posizione di madre natura sulla ClientBoard
+                clientView.setInputEnabler(false);
+                if(message.getSteps() != 0){
+                    clientView.setTurnPhase(2);
+                    clientView.setPhase(4);
+                    clientView.setInputEnabler(true);
+                }
+
             }
 
             case "StartTurnMessage" -> {
@@ -353,10 +370,10 @@ public class CLI implements Runnable, PropertyChangeListener {
         if(move.getId().equals(clientView.getNickname())){
             clientView.setInputEnabler(true);
         }
-        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 2){
+        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3){
             clientView.setTurnPhase(3);
         }
-        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 3){
+        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2){
             clientView.setTurnPhase(3);
         }
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){

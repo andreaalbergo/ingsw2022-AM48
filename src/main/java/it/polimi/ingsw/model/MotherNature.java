@@ -22,6 +22,11 @@ public class MotherNature {
     public void move(int steps, int effect){
 
     }
+
+
+    public void setPosition(int position){
+        this.position = position;
+    }
     public void move(int steps) throws IllegalStateException{
         //if effect = 0 --> nothing change
         //if effect = 2 --> 2 more steps (herald characterCard)
