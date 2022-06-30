@@ -17,13 +17,12 @@ public class GUI extends Application implements PropertyChangeListener {
 
     private final ClientView clientView;
     private final CommandHandler handler;
-    private boolean active;
     private final PropertyChangeSupport listener = new PropertyChangeSupport(this);
     private ConnectionSocket connectionSocket = null;
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader test = new FXMLLoader(getClass().getResource("/Fxml_files/Game/GameMenu.fxml"));
+            FXMLLoader test = new FXMLLoader(getClass().getResource("/Fxml_files/Intro/MainMenu.fxml"));
             Parent root = test.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -43,7 +42,7 @@ public class GUI extends Application implements PropertyChangeListener {
 
         clientView = new ClientView(this);
         handler = new CommandHandler(clientView,this);
-        active = true;
+        boolean active = true;
 
     }
 

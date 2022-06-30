@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane fx:id="scenePane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.Cloud.CloudController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="611.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../../../Images/Backgrounds/Sfondochiaro.png" />
+      </ImageView>
+      <RadioButton fx:id="cloudButton1" layoutX="75.0" layoutY="241.0" mnemonicParsing="false">
+         <toggleGroup>
+            <ToggleGroup fx:id="cloud" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="cloudButton3" layoutX="441.0" layoutY="241.0" mnemonicParsing="false" toggleGroup="$cloud" />
+      <RadioButton fx:id="cloudButton2" layoutX="244.0" layoutY="241.0" mnemonicParsing="false" toggleGroup="$cloud" />
+      <Button layoutX="178.0" layoutY="333.0" mnemonicParsing="false" onAction="#chooseCloud" text="Next" />
+      <Button layoutX="356.0" layoutY="333.0" mnemonicParsing="false" onAction="#closeWindow" text="Close" />
+      <ImageView fx:id="cloud1" fitHeight="234.0" fitWidth="242.0" layoutX="-10.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" rotate="13.0">
+            <Image url="@../../../Images/GameElements/Clouds/Cloud2Players/Cloud1.png" />
+      </ImageView>
+      <ImageView fx:id="cloud2" fitHeight="223.0" fitWidth="238.0" layoutX="172.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" rotate="13.0">
+            <Image url="@../../../Images/GameElements/Clouds/Cloud3Players/Cloud2.png" />
+      </ImageView>
+      <ImageView fx:id="cloud3" fitHeight="234.0" fitWidth="236.0" layoutX="365.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" rotate="13.0">
+            <Image url="@../../../Images/GameElements/Clouds/Cloud2Players/Cloud2.png" />
+      </ImageView>
+      <GridPane fx:id="cloudGrid1" layoutX="52.0" layoutY="47.0" prefHeight="153.0" prefWidth="138.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="77.0" minWidth="10.0" prefWidth="77.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="10.0" prefWidth="60.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="cloudGrid2" layoutX="226.0" layoutY="42.0" prefHeight="159.0" prefWidth="147.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="77.0" minWidth="10.0" prefWidth="77.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="10.0" prefWidth="60.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="cloudGrid3" layoutX="420.0" layoutY="45.0" prefHeight="159.0" prefWidth="147.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="77.0" minWidth="10.0" prefWidth="77.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="65.0" minWidth="10.0" prefWidth="60.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="78.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Circle fx:id="student1Cloud1" fill="DODGERBLUE" layoutX="64.0" layoutY="123.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="student1Cloud2" fill="DODGERBLUE" layoutX="449.0" layoutY="118.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="student2Cloud1" fill="DODGERBLUE" layoutX="131.0" layoutY="104.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="student3Cloud1" fill="DODGERBLUE" layoutX="115.0" layoutY="170.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="student2Cloud2" fill="DODGERBLUE" layoutX="523.0" layoutY="112.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="student3Cloud2" fill="DODGERBLUE" layoutX="491.0" layoutY="176.0" radius="24.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+   </children>
+</AnchorPane>

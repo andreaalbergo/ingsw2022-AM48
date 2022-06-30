@@ -1,23 +1,30 @@
-package it.polimi.ingsw.client.GUI.Game;
+package it.polimi.ingsw.client.GUI.Game.Islands;
 
 import it.polimi.ingsw.model.Tower;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 
 public class DetailedIslandController {
 
     @FXML
+    private AnchorPane scenePane;
+    @FXML
     private ImageView islandType;
     @FXML
     private Label idIsland;
     @FXML
-    private Label tower;
+    private Label towers;
     @FXML
     private Label motherNature;
     @FXML
@@ -29,10 +36,13 @@ public class DetailedIslandController {
     @FXML
     private GridPane studentsPanel;
 
+    private int[] studentsOnIsland = new int[5];
+    private Tower tower;
+    Stage stage;
+
     @FXML
     public void setDetails(int island) {
 
-        String info;
         Image islandImage = new Image("/Images/GameElements/Islands/IslandType1.png");
 
         getIslandDetails(island);
@@ -52,10 +62,21 @@ public class DetailedIslandController {
 
         String details = "Island id: " + island;
 
+        ArrayList<Integer> studentsIsland = new ArrayList<>();
+
         //How many students and which color
+/*
+        for(int i = 0; i < 5; i++){
+            studentsOnIsland[i] = studentsIsland.get(i);
+        }
+
+ */
+
         //who have influence
         //owner of the island --> username or ------
+
         idIsland.setText(details);
+
         //tower, motherNature and students Label
     }
 
@@ -63,7 +84,9 @@ public class DetailedIslandController {
 
         //getTowerColor
         //WORKS
-        Tower tower = Tower.WHITE;
+        tower = Tower.WHITE;
+        //cancel
+
         Image towerImage = new Image("/Images/GameElements/Towers/WhiteTower.png");
 
         switch (tower){
@@ -76,6 +99,8 @@ public class DetailedIslandController {
         //motherNaturePosition = getMotherNature Position
         //WORKS
         int motherNaturePosition = 1;
+        //cancel
+
         motherNatureImage.setVisible(false);
         if(motherNaturePosition == island){
             motherNatureImage.setVisible(true);
@@ -83,10 +108,15 @@ public class DetailedIslandController {
 
         //getStudents on island --> receive an ArrayList<Integer>
         //WORKS
-        int[] studentOnIsland = {2, 3, 1, 0, 4};
+        studentsOnIsland[0] = 2;
+        studentsOnIsland[1] = 3;
+        studentsOnIsland[2] = 1;
+        studentsOnIsland[3] = 0;
+        studentsOnIsland[4] = 4;
+        //to cancel
 
         int i = 0;
-        Color studentColor = Color.BLACK;
+        Color studentColor = Color.BLACK; //default value
 
         for(int c = 0; c < 5 && i < 5; c++){
             for(int r = 0; r < 4 && i < 5; r++){
@@ -99,15 +129,15 @@ public class DetailedIslandController {
                     case 4 -> studentColor = Color.BLUE;
                 }
 
-                if(!(studentOnIsland[i] == 0)) {
+                if(!(studentsOnIsland[i] == 0)) {
                     Circle circle = new Circle(14);
                     circle.setFill(studentColor);
                     studentsPanel.add(circle, c, r);
-                    if (studentOnIsland[i] - 1 == 0) {
-                        studentOnIsland[i]--;
+                    if (studentsOnIsland[i] - 1 == 0) {
+                        studentsOnIsland[i]--;
                         i++;
                     } else{
-                        studentOnIsland[i]--;
+                        studentsOnIsland[i]--;
                     }
                 }
                 else{
@@ -117,7 +147,13 @@ public class DetailedIslandController {
 
             }
         }
+    }
 
+    @FXML
+    public void closePane(){
+
+        stage = (Stage) scenePane.getScene().getWindow();
+        stage.close();
 
     }
 }

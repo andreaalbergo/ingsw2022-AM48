@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="401.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.ControllerIslandTiles">
+<AnchorPane fx:id="scenePane" prefHeight="401.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.GUI.Game.Islands.ControllerIslandTiles">
    <children>
       <ImageView fitHeight="439.0" fitWidth="667.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../../Images/Backgrounds/Sfondochiaro.png" />
@@ -68,5 +68,6 @@
             <Image url="@../../../Images/GameElements/MotherNature.png" />
       </ImageView>
       <Button layoutX="306.0" layoutY="219.0" mnemonicParsing="false" onAction="#moveMotherNature" text="Next" />
+      <Button layoutX="304.0" layoutY="258.0" mnemonicParsing="false" onAction="#closePane" text="Close" />
    </children>
 </AnchorPane>
