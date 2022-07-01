@@ -223,7 +223,7 @@ public class BoardHandler {
             }
         }
         System.out.println("Entrambi hanno scelto");
-        int random_index = rnd.nextInt(numberOfPlayers);
+        int random_index = rnd.nextInt(1,numberOfPlayers + 1) - 1;
         System.out.println(" Mi è capitato l'index " + random_index);
         board.setCurrentPlayer(board.getActivePlayers().get(random_index));
         //logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer().getNickname());
@@ -248,7 +248,7 @@ public class BoardHandler {
         }
 
 
-        System.out.println("Sto dicendo di iniziare il turno a " + board.getCurrentPlayerIndex());
+        System.out.println("Sto dicendo di iniziare il turno a " + board.getCurrentPlayer().getPlayerID());
         sendtoPlayer(new StartTurnMessage(true),board.getCurrentPlayerIndex());
         sendAllExcept(new StartTurnMessage(), board.getCurrentPlayerIndex());
         sendAll(new CustomMessage("The first round is starting, brace yourself...", false));

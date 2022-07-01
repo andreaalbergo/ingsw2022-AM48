@@ -192,7 +192,7 @@ public class Board {
     }
 
     public int getCurrentPlayerIndex(){
-        return currentPlayerIndex;
+        return currentPlayer.getPlayerID();
     }
 }
 

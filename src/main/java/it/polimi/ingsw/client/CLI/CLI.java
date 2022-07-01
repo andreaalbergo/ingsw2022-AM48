@@ -227,7 +227,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
 
             case "SetMode" -> {
-                System.out.println(((SetMode)clientView.getAnswer()).getMessage());
+                System.out.println((clientView.getAnswer()).getMessage());
                 chooseMode();
             }
 
@@ -286,7 +286,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
 
             case "StartTurnMessage" -> {
-                System.out.println(((StartTurnMessage)clientView.getAnswer()).getMessage());
+                System.out.println((clientView.getAnswer()).getMessage());
                 clientView.setInputEnabler(((StartTurnMessage)clientView.getAnswer()).getEnabler());
                 clientView.setPhase(3);
                 clientView.setTurnPhase(1);

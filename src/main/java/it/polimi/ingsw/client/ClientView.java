@@ -105,8 +105,8 @@ public class ClientView {
     public void setClouds(List<Cloud> clouds) {
         System.out.println("Check da client view: Ho settato le nuvole sono: " + clouds.size());
         this.clouds = clouds;
+        //assert cli != null;
         assert cli != null;
-
         cli.getGameBoard().setCloudGrid(clouds, getPhase(), false);
     }
 
@@ -165,12 +165,14 @@ public class ClientView {
         nameToTower = new HashMap<>();
         professor = new boolean[5];
     }
-
+/*
     public ClientView(GUI gui) {
         this.gui = gui;
         //gameBoard = new GameBoard();
         cli = null;
     }
+
+ */
 
     public Answer getAnswer() {
         return answer;
