@@ -17,9 +17,9 @@ import java.util.List;
 public class GameBoard {
     private final ArchipelagoGrid archipelagoGrid;
     private int numberOfSchools;
-    private CloudGrid clouds;
-    private HashMap<Integer, SchoolGrid> schools;
-    private int NUMBER_OF_PLAYERS;
+    private final CloudGrid clouds;
+    private HashMap<String, SchoolGrid> schools;
+    private final int NUMBER_OF_PLAYERS;
     private final Blueprint boardScheme = new Blueprint();
 
     private Integer motherNaturePosition = 0;
@@ -59,7 +59,7 @@ public class GameBoard {
      *
      * @return of type ArrayList<> - the list of schools.
      */
-    public HashMap<Integer, SchoolGrid> getSchools() {
+    public HashMap<String, SchoolGrid> getSchools() {
         return schools;
     }
 
@@ -79,7 +79,7 @@ public class GameBoard {
      * @param tower of type Tower - the chosen tower by given nickname.
      */
     public void insertNicknameToTower(String nickname, Tower tower) {
-        schools.put(numberOfSchools, new SchoolGrid(getNumberOfPlayers(), tower.getIndex(), nickname));
+        schools.put(nickname, new SchoolGrid(getNumberOfPlayers(), tower.getIndex()));
         numberOfSchools++;
     }
 
@@ -97,21 +97,15 @@ public class GameBoard {
      * @param toEmpty of type boolean - true if clouds are full and need to be emptied.
      */
     public void setCloudGrid(List<Cloud> clouds, int phase, boolean toEmpty) {
-        if (phase==1) {
-            for (int i = 0; i < getNumberOfPlayers(); i++) {
+        if (phase==1)
+            for (int i = 0; i < getNumberOfPlayers(); i++)
                 this.clouds.updateSingleCloud(i, clouds.get(i).getCloudCells());
-            }
-        } else if(toEmpty){
-            for (int i = 0; i < getNumberOfPlayers(); i++) {
+        else if(toEmpty)
+            for (int i = 0; i < getNumberOfPlayers(); i++)
                 this.clouds.emptySingleCloud(i);
-            }
-            boardScheme.printBoard(getNumberOfPlayers(),this);
-        } else {
-            for (int i = 0; i < getNumberOfPlayers(); i++) {
+        else
+            for (int i = 0; i < getNumberOfPlayers(); i++)
                 this.clouds.updateSingleCloud(i, clouds.get(i).getCloudCells());
-            }
-            boardScheme.printBoard(getNumberOfPlayers(),this);
-        }
     }
 
     /**
@@ -150,8 +144,6 @@ public class GameBoard {
                 archipelagoGrid.updateIsland(i, 7, islands.get(i).getStudents()[3]);
                 archipelagoGrid.updateIsland(i, 8, islands.get(i).getStudents()[4]);
             }
-
-            boardScheme.printBoard(getNumberOfPlayers(), this);
         }
     }
 

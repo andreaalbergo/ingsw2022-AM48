@@ -127,28 +127,23 @@ public class ClientView {
         return nameToDining;
     }
 
-    public void insertNameToDining(String name, int[] hall) {
-        nameToDining.put(name,hall);
-
-    }
-
     public void updateDining(String nickname, int[] dining){
-        nameToDining.replace(nickname,dining);
-        cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
-        cli.getGameBoard().printCLI();
+        if(!nameToDining.containsKey(nickname))
+            nameToDining.put(nickname, dining);
+        else {
+            nameToDining.replace(nickname, dining);
+            cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
+        }
     }
     public HashMap<String, List<Color>> getNameToEntrance() {
         return nameToEntrance;
     }
 
-    public void insertNameToEntrance(String nickname, List<Color> entrance) {
-        nameToEntrance.put(nickname,entrance);
-    }
-
     public void updateEntrance(String nickname, List<Color> entrance){
-        nameToEntrance.replace(nickname,entrance);
-        cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
-        cli.getGameBoard().printCLI();
+        if(!nameToEntrance.containsKey(nickname))
+            nameToEntrance.put(nickname,entrance);
+            nameToEntrance.replace(nickname, entrance);
+            cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
     }
 
     public void setTower(String tower) {
@@ -263,13 +258,13 @@ public class ClientView {
     public HashMap<String, Tower> getNameToTower() {
         return nameToTower;
     }
-    public void insertNameToTower(String name, Tower tower) {
-        System.out.println("Sto aggiungengo "+ tower + " alla map");
-        nameToTower.put(name,tower);
-        assert cli != null;
-        cli.getGameBoard().insertNicknameToTower(nickname, tower);
-    }
+
     public void updateNameToTower(String name, Tower tower) {
-        nameToTower.replace(name,tower);
+        if(!nameToTower.containsKey(name)) {
+            System.out.println("Sto aggiungengo "+ tower + " alla map");
+            nameToTower.put(name, tower);
+            cli.getGameBoard().insertNicknameToTower(nickname, tower);
+        } else
+            nameToTower.replace(name,tower);
     }
 }

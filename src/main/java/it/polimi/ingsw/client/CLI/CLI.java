@@ -56,7 +56,7 @@ public class CLI implements Runnable, PropertyChangeListener {
      * players and game mode. Finally, before starting the game every player need to choose a tower, a wizard and first
      * assistant card to draw for first turn sorting.
      *
-     * @param args
+     * @param args of type String[] - arguments for command line of main method.
      */
     public static void main(String[] args) {
         System.out.println(
@@ -145,8 +145,6 @@ public class CLI implements Runnable, PropertyChangeListener {
         logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
         socket.send(new NumberOfPlayers(numberOfPlayers));
         clientView.setPhase(1);
-
-
     }
 
     public Wizard chooseWizard(List<Wizard> availableWizards){
@@ -341,7 +339,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             case "StartTurnMessage" -> {
                 assert command != null;
                 logger.log(Level.INFO,"INIZIA TURNO CHECK: " + command);
-                //TODO stampa la mappa
+                gameBoard.printCLI();
             }
             case "gameOver" -> {
                 assert command != null;
@@ -367,15 +365,17 @@ public class CLI implements Runnable, PropertyChangeListener {
         if(move.getId().equals(clientView.getNickname())){
             clientView.setInputEnabler(true);
         }
-        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3){
+        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 && move.getCloudList()==null){
             clientView.setTurnPhase(3);
-            clientView.setEntrance(move.getEntrance());
+            clientView.updateEntrance(move.getId(), move.getEntrance());
+            clientView.updateDining(move.getId(), move.getDinining_room());
             getGameBoard().printCLI();
         }
-        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2){
+        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2 && move.getCloudList()==null){
             clientView.setTurnPhase(3);
-            clientView.setEntrance(move.getEntrance());
-            getGameBoard().printCLI();
+            clientView.updateEntrance(move.getId(), move.getEntrance());
+            clientView.updateDining(move.getId(), move.getDinining_room());
+            gameBoard.printCLI();
         }
         if(move.getIslandTiles() != null){
             clientView.setIslands(move.getIslandTiles());
@@ -384,7 +384,8 @@ public class CLI implements Runnable, PropertyChangeListener {
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
             //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
             clientView.setInputEnabler(false);
-            getGameBoard().printCLI();
+            clientView.updateEntrance(move.getId(), move.getEntrance());
+            gameBoard.printCLI();
 
             //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
         }

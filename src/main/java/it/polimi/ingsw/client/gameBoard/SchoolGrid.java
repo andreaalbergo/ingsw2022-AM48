@@ -13,7 +13,6 @@ import java.util.List;
 public class SchoolGrid {
     private int towers;
     private final int towerColor;
-    private final String nickname;
     private List<Color> entrance = new ArrayList<>();
     private int[] diningRoom= new int[5];
     private boolean[] professors = new boolean[5];
@@ -24,9 +23,8 @@ public class SchoolGrid {
      * @param numberOfPlayers of type int - the number of players.
      * @param towerColor of type int - the tower color.
      */
-    public SchoolGrid(int numberOfPlayers, int towerColor, String nickname) {
+    public SchoolGrid(int numberOfPlayers, int towerColor) {
         this.towerColor = towerColor;
-        this.nickname = nickname;
         if (numberOfPlayers==Constants.MAX_PLAYERS)
             towers = Constants.TOWERS_MAX_PLAYERS;
         else
@@ -87,9 +85,5 @@ public class SchoolGrid {
 
     public int getTowers() {
         return towers;
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 }

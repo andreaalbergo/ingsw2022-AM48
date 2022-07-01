@@ -54,7 +54,7 @@ public class CommandHandler {
 
             }
             System.out.println("Mi è arrivato il match started con i suoi dati");
-            model.insertNameToEntrance(((MatchStarted) answer).getName(), ((MatchStarted) answer).getEntrance());
+            model.updateEntrance(((MatchStarted) answer).getName(), ((MatchStarted) answer).getEntrance());
         }
         else if (answer instanceof StartTurnMessage) {
             model.setPhase(3);
@@ -151,7 +151,7 @@ public class CommandHandler {
                 model.setWizard(((SetDetails) answer).getWizard().toString());
                 model.setTower(((SetDetails) answer).getTower().toString());
                 if(message.getName() != null){
-                    model.insertNameToTower(message.getName(), message.getTower());
+                    model.updateNameToTower(message.getName(), message.getTower());
                 }
 
             }
@@ -164,8 +164,8 @@ public class CommandHandler {
                 model.setIslands(((MatchStarted) answer).getIslands());
                 model.setClouds(((MatchStarted) answer).getClouds());
             }
-            System.out.println("Mi è arrivato il match started con i suoi dati");
-            model.insertNameToEntrance(((MatchStarted)answer).getName(),((MatchStarted)answer).getEntrance());
+            System.out.println("Metto nella entrance");
+            model.updateEntrance(((MatchStarted)answer).getName(),((MatchStarted)answer).getEntrance());
             model.setPhase(2);
         }
 
