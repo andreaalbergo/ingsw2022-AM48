@@ -13,6 +13,7 @@ class CloudTest {
     Player player1;
     Player player2;
     Player player3;
+    Bag bag;
 
     /** Method initialization that initializes values. */
     @BeforeEach
@@ -22,6 +23,7 @@ class CloudTest {
         testBoard.createNewPlayer(player2 = new Player("penguin", 54, Wizard.DRUID, Tower.BLACK));
         testBoard.createNewPlayer(player3 = new Player("swagger", 76, Wizard.WITCH, Tower.GREY));
         testBoard.getBoardManager().createCloudList();
+        bag = new Bag(testBoard);
     }
 
     @Test
@@ -40,6 +42,18 @@ class CloudTest {
 
         entrance = schoolBoard.getEntrance();
         System.out.println(entrance);
+
+        int studentsToExtract;
+        if(schoolBoard.getNumberOfPlayers() == 2){
+            studentsToExtract = 3;
+        }
+        else{
+            studentsToExtract = 4;
+        }
+
+        for(int i = 0; i < studentsToExtract; i++) {
+            testBoard.getBoardManager().getClouds().get(0).addStudentToCloud(Color.colorFromIndex(bag.getRandomColorFromBag()));
+        }
         testBoard.getBoardManager().getClouds().get(0).emptyCloud(schoolBoard);
 
         entrance = schoolBoard.getEntrance();

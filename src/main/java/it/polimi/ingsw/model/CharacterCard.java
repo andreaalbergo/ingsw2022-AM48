@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.exceptions.GameOverException;
 import it.polimi.ingsw.exceptions.InvalidSelection;
 
@@ -17,7 +18,7 @@ public enum CharacterCard {
     private static int[] jesterStudents = new int[5];
     private static boolean isActive = false;
 
-    //board is null --> to connect in some way
+    //board is null
     private static Board board;
 
     public static void chooseThreeRandomCharacters() throws GameOverException {
@@ -92,7 +93,7 @@ public enum CharacterCard {
             case KNIGHT -> knightEffect();
             case MERCHANT -> merchantEffect();
             case WARRIOR_PRINCESS -> warriorPrincessEffect();
-            default -> System.out.println("Error \nCard not found");
+            default -> throw new InvalidSelection();
         }
     }
 
@@ -104,7 +105,7 @@ public enum CharacterCard {
         return isActive;
     }
 
-    //color and islandTile are from input --> how to declare??
+    //color and islandTile are from input
     public static void monkEffect() throws GameOverException, InvalidSelection {
 
         Color color = null;
@@ -114,19 +115,19 @@ public enum CharacterCard {
         monkStudents[color.getColorIndex()]--;
         monkStudents[board.getBoardManager().getBag().getRandomColorFromBag()]++;
 
+
     }
 
-    //checkProfessor() to connect --> where is
-    //color is from input --> how to declare??
+    //connect with gameController
     public static void innkeeperEffect(){
 
-        Color color = null;
-
-        //checkToAddProfessor(color, 1);
+        for(int i = 0; i < 5; i++) {
+            //gameController.checkProfessor(Color.colorFromIndex(i), 1);
+        }
 
     }
 
-    //steps is from input --> how to declare??
+    //connect with board
     public static void heraldEffect() {
 
         int steps = 3;
@@ -135,15 +136,14 @@ public enum CharacterCard {
 
     }
 
-    //checkInfluence to connect --> where is
-    //islandTile is from input --> how to declare??
+    //connect with gameController
     public static void centaurEffect(){
 
-        //checkInfluence(island, 1);
+        //gameController.checkIsland(1);
 
     }
 
-    //removeColorFromEntrance and moveColor are from input --> how to declare??
+    //removeColorFromEntrance and moveColor are from input
     public static void jesterEffect() throws GameOverException {
 
         int studentsMoved = 0;
@@ -178,15 +178,15 @@ public enum CharacterCard {
 
     }
 
-    //checkInfluence to connect --> where is
+    //checkInfluence to connect
     public static void knightEffect(){
 
         //checkInfluence(island, 2);
 
     }
 
-    //checkInfluence to connect --> where is
-    //color is from input --> how to declare??
+    //checkInfluence to connect
+    //color is from input
     public static void merchantEffect(){
 
         Color color = null;
@@ -195,7 +195,7 @@ public enum CharacterCard {
         //checkInfluence(island, effect);
     }
 
-    //color is from input --> how to declare??
+    //color is from input
     public static void warriorPrincessEffect() throws InvalidSelection, GameOverException {
 
         Color color = null;

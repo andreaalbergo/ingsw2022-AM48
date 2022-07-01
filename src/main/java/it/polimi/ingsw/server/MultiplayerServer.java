@@ -189,7 +189,7 @@ public class MultiplayerServer {
 
     public synchronized Integer addClientToGame(String nickname, ClientHandler client) {
         Integer IDclient = nametoIdMap.get(nickname);
-        System.out.println("ADDCLIENTTOGAME: DAL NICKNAME "+ nickname + "HO TROVATO L'ID" + IDclient);
+        System.out.println("ADDCLIENTTOGAME: DAL NICKNAME "+ nickname + " HO TROVATO L'ID " + IDclient);
         if(IDclient == null) //player
         {
             //System.out.println("This is the first player!!");

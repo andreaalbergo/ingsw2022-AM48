@@ -81,18 +81,30 @@ public class SchoolBoard implements Serializable {
         else {
             diningRoom[color.getColorIndex()] += 1;
             removeFromEntrance(color);
+
+            if(numberOfPlayers == 2 && movedstudents < 3){
+                movedstudents++;
+            } else{
+                if(numberOfPlayers == 3 && movedstudents < 4){
+                    movedstudents++;
+                }
+            }
+            /*
             switch (numberOfPlayers) {
-                case 2:
+                case 2: {
                     if (movedstudents < 3) {
                         movedstudents++;
                     }
+                }
 
-                case 3:
+                case 3: {
                     if (movedstudents < 4) {
                         movedstudents++;
                     }
+                }
 
             }
+             */
         }
     }
 

@@ -21,12 +21,13 @@ public class CommandHandler {
         view.addPropertyChangeListener(cli);
     }
 
-
+/*
     public CommandHandler(ClientView model, GUI gui) {
         this.model = model;
         this.gui = gui;
         view.addPropertyChangeListener(gui);
     }
+ */
 
     public void inGamePhase(Answer answer){
 

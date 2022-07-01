@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +20,10 @@ public class GameMenuController implements Initializable {
 
     @FXML
     private Label moneyCounter;
+    @FXML
+    private Button characterButton;
+    @FXML
+    private ImageView money;
 
     Parent root;
     Scene scene;
@@ -96,7 +102,14 @@ public class GameMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //getCoin of the player
         //cancel
+        boolean expertMode = false;
         moneyCounter.setText("5");
         //end cancel
+        if(!expertMode){
+            money.setVisible(false);
+            moneyCounter.setVisible(false);
+            characterButton.setDisable(true);
+            characterButton.setVisible(false);
+        }
     }
 }

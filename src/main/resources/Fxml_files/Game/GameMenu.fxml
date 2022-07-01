@@ -16,7 +16,7 @@
       <Button layoutX="33.0" layoutY="338.0" mnemonicParsing="false" onAction="#openAssistantCardsPopUp" text="Assistant Cards" />
       <Button layoutX="46.0" layoutY="242.0" mnemonicParsing="false" onAction="#openIslandsPopUp" text="Island Tiles" />
       <Button layoutX="57.0" layoutY="274.0" mnemonicParsing="false" onAction="#openCloudsPopUp" text="Clouds" />
-      <Button layoutX="31.0" layoutY="307.0" mnemonicParsing="false" onAction="#openCharacterCardsPopUp" text="Character Cards" />
+      <Button fx:id="characterButton" layoutX="31.0" layoutY="307.0" mnemonicParsing="false" onAction="#openCharacterCardsPopUp" text="Character Cards" />
       <ImageView fitHeight="77.0" fitWidth="88.0" layoutX="153.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/Islands/IslandType1.png" />
       </ImageView>
@@ -56,7 +56,7 @@
       <ImageView fitHeight="150.0" fitWidth="353.0" layoutX="152.0" layoutY="231.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/SchoolBoard/SchoolBoard.png" />
       </ImageView>
-      <ImageView fitHeight="87.0" fitWidth="88.0" layoutX="503.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="money" fitHeight="87.0" fitWidth="88.0" layoutX="503.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../Images/GameElements/Coin.png" />
       </ImageView>
       <Label fx:id="moneyCounter" layoutX="541.0" layoutY="305.0" text="2" textFill="#fde910">

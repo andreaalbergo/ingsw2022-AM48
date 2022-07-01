@@ -10,6 +10,6 @@ public class WinMessage implements Answer {
 
     @Override
     public Object getMessage() {
-        return "HAI VINTO";
+        return "YOU WIN";
     }
 }
