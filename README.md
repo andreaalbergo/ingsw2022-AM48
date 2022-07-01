@@ -86,7 +86,13 @@ To get a local copy up and running follow these simple example steps.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- TEST COVERAGES -->
+<div align="center">
+  <a href="">
+    <img src="src/main/resources/TestCoverages.png" alt="Tests" width="1200" height="1000">
+  </a>
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## FEATURES
 ### DEVELOPED FEATURES
