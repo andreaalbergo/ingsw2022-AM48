@@ -413,6 +413,7 @@ public class GameController implements PropertyChangeListener {
     }
 
 
+
     public void changeRound(){
         listeners.firePropertyChange("endTurn",null,null);
         model.resetAssistantCards();
