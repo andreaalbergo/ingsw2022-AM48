@@ -19,6 +19,10 @@ class SchoolBoardTest {
         schoolBoard = new SchoolBoard("Andrea", 1, false);
     }
 
+    /**
+     * checks that students are added to the Dining Room correctly
+     * @throws InvalidSelection if there isn't the student in the entrance
+     */
     @Test
     void addStudentToDiningRoom1() throws InvalidSelection {
         int [] diningRoom;
@@ -40,6 +44,10 @@ class SchoolBoardTest {
         assertEquals(1,diningRoom[Color.RED_DRAGONS.getColorIndex()]);
     }
 
+    /**
+     * checks that students are added to the Dining Room correctly
+     * @throws InvalidSelection if there isn't the student in the entrance
+     */
     @Test
     void addStudentToDiningRoom2() throws InvalidSelection {
         int[] diningRoom;
@@ -53,11 +61,17 @@ class SchoolBoardTest {
         assertEquals(2, diningRoom[Color.RED_DRAGONS.getColorIndex()]);
     }
 
+    /**
+     * checks that the nickname of the schoolboard is the same of the player
+     */
     @Test
     void getNickname() {
         assertEquals("Andrea", schoolBoard.getNickname());
     }
 
+    /**
+     * checks if a professor is added correctly
+     */
     @Test
     void checkProfessors() {
         Boolean[] professor;
@@ -67,6 +81,9 @@ class SchoolBoardTest {
         assertTrue(professor[Color.RED_DRAGONS.getColorIndex()]);
     }
 
+    /**
+     * checks if a professor is added correctly
+     */
     @Test
     void addProfessor() {
         Boolean[] professor;
@@ -75,6 +92,9 @@ class SchoolBoardTest {
         assertTrue(schoolBoard.checkProfessor(Color.PINK_FAIRIES));
     }
 
+    /**
+     * checks if a professor is added correctly
+     */
     @Test
     void addProfessor1() {
         schoolBoard.addProfessor(Color.RED_DRAGONS);
@@ -82,6 +102,9 @@ class SchoolBoardTest {
         assertTrue(schoolBoard.checkProfessor(Color.RED_DRAGONS));
     }
 
+    /**
+     * checks if a professor is added correctly
+     */
     @Test
     void addProfessor2() {
         schoolBoard.addProfessor(Color.PINK_FAIRIES);
@@ -89,6 +112,9 @@ class SchoolBoardTest {
         assertTrue(schoolBoard.checkProfessor(Color.PINK_FAIRIES));
     }
 
+    /**
+     * checks if a professor is removed correctly
+     */
     @Test
     void removeProfessor1(){
         schoolBoard.addProfessor(Color.RED_DRAGONS);
@@ -97,6 +123,9 @@ class SchoolBoardTest {
         assertFalse(schoolBoard.checkProfessor(Color.RED_DRAGONS));
     }
 
+    /**
+     * checks if a professor is removed correctly
+     */
     @Test
     void removeProfessor2(){
         schoolBoard.addProfessor(Color.PINK_FAIRIES);
@@ -105,6 +134,9 @@ class SchoolBoardTest {
         assertFalse(schoolBoard.checkProfessor(Color.PINK_FAIRIES));
     }
 
+    /**
+     * checks if a student is added to the entrance correctly
+     */
     @Test
     void addStudentToEntrance1(){
         System.out.println(Color.colorFromIndex(2));
@@ -123,6 +155,9 @@ class SchoolBoardTest {
         assertEquals(2,size[2]);
     }
 
+    /**
+     * checks if a student is added to the entrance correctly
+     */
     @Test
     void addStudentToEntrance2() {
         System.out.println(Color.colorFromIndex(2));
@@ -141,11 +176,17 @@ class SchoolBoardTest {
         assertEquals(1,size[3]);
     }
 
+    /**
+     * checks that the entrance isn't null
+     */
     @Test
     void getEntrance(){
         assertNotNull(schoolBoard.getEntrance());
     }
 
+    /**
+     * checks if a student is removed from the entrance correctly
+     */
     @Test
     void removeFromEntrance1(){
         schoolBoard.addStudentToEntrance(3);
@@ -154,6 +195,9 @@ class SchoolBoardTest {
         assertTrue(entrance.contains(Color.colorFromIndex(3)));
     }
 
+    /**
+     * checks if a student is removed from the entrance correctly
+     */
     @Test
     void removeFromEntrance2() throws InvalidSelection {
         schoolBoard.addStudentToEntrance(3);

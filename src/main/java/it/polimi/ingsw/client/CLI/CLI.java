@@ -436,8 +436,8 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
         if (move.getEntrance()!=null)
             clientView.updateEntrance(move.getId(), move.getEntrance());
-        if(move.getDininingRoom()!=null)
-            clientView.updateDining(move.getId(), move.getDininingRoom());
+        if(move.getDiningRoom()!=null)
+            clientView.updateDining(move.getId(), move.getDiningRoom());
 
 
         gameBoard.printCLI();

@@ -32,22 +32,34 @@ class BoardTest {
         boardManager = testBoard.getBoardManager();
     }
 
+    /**
+     * checks the current player without setting it
+     */
     @Test
     void testSetCurrentPlayer1() {
         assertNull(testBoard.getCurrentPlayer());
     }
 
+    /**
+     * check current player with setting
+     */
     @Test
     void testSetCurrentPlayer2() {
         testBoard.setCurrentPlayer(testBoard.getActivePlayers().get(0));
         assertEquals("pinco", testBoard.getCurrentPlayer().getNickname());
     }
 
+    /**
+     * checks that a player named "Pinco" is equal to a player with the same letters but with caps lock
+     */
     @Test
     void testSetCurrentPlayer3(){
         assertNotEquals(testBoard.getCurrentPlayer(), testBoard.getPlayerFromGivenNickname("PinCO"));
     }
 
+    /**
+     * checks that a current player is equals to the current player got by id
+     */
     @Test
     void testCurrentPlayer4(){
         testBoard.setCurrentPlayer(testBoard.getActivePlayers().get(0));
@@ -55,6 +67,9 @@ class BoardTest {
         testBoard.setCurrentPlayer(null);
     }
 
+    /**
+     * checks the turn order of the players
+     */
     @Test
     void testSetPlayerOrderTurn() {
         testBoard.getActivePlayers().get(2).setChosenCard(AssistantCard.SIX);
@@ -74,6 +89,9 @@ class BoardTest {
         System.out.println("new current player: "+testBoard.getCurrentPlayer().getNickname());
     }
 
+    /**
+     * checks that getPlayerFromGivenNickname works
+     */
     @Test
     void getPlayerFromGivenNickname(){
 
@@ -81,6 +99,9 @@ class BoardTest {
 
     }
 
+    /**
+     * checks that getPlayerFromGivenId works
+     */
     @Test
     void getPlayerFromGivenID(){
 
@@ -88,6 +109,9 @@ class BoardTest {
 
     }
 
+    /**
+     * test that the method pickFirstPlayer() works
+     */
     @Test
     void pickFirstPlayerToStart(){
 
@@ -104,6 +128,9 @@ class BoardTest {
     }
 
 
+    /**
+     * checks that with the method setNextPlayer() the current player changes
+     */
     @Test
     void setNextPlayer(){
 

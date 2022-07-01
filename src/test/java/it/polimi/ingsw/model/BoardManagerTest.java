@@ -22,6 +22,10 @@ class BoardManagerTest {
         testBoardManager = testBoard.getBoardManager();
     }
 
+    /**
+     * checks if the students extracted on the islands corresponds to the rules
+     * (1 student / island and maximus 2 students of the same color
+     */
     @Test
     void testIslandStudentsRandomized() {
 
@@ -34,6 +38,9 @@ class BoardManagerTest {
         }
     }
 
+    /**
+     * check if the cloud are being generated correctly and are empty
+     */
     @Test
     void getCloudsEmpty(){
 
@@ -49,6 +56,9 @@ class BoardManagerTest {
 
     }
 
+    /**
+     * controls if the number of clouds created is equal to the number of players
+     */
     @Test
     void getCloudsSize2(){
 
@@ -64,6 +74,9 @@ class BoardManagerTest {
 
     }
 
+    /**
+     * second check as before but with 3 players
+     */
     @Test
     void getCloudsSize3(){
 

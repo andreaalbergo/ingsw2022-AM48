@@ -25,30 +25,45 @@ class IslandTileTest {
     }
 
     /**
-     * Method test TBD
+     * Tests if there is a tower on an island without setting it
      */
     @Test
     void testFirstIsland1() {
         assertEquals(0, testIsland.howManyTowers());
     }
 
+    /**
+     * Tests if there is a owner on an island without setting it
+     */
     @Test
     void testFirstIsland2() {
         assertNull(testIsland.getIslandOwner());
     }
 
+    /**
+     * check if the method gives a tower when setting an owner
+     * @throws GameOverException from setIslandOwner
+     */
     @Test
     void testTowers() throws GameOverException {
         testIsland.setIslandOwner(new Player("nick", 14, Wizard.SAMURAI, Tower.GREY));
         assertEquals(1, testIsland.howManyTowers());
     }
 
+    /**
+     * checks if setting an owner of the island, it changes the owner
+     * @throws GameOverException launched by setIslandOwner
+     */
     @Test
     void setIslandOwner() throws GameOverException {
         testIsland.setIslandOwner(player1);
         assertEquals(player1, testIsland.getIslandOwner());
     }
 
+    /**
+     * checks that it merges students
+     * @throws GameOverException called by setIslandOwner
+     */
     @Test
     void mergeIsland() throws GameOverException {
 

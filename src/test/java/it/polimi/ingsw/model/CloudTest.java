@@ -26,6 +26,9 @@ class CloudTest {
         bag = new Bag(testBoard);
     }
 
+    /**
+     * checks the size of clouds if correspond to the number of players
+     */
     @Test
     void simpleTest() {
 
@@ -33,6 +36,10 @@ class CloudTest {
 
     }
 
+    /**
+     * checks that emptyClouds() works moving stodents from cloud to entrance
+     * @throws GameOverException if there are no more students in the bag
+     */
     @Test
     void emptyCloud() throws GameOverException {
 

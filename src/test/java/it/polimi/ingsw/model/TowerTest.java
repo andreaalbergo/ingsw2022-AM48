@@ -6,12 +6,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TowerTest {
 
+    /**
+     * checks if the list is created correctly
+     */
     @Test
     void createList(){
         Tower.setList();
         assertFalse(Tower.available().isEmpty());
     }
 
+    /**
+     * checks if the choose of the towers works
+     */
     @Test
     void freeList(){
         Tower.setList();
@@ -22,6 +28,9 @@ class TowerTest {
         assertTrue(Tower.available().isEmpty());
     }
 
+    /**
+     * checks if a tower is already picked
+     */
     @Test
     void alreadyPicked(){
         Tower.setList();
@@ -30,11 +39,17 @@ class TowerTest {
         assertTrue(Tower.isAlreadyPicked(Tower.WHITE));
     }
 
+    /**
+     * checks if the input stings corresponds to the tower
+     */
     @Test
     void stringToTower1(){
         assertEquals(Tower.WHITE, Tower.parseInput("WHITE"));
     }
 
+    /**
+     * checks if the input stings corresponds to the tower
+     */
     @Test
     void stringToTower2(){
         assertEquals(Tower.BLACK, Tower.parseInput("BLACK"));

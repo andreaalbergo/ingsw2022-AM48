@@ -15,6 +15,9 @@ class BagTest {
     SchoolBoard schoolBoard;
     Bag bag;
 
+    /**
+     * initialize, set board, schoolboard and bag (boardManager is inside board constructor)
+     */
     @BeforeEach
     void initialization(){
         board = new Board();
@@ -22,6 +25,10 @@ class BagTest {
         bag = new Bag(board);
     }
 
+    /**
+     * check if is extracted a random color
+     * @throws GameOverException if there aren't more students in the bag
+     */
     @RepeatedTest(10)
     void RandomColorNotNull() throws GameOverException {
         int colorIndex;
@@ -32,6 +39,10 @@ class BagTest {
         assertNotNull(colorIndex);
     }
 
+    /**
+     * controls that the value returned by getRandomColorFromBag is in the correct range (0 to 4)
+     * @throws GameOverException if there aren't more students in the bag
+     */
     @Test
     void RandomColorRangeExpected() throws GameOverException {
         boolean included = false;
@@ -45,6 +56,10 @@ class BagTest {
         assertTrue(included);
     }
 
+    /**
+     * controls if the set up of the entrance works
+     * @throws GameOverException thrown by setUpSchoolEntrance()
+     */
     @Test
     void setupSchoolEntrance() throws GameOverException {
 
@@ -54,6 +69,10 @@ class BagTest {
         assertEquals(7, entrance.size());
     }
 
+    /**
+     * same method as before
+     * @throws GameOverException thrown by setUpSchoolEntrance()
+     */
     @Test
     void setUpSchoolEntranceFalse() throws GameOverException {
 
@@ -67,6 +86,9 @@ class BagTest {
         }
     }
 
+    /**
+     * controls that the bag is full
+     */
     @Test
     void isBagEmptyFalse(){
 
@@ -75,6 +97,10 @@ class BagTest {
         assertFalse(result);
     }
 
+    /**
+     * controls if the bag empties correctly
+     * @throws GameOverException if there are no more students in the bag
+     */
     @Test
     void isBagEmptyTrue() throws GameOverException {
 

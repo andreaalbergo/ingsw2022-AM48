@@ -1,32 +1,15 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.client.actions.EndTurn;
-import it.polimi.ingsw.client.actions.MoveMotherNature;
-import it.polimi.ingsw.client.actions.MoveStudentToDiningRoom;
-import it.polimi.ingsw.client.actions.MoveStudentToIsland;
-import it.polimi.ingsw.exceptions.GameOverException;
-import it.polimi.ingsw.exceptions.InvalidSelection;
+
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.BoardHandler;
-import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.MultiplayerServer;
-import it.polimi.ingsw.server.SocketServer;
-import it.polimi.ingsw.server.servermessages.Answer;
-import it.polimi.ingsw.server.servermessages.CustomMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
-
-    //EdoardoBoz: don't know how to test correctly without create the server
 
     MultiplayerServer server;
     BoardHandler boardHandler;
@@ -83,8 +66,6 @@ class GameControllerTest {
          */
 
     }
-    //java.lang.NullPointerException:
-    // Cannot invoke "java.io.ObjectOutputStream.reset()" because "this.outputStream" is null
 
     @Test
     void changeRound(){
@@ -98,9 +79,6 @@ class GameControllerTest {
         //assertFalse(board.getBoardManager().getClouds().get(1).getCloudCells().isEmpty());
 
     }
-    //java.lang.NullPointerException:
-    // Cannot invoke "java.io.ObjectOutputStream.reset()" because "this.outputStream" is null
-
     @Test
     void setWizard(){
 
@@ -118,7 +96,5 @@ class GameControllerTest {
         assertEquals(Tower.WHITE, player1.getTower());
 
     }
-
-
 
 }

@@ -15,11 +15,17 @@ class PlayerTest {
         player = new Player("Albus",1, Wizard.EMIR, Tower.GREY);
     }
 
+    /**
+     * checks that nickname is setted
+     */
     @Test
     void getNickname() {
         assertNotNull(player.getNickname());
     }
 
+    /**
+     * checks that at the start of the game there are all the assistant cards
+     */
     @Test
     void getAssistantCards() {
         assertNotNull(player.getAssistantCards());
@@ -41,33 +47,51 @@ class PlayerTest {
 
     }
 
+    /**
+     * checks how many coins there are at the start of the game
+     */
     @Test
     void getCoins() {
         assertTrue(player.getCoins() >= 0);
     }
 
+    /**
+     * checks of the turn method works
+     */
     @Test
     void isTurn() {
         assertTrue(player.isTurn() || !player.isTurn());
     }
 
+    /**
+     * checks if the wizard is setted
+     */
     @Test
     void getChosenWizard() {
         assertNotNull(player.getChosenWizard());
     }
 
+    /**
+     * checks if the turn setting works
+     */
     @Test
     void setTurn1() {
         player.setTurn(true);
         assertTrue(player.isTurn());
     }
 
+    /**
+     * checks if the turn setting works
+     */
     @Test
     void setTurn2() {
         player.setTurn(false);
         assertFalse(player.isTurn());
     }
 
+    /**
+     * checks if the methods adds coins to the player
+     */
     @Test
     void addCoins() {
         int newcoins = 2;
@@ -75,6 +99,9 @@ class PlayerTest {
         assertEquals(player.getCoins(),1+newcoins);
     }
 
+    /**
+     * checks if the schoolboard is created with the given number of player
+     */
     @Test
     void createSchoolBoard1(){
         player.createSchoolBoard(false, 2);
@@ -82,6 +109,9 @@ class PlayerTest {
         assertEquals(2,schoolBoard.getNumberOfPlayers());
     }
 
+    /**
+     * checks if the schoolboard is created with the given mode
+     */
     @Test
     void createSchoolBoard2() {
         player.createSchoolBoard(false, 2);
@@ -90,6 +120,9 @@ class PlayerTest {
         assertFalse(schoolBoard.isMode());
     }
 
+    /**
+     * checks if the schoolboard nickname is the same of the player that created it
+     */
     @Test
     void createSchoolBoard3() {
         player.createSchoolBoard(false, 2);
@@ -98,6 +131,9 @@ class PlayerTest {
         assertEquals("Albus",schoolBoard.getNickname());
     }
 
+    /**
+     * checks if it removes coins from the player
+     */
     @Test
     void removeCoins() {
         player.addCoins(3);
