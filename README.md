@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="">
-    <img src="src/main/resources/Images/Eriantys.png" alt="Eriantys" width="150" height="300">
+    <img src="src/main/resources/Images/Eriantys.png" alt="Eriantys" width="1200" height="350">
   </a>
 
 <h3 align="center">ERIANTYS</h3>
