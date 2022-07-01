@@ -43,28 +43,33 @@ public class BoardManager {
     /**
      * Method getIslands gives us back the list of IslandTiles.
      *
-     * @return of type List - the list of islands.
+     * @return of type List<> - the list of islands.
      */
     public List<IslandTile> getIslands() {
         return islands;
     }
 
     /**
+     * Method getClouds is a getter.
      *
-     * @return clouds list reference
+     * @return of type List<> - clouds list reference.
      */
     public List<Cloud> getClouds() {
         return clouds;
     }
 
     /**
+     * Method getBag is a getter.
      *
-     * @return bag reference
+     * @return of type Bag.
      */
     public Bag getBag() {
         return bag;
     }
 
+    /**
+     * Method createCloudList instantiates the cloud list by adding them from number of players.
+     */
     public void createCloudList() {
         int players = board.getActivePlayers().size();
         for (int i = 0; i < players; i++) {
@@ -72,6 +77,11 @@ public class BoardManager {
         }
     }
 
+    /**
+     * Method getMotherNature is a getter.
+     *
+     * @return of type MotherNature.
+     */
     public MotherNature getMotherNature() {
         return motherNature;
     }

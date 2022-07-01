@@ -20,6 +20,6 @@ public class StartTurnMessage implements Answer {
 
     @Override
     public Object getMessage() {
-        return "Turn Started";
+        return "Turn Started, move mother nature";
     }
 }

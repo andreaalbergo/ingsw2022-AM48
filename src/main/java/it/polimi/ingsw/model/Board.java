@@ -34,30 +34,56 @@ public class Board {
     }
 
 
+    /**
+     * Method isStartedRound is a getter.
+     *
+     * @return of type boolean.
+     */
     public boolean isStartedRound() {
         return startedRound;
     }
 
+    /**
+     * Method setStartedRound is a setter.
+     *
+     * @param startedRound of type boolean.
+     */
     public void setStartedRound(boolean startedRound) {
         this.startedRound = startedRound;
     }
 
+    /**
+     * Method setPlayerAssistantCardHashMap is a setter.
+     *
+     * @param assistantCard of type AssistantCard.
+     */
     public void setPlayerAssistantCardHashMap(AssistantCard assistantCard) {
         playerAssistantCardHashMap.put(currentPlayer, assistantCard);
         currentPlayer.setChosenCard(assistantCard);
         currentPlayer.getAssistantCards().remove(assistantCard);
     }
 
+    /**
+     * Method resetAssistantCards clears the HashMap of playerAssistantCards.
+     */
     public void resetAssistantCards() {
         playerAssistantCardHashMap.clear();
     }
 
+    /**
+     * Method resetMovedStudents resets the moved students to 0.
+     */
     public void resetMovedStudents(){
         for(Player player : activePlayers){
             player.getSchoolBoard().setMovedstudents(0);
         }
     }
 
+    /**
+     * Method getPlayerAssistantCardHashMap
+     *
+     * @return of type HashMap<>.
+     */
     public HashMap<Player, AssistantCard> getPlayerAssistantCardHashMap() {
         return playerAssistantCardHashMap;
     }
@@ -217,6 +243,11 @@ public class Board {
         }
     }
 
+    /**
+     * Method getCurrenPlayerIndex is a getter.
+     *
+     * @return of type int.
+     */
     public int getCurrentPlayerIndex(){
         return currentPlayer.getPlayerID();
     }

@@ -6,12 +6,20 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
+ * Bag is a container that extracts students to the clouds and school boards and signals when it's empty so the game
+ * finally ends.
  *
+ *@author Andrea Albergo
  */
 public class Bag implements Serializable {
     private final int[] students;
     private final Board board;
 
+    /**
+     * Constructor Bag creates its instance.
+     *
+     * @param board of type Board.
+     */
     public Bag(Board board) {
         this.board = board;
         students = new int[5];
@@ -20,17 +28,25 @@ public class Bag implements Serializable {
         }
     }
 
+    /**
+     * Method checkEmpty checks if bag is empty.
+     *
+     * @return of type boolean.
+     */
     private boolean checkEmpty(){
         int count = 0;
         for(int i = 0; i < 5; i++){
             count = count + this.students[i];
         }
-        if(count == 0){
-            return true;
-        }
-        return false;
+        return count == 0;
     }
 
+    /**
+     * Method getRandomColorFromBag pick a student randomly.
+     *
+     * @return of type int.
+     * @throws GameOverException when bag is empty.
+     */
     public int getRandomColorFromBag() throws GameOverException {
         int colorIndex;
         Random random = new Random();
@@ -45,10 +61,9 @@ public class Bag implements Serializable {
             }
         }
     }
-    //try a more efficient way of random, like handling when a colorIndex goes to zero
 
     /**
-     * This method is used to setup the entrance for the Schoolboards, extracting the correct number of students at the
+     * This method is used to set up the entrance for the SchoolBoards, extracting the correct number of students at the
      * start of the game
      *
      * @param schoolBoard parameter indicates which one of the SchoolBoard needs to be filled
@@ -90,16 +105,6 @@ public class Bag implements Serializable {
     public int[] getStudents() {
         return students;
     }
-
-    public void setupCloud(Cloud cloud, int number_of_students) throws GameOverException {
-        int limit = 4;
-        if(number_of_students == 2) limit = 3;
-        for(int i = 0; i < limit; i++){
-            Color color = Color.colorFromIndex(getRandomColorFromBag());
-            cloud.addStudentToCloud(color);
-        }
-    }
-
 
 }
 

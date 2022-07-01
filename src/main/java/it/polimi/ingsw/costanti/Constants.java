@@ -1,12 +1,9 @@
 package it.polimi.ingsw.costanti;
 
+/**
+ * Class Constants is used to store and constants useful for the entire project.
+ */
 public class Constants {
-
-    /**
-     * creates a new Instance of Constants
-     */
-    private Constants(){}
-
     private static String address;
     private static int port;
     public static final int CLOUD_MIN_PLAYERS = 3;
@@ -41,18 +38,38 @@ public class Constants {
     public static final String GAME_RULES = "\n Click the following link in order to read Eriantys' rules: " +
             "https://craniointernational.com/2021/wp-content/uploads/2021/06/Eriantys_rules_small.pdf";
 
+    /**
+     * Method getAddress is a getter.
+     *
+     * @return of type String - the IP address.
+     */
     public static String getAddress() {
         return address;
     }
 
+    /**
+     * Method setAddress is a setter.
+     *
+     * @param address of type String - the IP address.
+     */
     public static void setAddress(String address) {
         Constants.address = address;
     }
 
+    /**
+     * Method getPort is a getter.
+     *
+     * @return of type int - the port.
+     */
     public static int getPort() {
         return port;
     }
 
+    /**
+     * setPort is a setter.
+     *
+     * @param port of type int - the port.
+     */
     public static void setPort(int port) {
         Constants.port = port;
     }

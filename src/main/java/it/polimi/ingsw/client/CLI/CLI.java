@@ -30,6 +30,10 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class CLI is used by the user who starts the Eryantis app and chooses this type of view of the game, which is plain
+ * text.
+ */
 public class CLI implements Runnable, PropertyChangeListener {
     private final Scanner in;
     private final ClientView clientView;
@@ -42,6 +46,9 @@ public class CLI implements Runnable, PropertyChangeListener {
     private GameBoard gameBoard;
 
 
+    /**
+     * Constructor CLI to create its instance.
+     */
     public CLI() {
         in = new Scanner(System.in);
         out = new PrintStream(System.out);
@@ -87,12 +94,14 @@ public class CLI implements Runnable, PropertyChangeListener {
         cli.run();
     }
 
+    /**
+     * Method run to make the CLI active for the user.
+     */
     @Override
     public void run() {
         startCLI();
         while(isActiveGame()){
             if(clientView.getPhase() >= 3 ){
-                System.out.println("Hola");
                 in.reset();
                 String received = in.nextLine();
                 System.out.println("ACTION: " + received);
@@ -103,14 +112,27 @@ public class CLI implements Runnable, PropertyChangeListener {
         out.close();
     }
 
+    /**
+     * Method isActiveGame is a getter of type synchronized.
+     *
+     * @return of boolean.
+     */
     public synchronized boolean isActiveGame() {
         return active;
     }
 
+    /**
+     * Method setActive is a setter.
+     *
+     * @param active of type boolean
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * Method startCLI is used by run method to make the new user choose, after ip address and port, a nickname.
+     */
     private void startCLI() {
         String player = null;
         while (player == null){
@@ -131,35 +153,42 @@ public class CLI implements Runnable, PropertyChangeListener {
         listeners.addPropertyChangeListener("action", new CommandParser(socket,clientView));
     }
 
+    /**
+     * Method choosePlayerNumber is used when the host player has chosen its nickname. It can be 2 or 3 players.
+     */
     public void choosePlayerNumber(){
         int numberOfPlayers;
         while (true){
             try {
                 System.out.println("Insert here: ");
-                //logger.log(Level.SEVERE,"Insert here: ");
                 numberOfPlayers = Integer.parseInt(in.nextLine());
                 break;
             } catch (NumberFormatException exception){
                 System.out.println("The input is invalid...it must be a number between 2 and 3");
             }
         }
+        //TODO
         logger.log(Level.INFO,"Stai mandandao messaggio settando " + numberOfPlayers + "giocatori");
         socket.send(new NumberOfPlayers(numberOfPlayers));
         clientView.setPhase(1);
     }
 
+    /**
+     * Method chooseWizard is used when the match is started and players need to choose one of the available wizards.
+     *
+     * @param availableWizards of List<> - the list of available wizards.
+     * @return of type Wizard.
+     */
     public Wizard chooseWizard(List<Wizard> availableWizards){
         Wizard wizard;
         while (true){
             try {
                 System.out.println("Choose your Wizard: ");
-                //System.out.println("Here's the list of available wizards: "+Wizard.getAvailable());
                 wizard = Wizard.parseInput(in.nextLine());
                 if(availableWizards.contains(wizard)){
                     return wizard;
                 } else {
                     System.out.println("Wizard not available!");
-                    //then I should create a class to reflush buffer and clean it without deleting all the entire stream
                 }
             } catch (IllegalArgumentException e){
                 System.out.println("The input is invalid... Choose a Wizard not a random object dumbo");
@@ -168,6 +197,12 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     }
 
+    /**
+     * Method chooseTower is used after the player has chosen the wizard.
+     *
+     * @param remainingTowers of type List<> - remainingTowers.
+     * @return of type Tower - the chosen tower.
+     */
     public Tower chooseTower(List<Tower> remainingTowers){
         Tower tower;
         while (true){
@@ -188,9 +223,13 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     }
 
+    /**
+     * Method chooseMode is used when the host player has set the number of players. Mode can be normal or expert.
+     */
     public void chooseMode(){
         while(true){
             try{
+                //TODO
                 logger.log(Level.INFO,"Sei nella choosemode");
                 System.out.println("(WRITE ALL CAPS)->");
                 String choice = in.nextLine();
@@ -208,10 +247,15 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
     }
 
+    /**
+     * Method initialSetup assembles all the previous methods to distinguish them by a Message in order to send it to
+     * the socket server.
+     *
+     * @param value of type String.
+     */
     public void initialSetup(String value){
         switch (value) {
             case "SetPlayersRequest" -> {
-                //logger.log(Level.SEVERE,"Ok stai elaborando nell'initial setup");
                 System.out.println("Choose the number of players [2 or 3]");
                 choosePlayerNumber();
             }
@@ -235,6 +279,11 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
     }
 
+    /**
+     * Method chooseAssistantCard is used after all players have chosen wizard and tower.
+     *
+     * @param assistantCards of type List<> - the list of assistant card.
+     */
     private void chooseAssistantCard(List<AssistantCard> assistantCards) {
         System.out.println("Select a card: ");
         System.out.println(">");
@@ -263,6 +312,12 @@ public class CLI implements Runnable, PropertyChangeListener {
         socket.send(new ChoiceAssistantCard(assistantCard));
     }
 
+    /**
+     * Method gamePhase is needed to the game states in order to keep changing its state after every player's single
+     * input command.
+     *
+     * @param value of type String.
+     */
     public void gamePhase(String value){
         switch (value){
             case "chooseAssistantCard" -> {
@@ -276,9 +331,6 @@ public class CLI implements Runnable, PropertyChangeListener {
 
             case "movedMotherNature" -> {
                 MovedMotherNature message = (MovedMotherNature)clientView.getAnswer();
-                //gameBoard.setMotherNaturePosition(message.getIslandTile());
-                //Metodo dove cambio la board con la posizione di madre natura
-                //Sposta la posizione di madre natura sulla ClientBoard
                 if(message.getSteps() != 0){
                     clientView.setTurnPhase(2);
                     clientView.setPhase(4);
@@ -315,6 +367,7 @@ public class CLI implements Runnable, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         String command = (evt.getNewValue() != null) ? evt.getNewValue().toString() : null;
         switch (evt.getPropertyName()) {
+            //TODO
             case "setup" -> {
                 assert command != null;
                 logger.log(Level.SEVERE,"Ho ricevuto il comando: " + command);
@@ -344,7 +397,7 @@ public class CLI implements Runnable, PropertyChangeListener {
                 gamePhase("startTurnMessage");
             }
             case "gameOver" -> {
-                assert command != null;
+                assert command != null;//TODO
                 logger.log(Level.INFO, String.valueOf(((GameOver) evt.getNewValue()).getMessage()));
                 String reason = ((GameOver) evt.getNewValue()).getReason();
                 if(reason != null){
@@ -361,6 +414,11 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
     }
 
+    /**
+     * Method updateCLI is used to handle every player's turn actions and update the model through the server socket.
+     *
+     * @param message of type MoveMessage.
+     */
     private void updateCLI(MoveMessage message) {
         Move move = message.getMessage();
         if(Objects.equals(move.getId(), clientView.getNickname())){
@@ -378,35 +436,23 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
         if (move.getEntrance()!=null)
             clientView.updateEntrance(move.getId(), move.getEntrance());
-        if(move.getDinining_room()!=null)
-            clientView.updateDining(move.getId(), move.getDinining_room());
+        if(move.getDininingRoom()!=null)
+            clientView.updateDining(move.getId(), move.getDininingRoom());
 
-        /*
-        if(move.getCloudList()==null ){
-            clientView.updateEntrance(move.getId(), move.getEntrance());
-            clientView.updateDining(move.getId(), move.getDinining_room());
-        }
-        if(move.getIslandTiles() != null){
-            clientView.updateEntrance(move.getId(), move.getEntrance());
-            clientView.setIslands(move.getIslandTiles());
-            gameBoard.setArchipelagoGrid(move.getIslandTiles());
-        }
-        if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
-            //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
-            clientView.setInputEnabler(false);
-            clientView.updateEntrance(move.getId(), move.getEntrance());
-            clientView.setClouds(move.getCloudList());
-            //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
-        }*/
+
         gameBoard.printCLI();
 
         if (move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2) clientView.setTurnPhase(3);
         if (move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 ) clientView.setTurnPhase(3);
         System.out.println("La fase è " + clientView.getTurnPhase());
-        //mando alla clientboard i vari dati
-        //clientView.setInputEnabler(true);
     }
 
+    /**
+     * Method errorHandling is used to handle every possible error committed by the users like bad typing at the bad
+     * time, exc...
+     *
+     * @param error of type GameError.
+     */
     private void errorHandling(GameError error) {
         switch (error.getError()) {
             case INVALIDINPUT,INVALIDMOVE,NOTYOURTURN,ALREADYCHOSEN,OUTOFBOUNDINPUT -> {
@@ -426,10 +472,20 @@ public class CLI implements Runnable, PropertyChangeListener {
         }
     }
 
+    /**
+     * Method getGameBoard is a getter.
+     *
+     * @return of type GameBoard.
+     */
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
+    /**
+     * Method createGameBoard creates a new GameBoard instance by giving it the number of players.
+     *
+     * @param size of type int - the number of players.
+     */
     public void createGameBoard(int size) {
         gameBoard = new GameBoard(size);
     }

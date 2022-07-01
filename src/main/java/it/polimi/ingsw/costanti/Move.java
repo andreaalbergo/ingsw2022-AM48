@@ -7,8 +7,11 @@ import it.polimi.ingsw.model.IslandTile;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Move class is used to create the body of MoveMessage.
+ */
 public class Move implements Serializable {
-    private final int[] dinining_room;
+    private final int[] diningRoom;
     private final Integer moved_students;
     private final List<Color> entrance;
     private final List<Cloud> cloudList;
@@ -16,36 +19,76 @@ public class Move implements Serializable {
 
     private final String id;
 
-    public int[] getDinining_room() {
-        return dinining_room;
+    /**
+     * Method getDiningRoom is a getter.
+     *
+     * @return of type int[].
+     */
+    public int[] getDiningRoom() {
+        return diningRoom;
     }
 
+    /**
+     * Method getMoved_students is a getter.
+     *
+     * @return of type Integer.
+     */
     public Integer getMoved_students() {
         return moved_students;
     }
 
+    /**
+     * Method getEntrance is a getter.
+     *
+     * @return of type List<>.
+     */
     public List<Color> getEntrance() {
         return entrance;
     }
 
+    /**
+     * Method getCloudList is a getter .
+     *
+     * @return of type List<>.
+     */
     public List<Cloud> getCloudList() {
         return cloudList;
     }
 
+    /**
+     * Method getIslandTiles is a getter.
+     *
+     * @return of type List<>.
+     */
     public List<IslandTile> getIslandTiles() {
         return islandTiles;
     }
 
+    /**
+     * Method getId is a getter.
+     *
+     * @return of type String.
+     */
     public String getId() {
         return id;
     }
 
-    public Move(int[] dinining_room, Integer moved_students, List<Color> entrance, List<Cloud> cloudList, List<IslandTile> islandTiles, String idmove) {
-        this.dinining_room = dinining_room;
-        this.moved_students = moved_students;
+    /**
+     * Constructor Move creates its instance.
+     *
+     * @param dining_room of type int[]
+     * @param movedStudents of type Integer
+     * @param entrance of type List<>.
+     * @param cloudList of type List<>.
+     * @param islandTiles of type List<>.
+     * @param idMove of type String.
+     */
+    public Move(int[] dining_room, Integer movedStudents, List<Color> entrance, List<Cloud> cloudList, List<IslandTile> islandTiles, String idMove) {
+        this.diningRoom = dining_room;
+        this.moved_students = movedStudents;
         this.entrance = entrance;
         this.cloudList = cloudList;
         this.islandTiles = islandTiles;
-        this.id = idmove;
+        this.id = idMove;
     }
 }

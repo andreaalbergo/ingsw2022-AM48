@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class GameBoard {
     private final ArchipelagoGrid archipelagoGrid;
-    private int numberOfSchools;
     private final CloudGrid clouds;
     private final HashMap<String, SchoolGrid> schools;
     private final int NUMBER_OF_PLAYERS;
@@ -80,9 +79,7 @@ public class GameBoard {
      * @param tower of type Tower - the chosen tower by given nickname.
      */
     public void insertNicknameToTower(String nickname, Tower tower) {
-        System.out.println("sono nel insertNicknameToTower");
         schools.put(nickname, new SchoolGrid(getNumberOfPlayers(), tower.getIndex()));
-        numberOfSchools++;
     }
 
     public SchoolGrid getSchoolFromNickname(String nickname) {
@@ -107,12 +104,15 @@ public class GameBoard {
     }
 
     /**
-     * Method setArchipelagoGrid is used to set the archipelago structure for the CLI view and it checks for the game
+     * Method setArchipelagoGrid is used to set the archipelago structure for the CLI view, it checks for the game
      * phase (if phase is 1 it means game started and setup phase).
      *
      * @param islands of type List<> - the list of islands.
      */
     public void setArchipelagoGrid(List<IslandTile> islands) {
+        int[] usedTowers = new int[getNumberOfPlayers()];
+        String[] nicknames = new String[getNumberOfPlayers()];
+
             for (int i = 0; i < 12; i++) {
                 archipelagoGrid.updateIsland(i, 0, islands.get(i).getIslandID());
                 if (getMotherNaturePosition()==i)
@@ -121,9 +121,11 @@ public class GameBoard {
                     archipelagoGrid.updateIsland(i, 1, 0);
                 }
 
-                if (islands.get(i).getIslandOwner()!=null)
+                if (islands.get(i).getIslandOwner()!=null){
+                    usedTowers[islands.get(i).getIslandOwner().getTower().getIndex()]++;
+                    nicknames[islands.get(i).getIslandOwner().getTower().getIndex()] = islands.get(i).getIslandOwner().getNickname();
                     archipelagoGrid.updateIsland(i, 2, islands.get(i).getIslandOwner().getTower().getIndex());
-                else
+                } else
                     archipelagoGrid.updateIsland(i, 2, 3);
 
                 archipelagoGrid.updateIsland(i, 3, islands.get(i).getArchipelagoDimension());
@@ -133,19 +135,33 @@ public class GameBoard {
                 archipelagoGrid.updateIsland(i, 7, islands.get(i).getStudents()[3]);
                 archipelagoGrid.updateIsland(i, 8, islands.get(i).getStudents()[4]);
             }
+
+        for (int i = 0; i < getNumberOfPlayers(); i++) {
+            schools.get(nicknames[i]).updateTowerCells(usedTowers[i]);
+        }
     }
 
     /**
-     * Method updateSchools is used to print all schoolboards for the CLI view.
+     * Method printCLI is used to print the entire game board for the CLI view.
      */
     public void printCLI() {
         System.out.println(boardScheme.printBoard(getNumberOfPlayers(), this));
     }
 
+    /**
+     * Method setMotherNaturePosition is a setter.
+     *
+     * @param islandTile of type Integer - given islandTile.
+     */
     public void setMotherNaturePosition(Integer islandTile) {
         motherNaturePosition = islandTile;
     }
 
+    /**
+     * Method getMotherNaturePosition is a getter.
+     *
+     * @return of type Integer.
+     */
     public Integer getMotherNaturePosition() {
         return motherNaturePosition;
     }
