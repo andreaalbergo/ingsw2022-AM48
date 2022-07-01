@@ -34,6 +34,9 @@ class GameControllerTest {
         player2.createSchoolBoard(false, 2);
     }
 
+    /**
+     * checks that setMode works
+     */
     @Test
     void setMode(){
 
@@ -42,6 +45,9 @@ class GameControllerTest {
 
     }
 
+    /**
+     * should check if the round is set correctly
+     */
     @Test
     void startRound(){
 
@@ -67,6 +73,9 @@ class GameControllerTest {
 
     }
 
+    /**
+     * should check if the round is changed
+     */
     @Test
     void changeRound(){
 
@@ -79,6 +88,10 @@ class GameControllerTest {
         //assertFalse(board.getBoardManager().getClouds().get(1).getCloudCells().isEmpty());
 
     }
+
+    /**
+     * should check if the wizard is set for the player
+     */
     @Test
     void setWizard(){
 
@@ -88,6 +101,9 @@ class GameControllerTest {
 
     }
 
+    /**
+     * should check if the tower is set for the player
+     */
     @Test
     void setTower(){
 
