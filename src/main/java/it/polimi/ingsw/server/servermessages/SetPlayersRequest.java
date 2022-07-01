@@ -4,7 +4,10 @@ public class SetPlayersRequest implements Answer {
 
     private String message;
 
-
+    /**
+     * class constructor
+     * @param message message
+     */
     public SetPlayersRequest(String message){
         this.message = message;
     }

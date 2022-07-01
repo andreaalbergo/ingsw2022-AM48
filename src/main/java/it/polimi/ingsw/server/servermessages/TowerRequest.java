@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.Tower;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * message sent for set a tower color to a player
+ */
 public class TowerRequest implements Answer{
 
     private final String tower;
@@ -17,6 +20,11 @@ public class TowerRequest implements Answer{
         this.remaining_towers = remaining_towers;
     }
 
+    /**
+     * class constructor
+     * @param tower chosen tower
+     * @param message message
+     */
     public TowerRequest(String tower, String message) {
         this.tower = tower;
         this.message = message;

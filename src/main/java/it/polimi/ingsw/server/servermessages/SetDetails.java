@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Wizard;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * server message for set the details of a player
+ */
 public class SetDetails implements Answer{
     @Override
     public Object getMessage() {
@@ -30,6 +33,11 @@ public class SetDetails implements Answer{
         return num_players;
     }
 
+    /**
+     * class constructor
+     * @param num_players number of players
+     * @param message message
+     */
     public SetDetails(int num_players, String message) {
         this.num_players = num_players;
         this.message = message;
@@ -46,6 +54,12 @@ public class SetDetails implements Answer{
         return tower;
     }
 
+    /**
+     * class constructor
+     * @param message message
+     * @param wizard chosen wizard
+     * @param tower chosen tower
+     */
     public SetDetails(String message, Wizard wizard, Tower tower) {
         this.message = message;
         this.wizard = wizard;
@@ -54,6 +68,13 @@ public class SetDetails implements Answer{
         num_players = 0;
     }
 
+    /**
+     * class constructor
+     * @param wizard chosen wizard
+     * @param tower chosen tower
+     * @param name nickname
+     * @param num_players number of players
+     */
     public SetDetails(Wizard wizard, Tower tower, String name,int num_players) {
         this.wizard = wizard;
         this.tower = tower;
