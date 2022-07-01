@@ -1,11 +1,20 @@
 package it.polimi.ingsw.model;
 
+/**
+ * MotherNature is a class used to keep notice of the MotherNature pawn and its movements throughout the game
+ *
+ * @author Andrea Albergo
+ */
 public class MotherNature {
     private int position;
 
 
     private int[] numberofIslands;
 
+    /**
+     * MotherNature Constructor instantiates the islands in the game and keeps notice of their merge
+     *
+     */
     public MotherNature() {
         this.position = 0;
         numberofIslands = new int[12];
@@ -14,15 +23,27 @@ public class MotherNature {
         }
     }
 
+    /**
+     * Getter for the actual position of the pawn
+     *
+     * @return int
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Sets the position of the pawn from a given int
+     *
+     * @param position
+     */
     public void setPosition(int position){
         this.position = position;
     }
 
     /**
+     *
+     *
      * @param steps INTEGER -> represents the number of steps we want Mothernature to make
      * @throws IllegalStateException in case the number of steps is different from the ones available from the card
 

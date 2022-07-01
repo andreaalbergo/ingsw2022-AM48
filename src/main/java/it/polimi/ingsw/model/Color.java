@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * Color enumeration that...
+ * Color enumeration that contains the different colors of the pawns used in the game
  *
  * @author Andrea
  */

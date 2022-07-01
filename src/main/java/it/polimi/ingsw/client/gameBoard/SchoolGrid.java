@@ -65,10 +65,12 @@ public class SchoolGrid {
     }
 
     /**
-     * Method updateTowerCell is used to update given school tower container by decreasing its counter.
+     * Method updateTowerCells is used to update the number of tower cells for this SchoolGrid.
+     *
+     * @param newValue of type int - the new amount of remaining towers.
      */
-    public void updateTowerCells() {
-        towers--;
+    public void updateTowerCells(int newValue) {
+        towers = newValue;
     }
 
     public List<Color> getEntrance() {

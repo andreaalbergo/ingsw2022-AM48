@@ -1,5 +1,8 @@
 package it.polimi.ingsw.costanti;
 
+/**
+ * Class CharacterEffects is made of constant in which there are info about every character's card effect.
+ */
 public class CharacterEffects {
     public static final String MONK_EFFECT = Constants.ANSI_YELLOW+"MONK_EFFECT────>TAKE 1 STUDENT FROM THIS CARD AND "+
             "PLACE IT ON AN ISLAND OF YOUR CHOICE. THEN, DRAW A NEW STUDENT FROM THE BAG AND PLACE IT ON THIS CARD."+
