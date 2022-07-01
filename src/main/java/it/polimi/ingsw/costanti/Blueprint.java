@@ -3,7 +3,6 @@ package it.polimi.ingsw.costanti;
 import it.polimi.ingsw.client.gameBoard.GameBoard;
 import it.polimi.ingsw.client.gameBoard.SchoolGrid;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.SchoolBoard;
 
 import java.util.*;
 
@@ -13,9 +12,6 @@ import java.util.*;
  * @author David Barb
  */
 public class Blueprint {
-    private final HashMap<String, ArrayList<Integer>> assistantCardUsed = new LinkedHashMap<>();
-    private final HashMap<String, Integer> characterCards = new LinkedHashMap<>();
-
     private  final String ASCII_157 = "Ø";
     private  final String ASCII_179 = "│";
     private  final String ASCII_185 = "║";
@@ -49,9 +45,6 @@ public class Blueprint {
     private final String YELLOW_PROFESSOR = Constants.RECTANGLE + Constants.ANSI_YELLOW + "◯" + Constants.ANSI_RESET;
     private final String GREEN_PROFESSOR = Constants.RECTANGLE + Constants.ANSI_GREEN + "◯" + Constants.ANSI_RESET;
     private final String EMPTY_PROFESSOR = "◯";
-    private final String[] PROFESSORS = new String[]{YELLOW_PROFESSOR, BLUE_PROFESSOR, GREEN_PROFESSOR,
-            RED_PROFESSOR, PINK_PROFESSOR, EMPTY_PROFESSOR};
-
     private final String BLUE_UNICORN = Constants.RECTANGLE + Constants.ANSI_CYAN + "◍" + Constants.ANSI_RESET;
     private final String RED_DRAGON = Constants.RECTANGLE + Constants.ANSI_RED + "◍" + Constants.ANSI_RESET;
     private final String PINK_FAIRY = Constants.RECTANGLE + Constants.ANSI_PINK + "◍" + Constants.ANSI_RESET;
@@ -62,10 +55,13 @@ public class Blueprint {
     private final String[] STUDENTS = new String[]{YELLOW_GNOME, BLUE_UNICORN, GREEN_FROG, RED_DRAGON,
             PINK_FAIRY, EMPTY_STUDENT_SLOT};
 
-    private final String MENU_TAB_MIN_PLAYERS = "══════════════════════════════" + "\n";
-
-    private final String MENU_TAB_MAX_PLAYERS = "══════════════════════════════" + "\n";
-
+    /**
+     * Method getCloudsMinPLayers to print the cloud tiles of the game board.
+     *
+     * @param studentsRandom of type int[] - the array containing all students in every cloud.
+     * @return of type String - the cloud tiles for CLI view.
+     * @throws IllegalArgumentException thrown if array dimension is different not 6.
+     */
     public String getCloudsMinPlayers(int[] studentsRandom) throws IllegalArgumentException {
         if (studentsRandom.length != 6) throw new IllegalArgumentException();
         return getUpperBoxCloud(1) + "\t\t" + getUpperBoxCloud(2) +
@@ -88,6 +84,12 @@ public class Blueprint {
                 "-Towers: " + " WHITE->" + WHITE_TOWER + " BLACK->" + BLACK_TOWER + " (for 3p)GREY->" + GREY_TOWER + "\n";
     }
 
+    /**
+     * Method getCloudsMaxPlayers to print the cloud tiles of the game board.
+     * @param studentsRandom of type int[] - the array containing all students in every cloud.
+     * @return of type String - the cloud tiles for CLI view.
+     * @throws IllegalArgumentException when dimension of studentsRandom is not 12.
+     */
     public String getCloudsMaxPlayers(int[] studentsRandom) throws IllegalArgumentException {
         if (studentsRandom.length != 12) throw new IllegalArgumentException();
         return getUpperBoxCloud(1) + "\t\t" + getUpperBoxCloud(2) + "\t\t" + getUpperBoxCloud(3) +
@@ -115,7 +117,8 @@ public class Blueprint {
     private final String WHITE_TOWER = Constants.RECTANGLE + "╦╦" + Constants.ANSI_RESET;
     private final String EMPTY_TOWER_ISLAND = "  ";
     private final String EMPTY_TOWER_SCHOOL = "ØØ";
-    private final String[] TOWERS = new String[]{WHITE_TOWER, BLACK_TOWER, GREY_TOWER, EMPTY_TOWER_SCHOOL};
+    private final String[] TOWERS = new String[]{WHITE_TOWER, BLACK_TOWER, GREY_TOWER, EMPTY_TOWER_ISLAND,
+            EMPTY_TOWER_SCHOOL};
 
     private final String UPPER_MOTHER_NATURE = Constants.ANSI_BLACK + Constants.ANSI_BACKGROUND_YELLOW + "╔═╗" +
             Constants.ANSI_RESET;
@@ -125,33 +128,64 @@ public class Blueprint {
             Constants.ANSI_RESET;
     private final String EMPTY_MOTHER_NATURE = "   ";
 
+    /**
+     * Method getUpperMotherNature is used to get upper body of the mother nature piece.
+     *
+     * @param motherConfig of type int - configuration to print it if 1 or not if 0.
+     * @return of type String - the upper body of mother nature.
+     */
     private String getUpperMotherNature(int motherConfig) {
         if (motherConfig==1)
             return UPPER_MOTHER_NATURE;
         return EMPTY_MOTHER_NATURE;
     }
 
+    /**
+     * Method getMiddleMotherNature is used to get upper body of the mother nature piece.
+     *
+     * @param motherConfig of type int - configuration to print it if 1 or not if 0.
+     * @return of type String - the upper body of mother nature.
+     */
     private String getMiddleMotherNature(int motherConfig) {
         if (motherConfig==1)
             return MIDDLE_MOTHER_NATURE;
         return EMPTY_MOTHER_NATURE;
     }
 
+    /**
+     * Method getLowerMotherNature is used to get upper body of the mother nature piece.
+     *
+     * @param motherConfig of type int - configuration to print it if 1 or not if 0.
+     * @return of type String - the upper body of mother nature.
+     */
     private String getLowerMotherNature(int motherConfig) {
         if (motherConfig==1)
             return LOWER_MOTHER_NATURE;
         return EMPTY_MOTHER_NATURE;
     }
 
+    /**
+     * Method getTower is used to get a tower piece by given color ID.
+     *
+     * @param towerConfig of type int - tower color ID.
+     * @return of type String - the tower piece.
+     */
     private String getTower(int towerConfig) {
         return switch (towerConfig) {
-            case 0 -> WHITE_TOWER;
-            case 1 -> BLACK_TOWER;
-            case 2 -> GREY_TOWER;
+            case 1 -> WHITE_TOWER;
+            case 2 -> BLACK_TOWER;
+            case 3 -> GREY_TOWER;
             default -> EMPTY_TOWER_ISLAND;
         };
     }
 
+    /**
+     * Method getColorIsland prints the string of students present in the islands.
+     *
+     * @param colorIndex of type int - the colorID (0 to 4 if number has 1 digit, 5 to 9 if it has 2 digits).
+     * @param amount of type int - the number of students given a color.
+     * @return of type String - the amount of students printed as Integer for the islands.
+     */
     private String getColorIsland(int colorIndex, int amount) {
         return switch (colorIndex) {
             case 0 -> Constants.ANSI_GREEN + "G" + Constants.ANSI_RESET + "x" + amount + " ";
@@ -168,6 +202,12 @@ public class Blueprint {
         };
     }
 
+    /**
+     * Method getIslandId that prints the string of island name given its ID.
+     *
+     * @param islandId of type Integer - ID of the island.
+     * @return of type String - the string of th island's name given a specific ID.
+     */
     private String getIslandId(Integer islandId) {
         if (islandId<10)
             return "ISLE_"+ islandId +" ";
@@ -270,6 +310,12 @@ public class Blueprint {
                 ASCII_200 + BOX_LINE_TWO + BOX_LINE_TWO + BOX_LINE_ONE + ASCII_188 + "\n";
     }
 
+    /**
+     * Method getColorFromHall is used to get and print a colored student given a specific color at the entrance room.
+     *
+     * @param color of type Color - student's color.
+     * @return of type String - the printed colored student.
+     */
     private String getColorFromHall(Color color) {
         String printable = "";
         switch (color) {
@@ -284,6 +330,14 @@ public class Blueprint {
         return printable;
     }
 
+    /**
+     * Method getStudentHall used to print the entire entrance hall for the specific school board
+     *
+     * @param row of type int - the row of the entrance room (there are 5 of them if number of players is 3, if not 4).
+     * @param entrance of type List<> - the entire list of the students in entrance hall.
+     * @param numberOfPlayers of type int - the number of players.
+     * @return of type String - the printed entrance hall school board.
+     */
     private String getStudentHall(int row, List<Color> entrance, int numberOfPlayers) {
         int amount = entrance.size();
         String emptyCells = Constants.ANSI_BACKGROUND_GREY + Constants.ANSI_WHITE + EMPTY_STUDENT_SLOT +
@@ -301,8 +355,8 @@ public class Blueprint {
                 if (amount <= 1)
                     return emptyCells;
                 else if (amount == 2)
-                    return getColorFromHall(entrance.get(1)) + " "+Constants.ANSI_BACKGROUND_GREY+EMPTY_STUDENT_SLOT+
-                            " "+Constants.ANSI_RESET;
+                    return getColorFromHall(entrance.get(1)) +" "+Constants.ANSI_BACKGROUND_GREY+EMPTY_STUDENT_SLOT+
+                            Constants.ANSI_RESET;
                 else
                     return getColorFromHall(entrance.get(1)) + " " + getColorFromHall(entrance.get(2));
             }
@@ -310,8 +364,8 @@ public class Blueprint {
                 if (amount <= 3)
                     return emptyCells;
                 else if (amount == 4)
-                    return getColorFromHall(entrance.get(3)) + " "+Constants.ANSI_BACKGROUND_GREY+EMPTY_STUDENT_SLOT+
-                        " "+Constants.ANSI_RESET;
+                    return getColorFromHall(entrance.get(3)) + " "+Constants.ANSI_BACKGROUND_GREY+EMPTY_STUDENT_SLOT
+                            +Constants.ANSI_RESET;
                 else
                     return getColorFromHall(entrance.get(3)) + " " + getColorFromHall(entrance.get(4));
             }
@@ -340,6 +394,13 @@ public class Blueprint {
         return emptyCells;
     }
 
+    /**
+     * Method getStudentDining that prints a dining room row by given color ID and amount off students on that table.
+     *
+     * @param colorID of type int - color id.
+     * @param amount of type int - the amount of students by given color.
+     * @return of type String - the printed part of the dining room.
+     */
     private String getStudentDining(int colorID, int amount) {
         StringBuilder printable= new StringBuilder();
 
@@ -426,6 +487,13 @@ public class Blueprint {
         return printable.toString();
     }
 
+    /**
+     * Method getProfessor is prints a professor by given color ID and presence on the professor's table.
+     *
+     * @param colorID of type int.
+     * @param isOwned of type boolean - a check if professor is actually owned by specific player
+     * @return of type String - the string of given professor if owned, else empty cell.
+     */
     private String getProfessor(int colorID, boolean isOwned) {
         if(isOwned)
             switch (colorID){
@@ -439,14 +507,23 @@ public class Blueprint {
         return EMPTY_PROFESSOR;
     }
 
+    /**
+     * Method getUsedTowers used to get the remaining towers on given schoolBoard.
+     *
+     * @param row of type int - the row of tower cells.
+     * @param remaining of type int - the remaining amount of towers on the school.
+     * @param towerID of type int - tower color ID.
+     * @param numberOfPlayers of type int - the number of players.
+     * @return of type String - the printed part of a single row of specific towers.
+     */
     private String getUsedTowers(int row, int remaining, int towerID, int numberOfPlayers){
         String printable = "";
         switch (row) {
             case 0: {
                 if(remaining==1) {
-                    printable += TOWERS[towerID]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[towerID]+"  "+TOWERS[4]+"  ";
                 } else if (remaining==0) {
-                    printable += TOWERS[3]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[4]+"  "+TOWERS[4]+"  ";
                 } else {
                     printable += TOWERS[towerID]+"  "+TOWERS[towerID]+"  ";
                 }
@@ -454,9 +531,9 @@ public class Blueprint {
             }
             case 1: {
                 if(remaining==3) {
-                    printable += TOWERS[towerID]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[towerID]+"  "+TOWERS[4]+"  ";
                 } else if (remaining==2) {
-                    printable += TOWERS[3]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[4]+"  "+TOWERS[4]+"  ";
                 } else {
                     printable += TOWERS[towerID]+"  "+TOWERS[towerID]+"  ";
                 }
@@ -464,9 +541,9 @@ public class Blueprint {
             }
             case 2: {
                 if(remaining==5) {
-                    printable += TOWERS[towerID]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[towerID]+"  "+TOWERS[4]+"  ";
                 } else if (remaining==4) {
-                    printable += TOWERS[3]+"  "+TOWERS[3]+"  ";
+                    printable += TOWERS[4]+"  "+TOWERS[4]+"  ";
                 } else {
                     printable += TOWERS[towerID]+"  "+TOWERS[towerID]+"  ";
                 }
@@ -475,73 +552,88 @@ public class Blueprint {
             case 3: {
                 if (numberOfPlayers==2) {
                     if (remaining == 7) {
-                        printable += TOWERS[towerID] + "  " + TOWERS[3] + "  ";
+                        printable += TOWERS[towerID] + "  " + TOWERS[4] + "  ";
                     } else if (remaining == 6) {
-                        printable += TOWERS[3] + "  " + TOWERS[3] + "  ";
+                        printable += TOWERS[4] + "  " + TOWERS[4] + "  ";
                     } else {
                         printable += TOWERS[towerID] + "  " + TOWERS[towerID] + "  ";
                     }
                     break;
                 }
             }
-            default: printable += TOWERS[3]+"  "+TOWERS[3]+"  ";
+            default: printable += TOWERS[4]+"  "+TOWERS[4]+"  ";
         }
 
         return printable;
     }
+
+    /**
+     * Method getSchoolBoardMinPlayers prints all the school boards for 2 player game every time a player moves a
+     * student.
+     *
+     * @param schools of type HashMap<> - the schools given a nickname key.
+     * @return of type String - the CLI view of the school boards.
+     */
     public String getSchoolBoardMinPlayers(HashMap<String, SchoolGrid> schools) {
         List<String> nicknames = schools.keySet().stream().toList();
-        return " ──────────────────────────────────────────────────────────"+"        "+
-                " ──────────────────────────────────────────────────────────"+"\n"+
+        return " ───────────────────────────────────────────────────────────"+"        "+
+                " ───────────────────────────────────────────────────────────"+"\n"+
                 ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+Constants.ANSI_RESET+
                 " "+ getStudentHall(0,schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_GREEN+
-                "  (G)"+Constants.ANSI_RESET+" "+getStudentDining(0,schools.get(nicknames.get(0)).getDiningRoom()[0])+ASCII_179+" "+
+                " (G)"+Constants.ANSI_RESET+" "+getStudentDining(0,schools.get(nicknames.get(0)).getDiningRoom()[0])+ASCII_179+" "+
                 getProfessor(0, schools.get(nicknames.get(0)).checkProfessor(Color.GREEN_FROGS))+" "+ASCII_179+"  "+
-                getUsedTowers(0, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 2)+
-                ASCII_179+"          "+ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+
+                getUsedTowers(0, schools.get(nicknames.get(0)).getTowers(), 0, 2)+
+                ASCII_179+"       "+ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+
                 Constants.ANSI_RESET+" "+ getStudentHall(0, schools.get(nicknames.get(1)).getEntrance(),2)+" "+ASCII_179+
-                Constants.ANSI_GREEN+ "  (G)"+Constants.ANSI_RESET+" "+
+                Constants.ANSI_GREEN+ " (G)"+Constants.ANSI_RESET+" "+
                 getStudentDining(0, schools.get(nicknames.get(1)).getDiningRoom()[0])+ASCII_179+" "+
                 getProfessor(0, schools.get(nicknames.get(1)).checkProfessor(Color.GREEN_FROGS))+" "+ASCII_179+"  "+
-                getUsedTowers(0, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 2)+ASCII_179+"\n"+
-                ASCII_179+" "+ getStudentHall(1, schools.get(nicknames.get(1)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_RED+
-                "  (R)"+Constants.ANSI_RESET+" "+getStudentDining(1, schools.get(nicknames.get(1)).getDiningRoom()[1])+ASCII_179+" "+
+                getUsedTowers(0, schools.get(nicknames.get(1)).getTowers(), 1, 2)+ASCII_179+"\n"+
+                ASCII_179+" "+ getStudentHall(1, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_RED+
+                " (R)"+Constants.ANSI_RESET+" "+getStudentDining(1, schools.get(nicknames.get(1)).getDiningRoom()[1])+ASCII_179+" "+
                 getProfessor(1, schools.get(nicknames.get(0)).checkProfessor(Color.RED_DRAGONS))+" "+ASCII_179+"  "+
-                getUsedTowers(1, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(),2)+ASCII_179+"          "+ASCII_179+
+                getUsedTowers(1, schools.get(nicknames.get(0)).getTowers(), 0,2)+ASCII_179+"       "+ASCII_179+
                 " "+ getStudentHall(1, schools.get(nicknames.get(1)).getEntrance(),2)+" "+ASCII_179+
-                Constants.ANSI_RED+"  (R)"+Constants.ANSI_RESET+" "+getStudentDining(1,schools.get(nicknames.get(1)).getDiningRoom()[1])+ASCII_179+
+                Constants.ANSI_RED+" (R)"+Constants.ANSI_RESET+" "+getStudentDining(1,schools.get(nicknames.get(1)).getDiningRoom()[1])+ASCII_179+
                 " "+ getProfessor(1, schools.get(nicknames.get(1)).checkProfessor(Color.RED_DRAGONS))+" "+ASCII_179+"  "+
-                getUsedTowers(1, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 2)+ASCII_179+"\n"+
-                ASCII_179+" "+ getStudentHall(2, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_YELLOW+"  (Y)"+
+                getUsedTowers(1, schools.get(nicknames.get(1)).getTowers(), 1, 2)+ASCII_179+"\n"+
+                ASCII_179+" "+ getStudentHall(2, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_YELLOW+" (Y)"+
                 Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(0)).getDiningRoom()[2])+ASCII_179+" "+
                 getProfessor(2, schools.get(nicknames.get(0)).checkProfessor(Color.YELLOW_GNOMES))+" "+ASCII_179+"  "+
-                getUsedTowers(2, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 2)+ASCII_179+"          "+ASCII_179+
+                getUsedTowers(2, schools.get(nicknames.get(0)).getTowers(), 0, 2)+ASCII_179+"       "+ASCII_179+
                 " "+ getStudentHall(2, schools.get(nicknames.get(1)).getEntrance(), 2)+" "+ASCII_179+
-                Constants.ANSI_YELLOW+"  (Y)"+Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(1)).getDiningRoom()[2])+ASCII_179+" "+
+                Constants.ANSI_YELLOW+" (Y)"+Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(1)).getDiningRoom()[2])+ASCII_179+" "+
                 getProfessor(2, schools.get(nicknames.get(1)).checkProfessor(Color.YELLOW_GNOMES))+" "+ASCII_179+"  "+
-                getUsedTowers(2, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 2)+ASCII_179+"\n"+
-                ASCII_179+" "+ getStudentHall(3, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_PINK+"  (P)"+
+                getUsedTowers(2, schools.get(nicknames.get(1)).getTowers(), 1, 2)+ASCII_179+"\n"+
+                ASCII_179+" "+ getStudentHall(3, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_PINK+" (P)"+
                 Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(0)).getDiningRoom()[3])+ASCII_179+" "+
                 getProfessor(3, schools.get(nicknames.get(0)).checkProfessor(Color.PINK_FAIRIES))+" "+ASCII_179+"  "+
-                getUsedTowers(3, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 2)+ASCII_179+"          "+ ASCII_179+
+                getUsedTowers(3, schools.get(nicknames.get(0)).getTowers(), 0, 2)+ASCII_179+"       "+ ASCII_179+
                 " "+ getStudentHall(3, schools.get(nicknames.get(1)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_PINK+
-                "  (P)"+Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(1)).getDiningRoom()[3])+ASCII_179+" "+
+                " (P)"+Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(1)).getDiningRoom()[3])+ASCII_179+" "+
                 getProfessor(3, schools.get(nicknames.get(1)).checkProfessor(Color.PINK_FAIRIES))+" "+ASCII_179+"  "+
-                getUsedTowers(3, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 2)+ASCII_179+"\n"+
-                ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_BLUE+"  (B)"+
+                getUsedTowers(3, schools.get(nicknames.get(1)).getTowers(), 1, 2)+ASCII_179+"\n"+
+                ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(0)).getEntrance(), 2)+" "+ASCII_179+Constants.ANSI_BLUE+" (B)"+
                 Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(0)).getDiningRoom()[4])+ASCII_179+" "+
                 getProfessor(4, schools.get(nicknames.get(0)).checkProfessor(Color.BLUE_UNICORNS))+" "+ASCII_179+"  "+
-                getUsedTowers(4, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 2)+ASCII_179+"          "+ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(1)).getEntrance(),2)+" "+ASCII_179+Constants.ANSI_BLUE+
-                "  (B)"+Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(1)).getDiningRoom()[4])+ASCII_179+" "+
+                getUsedTowers(4, schools.get(nicknames.get(0)).getTowers(), 0, 2)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(1)).getEntrance(),2)+" "+ASCII_179+Constants.ANSI_BLUE+
+                " (B)"+Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(1)).getDiningRoom()[4])+ASCII_179+" "+
                 getProfessor(4, schools.get(nicknames.get(1)).checkProfessor(Color.BLUE_UNICORNS))+" "+ASCII_179+"  "+
                 getUsedTowers(4, schools.get(nicknames.get(1)).getTowers(), 1, 2)+ASCII_179+"\n"+
-                " ──────────────────────────────────────────────────────────"+"        "+
-                " ──────────────────────────────────────────────────────────"+"\n"+
+                " ───────────────────────────────────────────────────────────"+"        "+
+                " ───────────────────────────────────────────────────────────"+"\n"+
                 "                   "+Constants.RECTANGLE+" "+nicknames.get(0)+"'s SCHOOL "+Constants.ANSI_RESET+
                 "                                                      "+
                 Constants.RECTANGLE+" "+nicknames.get(1)+"'s SCHOOL "+Constants.ANSI_RESET+"\n\n";
     }
 
+    /**
+     * Method getSchoolBoardMaxPlayers prints all the school boards for 3 player game every time a player moves a
+     * student.
+     *
+     * @param schools of type HashMap<> - the schools given a nickname key.
+     * @return of type String - the CLI view of the school boards.
+     */
     public String getSchoolBoardMaxPlayers(HashMap<String, SchoolGrid> schools) {
         List<String> nicknames = schools.keySet().stream().toList();
 
@@ -551,39 +643,39 @@ public class Blueprint {
                 " "+ getStudentHall(0,schools.get(nicknames.get(0)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_GREEN+
                 " (G)"+Constants.ANSI_RESET+" "+getStudentDining(0,schools.get(nicknames.get(0)).getDiningRoom()[0])+ASCII_179+" "+
                 getProfessor(0, schools.get(nicknames.get(0)).checkProfessor(Color.GREEN_FROGS))+" "+ASCII_179+"  "+
-                getUsedTowers(0, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 3)+ASCII_179+"       "+ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+
+                getUsedTowers(0, schools.get(nicknames.get(0)).getTowers(), 0, 3)+ASCII_179+"       "+ASCII_179+" "+Constants.ANSI_BACKGROUND_GREY+Constants.ANSI_WHITE+EMPTY_STUDENT_SLOT+
                 Constants.ANSI_RESET+" "+ getStudentHall(0, schools.get(nicknames.get(1)).getEntrance(),2)+" "+ASCII_179+
                 Constants.ANSI_GREEN+" (G)"+Constants.ANSI_RESET+" "+ getStudentDining(0,schools.get(nicknames.get(1)).getDiningRoom()[0])+ASCII_179+" "+
                 getProfessor(0, schools.get(nicknames.get(1)).checkProfessor(Color.GREEN_FROGS))+" "+ASCII_179+"  "+
-                getUsedTowers(0, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(0, schools.get(nicknames.get(1)).getTowers(), 1, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+ getStudentHall(1, schools.get(nicknames.get(0)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_RED+
                 " (R)"+Constants.ANSI_RESET+" "+getStudentDining(1, schools.get(nicknames.get(0)).getDiningRoom()[1])+ASCII_179+" "+
                 getProfessor(1, schools.get(nicknames.get(0)).checkProfessor(Color.RED_DRAGONS))+" "+ASCII_179+"  "+
-                getUsedTowers(1, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(),3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(1, schools.get(nicknames.get(1)).getEntrance(),3)+" "+ASCII_179+
+                getUsedTowers(1, schools.get(nicknames.get(0)).getTowers(), 0,3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(1, schools.get(nicknames.get(1)).getEntrance(),3)+" "+ASCII_179+
                 Constants.ANSI_RED+" (R)"+Constants.ANSI_RESET+" "+getStudentDining(1,schools.get(nicknames.get(1)).getDiningRoom()[1])+ASCII_179+
                 " "+ getProfessor(1, schools.get(nicknames.get(1)).checkProfessor(Color.RED_DRAGONS))+" "+ASCII_179+"  "+
-                getUsedTowers(1, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(1, schools.get(nicknames.get(1)).getTowers(), 1, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+ getStudentHall(2, schools.get(nicknames.get(0)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_YELLOW+" (Y)"+
                 Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(0)).getDiningRoom()[2])+ASCII_179+" "+
                 getProfessor(2, schools.get(nicknames.get(0)).checkProfessor(Color.YELLOW_GNOMES))+" "+ASCII_179+"  "+
-                getUsedTowers(2, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(2, schools.get(nicknames.get(1)).getEntrance(), 3)+" "+ASCII_179+
+                getUsedTowers(2, schools.get(nicknames.get(0)).getTowers(), 0, 3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(2, schools.get(nicknames.get(1)).getEntrance(), 3)+" "+ASCII_179+
                 Constants.ANSI_YELLOW+" (Y)"+Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(1)).getDiningRoom()[2])+ASCII_179+" "+
                 getProfessor(2, schools.get(nicknames.get(1)).checkProfessor(Color.YELLOW_GNOMES))+" "+ASCII_179+"  "+
-                getUsedTowers(2, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(2, schools.get(nicknames.get(1)).getTowers(), 1, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+ getStudentHall(3, schools.get(nicknames.get(0)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_PINK+" (P)"+
                 Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(0)).getDiningRoom()[3])+ASCII_179+" "+
                 getProfessor(3, schools.get(nicknames.get(0)).checkProfessor(Color.PINK_FAIRIES))+" "+ASCII_179+"  "+
-                getUsedTowers(3, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 3)+ASCII_179+"       "+ ASCII_179+" "+ getStudentHall(3, schools.get(nicknames.get(1)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_PINK+
+                getUsedTowers(3, schools.get(nicknames.get(0)).getTowers(), 0, 3)+ASCII_179+"       "+ ASCII_179+" "+ getStudentHall(3, schools.get(nicknames.get(1)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_PINK+
                 " (P)"+Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(1)).getDiningRoom()[3])+ASCII_179+" "+
                 getProfessor(3, schools.get(nicknames.get(1)).checkProfessor(Color.PINK_FAIRIES))+" "+ASCII_179+"  "+
-                getUsedTowers(3, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(3, schools.get(nicknames.get(1)).getTowers(), 1, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(0)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_BLUE+" (B)"+
                 Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(0)).getDiningRoom()[4])+ASCII_179+" "+
                 getProfessor(4, schools.get(nicknames.get(0)).checkProfessor(Color.BLUE_UNICORNS))+" "+ASCII_179+"  "+
-                getUsedTowers(4, schools.get(nicknames.get(0)).getTowers(), schools.get(nicknames.get(0)).getTowerColor(), 3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(1)).getEntrance(),3)+" "+ASCII_179+Constants.ANSI_BLUE+
+                getUsedTowers(4, schools.get(nicknames.get(0)).getTowers(), 0, 3)+ASCII_179+"       "+ASCII_179+" "+ getStudentHall(4, schools.get(nicknames.get(1)).getEntrance(),3)+" "+ASCII_179+Constants.ANSI_BLUE+
                 " (B)"+Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(1)).getDiningRoom()[4])+ASCII_179+" "+
                 getProfessor(4, schools.get(nicknames.get(1)).checkProfessor(Color.BLUE_UNICORNS))+" "+ASCII_179+"  "+
-                getUsedTowers(4, schools.get(nicknames.get(1)).getTowers(), schools.get(nicknames.get(1)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(4, schools.get(nicknames.get(1)).getTowers(), 1, 3)+ASCII_179+"\n"+
                 " ───────────────────────────────────────────────────────────"+"        "+
                 " ───────────────────────────────────────────────────────────"+"\n"+
                 "                  "+Constants.RECTANGLE+" "+nicknames.get(0)+"'s SCHOOL "+Constants.ANSI_RESET+
@@ -594,23 +686,23 @@ public class Blueprint {
                 getStudentHall(0, schools.get(nicknames.get(2)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_GREEN+" (G)"+
                 Constants.ANSI_RESET+" "+getStudentDining(0, schools.get(nicknames.get(2)).getDiningRoom()[0])+ASCII_179+" "+
                 getProfessor(0, schools.get(nicknames.get(2)).checkProfessor(Color.GREEN_FROGS))+" "+ASCII_179+"  "+
-                getUsedTowers(0, schools.get(nicknames.get(2)).getTowers(), schools.get(nicknames.get(2)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(0, schools.get(nicknames.get(2)).getTowers(), 2, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+getStudentHall(1, schools.get(nicknames.get(2)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_RED+
                 " (R)"+Constants.ANSI_RESET+" "+getStudentDining(1, schools.get(nicknames.get(2)).getDiningRoom()[1])+ASCII_179+" "+
                 getProfessor(1, schools.get(nicknames.get(2)).checkProfessor(Color.RED_DRAGONS))+" "+ASCII_179+"  "+
-                getUsedTowers(1, schools.get(nicknames.get(2)).getTowers(), schools.get(nicknames.get(2)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(1, schools.get(nicknames.get(2)).getTowers(), 2, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+getStudentHall(2, schools.get(nicknames.get(2)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_YELLOW+
                 " (Y)"+Constants.ANSI_RESET+" "+getStudentDining(2, schools.get(nicknames.get(2)).getDiningRoom()[2])+ASCII_179+" "+
                 getProfessor(2, schools.get(nicknames.get(2)).checkProfessor(Color.YELLOW_GNOMES))+" "+ASCII_179+"  "+
-                getUsedTowers(2, schools.get(nicknames.get(2)).getTowers(), schools.get(nicknames.get(2)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(2, schools.get(nicknames.get(2)).getTowers(), 2, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+getStudentHall(3, schools.get(nicknames.get(2)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_PINK+
                 " (P)"+Constants.ANSI_RESET+" "+getStudentDining(3, schools.get(nicknames.get(2)).getDiningRoom()[3])+ASCII_179+" "+
                 getProfessor(3, schools.get(nicknames.get(2)).checkProfessor(Color.PINK_FAIRIES))+" "+ASCII_179+"  "+
-                getUsedTowers(3, schools.get(nicknames.get(2)).getTowers(), schools.get(nicknames.get(2)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(3, schools.get(nicknames.get(2)).getTowers(), 2, 3)+ASCII_179+"\n"+
                 ASCII_179+" "+getStudentHall(4, schools.get(nicknames.get(2)).getEntrance(), 3)+" "+ASCII_179+Constants.ANSI_BLUE+
                 " (B)"+Constants.ANSI_RESET+" "+getStudentDining(4, schools.get(nicknames.get(2)).getDiningRoom()[4])+ASCII_179+" "+
                 getProfessor(4, schools.get(nicknames.get(2)).checkProfessor(Color.BLUE_UNICORNS))+" "+ASCII_179+"  "+
-                getUsedTowers(4, schools.get(nicknames.get(2)).getTowers(), schools.get(nicknames.get(2)).getTowerColor(), 3)+ASCII_179+"\n"+
+                getUsedTowers(4, schools.get(nicknames.get(2)).getTowers(), 2, 3)+ASCII_179+"\n"+
                 " ──────────────────────────────────────────────────────────"+"\n"+
                 "                  "+Constants.RECTANGLE+" "+nicknames.get(2)+"'s SCHOOL "+Constants.ANSI_RESET+"\n\n";
     }
@@ -618,7 +710,16 @@ public class Blueprint {
     private final String[] CHARACTERS = new String[] { "MONK CARD", "INNKEEPER CARD", "PRINCE CARD", "HERALD CARD", "GROCER CARD",
             "CENTAUR CARD", "JESTER CARD", "KNIGHT CARD", "MERCHANT CARD", "MINSTREL CARD", "W_PRINCESS CARD", "THIEF CARD"};
 
-    private String getCharacterCards(int[] costEffect, int[] characterId) {
+    /**
+     * Method getCharacterCards is used to print the character cards as CLI view with name and cost of the effect
+     * activation.
+     *
+     * @param costEffect of type int[] - the array of 3 different cost effects.
+     * @param characterId of type int[] - the array of  3 different
+     * @return of type String  - the CLI view of character cards.
+     */
+    private String getCharacterCards(int[] costEffect, int[] characterId) throws ArrayIndexOutOfBoundsException {
+        if(costEffect.length!=3 && characterId.length!=3) throw new ArrayIndexOutOfBoundsException();
         return ASCII_218+"────────────────────"+ASCII_191+"          "+ASCII_218+"────────────────────"+ASCII_191+
                 "          "+ASCII_218+"────────────────────"+ASCII_191+"\n"+
                 ASCII_179+" "+Constants.RECTANGLE+" COST──>"+costEffect[0]+" "+Constants.ANSI_RESET+"         "+ASCII_179+
@@ -642,6 +743,14 @@ public class Blueprint {
                 "  "+CHARACTERS[characterId[0]]+"\t\t\t\t\t "+CHARACTERS[characterId[1]]+"\t\t\t\t\t\t "+CHARACTERS[characterId[2]];
     }
 
+    /**
+     * Method printBoard is used by GameBoard class in order to print the entire game board every time the game sees a
+     * change of the state of the board which means moving a piece from one position to another.
+     *
+     * @param numberOfPlayers of type int - the number of players.
+     * @param gameBoard of type GameBoard - reference to class GameBoard.
+     * @return of type String - all the printable game board.
+     */
     public String printBoard(int numberOfPlayers, GameBoard gameBoard/*, boolean isExpert*/){
         String printable = "";
 
@@ -658,57 +767,4 @@ public class Blueprint {
         return printable;
     }
 
-    /*
-    public static void main(String[] args) {
-        /*List<IslandTile> islands = new ArrayList<>();
-        islands.add(new IslandTile(-1));
-        islands.add(new IslandTile(2));
-        islands.add(new IslandTile(0));
-        islands.add(new IslandTile(1));
-        islands.add(new IslandTile(4));
-        islands.add(new IslandTile(3));
-        islands.add(new IslandTile(1));
-        islands.add(new IslandTile(4));
-        islands.add(new IslandTile(0));
-        islands.add(new IslandTile(3));
-        islands.add(new IslandTile(2));
-        islands.add(new IslandTile(-1));
-
-        Blueprint test = new Blueprint();
-        HashMap<Integer, SchoolBoard> schools = new LinkedHashMap<>();
-        SchoolBoard school_1 = new SchoolBoard("lory", 3, false);
-        SchoolBoard school_2 = new SchoolBoard("andre", 3, false);
-        SchoolBoard school_3 = new SchoolBoard("ANNE", 3, false);
-
-
-        school_2.addStudentToEntrance(0);
-        school_2.addStudentToEntrance(1);
-        school_2.addStudentToEntrance(2);
-        school_2.addStudentToEntrance(3);
-        school_2.addStudentToEntrance(4);
-        school_2.addStudentToEntrance(1);
-        school_2.addStudentToEntrance(1);
-        school_2.addStudentToEntrance(1);
-        school_2.addStudentToEntrance(1);
-
-        school_3.addStudentToEntrance(0);
-        school_3.addStudentToEntrance(1);
-        school_3.addStudentToEntrance(2);
-        school_3.addStudentToEntrance(3);
-        school_3.addStudentToEntrance(4);
-        school_3.addStudentToEntrance(1);
-        school_3.addStudentToEntrance(4);
-        school_3.addStudentToEntrance(0);
-        school_3.addStudentToEntrance(2);
-
-        schools.put(0, school_1);
-        schools.put(1, school_2);
-        schools.put(2, school_3);
-        //System.out.println(test.getCloudsMaxPlayers(new int[] {0,0,0,0,0,0,0,0,0,0,0,0}));
-
-        System.out.println(test.getArchipelago());
-
-    }
-
-     */
 }

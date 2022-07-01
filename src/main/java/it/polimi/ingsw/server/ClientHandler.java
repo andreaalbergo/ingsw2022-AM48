@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.actions.ChoiceAssistantCard;
+import it.polimi.ingsw.client.actions.choiceAssistantCard;
 import it.polimi.ingsw.client.messages.SerializedMessage;
 import it.polimi.ingsw.client.actions.UserCommand;
 import it.polimi.ingsw.client.messages.*;
@@ -88,8 +88,8 @@ public class ClientHandler implements Runnable {
             server.getBoard().sendtoPlayer(message, idClient);
             return;
         }
-        if(command instanceof ChoiceAssistantCard) {
-            logger.log(Level.INFO, "Ho ricevuto la scelta da " + server.getIdNameMap().get(idClient) + ": " + ((ChoiceAssistantCard) command).card + ", La board è in fase " + server.getBoard().getPhase() );
+        if(command instanceof choiceAssistantCard) {
+            logger.log(Level.INFO, "Ho ricevuto la scelta da " + server.getIdNameMap().get(idClient) + ": " + ((choiceAssistantCard) command).card + ", La board è in fase " + server.getBoard().getPhase() );
             if (server.getBoard().getPhase() > 2 && game.isStartedRound()) {
                 server.getBoard().sendtoPlayer(new GameError(
                                 Errors.INVALIDINPUT,

@@ -40,8 +40,6 @@ class CloudTest {
 
         entrance = schoolBoard.getEntrance();
         System.out.println(entrance);
-
-        testBoard.getBoardManager().getClouds().get(0).fillStudents();
         testBoard.getBoardManager().getClouds().get(0).emptyCloud(schoolBoard);
 
         entrance = schoolBoard.getEntrance();

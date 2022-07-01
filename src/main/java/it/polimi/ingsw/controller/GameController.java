@@ -67,7 +67,7 @@ public class GameController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
-            case "ChoiceAssistantCard" -> chooseAssistantCard((AssistantCard) evt.getNewValue());
+            case "choiceAssistantCard" -> chooseAssistantCard((AssistantCard) evt.getNewValue());
             case "MoveMotherNature" -> moveMotherNature((MoveMotherNature) evt.getNewValue());
             case "MoveStudentToIsland" -> moveStudentToIsland((MoveStudentToIsland) evt.getNewValue());
             case "EndTurn" -> endPlayerTurn((EndTurn) evt.getNewValue());
@@ -307,7 +307,7 @@ public class GameController implements PropertyChangeListener {
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The Cloud is not available...pick another one"), getBoard().getCurrentPlayerIndex());
             return;
         }
-        if(message.isLastplayer()){
+        if(message.isLastPlayer()){
             message.getCloud().emptyCloud(model.getCurrentPlayer().getSchoolBoard());
             updateAfterCloudPick();
             changeRound();
