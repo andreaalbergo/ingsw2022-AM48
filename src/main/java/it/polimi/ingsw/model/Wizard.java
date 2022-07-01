@@ -39,6 +39,11 @@ public enum Wizard {
         return !(available.contains(wizard));
     }
 
+    /**
+     * Method getAvailable is a getter.
+     *
+     * @return of type Wizard.
+     */
     public static ArrayList<Wizard> getAvailable() {
         return available;
     }

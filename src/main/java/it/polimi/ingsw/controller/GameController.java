@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * GameController class is the main controller class, it calls and manages some handlers, like roundHandler, in order to
  * manage various states of the game itself.
  *
- * @author David Barb
+ * @author David Barb, Andrea Albergo
  * @see PropertyChangeListener
  */
 public class GameController implements PropertyChangeListener {
@@ -40,23 +40,44 @@ public class GameController implements PropertyChangeListener {
 
     private final Logger logger = Logger.getLogger(getClass().getName());
 
+    /**
+     * Method GameController to create its own instances.
+     *
+     * @param model of type Board.
+     * @param boardHandler of type BoardHandler.
+     */
     public GameController(Board model, BoardHandler boardHandler) {
         this.model = model;
         this.boardHandler = boardHandler;
-        roundHandler = new RoundHandler(this, new TurnHandler(boardHandler.isExpertMode(), model));
+        roundHandler = new RoundHandler(this);
         listeners.addPropertyChangeListener("RoundHandler",roundHandler);
 
     }
 
+    /**
+     * Method isExpert is a getter.
+     *
+     * @return of type boolean
+     */
     public boolean isExpert() {
         return isExpert;
     }
 
+    /**
+     * Method setMode is a setter.
+     *
+     * @param mode of type boolean.
+     */
     public void setMode(boolean mode) {
         this.isExpert = mode;
     }
 
 
+    /**
+     * Method getBoard is a getter.
+     *
+     * @return of type Board.
+     */
     public Board getBoard(){
         return model;
     }
@@ -77,6 +98,12 @@ public class GameController implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Method checkIsland checks all the possible evolutions in terms conquering the island, merging it with one or more
+     * other islands or to check a possible game over state if there are three main groups of islands.
+     *
+     * @throws GameOverException to call game over.
+     */
     private void checkIsland() throws GameOverException {
         if(boardHandler.getPhase()==3){
             return;
@@ -92,7 +119,6 @@ public class GameController implements PropertyChangeListener {
             int count = 0;
             for(int i = 0; i < 5 ; i++){
                 if (player.getSchoolBoard().checkProfessor(Color.colorFromIndex(i))){
-                    System.out.println("Ho il professore del color " + Color.colorFromIndex(i));
                     count = count + island.getStudents()[i];
                 }
             }
@@ -139,6 +165,11 @@ public class GameController implements PropertyChangeListener {
         checkMerge(island,position);
     }
 
+    /**
+     * Method checkThreeIslands controls if there are three remained archipelagos to call a game over.
+     *
+     * @throws GameOverException to go game over state.
+     */
     private void checkThreeIslands() throws GameOverException {
         int count = 0;
         int id = 0;
@@ -148,6 +179,13 @@ public class GameController implements PropertyChangeListener {
         if(count == 3) throw new GameOverException();
     }
 
+    /**
+     * Method checkMerge is needed to check if current island with mother nature can be conquered.
+     *
+     * @param island of type IslandTile.
+     * @param position of type int - the iterator to check if the island before or after the current one can be merged.
+     * @throws GameOverException to call game over.
+     */
     private void checkMerge(IslandTile island, int position) throws GameOverException {
         System.out.println("CheckMerge...");
         int positionBefore = position;
@@ -159,10 +197,7 @@ public class GameController implements PropertyChangeListener {
         }
 
         IslandTile islandbefore = boardHandler.game().getBoardManager().getIslands().get(positionBefore - 1);
-        //System.out.println("L'owner dell'isola before è " + islandbefore.getIslandOwner().getNickname());
         IslandTile islandafter = boardHandler.game().getBoardManager().getIslands().get(position_after + 1);
-        //System.out.println("L'owner dell'isola after è " + islandafter.getIslandOwner().getNickname());
-        //System.out.println("Io sto controllando rispetto all'isola "+island.getIslandOwner().getNickname());
         if(islandbefore.getIslandOwner() != null && islandafter.getIslandOwner()!= null && island.getIslandOwner()!=null &&
                 Objects.equals(islandbefore.getIslandOwner().getNickname(), island.getIslandOwner().getNickname()) && Objects.equals(islandafter.getIslandOwner().getNickname(), island.getIslandOwner().getNickname())){
             if(boardHandler.game().getBoardManager().getIslands().size() == 5){
@@ -173,7 +208,6 @@ public class GameController implements PropertyChangeListener {
             islandbefore.mergeIslands(islandafter);
             model.getBoardManager().getMotherNature().setNewID(islandbefore.getIslandID(),islandafter.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(islandbefore));
-            System.out.println("Nel check merge ho unito quella dopo a madrenatura e quella prima");
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),false),model.getCurrentPlayerIndex());
             return;
@@ -184,7 +218,6 @@ public class GameController implements PropertyChangeListener {
             model.getBoardManager().getMotherNature().setNewID(islandbefore.getIslandID(),island.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(islandbefore));
             //model.getBoardManager().getIslands().remove(island);
-            System.out.println("Nel check merge ho unito quella prima a madrenatura e quella prima");
             checkThreeIslands();
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),false),model.getCurrentPlayerIndex());
@@ -196,15 +229,20 @@ public class GameController implements PropertyChangeListener {
             model.getBoardManager().getMotherNature().setNewID(island.getIslandID(),islandafter.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(island));
             //model.getBoardManager().getIslands().remove(islandafter);
-            System.out.println("Nel check merge ho unito quella dopo a madrenatura");
             checkThreeIslands();
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(island),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(island),false),model.getCurrentPlayerIndex());
             return;
         }
-        System.out.println("Nel check merge non ho unito nulla");
     }
 
+    /**
+     * Method checkProfessor to check if island can be conquered by the active player, only if it has more influence
+     * its owned professors.
+     *
+     * @param color of type Color.
+     * @return of type boolean
+     */
     private boolean checkProfessor(Color color){
         Player currentPlayer = model.getCurrentPlayer();
         Player playerWithProfessor = currentPlayer;
@@ -232,15 +270,20 @@ public class GameController implements PropertyChangeListener {
 
     }
 
+    /**
+     * Method moveStudentToDiningRoom is self explanatory.
+     *
+     * @param moveStudentToDiningRoom of type MoveStudentToDiningRoom.
+     */
     private void moveStudentToDiningRoom(MoveStudentToDiningRoom moveStudentToDiningRoom) {
         Player player = model.getCurrentPlayer();
         Color color = moveStudentToDiningRoom.getColor();
         try{
             player.getSchoolBoard().addStudentToDiningRoom(color);
-            if(player.getSchoolBoard().getMovedstudents() == 4 && model.getActivePlayers().size() == 3){
+            if(player.getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() == 3){
                 boardHandler.setPhase(5);
             }
-            if(player.getSchoolBoard().getMovedstudents() == 3 && model.getActivePlayers().size() == 2){
+            if(player.getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size() == 2){
                 boardHandler.setPhase(5);
             }
             updateAfterMovedStudentToDiningRoom();
@@ -263,15 +306,25 @@ public class GameController implements PropertyChangeListener {
         updateAfterMovedStudentToDiningRoom();
     }
 
+    /**
+     * Method maxStudents checks if the active player has already moved max number of students during its own turn.
+     *
+     * @return of type boolean
+     */
     private boolean maxStudents(){
-        if ((model.getCurrentPlayer().getSchoolBoard().getMovedstudents() == 4 && model.getActivePlayers().size() ==3) ||
-                (model.getCurrentPlayer().getSchoolBoard().getMovedstudents() == 3 && model.getActivePlayers().size()==2)) {
+        if ((model.getCurrentPlayer().getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() ==3) ||
+                (model.getCurrentPlayer().getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size()==2)) {
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT, "You already moved the maximum amount of students"), getBoard().getCurrentPlayerIndex());
             return true;
         }
         return false;
     }
 
+    /**
+     * Method moveStudentToIsland is to check if moved student can make the active player conquer the island.
+     *
+     * @param moveStudentToIsland of type MoveStudentToIsland.
+     */
     private void moveStudentToIsland(MoveStudentToIsland moveStudentToIsland) {
         System.out.println("SEI NEL MOVESTUDENTTOISLAND DEL CONTROLLER");
         Player player = model.getCurrentPlayer();
@@ -279,16 +332,16 @@ public class GameController implements PropertyChangeListener {
         Color color = moveStudentToIsland.getColor();
         try {
             player.getSchoolBoard().addStudentToIsland(color,islandTile);
-            if(player.getSchoolBoard().getMovedstudents() == 4 && model.getActivePlayers().size() == 3){
+            if(player.getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() == 3){
                 boardHandler.setPhase(5);
             }
-            if(player.getSchoolBoard().getMovedstudents() == 3 && model.getActivePlayers().size() == 2){
+            if(player.getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size() == 2){
                 boardHandler.setPhase(5);
             }
 
         } catch (InvalidSelection e) {
             if (maxStudents()){
-                return; //TODO
+                return;
             }
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The parameters of your action are incorrect, check again"), getBoard().getCurrentPlayerIndex());
         }
@@ -302,6 +355,11 @@ public class GameController implements PropertyChangeListener {
         updateAfterMovedStudentToIsland();
     }
 
+    /**
+     * Method endPlayerTurn ends active players moves and checks for new game turn or sets for next active player.
+     *
+     * @param message of type EndTurn.
+     */
     private void endPlayerTurn(EndTurn message) {
         if(!model.getBoardManager().getClouds().contains(message.getCloud())){
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The Cloud is not available...pick another one"), getBoard().getCurrentPlayerIndex());
@@ -323,6 +381,11 @@ public class GameController implements PropertyChangeListener {
 
     }
 
+    /**
+     * Method moveMotherNature is used to move mother nature.
+     *
+     * @param motherNature of type MoveMotherNature.
+     */
     private void moveMotherNature(MoveMotherNature motherNature) {
         if(boardHandler.getPhase() != 3){
             boardHandler.sendtoPlayer(new GameError(
@@ -356,15 +419,18 @@ public class GameController implements PropertyChangeListener {
 
     }
 
+    /**
+     * Method chooseAssistantCard is synchronized and checks all the players chose the assistant card.
+     *
+     * @param assistantCard of type AssistantCard.
+     */
     private synchronized void chooseAssistantCard(AssistantCard assistantCard) {
-        System.out.println("Sei nel chooseAssistantCard del Controller");
         Player player = model.getCurrentPlayer();
         if(!player.getAssistantCards().contains(assistantCard)){
             boardHandler.sendtoPlayer(new GameError(Errors.ALREADYCHOSEN,"Your selection is invalid, try with a different pick"), player.getPlayerID());
             return;
         }
         model.setPlayerAssistantCardHashMap(assistantCard);
-        System.out.println("La Map ora è di " + model.getPlayerAssistantCardHashMap().size() + ", e la fase è " + boardHandler.getPhase());
         boardHandler.sendAllExcept(new CustomMessage( player.getNickname() + " has chosen the assistant card <" +
                         assistantCard.getValue() + "> with a possibility of " + assistantCard.getNumber_of_steps() +
                         " steps." ,false),
@@ -384,6 +450,10 @@ public class GameController implements PropertyChangeListener {
         model.setNextPlayer();
     }
 
+    /**
+     * Method startRound is used to set a new game phase state and start the first active player chosen thanks by
+     * drawing assistant cards.
+     */
     public void startRound() {
         //boardHandler.setPhase(4);
         model.setPlayerOrderTurn();
@@ -393,21 +463,30 @@ public class GameController implements PropertyChangeListener {
         boardHandler.sendAllExcept(new CustomMessage("It's " + playerToStart.getNickname() + "'s turn, wait for him to finish", false), playerToStart.getPlayerID());
     }
 
+    /**
+     * Method updateAfterCloudPick sets end turn after choosing a cloud. (synchronized)
+     */
     private synchronized void updateAfterCloudPick(){
         boardHandler.sendAll(new MoveMessage(model.getBoardManager().getClouds(),model.getCurrentPlayer().getSchoolBoard().getEntrance(),model.getCurrentPlayer().getNickname()));
         boardHandler.sendtoPlayer(new CustomMessage("Your turn has ended"), model.getCurrentPlayerIndex());
     }
 
+    /**
+     * Method updateAfterMoverStudentToIsland to update the island at every move.
+     */
     private synchronized void updateAfterMovedStudentToIsland(){
-        System.out.println("Ha mosso " + model.getCurrentPlayer().getSchoolBoard().getMovedstudents() + " finora");
-        boardHandler.sendAll(new MoveMessage(model.getCurrentPlayer().getSchoolBoard().getMovedstudents(),
+        System.out.println("Ha mosso " + model.getCurrentPlayer().getSchoolBoard().getMovedStudents() + " finora");
+        boardHandler.sendAll(new MoveMessage(model.getCurrentPlayer().getSchoolBoard().getMovedStudents(),
                 model.getBoardManager().getIslands(),model.getCurrentPlayer().getSchoolBoard().getEntrance(),
                 model.getCurrentPlayer().getNickname()));
     }
 
+    /**
+     * Method updateAfterMovedStudentToDiningRoom is synchronized and updates the dining room after every move.
+     */
     private synchronized void updateAfterMovedStudentToDiningRoom(){
-        System.out.println("Ha mosso " + model.getCurrentPlayer().getSchoolBoard().getMovedstudents() + " finora");
-        boardHandler.sendAll(new MoveMessage(model.getCurrentPlayer().getSchoolBoard().getMovedstudents(),
+        System.out.println("Ha mosso " + model.getCurrentPlayer().getSchoolBoard().getMovedStudents() + " finora");
+        boardHandler.sendAll(new MoveMessage(model.getCurrentPlayer().getSchoolBoard().getMovedStudents(),
                 model.getBoardManager().getIslands(), model.getCurrentPlayer().getSchoolBoard().getDiningRoom(), model.getCurrentPlayer().getSchoolBoard().getEntrance(),
                 model.getCurrentPlayer().getNickname()));
     }

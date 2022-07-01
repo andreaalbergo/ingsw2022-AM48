@@ -11,18 +11,20 @@ import java.beans.PropertyChangeSupport;
 /**
  * RoundHandler is a class that handles the "Planning Phase" of every Eriantys round, so it handles the chosen assistant
  * cards to order the players' turns for the "Action Phase".
+ *
+ * @author David Barb
  */
 public class RoundHandler implements PropertyChangeListener {
     private final GameController mainController;
-    private final TurnHandler turn;
     private int gameRound = 1;
 
-    private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-    public RoundHandler(GameController mainController, TurnHandler turn) {
+    /**
+     * Constructor RoundHandler to create its own instances.
+     * @param mainController
+     */
+    public RoundHandler(GameController mainController) {
         this.mainController = mainController;
-        this.turn = turn;
-        listeners.addPropertyChangeListener(turn);
     }
 
     /**
@@ -45,6 +47,11 @@ public class RoundHandler implements PropertyChangeListener {
             mainController.gameOver();
     }
 
+    /**
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {

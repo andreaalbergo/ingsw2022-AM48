@@ -42,11 +42,11 @@ public class MotherNature {
     }
 
     /**
+     * Method move changes the position of mother nature moving through the islands. (Overloading for expert mode)
      *
-     *
-     * @param steps INTEGER -> represents the number of steps we want Mothernature to make
-     * @throws IllegalStateException in case the number of steps is different from the ones available from the card
-
+     * @param steps of type int - represents the number of steps we want Mothernature to make.
+     * @param effect of type int - the effect of character card.
+     * @throws IllegalStateException in case the number of steps is different from the ones available from the card.
      */
     public void move(int steps, int effect){
         //if effect = 0 --> nothing change
@@ -63,6 +63,13 @@ public class MotherNature {
             throw new IllegalStateException("The steps selection is Invalid");
         }
     }
+
+    /**
+     * Method move changes the position of mother nature moving through the islands. (Overloading for expert mode)
+     *
+     * @param steps of type int - represents the number of steps we want Mothernature to make.
+     * @throws IllegalStateException in case the number of steps is different from the ones available from the card.
+     */
     public void move(int steps) throws IllegalStateException{
         //if effect = 0 --> nothing change
         //if effect = 2 --> 2 more steps (herald characterCard)
@@ -89,6 +96,12 @@ public class MotherNature {
         return 12;
     }
 
+    /**
+     * Method setNewID is a setter.
+     *
+     * @param islandbefore of type int - the island with ID less than one from the current one.
+     * @param merged of type int - index of island merged.
+     */
     public void setNewID(int islandbefore, int merged) {
         this.numberofIslands[merged] = islandbefore;
     }

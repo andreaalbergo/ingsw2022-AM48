@@ -2,6 +2,9 @@ package it.polimi.ingsw.server.servermessages.gamemessages;
 
 import it.polimi.ingsw.server.servermessages.Answer;
 
+/**
+ * Class Answer
+ */
 public class GameOver implements Answer {
 
     private final String reason;

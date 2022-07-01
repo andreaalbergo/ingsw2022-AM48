@@ -16,7 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Class ClientView is the personal view of a player in which he gets the printed CLI game board during every change
+ * of the main game board.
  *
+ * @author Andrea Albergo, David Barb
  */
 public class ClientView {
 
@@ -35,11 +38,59 @@ public class ClientView {
     private boolean inputEnabler;
     private Tower tower;
     private GameBoard gameBoard;
+    private boolean[] professor;
 
+    private ArrayList<AssistantCard> assistantCards;
+    private boolean characterCardActive;
+    private String characterCardInfo;
+    private boolean turnActive;
+    private HashMap<String,List<Color>> nameToEntrance;
+    private HashMap<String,int[]> nameToDining;
+    private List<Color> entrance;
+    private AssistantCard chosenCard = null;
+
+    /**
+     * Method setEntrance is a setter.
+     *
+     * @param entrance of type List<> - list of color from entrance hall.
+     */
+    public void setEntrance(List<Color> entrance) {
+        this.entrance = entrance;
+        System.out.println("Check da client view: Ho settato l'entrance");
+    }
+
+    /**
+     * Method getEntrance is a getter.
+     *
+     * @return of type List<> - list of color form entrance hall.
+     */
+    public List<Color> getEntrance() {
+        return entrance;
+    }
+
+    /**
+     * Method setAssistantCards is a setter. No input needed.
+     */
+    public void setAssistantCards() {
+        Collections.addAll(this.assistantCards, AssistantCard.values());
+    }
+
+
+    /**
+     * Method getProfessor is a getter.
+     *
+     * @return of type boolean[].
+     */
     public boolean[] getProfessor() {
         return professor;
     }
 
+    /**
+     * Method setProfessor is a setter.
+     *
+     * @param index of type int - index of the array.
+     * @param check of type boolean - true if we need to assign professor to the player.
+     */
     public void setProfessor(int index, boolean check) {
         this.professor[index] = check;
         assert cli != null;
@@ -47,42 +98,21 @@ public class ClientView {
         cli.getGameBoard().printCLI();
     }
 
-    private boolean[] professor;
 
-    public void setAssistantCards() {
-        Collections.addAll(this.assistantCards, AssistantCard.values());
-    }
-
-    private ArrayList<AssistantCard> assistantCards;
-    private boolean characterCardActive;
-    //private GameBoard gameBoard;
-    private String characterCardInfo;
-    private boolean turnActive;
-
-    public List<Color> getEntrance() {
-        return entrance;
-    }
-
-    public void setEntrance(List<Color> entrance) {
-        this.entrance = entrance;
-        System.out.println("Check da client view: Ho settato l'entrance");
-    }
-
-
-    private HashMap<String,List<Color>> nameToEntrance;
-
-    private HashMap<String,int[]> nameToDining;
-
-
-
-    private List<Color> entrance;
-
-    private AssistantCard chosenCard = null;
-
+    /**
+     * Method getChosenCard is a getter.
+     *
+     * @return of type AssistantCard.
+     */
     public AssistantCard getChosenCard() {
         return chosenCard;
     }
 
+    /**
+     * Method setChosenCard is a setter.
+     *
+     * @param chosenCard of type AssistantCard.
+     */
     public void setChosenCard(AssistantCard chosenCard) {
         if(chosenCard == null){
             setAssistantCards();
@@ -91,33 +121,50 @@ public class ClientView {
         assistantCards.remove(chosenCard);
     }
 
+    /**
+     * Method getIslands is a getter.
+     *
+     * @return of type List<> - list of islands.
+     */
     public List<IslandTile> getIslands() {
         return islands;
     }
 
+    /**
+     * Method setIsland is setter.
+     *
+     * @param islands of type List<> - list of islands.
+     */
     public void setIslands(List<IslandTile> islands) {
-        System.out.println("Check da client view: Ho settato le isole sono: " + islands.size());
-        for (IslandTile islandTile : islands){
-            System.out.println(islandTile.getIslandID());
-            for (int i= 0; i<5; i++){
-                System.out.println(islandTile.getStudents()[i]);
-            }
-        }
         this.islands = islands;
         cli.getGameBoard().setArchipelagoGrid(islands);
     }
 
+    /**
+     * Method getClouds is a getter.
+     *
+     * @return of type List<> - list of clouds.
+     */
     public List<Cloud> getClouds() {
         return clouds;
     }
 
+    /**
+     * Method setClouds is a setter.
+     *
+     * @param clouds of type List<> - list of clouds.
+     */
     public void setClouds(List<Cloud> clouds) {
-        System.out.println("Check da client view: Ho settato le nuvole sono: " + clouds.size());
         this.clouds = clouds;
         assert cli != null;
         cli.getGameBoard().setCloudGrid(clouds, false);
     }
 
+    /**
+     * Method setWizard is a setter.
+     *
+     * @param wizard of type Wizard.
+     */
     public void setWizard(String wizard) {
         String magician = wizard.toLowerCase();
         switch (magician){
@@ -128,13 +175,18 @@ public class ClientView {
         }
 
         this.wizard = Wizard.parseInput(wizard);
-        System.out.println("Check da client view: Ho settato il mago");
     }
 
     public HashMap<String, int[]> getNameToDining() {
         return nameToDining;
     }
 
+    /**
+     * Method updateDining updates the dining room of a given player and array of int.
+     *
+     * @param nickname of type String.
+     * @param dining of type int[].
+     */
     public void updateDining(String nickname, int[] dining){
         if(!nameToDining.containsKey(nickname))
             nameToDining.put(nickname, dining);
@@ -143,10 +195,13 @@ public class ClientView {
         }
         cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
     }
-    public HashMap<String, List<Color>> getNameToEntrance() {
-        return nameToEntrance;
-    }
 
+    /**
+     * Method updateEntrance updates the entrance hall of a given player and list of colors.
+     *
+     * @param nickname of type String.
+     * @param entrance of type List<> - list of colors.
+     */
     public void updateEntrance(String nickname, List<Color> entrance){
         if(!nameToEntrance.containsKey(nickname)) {
             nameToEntrance.put(nickname,entrance);
@@ -154,6 +209,11 @@ public class ClientView {
         cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
     }
 
+    /**
+     * Method setTower is a setter.
+     *
+     * @param tower of type String.
+     */
     public void setTower(String tower) {
         String compare = tower.toLowerCase();
         switch (compare){
@@ -164,6 +224,11 @@ public class ClientView {
         System.out.println("Check da client view: Ho settato la torre");
     }
 
+    /**
+     * Constructor ClientView that creates its instance.
+     *
+     * @param cli of type CLI - given player's CLI.
+     */
     public ClientView(CLI cli) {
         this.cli = cli;
         //gameBoard = new GameBoard();
@@ -184,63 +249,148 @@ public class ClientView {
 
  */
 
-
+    /**
+     * Method getAnswer is a getter.
+     *
+     * @return of type Answer.
+     */
     public Answer getAnswer() {
         return answer;
     }
 
+    /**
+     * Method setAnswer is a setter.
+     *
+     * @param answer of type Answer.
+     */
     public void setAnswer(Answer answer) {
         this.answer = answer;
     }
 
+    /**
+     * Method getCLI is a getter.
+     *
+     * @return of type CLI.
+     */
     public CLI getCli() {
         return cli;
     }
 
+    /**
+     * Method getGUI is a getter.
+     *
+     * @return of type GUI.
+     */
     public GUI getGui() {return gui; }
 
+    /**
+     * Method setName is a setter.
+     *
+     * @param name of type String.
+     */
     public void setName(String name) {
         this.nickname = name;
     }
 
+    /**
+     * Method getNickname is a getter.
+     *
+     * @return of type String.
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Method getPhase is a getter.
+     *
+     * @return of type int.
+     */
     public int getPhase() {
         return phase;
     }
 
+    /**
+     * Method setPhase is a setter.
+     *
+     * @param phase of type int.
+     */
     public void setPhase(int phase) {
         this.phase = phase;
     }
 
-
+    /**
+     * Method getTurnPhase is a getter.
+     *
+     * @return of type int.
+     */
     public int getTurnPhase() { return turnPhase; }
 
+    /**
+     * Method setTurnPhase is a setter.
+     *
+     * @param turnPhase of type int.
+     */
     public void setTurnPhase(int turnPhase) { this.turnPhase = turnPhase; }
 
+    /**
+     * Method isInputEnabler is a getter.
+     *
+     * @return of type boolean.
+     */
     public boolean isInputEnabler() {
         return inputEnabler;
     }
 
+    /**
+     * Method setInputEnabler is a setter.
+     *
+     * @param inputEnabler of type boolean.
+     */
     public void setInputEnabler(boolean inputEnabler) {
         this.inputEnabler = inputEnabler;
     }
 
-
+    /**
+     * Method getTower is a getter.
+     *
+     * @return of type Tower.
+     */
     public Tower getTower() {
         return tower;
     }
 
+    /**
+     * Method getWizard is a getter.
+     *
+     * @return of Wizard.
+     */
     public Wizard getWizard() {
         return wizard;
     }
 
-    public boolean isTurnActive() { return turnActive; }
-
+    /**
+     * Method setTurnActive is a setter.
+     *
+     * @param turnActive of type boolean.
+     */
     public void setTurnActive(boolean turnActive) { this.turnActive = turnActive; }
 
+    /**
+     * Method updateNameToTower updates tha nameToTower HashMap.
+     *
+     * @param name of type String.
+     * @param tower of type Tower.
+     */
+    public void updateNameToTower(String name, Tower tower) {
+        if(!nameToTower.containsKey(name)) {
+            nameToTower.put(name, tower);
+
+        } else nameToTower.replace(name,tower);
+        cli.getGameBoard().insertNicknameToTower(name, tower);
+    }
+
+    /*
     public void setCharacterEffectInfo(String characterCardInfo) {
         if (characterCardInfo.length() > 100) {
             String tmpOne = characterCardInfo.substring(0, 100);
@@ -258,8 +408,6 @@ public class ClientView {
         return characterCardInfo;
     }
 
-   /* public synchronized GameBoard getBoard() { return gameBoard; }*/
-
     public boolean isCharacterCardActive() { return characterCardActive; }
 
     public void setCharacterCardActive(boolean characterCardActive) { this.characterCardActive = characterCardActive; }
@@ -270,15 +418,5 @@ public class ClientView {
 
     public HashMap<String, Tower> getNameToTower() {
         return nameToTower;
-    }
-
-    public void updateNameToTower(String name, Tower tower) {
-        System.out.println("Sono dentro updateNameToTower");
-        if(!nameToTower.containsKey(name)) {
-            System.out.println("Sto aggiungendo "+ tower + " alla map");
-            nameToTower.put(name, tower);
-
-        } else nameToTower.replace(name,tower);
-        cli.getGameBoard().insertNicknameToTower(name, tower);
-    }
+    }*/
 }

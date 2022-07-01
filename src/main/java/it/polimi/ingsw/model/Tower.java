@@ -45,6 +45,12 @@ public enum Tower {
         return towerIndex;
     }
 
+    /**
+     * Method isAlreadyPicked is a getter.
+     *
+     * @param tower of type Tower.
+     * @return of type boolean.
+     */
     public static boolean isAlreadyPicked(Tower tower){
         return !(available.contains(tower));
     }

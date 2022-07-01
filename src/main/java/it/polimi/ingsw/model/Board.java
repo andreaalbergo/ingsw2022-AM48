@@ -75,7 +75,7 @@ public class Board {
      */
     public void resetMovedStudents(){
         for(Player player : activePlayers){
-            player.getSchoolBoard().setMovedstudents(0);
+            player.getSchoolBoard().setMovedStudents(0);
         }
     }
 

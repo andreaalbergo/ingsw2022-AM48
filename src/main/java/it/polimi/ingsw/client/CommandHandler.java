@@ -7,11 +7,12 @@ import it.polimi.ingsw.server.servermessages.gamemessages.*;
 
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
-import java.util.logging.Level;
 
 /**
  * Class CommandHandler handles every players' command by setting states for every player to make them type at the right
  * time.
+ *
+ * @author Andrea Albergo, David Barb
  */
 public class CommandHandler {
     private final ClientView model;
@@ -48,9 +49,7 @@ public class CommandHandler {
      * to the socket server.
      */
     public void answerHandler() {
-        //TODO
         Answer answer = model.getAnswer();
-        cli.logger.log(Level.SEVERE,"la answer che sta elaborando è " + answer + " e la fase è " + model.getPhase());
         if(model.getPhase()<2){
             setupGame(answer);
         }
@@ -71,7 +70,6 @@ public class CommandHandler {
             model.updateEntrance(((MatchStarted) answer).getName(), ((MatchStarted) answer).getEntrance());
         }
         else if (answer instanceof StartTurnMessage) {
-            //model.setPhase(3);
             view.firePropertyChange("startTurnMessage",null, answer);
 
         }
@@ -98,15 +96,6 @@ public class CommandHandler {
         }
     }
 
-    /*
-    private void fireBuiltTower(BuiltTower message) {
-        if(message.getPlayer().equals(model.getNickname())){
-            int index = message.getId_island();
-            IslandTile islandTile = model.getIslands().get(index);
-        }
-    }
-    */
-
     /**
      * Method fireMotherNatureMoved is a firePropertyChange after moving mother nature by a player's input.
      *
@@ -114,7 +103,6 @@ public class CommandHandler {
      */
     private void fireMotherNatureMoved(MovedMotherNature motherNature) {
         if(motherNature.isCheck()){
-            System.out.println("INFO : era la mia mossa");
             if(motherNature.getIslandTile() == null){
                 System.out.println("The number of steps you chose is invalid, try again");
                 model.setInputEnabler(true);
@@ -151,6 +139,7 @@ public class CommandHandler {
 
     /**
      * Method fireCustomMessage is a firePropertyChange after doing a generic input.
+     *
      * @param answer of type Answer.
      */
     private void fireCustomMessage(Answer answer) {
@@ -207,8 +196,5 @@ public class CommandHandler {
             model.updateEntrance(((MatchStarted)answer).getName(),((MatchStarted)answer).getEntrance());
             model.setPhase(2);
         }
-
     }
-
-
 }

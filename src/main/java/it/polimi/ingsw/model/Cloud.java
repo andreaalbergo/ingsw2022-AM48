@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.GameOverException;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,30 +12,27 @@ import java.util.ArrayList;
  */
 public class Cloud implements Serializable{
     private final ArrayList<Color> cloudCells = new ArrayList<>();
-    //private final Board board;
 
+    /**
+     * Constructor Cloud creates a new instance.
+     */
     public Cloud() {
-        //this.board = board;
-    }
-/*
-    public void fillStudents() throws GameOverException {
-        if(board.getActivePlayers().size()==3) {
-            for (int i = 0; i < 4; i++) {
-                addStudentToCloud(Color.colorFromIndex(board.getBoardManager().getBag().getRandomColorFromBag()));
-            }
-        } else {
-            for (int i = 0; i < 3; i++) {
-                addStudentToCloud(Color.colorFromIndex(board.getBoardManager().getBag().getRandomColorFromBag()));
-            }
-        }
     }
 
- */
-
+    /**
+     * Method getCloudCells is a getter.
+     *
+     * @return of type ArrayList<>.
+     */
     public ArrayList<Color> getCloudCells() {
         return cloudCells;
     }
 
+    /**
+     * Method emptyCloud empties the cloud to specific schoolBoard.
+     *
+     * @param schoolBoard of type SchoolBoard.
+     */
     public void emptyCloud(SchoolBoard schoolBoard){
         for(int i = 0; i < cloudCells.size(); i++) {
             schoolBoard.addStudentToEntrance(cloudCells.get(i).getColorIndex());
@@ -45,6 +40,11 @@ public class Cloud implements Serializable{
         }
     }
 
+    /**
+     * Method addStudentToCloud adds a color to cloud.
+     *
+     * @param color of type Color.
+     */
     public void addStudentToCloud(Color color){
         cloudCells.add(color);
     }

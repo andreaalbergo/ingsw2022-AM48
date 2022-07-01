@@ -7,22 +7,35 @@ import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.IslandTile;
 
+/**
+ * Class InputCheck is needed by the CommandParser class to check if inputs from the players are correct.
+ *
+ * @author Andrea Albergo
+ */
 public class InputCheck {
-
     private final ConnectionSocket socket;
-
     private final ClientView view;
-
     private static final String RED = Constants.ANSI_RED;
-
     private static final String RST = Constants.ANSI_RESET;
 
-
+    /**
+     * Constructor InputCheck to create its instances.
+     *
+     * @param socket of type ConnectionSocket.
+     * @param view of type ClientView.
+     */
     public InputCheck(ConnectionSocket socket, ClientView view) {
         this.socket = socket;
         this.view = view;
     }
 
+    /**
+     * Method moveMotherNature is needed to get two strings, the first with command "MOVEMOTHERNATURE" and the second
+     * the number of chosen steps.
+     *
+     * @param in of type String[].
+     * @return of type MoveMotherNature.
+     */
     public MoveMotherNature moveMotherNature(String[] in){
         System.out.println("I AM IN moveMotherNature");
         if(view.getTurnPhase() > 1){
@@ -44,12 +57,21 @@ public class InputCheck {
         }
     }
 
+    /**
+     * Method quit is called when a player suddenly disconnected for whatever reason.
+     */
     public void quit() {
         socket.send(new QuitMessage("Player " + view.getNickname() + "left the game...the match is ending, we'll miss ya!!"));
         System.err.println(RED + "Disconnecting from server :( ... Come back soon" + RST);
         System.exit(0);
     }
 
+    /**
+     * Method moveStudent is needed to get messages to move students from entrance hall to dining room or islands.
+     *
+     * @param action of type String[].
+     * @return of type UserCommand.
+     */
     public UserCommand moveStudent(String[] action) {
         if(view.getTurnPhase() != 2){
             System.out.println("Not in the correct game phase to perform this command");
@@ -69,6 +91,13 @@ public class InputCheck {
         return null;
     }
 
+    /**
+     * Method pickCloud is called when the current active player chose all the available moves and need to choose a
+     * cloud before ending its turn.
+     *
+     * @param in of type String[].
+     * @return of type EndTurn.
+     */
     public EndTurn pickCloud(String[] in) {
         if(view.getTurnPhase() != 3){
             System.out.println("Not in the correct game phase to perform this command");

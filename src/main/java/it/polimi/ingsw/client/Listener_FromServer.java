@@ -8,6 +8,9 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Class Listener_FromServer is the listener in the socket connection, it is unique for every player.
+ */
 public class Listener_FromServer implements Runnable{
     private final Socket socket;
     private final ClientView view;
@@ -15,6 +18,14 @@ public class Listener_FromServer implements Runnable{
     private final ObjectInputStream in;
     private final Logger logger = Logger.getLogger(getClass().getName());
 
+    /**
+     * Constructor Listener_FromServer that creates its instances.
+     *
+     * @param socket of type Socket.
+     * @param view of type ClientView.
+     * @param commandHandler of type CommandHandler.
+     * @param input of type ObjectInputStream.
+     */
     public Listener_FromServer(Socket socket, ClientView view, CommandHandler commandHandler, ObjectInputStream input) {
         this.socket = socket;
         this.view = view;
@@ -22,15 +33,16 @@ public class Listener_FromServer implements Runnable{
         this.in = input;
     }
 
+    /**
+     * Method run is needed to run the listener and keeping it active and ready to listen.
+     */
     @Override
     public void run() {
         try{
             do{
                 SerializedAnswer answer = (SerializedAnswer) in.readObject();
                 System.out.println(answer.getAnswer().getMessage());
-                view.getCli().logger.log(Level.INFO, answer.getAnswer().getMessage().toString());
                 view.setAnswer(answer.getAnswer());
-                view.getCli().logger.log(Level.SEVERE, " Il Messaggio che ho letto è -> "+ answer.getAnswer().getMessage() + " setto " + view.getAnswer().getMessage());
                 commandHandler.answerHandler();
             }while (view.getCli() == null || view.getCli().isActiveGame());
         } catch (IOException | ClassNotFoundException e) {
@@ -39,7 +51,6 @@ public class Listener_FromServer implements Runnable{
 
         }finally {
             try{
-                System.out.println("SEI USCITO DAL WHILE NEL RUN DEL LISTENER " + view.getCli().isActiveGame() + view.getCli());
                 in.close();
                 socket.close();
             } catch (IOException e) {

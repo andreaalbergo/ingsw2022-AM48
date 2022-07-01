@@ -11,6 +11,11 @@ public enum Color {
 
     private final int colorIndex;
 
+    /**
+     * Enumeration Constructor Color.
+     *
+     * @param colorIndex of type int.
+     */
     Color(int colorIndex){
         this.colorIndex = colorIndex;
     }
@@ -28,7 +33,7 @@ public enum Color {
     /**
      * Utility method to associate the Color, given a number that represents one of the colors' index.
      *
-     * @param colorIndex is an integer from which I want do derive the respective Color
+     * @param colorIndex is an integer from which I want to derive the respective Color
      * @return the Color that has colorIndex parameter as its own index
      */
     public static Color colorFromIndex(int colorIndex){
@@ -41,6 +46,12 @@ public enum Color {
         return toBeReturned;
     }
 
+    /**
+     * Method parseInput that takes String value and converts it to Enum one.
+     *
+     * @param input of type String.
+     * @return of type Enum.
+     */
     public static Color parseInput(String input) {
         return Enum.valueOf(Color.class, input.toUpperCase());
     }

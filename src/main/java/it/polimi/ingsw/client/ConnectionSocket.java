@@ -25,6 +25,7 @@ import java.util.logging.Logger;
  * ConnectionSocket class creates a server socket that accepts connections from new clients and instantiates a new
  * thread to work with it.
  *
+ * @author Andrea Albergo, Barb David
  */
 public class ConnectionSocket {
     private final String serverip;
@@ -34,11 +35,22 @@ public class ConnectionSocket {
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
 
 
+    /**
+     * Constructor ConnectionSocket creates its own instance.
+     */
     public ConnectionSocket() {
         this.serverip = Constants.getAddress();
         this.port = Constants.getPort();
     }
 
+    /**
+     * Method registration registers and creates a socket between new registered player and server.
+     * @param nickname of type String.
+     * @param handler of type CommandHandler.
+     * @param view of type ClientView.
+     * @return of type boolean.
+     * @throws DuplicateNicknameException when a new player chooses a nickname already picked.
+     */
     public boolean registration(String nickname, CommandHandler handler, ClientView view) throws DuplicateNicknameException {
         try {
             Socket socket1;
@@ -66,51 +78,13 @@ public class ConnectionSocket {
             }
     }
 
-    public boolean registration1(String nickname, CommandHandler handler, ClientView view) throws DuplicateNicknameException {
-        try{
-            System.out.println("Hi, Opening a communication socket on Port: ");
-            System.out.print(Constants.getPort());
-            Socket socket;
-            try {
-                socket = new Socket(Constants.getAddress(), Constants.getPort());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-            out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            while(true){
-                try{
-                    send(new SetupConnection(nickname));
-                    SerializedAnswer answer = (SerializedAnswer) in.readObject();
-                    LOGGER.log(Level.INFO, answer.getAnswer().toString());
-                    if(answer.getAnswer() instanceof ConnectionMessage && ((ConnectionMessage)answer.getAnswer()).isCheck()){
-                        System.out.println("\nRegistration (conn.socket): " + answer.getAnswer().getMessage());
-                        break;
-                    } else if (answer.getAnswer() instanceof GameError /*&& ((GameError)answer.getAnswer()).getError().equals(Errors.DUPLICATENICKNAME)*/) {
-                        System.out.println("The nickname you chose is already in use, please pick another one");
-                        throw new DuplicateNicknameException();
-                    } else if (answer.getAnswer() instanceof GameError && ((GameError)answer.getAnswer()).getError().equals(Errors.SERVER_IS_FULL)) {
-                        System.err.println("The server will not accept more players because is full");
-                        System.exit(0);
-                    }
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            listener = new Listener_FromServer(socket,view,handler,in);
-            Thread thread = new Thread(listener);
-            thread.start();
-            return true;
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.out.println("Socket didn't start properly, application closing");
-            System.exit(12);
-            return false;
-        }
-
-    }
-
+    /**
+     * Method readInput reads input from new player that chooses a nickname.
+     * @param nickname of type String.
+     * @param input of type ObjectInputStrean
+     * @return of type boolean.
+     * @throws DuplicateNicknameException when nickname already chosen.
+     */
     private boolean readInput(String nickname, ObjectInputStream input)
         throws DuplicateNicknameException{
             try {
@@ -125,6 +99,12 @@ public class ConnectionSocket {
             return true;
     }
 
+    /**
+     * Method nicknameChecker checks for duplicate nickname.
+     * @param readObject of type Object.
+     * @return of type boolean
+     * @throws DuplicateNicknameException when nickname is already chosen.
+     */
     private boolean nicknameChecker(Object readObject) throws DuplicateNicknameException{
         SerializedAnswer answer = (SerializedAnswer) readObject;
         LOGGER.log(Level.INFO, answer.getAnswer().getMessage().toString());
@@ -145,11 +125,14 @@ public class ConnectionSocket {
         return false;
     }
 
-
+    /**
+     * Method send sends a message in output stream to socket.
+     *
+     * @param message of type Message.
+     */
     public void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);
         try {
-            System.out.println("Sto mandando questo messaggio " + message);
             out.reset();
             out.writeObject(serializedMessage);
             out.flush();
@@ -159,10 +142,13 @@ public class ConnectionSocket {
         }
     }
 
+    /**
+     * Method sends a message in output stream to socket.
+     * @param command of type UserCommand.
+     */
     public void send(UserCommand command){
         SerializedMessage serializedMessage = new SerializedMessage(command);
         try {
-            System.out.println("Sto mandando questo messaggio " + serializedMessage.command);
             out.reset();
             out.writeObject(serializedMessage);
             out.flush();

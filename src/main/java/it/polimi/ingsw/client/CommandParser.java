@@ -23,12 +23,24 @@ public class CommandParser implements PropertyChangeListener {
 
     private static final String RST = Constants.ANSI_RESET;
 
+    /**
+     * Constructor CommandParser creates its own instances.
+     *
+     * @param socket of type ConnectionSocket.
+     * @param view of type ClientView.
+     */
     public CommandParser(ConnectionSocket socket, ClientView view) {
         this.socket = socket;
         this.view = view;
         verifier = new InputCheck(socket, view);
     }
 
+    /**
+     * Method action handles the game's turns with player's inputs to move pieces on the board. (synchronized)
+     *
+     * @param input of type String.
+     * @return of type boolean.
+     */
     public synchronized boolean action(String input) {
         System.out.println("Mi è arrivato: "+ input);
         String[] action = input.split(" ");
@@ -65,6 +77,11 @@ public class CommandParser implements PropertyChangeListener {
         return false;
     }
 
+    /**
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(!view.isInputEnabler()){

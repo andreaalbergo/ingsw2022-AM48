@@ -65,12 +65,22 @@ public class SchoolGrid {
     }
 
     /**
-     * Method updateTowerCells is used to update the number of tower cells for this SchoolGrid.
-     *
-     * @param newValue of type int - the new amount of remaining towers.
+     * Method decrementTowers decrements the counter of towers in the school.
      */
-    public void updateTowerCells(int newValue) {
-        towers = newValue;
+    public void decrementTowers() {
+        towers--;
+    }
+
+    /**
+     * Method resetTowers resets the counter back needed for the setArchipelagoGrid() method in GameBoard class.
+     *
+     * @param numberOfPlayers of type int.
+     */
+    public void resetTowers(int numberOfPlayers){
+        if (numberOfPlayers==2)
+            towers = 8;
+        else
+            towers = 6;
     }
 
     public List<Color> getEntrance() {

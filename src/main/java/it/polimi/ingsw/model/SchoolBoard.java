@@ -7,41 +7,66 @@ import java.util.ArrayList;
 
 public class SchoolBoard implements Serializable {
     private final String nickname;
-    private ArrayList<Color> entrance;
+    private final ArrayList<Color> entrance;
     private final int[] diningRoom = new int[5];
-    private Boolean[] professors = new Boolean[5];
+    private final Boolean[] professors = new Boolean[5];
+    private int towers;
+    private int movedStudents = 0;
+    private final int numberOfPlayers;
+    private final boolean mode;
 
+    /**
+     * Method setTowers is a setter.
+     *
+     * @param tower of type int.
+     */
     public void setTowers(int tower) {
         this.towers = tower;
     }
 
-    public void setTowers() {
-        this.towers = towers - 1;
+    /**
+     * Method getMovedStudents is a getter.
+     *
+     * @return of type int.
+     */
+    public int getMovedStudents() {
+        return movedStudents;
     }
 
-    private int towers;
-    private ArrayList<Integer> collectedCoins;
-
-    public int getMovedstudents() {
-        return movedstudents;
+    /**
+     * Method setMovedStudents is a setter.
+     *
+     * @param movedStudents of int.
+     */
+    public void setMovedStudents(int movedStudents) {
+        this.movedStudents = movedStudents;
     }
 
-    public void setMovedstudents(int movedstudents) {
-        this.movedstudents = movedstudents;
-    }
-
-    private int movedstudents = 0;
-    private int numberOfPlayers;
-    private boolean mode;
-
+    /**
+     * Method getNumberOfPlayers is a getter.
+     *
+     * @return of type int.
+     */
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+    /**
+     * Method isMode is a getter.
+     *
+     * @return of type boolean.
+     */
     public boolean isMode() {
         return mode;
     }
 
+    /**
+     * Constructor SchoolBoard to create its instance.
+     *
+     * @param nickname of type String.
+     * @param numberOfPlayers of type int.
+     * @param mode of type boolean.
+     */
     public SchoolBoard(String nickname, int numberOfPlayers, boolean mode){
         this.nickname = nickname;
         this.numberOfPlayers = numberOfPlayers;
@@ -60,22 +85,23 @@ public class SchoolBoard implements Serializable {
             this.towers = 8;
         }
 
+        ArrayList<Integer> collectedCoins;
         if(mode){
-            this.collectedCoins = new ArrayList<>(5);
+            collectedCoins = new ArrayList<>(5);
         }else{
-            this.collectedCoins = new ArrayList<>(1);
+            collectedCoins = new ArrayList<>(1);
             collectedCoins.add(0, 0);
         }
 
     }
 
     /**
-     * This method adds a student to its designated dining roomm
+     * This method adds a student to its designated dining room.
      *
      * @param color is the color of the student the player wants to move to the dining room
      */
     public void addStudentToDiningRoom(Color color) throws InvalidSelection{
-        if((movedstudents == 4 && numberOfPlayers==3)|| (movedstudents == 3 && numberOfPlayers==2))
+        if((movedStudents == 4 && numberOfPlayers==3)|| (movedStudents == 3 && numberOfPlayers==2))
             //System.out.println("\nYou already moved the maximum number of students\n");
             throw new InvalidSelection();
         else {
@@ -92,14 +118,14 @@ public class SchoolBoard implements Serializable {
             /*
             switch (numberOfPlayers) {
                 case 2: {
-                    if (movedstudents < 3) {
-                        movedstudents++;
+                    if (movedStudents < 3) {
+                        movedStudents++;
                     }
                 }
 
                 case 3: {
-                    if (movedstudents < 4) {
-                        movedstudents++;
+                    if (movedStudents < 4) {
+                        movedStudents++;
                     }
                 }
 
@@ -108,6 +134,11 @@ public class SchoolBoard implements Serializable {
         }
     }
 
+    /**
+     * Method getNickname is a getter.
+     *
+     * @return of type String.
+     */
     public String getNickname() {
         return nickname;
     }
@@ -156,10 +187,20 @@ public class SchoolBoard implements Serializable {
      */
     public void removeProfessor(int indexColor) { professors[indexColor] = false;}
 
+    /**
+     * Method getProfessors is a getter.
+     *
+     * @return of type Boolean[].
+     */
     public Boolean[] getProfessors(){
         return this.professors;
     }
 
+    /**
+     * Method getDiningRoom is a getter.
+     *
+     * @return of type int[].
+     */
     public int[] getDiningRoom(){
         return this.diningRoom;
     }
@@ -173,87 +214,62 @@ public class SchoolBoard implements Serializable {
         this.entrance.add(Color.colorFromIndex(index));
     }
 
-
+    /**
+     * Method getEntrance is a getter.
+     *
+     * @return of type ArrayList<> - the list of entrance hall.
+     */
     public ArrayList<Color> getEntrance(){
         return this.entrance;
     }
 
+    /**
+     * Method removeFromEntrance is a method that removes a given student from entrance.
+     *
+     * @param color of type Color.
+     * @throws InvalidSelection when input is wrong.
+     */
     private void removeFromEntrance(Color color) throws InvalidSelection {
         if(!entrance.contains(color)){
             throw new InvalidSelection();
         }
         entrance.remove(color);
-        //movedstudents++;
+        //movedStudents++;
     }
 
+    /**
+     * Method addStudentToIsland adds selected student to given island.
+     *
+     * @param color of type Color.
+     * @param islandTile of type IslandTile.
+     * @throws InvalidSelection when moved students surpasses given limit.
+     */
     public void addStudentToIsland(Color color, IslandTile islandTile) throws InvalidSelection {
-        if((movedstudents == 4 && numberOfPlayers==3)|| (movedstudents == 3 && numberOfPlayers==2))
+        if((movedStudents == 4 && numberOfPlayers==3)|| (movedStudents == 3 && numberOfPlayers==2))
             //System.out.println("\nYou already moved the maximum number of students\n");
             throw new InvalidSelection();
         switch (numberOfPlayers) {
             case 2:
-                if (movedstudents < 3) {
-                    movedstudents++;
+                if (movedStudents < 3) {
+                    movedStudents++;
                 }
 
             case 3:
-                if (movedstudents < 4) {
-                    movedstudents++;
+                if (movedStudents < 4) {
+                    movedStudents++;
                 }
 
         }
         removeFromEntrance(color);
         islandTile.getStudents()[color.getColorIndex()]++;
-
-
     }
-    /* BOZZ
-        insert checkInfluence() [BOARDMANAGER] in addStudentToIsland()
-        insert checkToAddProfessor() [BOARDMANAGER] in addStudentToDiningRoom()
+
+    /**
+     * Method getTowers is a getter.
+     *
+     * @return of type int.
      */
-
-    /* BARB: RIFACCIO MEGLIO STO METODO, VEDI LINEA 106
-    public void addStudentToIsland(Color color, IslandTile islandTile){
-        switch (color){
-            case RED_DRAGONS: island.addStudentToIsland(RED_DRAGONS);
-                break;
-            case GREEN_FROGS: : island.addStudentToIsland(GREEN_FROGS);
-                break;
-            case YELLOW_GNOMES: : island.addStudentToIsland(YELLOW_GNOMES);
-                break;
-            case BLUE_UNICORNS: : island.addStudentToIsland(BLUE_UNICORNS);
-                break;
-            case PINK_FAIRIES: : island.addStudentToIsland(PINK_FAIRIES);
-                break;
-
-        }
-    }
-*/
-
-/* BARB: NON E' NECESSARIO SAPERE SE HO UNA TORRE SU UN ISOLA; SE HO UN OWNER DELL'ISOLA, IN AUTOMATICO HO UNA TOWER
-    public void addTowerToIsland(Island island, String nickname) throws Exception{
-        if(this.towers > 1){
-            this.towers--;
-        }else if(this.towers == 1){
-            this.towers = 0;
-            throw new Exception("Last Tower, check if the Game is ");
-        }
-    }
-*/
-
     public int getTowers() {
         return towers;
-    }
-/*
-    public void decrementTowers() {
-        this.towers--;
-        if (towers==0)
-            callGameOver();
-
-    }
-*/
-    //BOZZ
-    public boolean getSingleProfessor(Color color){
-        return professors[color.getColorIndex()];
     }
 }
