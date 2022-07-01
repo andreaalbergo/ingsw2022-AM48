@@ -92,6 +92,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         startCLI();
         while(isActiveGame()){
             if(clientView.getPhase() >= 3 ){
+                System.out.println("Hola");
                 in.reset();
                 String received = in.nextLine();
                 System.out.println("ACTION: " + received);
@@ -102,7 +103,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         out.close();
     }
 
-    public boolean isActiveGame() {
+    public synchronized boolean isActiveGame() {
         return active;
     }
 
@@ -227,7 +228,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             }
 
             case "SetMode" -> {
-                System.out.println(((SetMode)clientView.getAnswer()).getMessage());
+                System.out.println((clientView.getAnswer()).getMessage());
                 chooseMode();
             }
 
@@ -240,6 +241,7 @@ public class CLI implements Runnable, PropertyChangeListener {
         AssistantCard assistantCard = null;
         try {
             assistantCard = AssistantCard.parseInput(in.nextLine());
+            System.out.println("You selected card " + assistantCard.getValue() + " with steps: " +assistantCard.getNumber_of_steps());
         } catch (InvalidSelection e) {
             System.out.println("That's not a valid input, choose again");
             System.out.println(">");
@@ -251,6 +253,7 @@ public class CLI implements Runnable, PropertyChangeListener {
             System.out.println(".");
             try {
                 assistantCard = AssistantCard.parseInput(in.nextLine());
+                System.out.println("You selected card " + assistantCard.getValue() + " with steps: " +assistantCard.getNumber_of_steps());
             } catch (InvalidSelection e) {
                 System.out.println("That's not a valid input, choose again");
                 System.out.println(">");
@@ -262,38 +265,38 @@ public class CLI implements Runnable, PropertyChangeListener {
 
     public void gamePhase(String value){
         switch (value){
-            case "ChooseAssistandCard" -> {
+            case "chooseAssistantCard" -> {
                 System.out.println(clientView.getAnswer().getMessage() + "\n Available Cards: ");
                 ((ChooseAssistantCard) clientView.getAnswer()).getAvailable_cards().forEach(n -> System.out.print(n + ", "));
                 System.out.println(".");
                 chooseAssistantCard(((ChooseAssistantCard)clientView.getAnswer()).getAvailable_cards());
-                //clientView.setPhase(3);
+                clientView.setPhase(3);
                 clientView.setTurnPhase(0);
             }
 
-            case "MovedMotherNature" -> {
+            case "movedMotherNature" -> {
                 MovedMotherNature message = (MovedMotherNature)clientView.getAnswer();
-                gameBoard.setMotherNaturePosition(message.getIslandTile());
-                    //Metodo dove cambio la board con la posizione di madre natura
-                    //Sposta la posizione di madre natura sulla ClientBoard
-                clientView.setInputEnabler(false);
+                //gameBoard.setMotherNaturePosition(message.getIslandTile());
+                //Metodo dove cambio la board con la posizione di madre natura
+                //Sposta la posizione di madre natura sulla ClientBoard
                 if(message.getSteps() != 0){
                     clientView.setTurnPhase(2);
                     clientView.setPhase(4);
-                    clientView.setInputEnabler(true);
+                    gameBoard.setMotherNaturePosition(message.getIslandTile());
                 }
+                clientView.setInputEnabler(message.isCheck());
 
             }
 
-            case "StartTurnMessage" -> {
-                System.out.println(((StartTurnMessage)clientView.getAnswer()).getMessage());
+            case "startTurnMessage" -> {
+                System.out.println((clientView.getAnswer()).getMessage());
+                System.out.println("Ok il tuo enabler è " + ((StartTurnMessage)clientView.getAnswer()).getEnabler());
+                //clientView.setPhase(3);
                 clientView.setInputEnabler(((StartTurnMessage)clientView.getAnswer()).getEnabler());
-                clientView.setPhase(3);
                 clientView.setTurnPhase(1);
-                clientView.setTurnActive(true);
             }
 
-            case "WinMessage" ->{
+            case "winMessage" ->{
                 System.out.println((clientView.getAnswer()).getMessage());
                 System.out.println("Congratulations " + clientView.getNickname());
                 System.exit(0);
@@ -320,14 +323,12 @@ public class CLI implements Runnable, PropertyChangeListener {
             case "chooseAssistantCard" -> {
                 assert command != null;
                 logger.log(Level.INFO,"CHOOSE ASSISTANT CARD COMMAND: " + command);
-                gamePhase(command);
+                gamePhase("chooseAssistantCard");
             }
 
-            case "movedMotherNature" -> {
-                assert command != null;
+            case "MovedMotherNature" -> {
                 logger.log(Level.INFO,"MOVE MOTHERNATURE CHECK: " + command);
-                gamePhase(command);
-
+                gamePhase("movedMotherNature");
             }
 
             case "gameError" -> {
@@ -336,10 +337,11 @@ public class CLI implements Runnable, PropertyChangeListener {
                 errorHandling((GameError) evt.getNewValue());
 
             }
-            case "StartTurnMessage" -> {
+            case "startTurnMessage" -> {
                 assert command != null;
                 logger.log(Level.INFO,"INIZIA TURNO CHECK: " + command);
                 gameBoard.printCLI();
+                gamePhase("startTurnMessage");
             }
             case "gameOver" -> {
                 assert command != null;
@@ -353,43 +355,54 @@ public class CLI implements Runnable, PropertyChangeListener {
 
             case "winMessage" ->{
                 assert command != null;
-                gamePhase(command);
+                gamePhase("winMessage");
             }
-            case "MoveMessage" -> updateCLI((MoveMessage) evt.getNewValue());
+            case "moveMessage" -> updateCLI((MoveMessage) evt.getNewValue());
         }
     }
 
     private void updateCLI(MoveMessage message) {
-        //TODO
         Move move = message.getMessage();
-        if(move.getId().equals(clientView.getNickname())){
+        if(Objects.equals(move.getId(), clientView.getNickname())){
             clientView.setInputEnabler(true);
         }
-        if(move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 && move.getCloudList()==null){
-            clientView.setTurnPhase(3);
-            clientView.updateEntrance(move.getId(), move.getEntrance());
-            clientView.updateDining(move.getId(), move.getDinining_room());
-            getGameBoard().printCLI();
+
+        if(move.getCloudList()!=null && Objects.equals(move.getId(), clientView.getNickname())){
+            clientView.setInputEnabler(false);
+            clientView.setClouds(move.getCloudList());
+        }else if(move.getCloudList()!=null)
+            clientView.setClouds(move.getCloudList());
+        if(move.getIslandTiles()!=null) {
+            clientView.setIslands(move.getIslandTiles());
+            gameBoard.setArchipelagoGrid(move.getIslandTiles());
         }
-        if(move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2 && move.getCloudList()==null){
-            clientView.setTurnPhase(3);
+        if (move.getEntrance()!=null)
+            clientView.updateEntrance(move.getId(), move.getEntrance());
+        if(move.getDinining_room()!=null)
+            clientView.updateDining(move.getId(), move.getDinining_room());
+
+        /*
+        if(move.getCloudList()==null ){
             clientView.updateEntrance(move.getId(), move.getEntrance());
             clientView.updateDining(move.getId(), move.getDinining_room());
-            gameBoard.printCLI();
         }
         if(move.getIslandTiles() != null){
+            clientView.updateEntrance(move.getId(), move.getEntrance());
             clientView.setIslands(move.getIslandTiles());
-            gameBoard.setArchipelagoGrid(move.getIslandTiles(), clientView.getPhase());
+            gameBoard.setArchipelagoGrid(move.getIslandTiles());
         }
         if(move.getCloudList() != null && Objects.equals(move.getId(), clientView.getNickname())){
             //qua scrivi tutti i cambiamenti delle cose che ti sono arrivate
             clientView.setInputEnabler(false);
             clientView.updateEntrance(move.getId(), move.getEntrance());
-            gameBoard.printCLI();
-
+            clientView.setClouds(move.getCloudList());
             //questo mi dice che era stata scelta una nuvola da me quindi ho finito il turno
-        }
+        }*/
+        gameBoard.printCLI();
 
+        if (move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2) clientView.setTurnPhase(3);
+        if (move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 ) clientView.setTurnPhase(3);
+        System.out.println("La fase è " + clientView.getTurnPhase());
         //mando alla clientboard i vari dati
         //clientView.setInputEnabler(true);
     }

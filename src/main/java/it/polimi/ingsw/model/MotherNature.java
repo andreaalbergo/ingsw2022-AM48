@@ -4,11 +4,14 @@ public class MotherNature {
     private int position;
 
 
-    private int numberofIslands;
+    private int[] numberofIslands;
 
     public MotherNature() {
         this.position = 0;
-        numberofIslands = 12;
+        numberofIslands = new int[12];
+        for (int i = 0; i < 12; i++) {
+            numberofIslands[i] = i;
+        }
     }
 
     public int getPosition() {
@@ -30,8 +33,8 @@ public class MotherNature {
 
         if (steps <= 5 + effect && steps >= 1)
         {
-            if(this.position + steps > numberofIslands - 1){
-                this.position = (this.position + steps) - numberofIslands;
+            if(this.position + steps > 11){
+                this.position = (this.position + steps) - 12;
             }else
                 this.position = getPosition() + steps;
 
@@ -45,22 +48,28 @@ public class MotherNature {
 
         if (steps <= 5 && steps >= 1)
         {
-            if(this.position + steps > numberofIslands - 1){
-                this.position = (this.position + steps) - numberofIslands;
-            }else
-                this.position = getPosition() + steps;
-
+            for(int i = 0; i < steps; i++){
+                if(position == 11 && numberofIslands[position] == numberofIslands[0])
+                    position = 0;
+                if(position == 11){
+                    position = 0;
+                    i++;
+                }
+                do{
+                    position++;
+                }while(numberofIslands[position] == numberofIslands[position+1]);
+            }
         }else{
             throw new IllegalStateException("The steps selection is Invalid");
         }
     }
 
     public int getNumberofIslands() {
-        return numberofIslands;
+        return 12;
     }
 
-    public void setNumberofIslands(int numberofIslands) {
-        this.numberofIslands = numberofIslands;
+    public void setNewID(int islandbefore, int merged) {
+        this.numberofIslands[merged] = islandbefore;
     }
 }
 

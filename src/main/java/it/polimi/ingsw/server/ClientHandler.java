@@ -68,11 +68,12 @@ public class ClientHandler implements Runnable {
 
     public synchronized void readFromStream() throws IOException, ClassNotFoundException{
         SerializedMessage input = (SerializedMessage) inputStream.readObject();
-        if ( input.message != null){
+        System.out.println("\nSei nel ReadFromStream e ho letto: " + input.command + "\n");
+        if (input.message != null){
             System.out.println("\nSei nel ReadFromStream e ho letto questo messaggio: " + input.message + "\n");
             Message command = input.message;
             commandLinker(command);
-        }else if (input.command!= null){
+        }else if (input.command != null){
             System.out.println("\nSei nel ReadFromStream e ho letto il comando: " + input.command + "\n");
             UserCommand command = input.command;
             commandLinker(command);
@@ -82,7 +83,9 @@ public class ClientHandler implements Runnable {
     public void commandLinker(UserCommand command) {
         Board game = server.getBoard().game();
         if (game.getCurrentPlayerIndex() != idClient){
-            server.getBoard().sendtoPlayer(new GameError(Errors.NOTYOURTURN,"It's not your turn...be patient"), idClient);
+            GameError message = new GameError(Errors.NOTYOURTURN,"It's not your turn...be patient");
+            System.out.println(message.getMessage());
+            server.getBoard().sendtoPlayer(message, idClient);
             return;
         }
         if(command instanceof ChoiceAssistantCard) {
@@ -95,9 +98,7 @@ public class ClientHandler implements Runnable {
                 return;
             }
             server.getBoard().makeAction(command, "RoundDecider");
-
-        }
-        server.getBoard().makeAction(command,"turnController");
+        }else server.getBoard().makeAction(command,"turnController");
     }
 
     public void setActive(boolean active) {
@@ -125,7 +126,7 @@ public class ClientHandler implements Runnable {
         }else if (command instanceof ChooseDetails){
             System.out.println("Ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
             if(Tower.isAlreadyPicked(((ChooseDetails) command).getTower()) || Wizard.isAlreadyPicked(((ChooseDetails) command).getWizard())){
-                server.getIdtoClientMap().get(idClient).send(new SetDetails("This selection is invalid, check if one of the choices isn't already picked"));
+                server.getIdtoClientMap().get(idClient).send(new SetDetails(server.getBoard().getNumberOfPlayers(), "This selection is invalid, check if one of the choices isn't already picked"));
                 return;
             }
             server.getBoard().getController().setTower(((ChooseDetails) command).getTower(),idClient);
@@ -133,7 +134,10 @@ public class ClientHandler implements Runnable {
             Wizard.choose(((ChooseDetails) command).getWizard());
             Tower.choose(((ChooseDetails) command).getTower());
             System.out.println("Ho settato la scelta");
-            //server.getBoard().sendAll(new SetDetails(((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower(),server.getBoard().game().getCurrentPlayer().getNickname()));
+            String name = server.getIdNameMap().get(idClient);
+            System.out.println(name);
+            SetDetails message = new SetDetails(((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower(),name, server.getBoard().getNumberOfPlayers());
+            server.getBoard().sendAll(message);
             System.out.println("Sto mandando che ha selezionato la torre: " + ((ChooseDetails) command).getTower() + " e il mago: " + ((ChooseDetails) command).getWizard());
             server.getBoard().sendtoPlayer(new SetDetails("Sono destinati alla view",((ChooseDetails) command).getWizard(),((ChooseDetails) command).getTower()),idClient);
             server.getBoard().setup();

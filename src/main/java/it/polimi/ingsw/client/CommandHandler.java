@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.servermessages.*;
 import it.polimi.ingsw.server.servermessages.gamemessages.*;
 
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class CommandHandler {
@@ -48,7 +49,6 @@ public class CommandHandler {
         }else if (answer instanceof MatchStarted) {
             if (((MatchStarted) answer).getName().equals(model.getNickname())) {
                 System.out.println("Mi è arrivato il match started con i miei dati");
-                cli.createGameBoard(((MatchStarted) answer).getClouds().size());
                 model.setIslands(((MatchStarted) answer).getIslands());
                 model.setClouds(((MatchStarted) answer).getClouds());
 
@@ -57,8 +57,8 @@ public class CommandHandler {
             model.updateEntrance(((MatchStarted) answer).getName(), ((MatchStarted) answer).getEntrance());
         }
         else if (answer instanceof StartTurnMessage) {
-            model.setPhase(3);
-            view.firePropertyChange("StartTurnMessage",null, answer);
+            //model.setPhase(3);
+            view.firePropertyChange("startTurnMessage",null, answer);
 
         }
         if(answer instanceof ChooseAssistantCard){
@@ -77,8 +77,7 @@ public class CommandHandler {
             fireProfessor(answer);
 
         } else if (answer instanceof MoveMessage) {
-            view.firePropertyChange("MoveMessage",null,answer);
-
+            view.firePropertyChange("moveMessage",null,answer);
 
         } else if (answer instanceof GameOver){
             view.firePropertyChange("gameOver",null,answer);
@@ -101,16 +100,15 @@ public class CommandHandler {
 
 
     private void fireMotherNatureMoved(MovedMotherNature motherNature) {
-        if(motherNature.getIslandTile() == null){
-            System.out.println("The number of steps you chose is invalid, try again");
-            model.setInputEnabler(true);
-        }
         if(motherNature.isCheck()){
-            view.firePropertyChange("MovedMotherNature",null,motherNature);
-            return;
+            System.out.println("INFO : era la mia mossa");
+            if(motherNature.getIslandTile() == null){
+                System.out.println("The number of steps you chose is invalid, try again");
+                model.setInputEnabler(true);
+                return;
+            }
         }
-        cli.getGameBoard().setMotherNaturePosition(motherNature.getIslandTile());
-        model.setInputEnabler(false);
+        view.firePropertyChange("MovedMotherNature",null,motherNature);
     }
 
     private void fireProfessor(Answer answer) {
@@ -124,7 +122,7 @@ public class CommandHandler {
     }
 
     private void fireChoiceAssistantCard(Answer answer) {
-        view.firePropertyChange("ChooseAssistantCard",null,answer);
+        view.firePropertyChange("chooseAssistantCard",null,answer);
         model.setInputEnabler(true);
     }
 
@@ -145,11 +143,16 @@ public class CommandHandler {
             fireCustomMessage(answer);
         } else if (answer instanceof SetDetails message) {
             model.setPhase(1);
+            if(message.getNum_players() != 0 && cli.getGameBoard()==null){
+                cli.createGameBoard(message.getNum_players());
+            }
             if(message.getWizard() == null){
                 view.firePropertyChange("setup", null, "SetDetails");
             }else {
-                model.setWizard(((SetDetails) answer).getWizard().toString());
-                model.setTower(((SetDetails) answer).getTower().toString());
+                if(Objects.equals(message.getName(), model.getNickname())){
+                    model.setWizard(((SetDetails) answer).getWizard().toString());
+                    model.setTower(((SetDetails) answer).getTower().toString());
+                }
                 if(message.getName() != null){
                     model.updateNameToTower(message.getName(), message.getTower());
                 }
@@ -160,7 +163,6 @@ public class CommandHandler {
         } else if (answer instanceof MatchStarted) {
             if(((MatchStarted)answer).getName().equals(model.getNickname())){
                 System.out.println("Mi è arrivato il match started con i miei dati");
-                cli.createGameBoard(((MatchStarted) answer).getClouds().size());
                 model.setIslands(((MatchStarted) answer).getIslands());
                 model.setClouds(((MatchStarted) answer).getClouds());
             }

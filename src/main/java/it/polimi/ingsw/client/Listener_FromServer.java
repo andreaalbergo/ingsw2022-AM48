@@ -39,7 +39,7 @@ public class Listener_FromServer implements Runnable{
 
         }finally {
             try{
-                System.out.println("SEI USCITO DAL WHILE NEL RUN DEL LISTENER" + view.getCli().isActiveGame() + view.getCli());
+                System.out.println("SEI USCITO DAL WHILE NEL RUN DEL LISTENER " + view.getCli().isActiveGame() + view.getCli());
                 in.close();
                 socket.close();
             } catch (IOException e) {

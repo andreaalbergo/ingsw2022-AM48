@@ -9,8 +9,10 @@ import java.util.List;
 public class SetDetails implements Answer{
     @Override
     public Object getMessage() {
-        return message;
+        return "Set Details";
     }
+
+    private final int num_players;
 
     private final String message;
 
@@ -24,7 +26,12 @@ public class SetDetails implements Answer{
 
     private final String name;
 
-    public SetDetails(String message) {
+    public int getNum_players() {
+        return num_players;
+    }
+
+    public SetDetails(int num_players, String message) {
+        this.num_players = num_players;
         this.message = message;
         this.wizard = null;
         this.tower= null;
@@ -44,13 +51,15 @@ public class SetDetails implements Answer{
         this.wizard = wizard;
         this.tower = tower;
         name = null;
+        num_players = 0;
     }
 
-    public SetDetails(Wizard wizard, Tower tower, String name) {
+    public SetDetails(Wizard wizard, Tower tower, String name,int num_players) {
         this.wizard = wizard;
         this.tower = tower;
         this.name = name;
         message = "Sto mandando il set details a tutti";
+        this.num_players = num_players;
     }
 
     public String getName() {

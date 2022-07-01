@@ -13,7 +13,7 @@ public class ChooseAssistantCard implements Answer{
         return available_cards;
     }
 
-    private List<AssistantCard> available_cards;
+    private final List<AssistantCard> available_cards;
 
     public ChooseAssistantCard(String message, String name, List<AssistantCard> deck) {
         this.message = message;

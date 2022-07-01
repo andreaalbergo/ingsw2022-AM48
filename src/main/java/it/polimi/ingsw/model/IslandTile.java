@@ -128,6 +128,9 @@ public class IslandTile implements Serializable {
             students[i] = students[i] + adjacentIslandTile.students[i];
         }
         adjacentIslandTile.setIslandID(this.getIslandID());
+        for(int i = 0; i < 5; i++){
+            adjacentIslandTile.getStudents()[i] = 0;
+        }
         adjacentIslandTile.setArchipelagoDimension(0);
     }
 

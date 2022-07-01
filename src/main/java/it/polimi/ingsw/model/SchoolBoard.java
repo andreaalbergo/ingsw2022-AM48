@@ -170,17 +170,29 @@ public class SchoolBoard implements Serializable {
         if(!entrance.contains(color)){
             throw new InvalidSelection();
         }
-
         entrance.remove(color);
-        movedstudents++;
+        //movedstudents++;
     }
 
     public void addStudentToIsland(Color color, IslandTile islandTile) throws InvalidSelection {
-        removeFromEntrance(color);
         if((movedstudents == 4 && numberOfPlayers==3)|| (movedstudents == 3 && numberOfPlayers==2))
             //System.out.println("\nYou already moved the maximum number of students\n");
             throw new InvalidSelection();
+        switch (numberOfPlayers) {
+            case 2:
+                if (movedstudents < 3) {
+                    movedstudents++;
+                }
+
+            case 3:
+                if (movedstudents < 4) {
+                    movedstudents++;
+                }
+
+        }
+        removeFromEntrance(color);
         islandTile.getStudents()[color.getColorIndex()]++;
+
 
     }
     /* BOZZ

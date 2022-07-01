@@ -128,7 +128,8 @@ public class ConnectionSocket {
     private boolean nicknameChecker(Object readObject) throws DuplicateNicknameException{
         SerializedAnswer answer = (SerializedAnswer) readObject;
         LOGGER.log(Level.INFO, answer.getAnswer().getMessage().toString());
-        if (answer.getAnswer() instanceof ConnectionMessage && ((ConnectionMessage) answer.getAnswer()).isCheck()) {
+        if (answer.getAnswer() instanceof ConnectionMessage message && ((ConnectionMessage) answer.getAnswer()).isCheck()) {
+            System.out.println(message.getMessage());
             return true;
         } else if (answer.getAnswer() instanceof GameError) {
             if (((GameError) answer.getAnswer()).getError().equals(Errors.DUPLICATENICKNAME)) {
@@ -148,7 +149,7 @@ public class ConnectionSocket {
     public void send(Message message) {
         SerializedMessage serializedMessage = new SerializedMessage(message);
         try {
-            System.out.println("Sto mandando questo messaggio" + message);
+            System.out.println("Sto mandando questo messaggio " + message);
             out.reset();
             out.writeObject(serializedMessage);
             out.flush();
@@ -161,9 +162,9 @@ public class ConnectionSocket {
     public void send(UserCommand command){
         SerializedMessage serializedMessage = new SerializedMessage(command);
         try {
-            System.out.println("Sto mandando questo messaggio" + command);
+            System.out.println("Sto mandando questo messaggio " + serializedMessage.command);
             out.reset();
-            out.writeObject(command);
+            out.writeObject(serializedMessage);
             out.flush();
         } catch (IOException e) {
             System.err.println(e.getMessage());

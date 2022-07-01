@@ -141,7 +141,7 @@ public class Board {
      */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
-        currentPlayerIndex = playersTurnOrder.indexOf(currentPlayer);
+        currentPlayerIndex = currentPlayer.getPlayerID();
     }
 
     /**
@@ -183,16 +183,42 @@ public class Board {
      * if the pointer has reached the last element, a new turn is starting.
      */
     public void setNextPlayer() {
-        if (currentPlayerIndex == playersTurnOrder.size()-1) {
+        System.out.println("The current player was "+ currentPlayer.getNickname() + ", with ID: "+currentPlayer.getPlayerID());
+        if(playersTurnOrder.isEmpty()){
+            currentPlayerIndex = currentPlayer.getPlayerID();
+            if(activePlayers.size() == 2){
+                if(currentPlayerIndex == 1){
+                    currentPlayerIndex = 0;
+                    setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+                } else if (currentPlayerIndex == 0) {
+                    currentPlayerIndex = 1;
+                    setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+                }
+            }
+            if(activePlayers.size() == 3){
+                if(currentPlayerIndex == 2){
+                    currentPlayerIndex = 0;
+                    setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+                }else{
+                    currentPlayerIndex++;
+                    setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+                }
+            }
+            System.out.println("The current player now is "+ currentPlayer.getNickname() + ", with ID: "+currentPlayer.getPlayerID());
+        }
+        else if (currentPlayerIndex == playersTurnOrder.size()-1) {
             currentPlayerIndex = 0;
+            setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+            System.out.println("The current player now is "+ currentPlayer.getNickname() + ", with ID: "+currentPlayer.getPlayerID());
         } else {
             currentPlayerIndex++;
-            setCurrentPlayer(playersTurnOrder.get(currentPlayerIndex));
+            setCurrentPlayer(activePlayers.get(currentPlayerIndex));
+            System.out.println("The current player now is "+ currentPlayer.getNickname() + ", with ID: "+currentPlayer.getPlayerID());
         }
     }
 
     public int getCurrentPlayerIndex(){
-        return currentPlayerIndex;
+        return currentPlayer.getPlayerID();
     }
 }
 

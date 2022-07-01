@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private final String nickname;
     private final int playerID;
     private AssistantCard chosenCard;
@@ -143,6 +144,7 @@ public class Player {
     }
 
     public void setChosenCard(AssistantCard chosenCard) {
+        System.out.println("I've set your card :)");
         this.chosenCard = chosenCard;
     }
 }

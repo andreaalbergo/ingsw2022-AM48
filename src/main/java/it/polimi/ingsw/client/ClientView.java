@@ -94,11 +94,17 @@ public class ClientView {
 
     public void setIslands(List<IslandTile> islands) {
         System.out.println("Check da client view: Ho settato le isole sono: " + islands.size());
+        for (IslandTile islandTile : islands){
+            System.out.println(islandTile.getIslandID());
+            for (int i= 0; i<5; i++){
+                System.out.println(islandTile.getStudents()[i]);
+            }
+        }
         this.islands = islands;
+        cli.getGameBoard().setArchipelagoGrid(islands);
     }
 
     public List<Cloud> getClouds() {
-
         return clouds;
     }
 
@@ -106,8 +112,7 @@ public class ClientView {
         System.out.println("Check da client view: Ho settato le nuvole sono: " + clouds.size());
         this.clouds = clouds;
         assert cli != null;
-
-        cli.getGameBoard().setCloudGrid(clouds, getPhase(), false);
+        cli.getGameBoard().setCloudGrid(clouds, false);
     }
 
     public void setWizard(String wizard) {
@@ -132,18 +137,18 @@ public class ClientView {
             nameToDining.put(nickname, dining);
         else {
             nameToDining.replace(nickname, dining);
-            cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
         }
+        cli.getGameBoard().getSchoolFromNickname(nickname).setDining(dining);
     }
     public HashMap<String, List<Color>> getNameToEntrance() {
         return nameToEntrance;
     }
 
     public void updateEntrance(String nickname, List<Color> entrance){
-        if(!nameToEntrance.containsKey(nickname))
+        if(!nameToEntrance.containsKey(nickname)) {
             nameToEntrance.put(nickname,entrance);
-            nameToEntrance.replace(nickname, entrance);
-            cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
+        }else nameToEntrance.replace(nickname, entrance);
+        cli.getGameBoard().getSchoolFromNickname(nickname).setEntrance(entrance);
     }
 
     public void setTower(String tower) {
@@ -164,13 +169,18 @@ public class ClientView {
         nameToDining = new HashMap<>();
         nameToTower = new HashMap<>();
         professor = new boolean[5];
+        assistantCards = new ArrayList<>();
     }
-
+/*
     public ClientView(GUI gui) {
         this.gui = gui;
         //gameBoard = new GameBoard();
         cli = null;
     }
+
+
+ */
+
 
     public Answer getAnswer() {
         return answer;
@@ -260,11 +270,12 @@ public class ClientView {
     }
 
     public void updateNameToTower(String name, Tower tower) {
+        System.out.println("Sono dentro updateNameToTower");
         if(!nameToTower.containsKey(name)) {
-            System.out.println("Sto aggiungengo "+ tower + " alla map");
+            System.out.println("Sto aggiungendo "+ tower + " alla map");
             nameToTower.put(name, tower);
-            cli.getGameBoard().insertNicknameToTower(nickname, tower);
-        } else
-            nameToTower.replace(name,tower);
+
+        } else nameToTower.replace(name,tower);
+        cli.getGameBoard().insertNicknameToTower(name, tower);
     }
 }

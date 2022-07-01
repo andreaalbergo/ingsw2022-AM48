@@ -14,9 +14,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class GUI extends Application implements PropertyChangeListener {
-
+/*
     private final ClientView clientView;
     private final CommandHandler handler;
+
+ */
     private final PropertyChangeSupport listener = new PropertyChangeSupport(this);
     private ConnectionSocket connectionSocket = null;
     @Override
@@ -39,11 +41,11 @@ public class GUI extends Application implements PropertyChangeListener {
 
     //in newCommandHandler, this is set to cli, not GUI
     public GUI(){
-
+/*
         clientView = new ClientView(this);
         handler = new CommandHandler(clientView,this);
         boolean active = true;
-
+*/
     }
 
 
@@ -65,7 +67,7 @@ public class GUI extends Application implements PropertyChangeListener {
             this.connectionSocket = connectionSocket;
         }
     }
-
+/*
     public ClientView getModelView() {
         return clientView;
     }
@@ -73,6 +75,8 @@ public class GUI extends Application implements PropertyChangeListener {
     public CommandHandler getCommandHandler(){
         return handler;
     }
+
+ */
 
     private void newPlayer(){
         Platform.runLater(() -> {

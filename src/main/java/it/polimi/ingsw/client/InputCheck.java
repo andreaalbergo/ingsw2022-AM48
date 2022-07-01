@@ -24,12 +24,14 @@ public class InputCheck {
     }
 
     public MoveMotherNature moveMotherNature(String[] in){
+        System.out.println("I AM IN moveMotherNature");
         if(view.getTurnPhase() > 1){
             System.out.println("Not in the correct game phase to perform this command");
         }
-        MoveMotherNature action = null;
+        MoveMotherNature action;
         try {
             action = new MoveMotherNature(in);
+            System.out.println("Stai dicendo che vuoi fare " + action.getNumber_of_steps() + " passi");
             int number_of_steps = Integer.parseInt(in[1]);
             if(number_of_steps < 0 || number_of_steps > view.getChosenCard().getNumber_of_steps()){
                 System.err.println("The number of steps you chose is invalid");
@@ -60,7 +62,8 @@ public class InputCheck {
         if(whereto.equals("ISLAND")){
             int index = Integer.parseInt(action[2]);
             Color color = Color.parseInput(action[3]);
-            IslandTile islandTile = view.getIslands().get(index - 1); // meno uno perche penso isole 1 -> 12
+            IslandTile islandTile = view.getIslands().get(index);
+            System.out.println("Vuoi muoverlo nell'isola "+ islandTile.getIslandID());
             return new MoveStudentToIsland(islandTile,color);
         }
         return null;
@@ -69,10 +72,11 @@ public class InputCheck {
     public EndTurn pickCloud(String[] in) {
         if(view.getTurnPhase() != 3){
             System.out.println("Not in the correct game phase to perform this command");
+            return null;
         }
         int index = Integer.parseInt(in[1]);
        try{
-           Cloud cloud = view.getClouds().get(index);
+           Cloud cloud = view.getClouds().get(index - 1);
        } catch (IndexOutOfBoundsException e){
            System.out.println("The cloud that you selected...vanished, or was never there" +
                    ", you tell me...but you have to pick another one... :( ");
@@ -81,6 +85,6 @@ public class InputCheck {
         if (view.getClouds().size() == 1){
             return new EndTurn(view.getClouds().get(0),true);
         }
-        return new EndTurn(view.getClouds().get(index));
+        return new EndTurn(view.getClouds().get(index - 1));
     }
 }

@@ -18,7 +18,7 @@ public class GameBoard {
     private final ArchipelagoGrid archipelagoGrid;
     private int numberOfSchools;
     private final CloudGrid clouds;
-    private HashMap<String, SchoolGrid> schools;
+    private final HashMap<String, SchoolGrid> schools;
     private final int NUMBER_OF_PLAYERS;
     private final Blueprint boardScheme = new Blueprint();
 
@@ -32,6 +32,7 @@ public class GameBoard {
         archipelagoGrid = new ArchipelagoGrid();
         clouds = new CloudGrid(numberOfPlayers);
         this.NUMBER_OF_PLAYERS = numberOfPlayers;
+        schools = new HashMap<>();
     }
 
 
@@ -79,6 +80,7 @@ public class GameBoard {
      * @param tower of type Tower - the chosen tower by given nickname.
      */
     public void insertNicknameToTower(String nickname, Tower tower) {
+        System.out.println("sono nel insertNicknameToTower");
         schools.put(nickname, new SchoolGrid(getNumberOfPlayers(), tower.getIndex()));
         numberOfSchools++;
     }
@@ -93,14 +95,10 @@ public class GameBoard {
      * mode).
      *
      * @param clouds of type List<> - the list of clouds.
-     * @param phase of type int - the phase of the game.
      * @param toEmpty of type boolean - true if clouds are full and need to be emptied.
      */
-    public void setCloudGrid(List<Cloud> clouds, int phase, boolean toEmpty) {
-        if (phase==1)
-            for (int i = 0; i < getNumberOfPlayers(); i++)
-                this.clouds.updateSingleCloud(i, clouds.get(i).getCloudCells());
-        else if(toEmpty)
+    public void setCloudGrid(List<Cloud> clouds, boolean toEmpty) {
+        if(toEmpty)
             for (int i = 0; i < getNumberOfPlayers(); i++)
                 this.clouds.emptySingleCloud(i);
         else
@@ -113,24 +111,15 @@ public class GameBoard {
      * phase (if phase is 1 it means game started and setup phase).
      *
      * @param islands of type List<> - the list of islands.
-     * @param phase of type int - the game phase.
      */
-    public void setArchipelagoGrid(List<IslandTile> islands, int phase) {
-        if(phase==1) {
-            for (int i = 1; i < 11; i++) {
-                int[] students = islands.get(i).getStudents();
-
-                for (int j = 0; j < 5; j++) {
-                    if (students[j] != 0) {
-                        archipelagoGrid.updateIsland(i, 4 + j, 1);
-                        break;
-                    }
-                }
-            }
-        } else {
+    public void setArchipelagoGrid(List<IslandTile> islands) {
             for (int i = 0; i < 12; i++) {
                 archipelagoGrid.updateIsland(i, 0, islands.get(i).getIslandID());
-                archipelagoGrid.updateIsland(i, 1, getMotherNaturePosition());
+                if (getMotherNaturePosition()==i)
+                    archipelagoGrid.updateIsland(i, 1, 1);
+                else if (getMotherNaturePosition()!=i) {
+                    archipelagoGrid.updateIsland(i, 1, 0);
+                }
 
                 if (islands.get(i).getIslandOwner()!=null)
                     archipelagoGrid.updateIsland(i, 2, islands.get(i).getIslandOwner().getTower().getIndex());
@@ -144,7 +133,6 @@ public class GameBoard {
                 archipelagoGrid.updateIsland(i, 7, islands.get(i).getStudents()[3]);
                 archipelagoGrid.updateIsland(i, 8, islands.get(i).getStudents()[4]);
             }
-        }
     }
 
     /**

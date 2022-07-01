@@ -7,6 +7,7 @@ import it.polimi.ingsw.exceptions.GameOverException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.server.servermessages.*;
 import it.polimi.ingsw.server.servermessages.gamemessages.GameOver;
+import it.polimi.ingsw.server.servermessages.gamemessages.MovedMotherNature;
 import it.polimi.ingsw.server.servermessages.gamemessages.StartTurnMessage;
 import it.polimi.ingsw.server.servermessages.gamemessages.WinMessage;
 
@@ -25,6 +26,11 @@ public class BoardHandler {
     }
 
     private final Board board;
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
     private int numberOfPlayers;
 
     private final Random rnd = new Random();
@@ -57,7 +63,6 @@ public class BoardHandler {
         board = new Board();
         controller = new GameController(board, this);
         controllerListener.addPropertyChangeListener(controller);
-
     }
 
     /**
@@ -123,7 +128,6 @@ public class BoardHandler {
         sendtoPlayer(request,player.getPlayerID());
     }
 
-
     public void sendtoPlayer(Answer answer, Integer id) {
         server.getIdtoClientMap().get(id).send(answer);
     }
@@ -137,8 +141,6 @@ public class BoardHandler {
             server.getIdtoClientMap().get(player.getPlayerID()).send(message);
     }
 
-
-    //STO METODO FUNZIONA MA STAMPA DUE VOLTE...
     public void sendAllExcept(Answer answer, int idClient) {
         for (Player player: board.getActivePlayers()) {
             if(server.getNametoIdMap().get(player.getNickname()) != idClient){
@@ -146,7 +148,6 @@ public class BoardHandler {
             }
         }
     }
-
 
     public void setupPlayer(String nickname, Integer iDclient) {
         board.createNewPlayer(new Player(nickname,iDclient));
@@ -194,7 +195,7 @@ public class BoardHandler {
             startGame();
         }
         logger.log(Level.INFO,"Sei nel setup");
-        SetDetails request = new SetDetails("Please choose your Wizard and your Tower.");
+        SetDetails request = new SetDetails(numberOfPlayers, "Please choose your Wizard and your Tower.");
         request.addRemaining(Wizard.getAvailable(), Tower.available());
         if (numberOfPlayers == 2 && Tower.available().size() > 1) {
             //logger.log(Level.INFO,"Sei nel setup con 2 giocatori");
@@ -223,7 +224,7 @@ public class BoardHandler {
             }
         }
         System.out.println("Entrambi hanno scelto");
-        int random_index = rnd.nextInt(numberOfPlayers);
+        int random_index = rnd.nextInt(1,numberOfPlayers + 1) - 1;
         System.out.println(" Mi è capitato l'index " + random_index);
         board.setCurrentPlayer(board.getActivePlayers().get(random_index));
         //logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer().getNickname());
@@ -248,7 +249,7 @@ public class BoardHandler {
         }
 
 
-        System.out.println("Sto dicendo di iniziare il turno a " + board.getCurrentPlayerIndex());
+        System.out.println("Sto dicendo di iniziare il turno a " + board.getCurrentPlayer().getPlayerID());
         sendtoPlayer(new StartTurnMessage(true),board.getCurrentPlayerIndex());
         sendAllExcept(new StartTurnMessage(), board.getCurrentPlayerIndex());
         sendAll(new CustomMessage("The first round is starting, brace yourself...", false));
@@ -275,10 +276,13 @@ public class BoardHandler {
     }
 
     private void startRoundPhase(UserCommand command) {
-
         synchronized (this){
-            controllerListener.firePropertyChange("ChooseAssistantCard",null,((ChoiceAssistantCard) command).getCard());
+            controllerListener.firePropertyChange("ChoiceAssistantCard",null,((ChoiceAssistantCard) command).getCard());
         }
+        if(numberOfPlayers == 2){
+            phase = 3;
+        }
+        System.out.println("La Map ora è di " + board.getPlayerAssistantCardHashMap().size() + ", e la fase è " + phase);
             if(board.getPlayerAssistantCardHashMap().size() < numberOfPlayers){
                 chooseAssistantCard();
                 //sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his card..."), board.getCurrentPlayerIndex());
@@ -292,6 +296,9 @@ public class BoardHandler {
 
     }
 
+    public void startTurnPhase() {
+
+    }
 
 
 }

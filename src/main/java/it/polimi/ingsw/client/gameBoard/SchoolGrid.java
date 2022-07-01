@@ -86,4 +86,8 @@ public class SchoolGrid {
     public int getTowers() {
         return towers;
     }
+
+    public int getTowerColor() {
+        return towerColor;
+    }
 }

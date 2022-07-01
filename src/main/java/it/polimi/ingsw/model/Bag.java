@@ -2,12 +2,13 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.GameOverException;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  *
  */
-public class Bag {
+public class Bag implements Serializable {
     private final int[] students;
     private final Board board;
 

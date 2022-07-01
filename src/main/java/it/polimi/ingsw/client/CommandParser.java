@@ -30,8 +30,10 @@ public class CommandParser implements PropertyChangeListener {
     }
 
     public synchronized boolean action(String input) {
+        System.out.println("Mi è arrivato: "+ input);
         String[] action = input.split(" ");
         String command = action[0];
+        System.out.println("Action 1: "+ action[1]);
         UserCommand response;
 
         try{
