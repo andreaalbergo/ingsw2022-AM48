@@ -73,7 +73,7 @@ public class BoardManager {
     public void createCloudList() {
         int players = board.getActivePlayers().size();
         for (int i = 0; i < players; i++) {
-            clouds.add(new Cloud());
+            clouds.add(new Cloud(i));
         }
     }
 

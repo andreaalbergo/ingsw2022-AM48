@@ -42,11 +42,8 @@ public class SchoolBoard implements Serializable {
         this.movedStudents = movedStudents;
     }
 
-    /**
-     * Method getNumberOfPlayers is a getter.
-     *
-     * @return of type int.
-     */
+    private int movedstudents = 0;
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -101,36 +98,20 @@ public class SchoolBoard implements Serializable {
      * @param color is the color of the student the player wants to move to the dining room
      */
     public void addStudentToDiningRoom(Color color) throws InvalidSelection{
-        if((movedStudents == 4 && numberOfPlayers==3)|| (movedStudents == 3 && numberOfPlayers==2))
+        if((movedstudents == 4 && numberOfPlayers==3) || (movedstudents == 3 && numberOfPlayers==2))
             //System.out.println("\nYou already moved the maximum number of students\n");
             throw new InvalidSelection();
         else {
             diningRoom[color.getColorIndex()] += 1;
             removeFromEntrance(color);
-
-            if(numberOfPlayers == 2 && movedstudents < 3){
+            if(movedstudents < 3 && numberOfPlayers == 2){
                 movedstudents++;
-            } else{
-                if(numberOfPlayers == 3 && movedstudents < 4){
-                    movedstudents++;
-                }
             }
-            /*
-            switch (numberOfPlayers) {
-                case 2: {
-                    if (movedStudents < 3) {
-                        movedStudents++;
-                    }
-                }
-
-                case 3: {
-                    if (movedStudents < 4) {
-                        movedStudents++;
-                    }
-                }
-
+            if (movedstudents < 4 && numberOfPlayers == 3) {
+                movedstudents++;
             }
-             */
+
+
         }
     }
 
@@ -234,7 +215,7 @@ public class SchoolBoard implements Serializable {
             throw new InvalidSelection();
         }
         entrance.remove(color);
-        //movedStudents++;
+        //movedstudents++;
     }
 
     /**
@@ -245,23 +226,19 @@ public class SchoolBoard implements Serializable {
      * @throws InvalidSelection when moved students surpasses given limit.
      */
     public void addStudentToIsland(Color color, IslandTile islandTile) throws InvalidSelection {
-        if((movedStudents == 4 && numberOfPlayers==3)|| (movedStudents == 3 && numberOfPlayers==2))
+        if((movedstudents == 4 && numberOfPlayers==3)|| (movedstudents == 3 && numberOfPlayers==2))
             //System.out.println("\nYou already moved the maximum number of students\n");
             throw new InvalidSelection();
-        switch (numberOfPlayers) {
-            case 2:
-                if (movedStudents < 3) {
-                    movedStudents++;
-                }
 
-            case 3:
-                if (movedStudents < 4) {
-                    movedStudents++;
-                }
-
+        if(movedstudents < 3 && numberOfPlayers == 2){
+            movedstudents++;
+        }
+        if (movedstudents < 4 && numberOfPlayers == 3) {
+            movedstudents++;
         }
         removeFromEntrance(color);
         islandTile.getStudents()[color.getColorIndex()]++;
+
     }
 
     /**

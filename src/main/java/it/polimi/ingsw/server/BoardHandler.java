@@ -17,6 +17,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * BoardHandler handles the board (game) and the player on the server sides, invoking the game controller for changes
+ *
+ * @author andrea albergo
+ */
 public class BoardHandler {
     private final MultiplayerServer server;
     private final GameController controller;
@@ -57,6 +62,11 @@ public class BoardHandler {
         return controller;
     }
 
+    /**
+     * BoardHandler constructor
+     *
+     * @param server Multiplayer server
+     */
     public BoardHandler(MultiplayerServer server) {
         this.server = server;
         isStarted = false;
@@ -81,6 +91,9 @@ public class BoardHandler {
         setClouds();
     }
 
+    /**
+     * Sets the clouds that are than sent to the client for them to be printed in the GameBoard class
+     */
     public void setClouds() {
         for (Cloud cloud : board.getBoardManager().getClouds()){
             try {
@@ -105,42 +118,89 @@ public class BoardHandler {
     }
 
 
-
+    /**
+     * Distinguishes normal and expert mode
+     *
+     * @param expertMode boolean
+     */
     public void setExpertMode(boolean expertMode) {
         isExpertMode = expertMode;
     }
 
+    /**
+     * getter
+     *
+     * @return boolean
+     */
     public boolean isExpertMode() {
         return isExpertMode;
     }
 
+    /**
+     * sets the number of players for the game
+     *
+     * @param numberOfPlayers int
+     */
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+    /**
+     * Closes the communication with one the players
+     *
+     * @param idClient Integer
+     */
     public void unregisterPlayer(Integer idClient) {
        Player player = board.getActivePlayers().get(idClient);
     }
 
+    /**
+     *method used to communicate to the player the choice of the player
+     *
+     */
     private void chooseAssistantCard(){
         Player player = board.getCurrentPlayer();
         ChooseAssistantCard request = new ChooseAssistantCard(player.getNickname() + " please choose your assistant card from one of the list below:\n\n", player.getNickname(), player.getAssistantCards());
         sendtoPlayer(request,player.getPlayerID());
     }
 
+    /**
+     * Sends an answer to a specific player
+     *
+     * @param answer Answer
+     * @param id Integer
+     */
     public void sendtoPlayer(Answer answer, Integer id) {
         server.getIdtoClientMap().get(id).send(answer);
     }
 
+    /**
+     * A message is sent to all the active player
+     * An answer is sent to all the active player
+     *
+     * @param customMessage CustomMessage
+     */
     public void sendAll(CustomMessage customMessage) {
         for(Player player: board.getActivePlayers())
             server.getIdtoClientMap().get(player.getPlayerID()).send(customMessage);
     }
+
+    /**
+     *
+     *  An answer is sent to all the active player
+     * @param message Answer
+     */
     public void sendAll(Answer message) {
         for(Player player: board.getActivePlayers())
             server.getIdtoClientMap().get(player.getPlayerID()).send(message);
     }
 
+    /**
+     * Sends an answer to all except for the player with IdClient
+     *
+     * @param answer Answer
+     * @param idClient int
+     */
     public void sendAllExcept(Answer answer, int idClient) {
         for (Player player: board.getActivePlayers()) {
             if(server.getNametoIdMap().get(player.getNickname()) != idClient){
@@ -149,10 +209,21 @@ public class BoardHandler {
         }
     }
 
+    /**
+     * Setups a player into the game
+     *
+     * @param nickname String
+     * @param iDclient Integer
+     */
     public void setupPlayer(String nickname, Integer iDclient) {
         board.createNewPlayer(new Player(nickname,iDclient));
     }
 
+    /**
+     * Setups a new Schoolboard for the player into the board
+     *
+     * @param player Player
+     */
     public void setupPlayerSchoolBoard(Player player){
         player.createSchoolBoard(isExpertMode,numberOfPlayers);
         try {
@@ -163,6 +234,10 @@ public class BoardHandler {
     }
 
 
+    /**
+     * closes the connection with a String and sends win message to the winner
+     * @param s
+     */
     public void endGame(String s) {
         Client winner = checkWinner();
         sendtoPlayer(new WinMessage(), winner.getIdClient());
@@ -170,6 +245,12 @@ public class BoardHandler {
 
     }
 
+    /**
+     * closes the connection with a String and sends win message to the winner, identified
+     *
+     * @param s String
+     * @param id int
+     */
     public void endGame(String s, int id) {
         Client winner = server.getIdtoClientMap().get(id);
         sendtoPlayer(new WinMessage(), winner.getIdClient());
@@ -177,6 +258,12 @@ public class BoardHandler {
 
     }
 
+
+    /**
+     * method checks if there is a winner
+     *
+     * @return Client
+     */
     public Client checkWinner() {
         Player winner = board.getActivePlayers().get(0);
         for (Player player : board.getActivePlayers()){
@@ -186,21 +273,26 @@ public class BoardHandler {
         return server.getIdtoClientMap().get(winner.getPlayerID());
     }
 
+    /**
+     * signals if the game is started or not
+     *
+     * @return booleans
+     */
     public boolean isStarted() {
         return isStarted;
     }
 
+    /**
+     * used at the start to setup the first round of the game
+     */
     public synchronized void setup() {
         if (!isStarted()) {
             startGame();
         }
-        logger.log(Level.INFO,"Sei nel setup");
         SetDetails request = new SetDetails(numberOfPlayers, "Please choose your Wizard and your Tower.");
         request.addRemaining(Wizard.getAvailable(), Tower.available());
         if (numberOfPlayers == 2 && Tower.available().size() > 1) {
-            //logger.log(Level.INFO,"Sei nel setup con 2 giocatori");
             String player = board.getActivePlayers().get(numberOfPlayers - Tower.available().size() + 1).getNickname();
-            logger.log(Level.INFO,"Devo mandare messaggio a " + player);
             sendtoPlayer(request, server.getNametoIdMap().get(player));
             sendAllExcept(new CustomMessage(player + " is making his choice",false), server.getNametoIdMap().get(player));
             return;
@@ -225,26 +317,10 @@ public class BoardHandler {
         }
         System.out.println("Entrambi hanno scelto");
         int random_index = rnd.nextInt(1,numberOfPlayers + 1) - 1;
-        System.out.println(" Mi è capitato l'index " + random_index);
         board.setCurrentPlayer(board.getActivePlayers().get(random_index));
-        //logger.log(Level.INFO,"Inizia a scegliere " + board.getCurrentPlayer().getNickname());
         System.out.println("Inizia a scegliere" + board.getCurrentPlayer().getNickname());
         phase = 2;
-        System.out.println("Mi risultano attivi: " + board.getActivePlayers().get(0).getPlayerID() + " " + board.getActivePlayers().get(0).getNickname()  +  " e " + board.getActivePlayers().get(1).getPlayerID() + " " + board.getActivePlayers().get(1).getNickname());
-
         for(Player player : board.getActivePlayers()){
-            /*
-            System.out.println("Sto mandando a " + player.getNickname() + " il MatchStarted message");
-            System.out.println("Check Param 1 ");
-            board.getBoardManager().getClouds().forEach(n -> System.out.print(n.getCloudCells().size() + ", "));
-            System.out.println("Check Param 2 ");
-            board.getBoardManager().getIslands().forEach(n -> System.out.print(n.getIslandID() + ", "));
-            System.out.println("Check Param 3 ");
-            player.getSchoolBoard().getEntrance().forEach(n -> System.out.print(n + ", "));
-            System.out.println("Check Param 4 " + player.getNickname());
-
-
-             */
             sendAll(new MatchStarted(board.getBoardManager().getClouds(),board.getBoardManager().getIslands(),player.getSchoolBoard().getEntrance(), player.getNickname()));
         }
 
@@ -258,7 +334,6 @@ public class BoardHandler {
                         board.getCurrentPlayer().getAssistantCards()),
                 board.getCurrentPlayerIndex());
         sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his assistant card...please wait",false), board.getCurrentPlayerIndex());
-        //game().setNextPlayer();
 
     }
 
@@ -285,18 +360,10 @@ public class BoardHandler {
         System.out.println("La Map ora è di " + board.getPlayerAssistantCardHashMap().size() + ", e la fase è " + phase);
             if(board.getPlayerAssistantCardHashMap().size() < numberOfPlayers){
                 chooseAssistantCard();
-                //sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his card..."), board.getCurrentPlayerIndex());
-                //game().setNextPlayer();
             } else if (board.getPlayerAssistantCardHashMap().size() == numberOfPlayers-1) {
                 chooseAssistantCard();
-                //sendAllExcept(new CustomMessage(board.getCurrentPlayer().getNickname() + " is choosing his card..."),board.getCurrentPlayerIndex());
                 phase = 3;
-                //setClouds();
             }
-
-    }
-
-    public void startTurnPhase() {
 
     }
 

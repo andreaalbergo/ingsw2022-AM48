@@ -1,5 +1,11 @@
 package it.polimi.ingsw.server.servermessages;
 
+/**
+ * CustomMessage is one of the Server answers, is used to signals events that don't fit in
+ * a specific category
+ *
+ * @author andrea albergo
+ */
 public class CustomMessage implements Answer {
 
     private final String message;

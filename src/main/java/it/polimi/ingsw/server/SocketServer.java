@@ -11,6 +11,11 @@ import java.util.concurrent.Executors;
 
 import static java.lang.System.exit;
 
+/**
+ * Socket server creates a new socket server instance
+ *
+ * @author andrea albergo
+ */
 public class SocketServer implements Runnable{
 
     private final int port;
@@ -18,6 +23,13 @@ public class SocketServer implements Runnable{
     private boolean active;
     private final ExecutorService executorService;
 
+    /**
+     *
+     * constructor
+     *
+     * @param port int
+     * @param server MultiplayerServer
+     */
     public SocketServer(int port, MultiplayerServer server) {
         this.port = port;
         this.server = server;
@@ -25,10 +37,21 @@ public class SocketServer implements Runnable{
         this.executorService = Executors.newCachedThreadPool();
     }
 
+    /**
+     *sets the connection to active
+     *
+     * @param status boolean
+     */
     public void setActiveStatus(boolean status) {
         this.active = status;
     }
 
+    /**
+     * accepts connections from clients and create a new thread, one for each
+     * connection until disconnection from the client.
+     *
+     * @param serverSocket ServerSocket
+     */
     public void acceptNewConnections(ServerSocket serverSocket){
         while(active){
             try{
@@ -41,6 +64,9 @@ public class SocketServer implements Runnable{
 
     }
 
+    /**
+     * Runnable implementation
+     */
     @Override
     public void run() {
         try{

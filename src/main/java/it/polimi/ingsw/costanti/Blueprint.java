@@ -172,9 +172,9 @@ public class Blueprint {
      */
     private String getTower(int towerConfig) {
         return switch (towerConfig) {
-            case 1 -> WHITE_TOWER;
-            case 2 -> BLACK_TOWER;
-            case 3 -> GREY_TOWER;
+            case 0 -> WHITE_TOWER;
+            case 1 -> BLACK_TOWER;
+            case 2 -> GREY_TOWER;
             default -> EMPTY_TOWER_ISLAND;
         };
     }

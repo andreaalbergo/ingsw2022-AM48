@@ -12,12 +12,27 @@ import java.util.ArrayList;
  */
 public class Cloud implements Serializable{
     private final ArrayList<Color> cloudCells = new ArrayList<>();
+    //private final Board board;
 
     /**
      * Constructor Cloud creates a new instance.
      */
-    public Cloud() {
+    public Cloud(int i) {
+        //this.board = board;
+        iD = i;
     }
+
+    private boolean empty = true;
+
+    private final int iD;
+
+
+
+    public int getiD() {
+        return iD;
+    }
+
+
 
     /**
      * Method getCloudCells is a getter.
@@ -38,6 +53,7 @@ public class Cloud implements Serializable{
             schoolBoard.addStudentToEntrance(cloudCells.get(i).getColorIndex());
             cloudCells.remove(cloudCells.get(i));
         }
+        setEmpty(true);
     }
 
     /**
@@ -47,6 +63,14 @@ public class Cloud implements Serializable{
      */
     public void addStudentToCloud(Color color){
         cloudCells.add(color);
+        setEmpty(false);
+    }
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
     }
 }
 

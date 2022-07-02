@@ -111,7 +111,13 @@ public class InputCheck {
                    ", you tell me...but you have to pick another one... :( ");
            return null;
        }
-        if (view.getClouds().size() == 1){
+       boolean check = false;
+       for(Cloud cloud : view.getClouds()){
+           if(cloud.isEmpty()){
+               check = true;
+           }
+       }
+        if (check){
             return new EndTurn(view.getClouds().get(0),true);
         }
         return new EndTurn(view.getClouds().get(index - 1));

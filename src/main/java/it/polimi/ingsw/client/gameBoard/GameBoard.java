@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.Tower;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * GameBoard is the graphical representation of our game model, which consists of islands, clouds and players' school.
@@ -83,12 +82,6 @@ public class GameBoard {
         schools.put(nickname, new SchoolGrid(getNumberOfPlayers(), tower.getIndex()));
     }
 
-    /**
-     * Method getSchoolFromNickname is a getter
-     *
-     * @param nickname of type SchoolGrid.
-     * @return of type String.
-     */
     public SchoolGrid getSchoolFromNickname(String nickname) {
         return schools.get(nickname);
     }
@@ -99,15 +92,15 @@ public class GameBoard {
      * mode).
      *
      * @param clouds of type List<> - the list of clouds.
-     * @param toEmpty of type boolean - true if clouds are full and need to be emptied.
      */
-    public void setCloudGrid(List<Cloud> clouds, boolean toEmpty) {
-        if(toEmpty)
-            for (int i = 0; i < getNumberOfPlayers(); i++)
-                this.clouds.emptySingleCloud(i);
-        else
-            for (int i = 0; i < getNumberOfPlayers(); i++)
-                this.clouds.updateSingleCloud(i, clouds.get(i).getCloudCells());
+    public void setCloudGrid(List<Cloud> clouds) {
+            for (int i = 0; i < getNumberOfPlayers(); i++){
+                if (clouds.get(i).isEmpty())
+                        this.clouds.emptySingleCloud(i);
+                else
+                    this.clouds.updateSingleCloud(i, clouds.get(i).getCloudCells());
+
+            }
     }
 
     /**
@@ -117,30 +110,36 @@ public class GameBoard {
      * @param islands of type List<> - the list of islands.
      */
     public void setArchipelagoGrid(List<IslandTile> islands) {
-        for (Map.Entry<String,SchoolGrid> school : schools.entrySet())
-            school.getValue().resetTowers(getNumberOfPlayers());
+        int[] usedTowers = new int[getNumberOfPlayers()];
+        String[] nicknames = new String[getNumberOfPlayers()];
 
-        for (int i = 0; i < 12; i++) {
-            archipelagoGrid.updateIsland(i, 0, islands.get(i).getIslandID());
-            if (getMotherNaturePosition()==i)
-                archipelagoGrid.updateIsland(i, 1, 1);
-            else if (getMotherNaturePosition()!=i) {
-                archipelagoGrid.updateIsland(i, 1, 0);
+            for (int i = 0; i < 12; i++) {
+                archipelagoGrid.updateIsland(i, 0, islands.get(i).getIslandID());
+                if (getMotherNaturePosition()==i)
+                    archipelagoGrid.updateIsland(i, 1, 1);
+                else if (getMotherNaturePosition()!=i) {
+                    archipelagoGrid.updateIsland(i, 1, 0);
+                }
+
+                if (islands.get(i).getIslandOwner()!=null){
+                    usedTowers[islands.get(i).getIslandOwner().getTower().getIndex()]++;
+                    nicknames[islands.get(i).getIslandOwner().getTower().getIndex()] = islands.get(i).getIslandOwner().getNickname();
+                    archipelagoGrid.updateIsland(i, 2, islands.get(i).getIslandOwner().getTower().getIndex());
+                } else
+                    archipelagoGrid.updateIsland(i, 2, 3);
+
+                archipelagoGrid.updateIsland(i, 3, islands.get(i).getArchipelagoDimension());
+                archipelagoGrid.updateIsland(i, 4, islands.get(i).getStudents()[0]);
+                archipelagoGrid.updateIsland(i, 5, islands.get(i).getStudents()[1]);
+                archipelagoGrid.updateIsland(i, 6, islands.get(i).getStudents()[2]);
+                archipelagoGrid.updateIsland(i, 7, islands.get(i).getStudents()[3]);
+                archipelagoGrid.updateIsland(i, 8, islands.get(i).getStudents()[4]);
             }
 
-            if (islands.get(i).getIslandOwner()!=null){
-                schools.get(islands.get(i).getIslandOwner().getNickname()).decrementTowers();
-                archipelagoGrid.updateIsland(i, 2, islands.get(i).getIslandOwner().getTower().getIndex());
-            } else
-                archipelagoGrid.updateIsland(i, 2, 3);
-
-            archipelagoGrid.updateIsland(i, 3, islands.get(i).getArchipelagoDimension());
-            archipelagoGrid.updateIsland(i, 4, islands.get(i).getStudents()[0]);
-            archipelagoGrid.updateIsland(i, 5, islands.get(i).getStudents()[1]);
-            archipelagoGrid.updateIsland(i, 6, islands.get(i).getStudents()[2]);
-            archipelagoGrid.updateIsland(i, 7, islands.get(i).getStudents()[3]);
-            archipelagoGrid.updateIsland(i, 8, islands.get(i).getStudents()[4]);
-            }
+        for (int i = 0; i < getNumberOfPlayers(); i++) {
+            if (schools.get(nicknames[i])!=null)
+                schools.get(nicknames[i]).decrementTowers();
+        }
     }
 
     /**

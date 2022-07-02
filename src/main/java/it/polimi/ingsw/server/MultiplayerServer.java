@@ -17,16 +17,22 @@ import java.util.logging.Logger;
 
 import static java.lang.System.exit;
 
+/**
+ * Server class
+ *
+ * @author andrea albergo
+ */
 public class MultiplayerServer {
     private final int port;
     private BoardHandler board;
 
     private Boolean mode;
 
-    public Boolean isExpert() {
-        return mode;
-    }
-
+    /**
+     * Sets the mode for the type of game they are going to have
+     *
+     * @param mode boolean
+     */
     public void setMode(Boolean mode) {
         this.mode = mode;
     }
@@ -43,6 +49,11 @@ public class MultiplayerServer {
 
     private final SocketServer socketServer;
 
+    /**
+     * constructor
+     *
+     * @param port int
+     */
     public MultiplayerServer(int port) {
         this.port = port;
         clientConnectionMap = new HashMap<>();
@@ -55,23 +66,32 @@ public class MultiplayerServer {
 
     }
 
+    /**
+     * @return Map<Integer, Client>
+     */
     public Map<Integer, Client> getIdtoClientMap() {
         return idtoClientMap;
     }
 
+    /**
+     * @return Map<String, Integer>
+     */
     public Map<String, Integer> getNametoIdMap() {
         return nametoIdMap;
     }
 
+    /**
+     *
+     * @return Map<Integer, String>
+     */
     public Map<Integer, String> getIdNameMap() {
         return idNameMap;
     }
 
-    public Map<Client, ClientHandler> getClientConnectionMap() {
-        return clientConnectionMap;
-    }
 
-
+    /**
+     * Method to shut down the server on the server side
+     */
     public void quitter(){
         Scanner scanner = new Scanner(System.in);
         while(true){
@@ -84,16 +104,30 @@ public class MultiplayerServer {
         }
     }
 
+    /**
+     * sets the number of players
+     *
+     * @param number_of_Players int
+     */
     public void setNumber_of_Players(int number_of_Players){
 
             this.number_of_Players = number_of_Players;
 
     }
 
+    /**
+     * @return BoardHandler
+     */
     public BoardHandler getBoard() {
         return board;
     }
 
+    /**
+     * Clients wait here to be admitted to the game
+     *
+     * @param client ClientHandler
+     * @throws InterruptedException
+     */
     public synchronized void lobby(ClientHandler client) throws InterruptedException {
         waiting.add(client);
         System.out.println("\nNella lobby ci sono " + waiting.size() + " giocatori\n");
@@ -113,28 +147,19 @@ public class MultiplayerServer {
             }
             board.sendAll(new CustomMessage("Match started"));
             waiting.clear();
-            Wizard.setLists(); //ok setta bene
-            Tower.setList(); //ok setta bene
+            Wizard.setLists();
+            Tower.setList();
             board.setup();
-            /*
-            while(true){
-                int i = 0;
-                i = board.setupWizard(i);
-                if (i == number_of_Players){
-                    break;
-                }
-            }
-            while(true){
-                if (board.setupTower()){
-                    break;
-                }
-            }
-            */
+
         }else
             board.sendAll(new CustomMessage("There are still" + (number_of_Players - waiting.size()) + "slots left"));
 
     }
 
+    /**
+     * assignes an Id to the client
+     * @return int
+     */
     public int update_assignedId(){
         int id;
         if(assigned_clientID == -1){
@@ -147,30 +172,11 @@ public class MultiplayerServer {
         return id;
     }
 
-/*
-    public void startServer() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket;
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            System.err.println(e.getMessage()); // Porta non disponibile
-            return;
-        }
-        System.out.println("Server ready");
-        while (true) {
-            try {
-                Socket socket = serverSocket.accept();
-                executor.submit(new ClientHandler(socket, this));
-            } catch (IOException e) {
-                break; // Entrerei qui se serverSocket venisse chiuso
-            }
-        }
-        executor.shutdown();
-    }
 
-
- */
+    /**
+     * Removes the client form the game
+     * @param idClient Integer
+     */
     public synchronized void removeClientFromGame(Integer idClient) {
         board.unregisterPlayer(idClient);
         Client client = idtoClientMap.get(idClient);
@@ -187,6 +193,13 @@ public class MultiplayerServer {
         System.exit(0);
     }
 
+    /**
+     * registers the player to the server
+     *
+     * @param nickname String
+     * @param client ClientHandler
+     * @return Integer
+     */
     public synchronized Integer addClientToGame(String nickname, ClientHandler client) {
         Integer IDclient = nametoIdMap.get(nickname);
         System.out.println("ADDCLIENTTOGAME: DAL NICKNAME "+ nickname + " HO TROVATO L'ID " + IDclient);
@@ -263,8 +276,8 @@ public class MultiplayerServer {
 
     }
 
-    public int getWaitingSize() {
-        return waiting.size();
+    public Boolean getMode() {
+        return mode;
     }
 }
 

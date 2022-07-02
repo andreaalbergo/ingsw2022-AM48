@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.IslandTile;
 
 import java.util.List;
 
+/**
+ *  MatchStarted is one of the Server answers, used to signal the start of the Match
+ *  and sets some of the information for the Gameboard
+ */
 public class MatchStarted implements Answer{
 
         private final List<Cloud> clouds;
@@ -18,6 +22,16 @@ public class MatchStarted implements Answer{
         }
 
         private final String name;
+
+    /**
+     * Constructor
+     *
+     * @param cloudList List
+     * @param islandTiles List
+     * @param entrance List
+     * @param name String
+     */
+
 
     public MatchStarted(List<Cloud> cloudList, List<IslandTile> islandTiles, List<Color> entrance, String name){
         clouds = cloudList;

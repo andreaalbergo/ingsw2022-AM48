@@ -15,7 +15,7 @@ public class SchoolGrid {
     private final int towerColor;
     private List<Color> entrance = new ArrayList<>();
     private int[] diningRoom= new int[5];
-    private boolean[] professors = new boolean[5];
+    private final boolean[] professors = new boolean[5];
 
     /**
      * SchoolGrid is the school constructor.
@@ -56,12 +56,13 @@ public class SchoolGrid {
     }
 
     /**
-     * Method setProfessors is used to update given school professor's table for the CLI view.
+     * Method setProfessor is used to update given school professor's table for the CLI view.
      *
-     * @param professors of type boolean[] - the array of owned professors.
+     * @param professor of type boolean - the array of owned professors.
+     * @param index of type int - the index of the array.
      */
-    public void setProfessors(boolean[] professors) {
-        this.professors = professors;
+    public void setProfessor(boolean professor, int index) {
+        professors[index] = professor;
     }
 
     /**

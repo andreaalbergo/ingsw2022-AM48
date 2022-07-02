@@ -439,11 +439,13 @@ public class CLI implements Runnable, PropertyChangeListener {
         if(move.getDiningRoom()!=null)
             clientView.updateDining(move.getId(), move.getDiningRoom());
 
-
+        if(move.getMoved_students() != null){
+            if (move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 ) clientView.setTurnPhase(3);
+            if (move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2) clientView.setTurnPhase(3);
+        }
         gameBoard.printCLI();
 
-        if (move.getMoved_students() == 3 && gameBoard.getNumberOfPlayers() == 2) clientView.setTurnPhase(3);
-        if (move.getMoved_students() == 4 && gameBoard.getNumberOfPlayers() == 3 ) clientView.setTurnPhase(3);
+
         System.out.println("La fase è " + clientView.getTurnPhase());
     }
 

@@ -18,6 +18,12 @@ import java.util.logging.Logger;
 
 import static java.lang.System.exit;
 
+/**
+ *
+ * handles a connection between client and server
+ *
+ * @author andrea albergo
+ */
 public class ClientHandler implements Runnable {
 
     private final  Socket socket;
@@ -29,6 +35,12 @@ public class ClientHandler implements Runnable {
 
     private final Logger logger = Logger.getLogger(getClass().getName());
 
+    /**
+     * constructor
+     *
+     * @param socket Socket
+     * @param server MultiplayerServer
+     */
     public ClientHandler(Socket socket, MultiplayerServer server) {
         this.server = server;
         this.socket = socket;
@@ -45,27 +57,34 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public void sendSocketMessage(CustomMessage message) {
-        try {
-            outputStream.reset();
-            outputStream.writeObject(message);
-            outputStream.flush();
-        } catch (IOException e) {
-            close();
-        }
 
-    }
-
+    /**
+     * @return boolean
+     */
     public boolean isActive() {
         return active;
     }
+
+    /**
+     * @return Socket
+     */
     public Socket getSocket() {
         return socket;
     }
+
+    /**
+     * @return Integer
+     */
     public Integer getIdClient() {
         return idClient;
     }
 
+    /**
+     * Listens what comes through the input stream and calls methods upon reception
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public synchronized void readFromStream() throws IOException, ClassNotFoundException{
         SerializedMessage input = (SerializedMessage) inputStream.readObject();
         System.out.println("\nSei nel ReadFromStream e ho letto: " + input.command + "\n");
@@ -80,6 +99,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Links a player command to a corrispondant method
+     *
+     * @param command User Command
+     */
     public void commandLinker(UserCommand command) {
         Board game = server.getBoard().game();
         if (game.getCurrentPlayerIndex() != idClient){
@@ -101,10 +125,20 @@ public class ClientHandler implements Runnable {
         }else server.getBoard().makeAction(command,"turnController");
     }
 
+    /**
+     * Sets to active the connection
+     *
+     * @param active boolean
+     */
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * used to link messages to correspondant methods
+     *
+     * @param command Message command
+     */
     public void commandLinker(Message command) {
         if (command instanceof SetupConnection) {
             try{
@@ -151,6 +185,11 @@ public class ClientHandler implements Runnable {
     }
 
 
+    /**
+     * used to send a message through the socket
+     *
+     * @param message SerializedAnswer
+     */
     public void sendSocketMessage(SerializedAnswer message) {
         try{
             System.out.println("SENDSOCKET IN CLIENT HANDLER -> system answer: " + message.getAnswer().getMessage().toString());
@@ -166,6 +205,9 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * closes connection
+     */
     public void close(){
         server.removeClientFromGame(this.getIdClient());
         try {
@@ -176,6 +218,10 @@ public class ClientHandler implements Runnable {
     }
 
 
+    /**
+     * Sets the number of players
+     * @param message SetPlayersRequest
+     */
     public void setNumberofPlayers(SetPlayersRequest message){
         SerializedAnswer answer = new SerializedAnswer();
         answer.setSerializedAnswer(message);
@@ -206,7 +252,9 @@ public class ClientHandler implements Runnable {
     }
 
 
-
+    /**
+     * Runnable
+     */
     @Override
     public void run() {
         try{

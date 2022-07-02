@@ -88,7 +88,7 @@ public class GameController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch(evt.getPropertyName()) {
-            case "choiceAssistantCard" -> chooseAssistantCard((AssistantCard) evt.getNewValue());
+            case "ChoiceAssistantCard" -> chooseAssistantCard((AssistantCard) evt.getNewValue());
             case "MoveMotherNature" -> moveMotherNature((MoveMotherNature) evt.getNewValue());
             case "MoveStudentToIsland" -> moveStudentToIsland((MoveStudentToIsland) evt.getNewValue());
             case "EndTurn" -> endPlayerTurn((EndTurn) evt.getNewValue());
@@ -119,6 +119,7 @@ public class GameController implements PropertyChangeListener {
             int count = 0;
             for(int i = 0; i < 5 ; i++){
                 if (player.getSchoolBoard().checkProfessor(Color.colorFromIndex(i))){
+                    System.out.println("Ho il professore del color " + Color.colorFromIndex(i));
                     count = count + island.getStudents()[i];
                 }
             }
@@ -197,7 +198,10 @@ public class GameController implements PropertyChangeListener {
         }
 
         IslandTile islandbefore = boardHandler.game().getBoardManager().getIslands().get(positionBefore - 1);
+        //System.out.println("L'owner dell'isola before è " + islandbefore.getIslandOwner().getNickname());
         IslandTile islandafter = boardHandler.game().getBoardManager().getIslands().get(position_after + 1);
+        //System.out.println("L'owner dell'isola after è " + islandafter.getIslandOwner().getNickname());
+        //System.out.println("Io sto controllando rispetto all'isola "+island.getIslandOwner().getNickname());
         if(islandbefore.getIslandOwner() != null && islandafter.getIslandOwner()!= null && island.getIslandOwner()!=null &&
                 Objects.equals(islandbefore.getIslandOwner().getNickname(), island.getIslandOwner().getNickname()) && Objects.equals(islandafter.getIslandOwner().getNickname(), island.getIslandOwner().getNickname())){
             if(boardHandler.game().getBoardManager().getIslands().size() == 5){
@@ -208,6 +212,7 @@ public class GameController implements PropertyChangeListener {
             islandbefore.mergeIslands(islandafter);
             model.getBoardManager().getMotherNature().setNewID(islandbefore.getIslandID(),islandafter.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(islandbefore));
+            System.out.println("Nel check merge ho unito quella dopo a madrenatura e quella prima");
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),false),model.getCurrentPlayerIndex());
             return;
@@ -218,6 +223,7 @@ public class GameController implements PropertyChangeListener {
             model.getBoardManager().getMotherNature().setNewID(islandbefore.getIslandID(),island.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(islandbefore));
             //model.getBoardManager().getIslands().remove(island);
+            System.out.println("Nel check merge ho unito quella prima a madrenatura e quella prima");
             checkThreeIslands();
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(islandbefore),false),model.getCurrentPlayerIndex());
@@ -229,11 +235,13 @@ public class GameController implements PropertyChangeListener {
             model.getBoardManager().getMotherNature().setNewID(island.getIslandID(),islandafter.getIslandID());
             model.getBoardManager().getMotherNature().setPosition(model.getBoardManager().getIslands().indexOf(island));
             //model.getBoardManager().getIslands().remove(islandafter);
+            System.out.println("Nel check merge ho unito quella dopo a madrenatura");
             checkThreeIslands();
             boardHandler.sendtoPlayer(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(island),true),model.getCurrentPlayerIndex());
             boardHandler.sendAllExcept(new MovedMotherNature(0,model.getBoardManager().getIslands().indexOf(island),false),model.getCurrentPlayerIndex());
             return;
         }
+        System.out.println("Nel check merge non ho unito nulla");
     }
 
     /**
@@ -276,11 +284,16 @@ public class GameController implements PropertyChangeListener {
      * @param moveStudentToDiningRoom of type MoveStudentToDiningRoom.
      */
     private void moveStudentToDiningRoom(MoveStudentToDiningRoom moveStudentToDiningRoom) {
+
         Player player = model.getCurrentPlayer();
+        if(boardHandler.getPhase() == 5){
+            boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"Hai ragginto il massimo numero di studenti"), player.getPlayerID());
+            return;
+        }
         Color color = moveStudentToDiningRoom.getColor();
         try{
             player.getSchoolBoard().addStudentToDiningRoom(color);
-            if(player.getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() == 3){
+            if(player.getSchoolBoard().getMovedStudents()== 4 && model.getActivePlayers().size() == 3){
                 boardHandler.setPhase(5);
             }
             if(player.getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size() == 2){
@@ -289,6 +302,8 @@ public class GameController implements PropertyChangeListener {
             updateAfterMovedStudentToDiningRoom();
         } catch (InvalidSelection e) {
             if (maxStudents()){
+                boardHandler.setPhase(5);
+                boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"Hai ragginto il massimo numero di studenti"), player.getPlayerID());
                 return;
             }
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The parameters of your action are incorrect, check again"), getBoard().getCurrentPlayerIndex());
@@ -313,7 +328,7 @@ public class GameController implements PropertyChangeListener {
      */
     private boolean maxStudents(){
         if ((model.getCurrentPlayer().getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() ==3) ||
-                (model.getCurrentPlayer().getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size()==2)) {
+                (model.getCurrentPlayer().getSchoolBoard().getNumberOfPlayers() == 3 && model.getActivePlayers().size()==2)) {
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT, "You already moved the maximum amount of students"), getBoard().getCurrentPlayerIndex());
             return true;
         }
@@ -328,6 +343,10 @@ public class GameController implements PropertyChangeListener {
     private void moveStudentToIsland(MoveStudentToIsland moveStudentToIsland) {
         System.out.println("SEI NEL MOVESTUDENTTOISLAND DEL CONTROLLER");
         Player player = model.getCurrentPlayer();
+        if(boardHandler.getPhase() == 5){
+            boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"Hai ragginto il massimo numero di studenti"), player.getPlayerID());
+            return;
+        }
         IslandTile islandTile = getBoard().getBoardManager().getIslands().get(moveStudentToIsland.getIslandTile().getIslandID());
         Color color = moveStudentToIsland.getColor();
         try {
@@ -335,13 +354,15 @@ public class GameController implements PropertyChangeListener {
             if(player.getSchoolBoard().getMovedStudents() == 4 && model.getActivePlayers().size() == 3){
                 boardHandler.setPhase(5);
             }
-            if(player.getSchoolBoard().getMovedStudents() == 3 && model.getActivePlayers().size() == 2){
+            if(player.getSchoolBoard().getNumberOfPlayers() == 3 && model.getActivePlayers().size() == 2){
                 boardHandler.setPhase(5);
             }
 
         } catch (InvalidSelection e) {
             if (maxStudents()){
-                return;
+                boardHandler.setPhase(5);
+                boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"Hai ragginto il massimo numero di studenti"), player.getPlayerID());
+                return; //TODO
             }
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The parameters of your action are incorrect, check again"), getBoard().getCurrentPlayerIndex());
         }
@@ -361,21 +382,29 @@ public class GameController implements PropertyChangeListener {
      * @param message of type EndTurn.
      */
     private void endPlayerTurn(EndTurn message) {
-        if(!model.getBoardManager().getClouds().contains(message.getCloud())){
+         int idCloud = message.getCloud().getiD();
+         boolean check = false;
+         Cloud mycloud = null;
+         for(Cloud cloud : model.getBoardManager().getClouds()){
+             if(cloud.getiD() == idCloud){
+                 check = true;
+                 mycloud = cloud;
+             }
+         }
+        if(!check){
             boardHandler.sendtoPlayer(new GameError(Errors.INVALIDINPUT,"The Cloud is not available...pick another one"), getBoard().getCurrentPlayerIndex());
             return;
         }
         if(message.isLastPlayer()){
-            message.getCloud().emptyCloud(model.getCurrentPlayer().getSchoolBoard());
+            mycloud.emptyCloud(model.getCurrentPlayer().getSchoolBoard());
             updateAfterCloudPick();
             changeRound();
             return;
         }
-        message.getCloud().emptyCloud(model.getCurrentPlayer().getSchoolBoard());
-        model.getBoardManager().getClouds().remove(message.getCloud());
+        mycloud.emptyCloud(model.getCurrentPlayer().getSchoolBoard());
         updateAfterCloudPick();
-        model.setNextPlayer();
         boardHandler.sendAllExcept(new CustomMessage(model.getCurrentPlayer() + "'s turn now, please wait...",false),model.getCurrentPlayerIndex());
+        model.setNextPlayer();
         boardHandler.sendtoPlayer(new StartTurnMessage(true), model.getCurrentPlayerIndex());
 
 
@@ -492,31 +521,49 @@ public class GameController implements PropertyChangeListener {
     }
 
 
-
+    /**
+     * changes round after the choice of the cloud from the last of the players
+     */
     public void changeRound(){
         listeners.firePropertyChange("endTurn",null,null);
         model.resetAssistantCards();
         model.resetMovedStudents();
         boardHandler.setClouds();
-        updateAfterCloudPick();
+        //updateAfterCloudPick();
         model.setCurrentPlayer(model.getPlayersTurnOrder().get(0));
         logger.log(Level.INFO,"A new Round is starting, sceglie " + model.getPlayersTurnOrder().get(0).getNickname());
         boardHandler.setPhase(2);
+        boardHandler.sendtoPlayer(new CustomMessage("It's a new Round",true), getBoard().getCurrentPlayer().getPlayerID());
         boardHandler.sendtoPlayer( new ChooseAssistantCard("Choose an Assistant Card for the new round\n>",
                         model.getCurrentPlayer().getNickname(),
                         model.getCurrentPlayer().getAssistantCards()),
-                model.getCurrentPlayerIndex());
+                model.getCurrentPlayer().getPlayerID());
         boardHandler.sendAllExcept(new CustomMessage(model.getCurrentPlayer().getNickname() + " is choosing his assistant card...please wait", false), model.getCurrentPlayerIndex());
 
     }
 
+    /**
+     * sets player's wizard in the model
+     * @param wizard Wizard
+     * @param id int
+     */
     public void setWizard(Wizard wizard, int id){
         model.getActivePlayers().get(id).setWizard(wizard);
     }
+    /**
+     * sets player's tower in the model
+     * @param tower Wizard
+     * @param id int
+     */
+
     public void setTower(Tower tower, int id){
         model.getActivePlayers().get(id).setTower(tower);
     }
 
+
+    /**
+     * used to communicate that the game over
+     */
     public void gameOver(){
         System.out.println("Last round finished, Game Over!!!");
         boardHandler.endGame("The number of rounds reached the maximum numbers");
