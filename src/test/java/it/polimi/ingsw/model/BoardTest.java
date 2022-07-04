@@ -19,13 +19,15 @@ class BoardTest {
     Player player3;
     BoardManager boardManager;
 
+
+
     /** Method initialization that initializes values. */
     @BeforeEach
     void initialization() {
         testBoard = new Board();
-        player1 = new Player("pinco", 1, Wizard.WITCH, Tower.WHITE);
-        player2 = new Player("penguin", 2, Wizard.EMIR, Tower.BLACK);
-        player3 = new Player("swagger", 3, Wizard.DRUID, Tower.GREY);
+        player1 = new Player("pinco", 0, Wizard.WITCH, Tower.WHITE);
+        player2 = new Player("penguin", 1, Wizard.EMIR, Tower.BLACK);
+        player3 = new Player("swagger", 2, Wizard.DRUID, Tower.GREY);
         testBoard.createNewPlayer(player1);
         testBoard.createNewPlayer(player2);
         testBoard.createNewPlayer(player3);
@@ -62,9 +64,10 @@ class BoardTest {
      */
     @Test
     void testCurrentPlayer4(){
+        System.out.println(testBoard.getActivePlayers().get(0));
         testBoard.setCurrentPlayer(testBoard.getActivePlayers().get(0));
-        assertEquals(testBoard.getCurrentPlayer(), testBoard.getPlayerFromGivenID(1));
-        testBoard.setCurrentPlayer(null);
+        assertEquals(testBoard.getCurrentPlayer(), testBoard.getActivePlayers().get(0));
+        testBoard.setCurrentPlayer(testBoard.getActivePlayers().get(0));
     }
 
     /**
@@ -105,7 +108,7 @@ class BoardTest {
     @Test
     void getPlayerFromGivenID(){
 
-        assertEquals(player1, testBoard.getPlayerFromGivenID(1));
+        assertEquals(player1, testBoard.getPlayerFromGivenID(0));
 
     }
 
@@ -136,6 +139,9 @@ class BoardTest {
 
         boolean confirmed = false;
 
+        player1.setChosenCard(AssistantCard.TEN);
+        player2.setChosenCard(AssistantCard.THREE);
+        player3.setChosenCard(AssistantCard.FIVE);
         testBoard.pickFirstPlayerToStart();
         testBoard.setPlayerOrderTurn();
 

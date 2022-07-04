@@ -106,7 +106,7 @@ class BagTest {
 
         ArrayList<Integer> allStudents = new ArrayList<>();
 
-        for(int i = 0; i < 120; i++){
+        for(int i = 0; i < 130; i++){
             allStudents.add(bag.getRandomColorFromBag());
         }
 

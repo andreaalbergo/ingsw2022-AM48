@@ -21,6 +21,7 @@ class IslandTileTest {
     @BeforeEach
     void initialization() {
         player1 = new Player("nick", 1, Wizard.DRUID, Tower.BLACK);
+        player1.createSchoolBoard(false,2);
         testIsland = new IslandTile(-1);
     }
 
@@ -46,7 +47,9 @@ class IslandTileTest {
      */
     @Test
     void testTowers() throws GameOverException {
-        testIsland.setIslandOwner(new Player("nick", 14, Wizard.SAMURAI, Tower.GREY));
+        Player player2 = new Player("nick", 14, Wizard.SAMURAI, Tower.GREY);
+        player2.createSchoolBoard(false,2);
+        testIsland.setIslandOwner(player2);
         assertEquals(1, testIsland.howManyTowers());
     }
 

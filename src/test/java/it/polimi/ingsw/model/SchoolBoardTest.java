@@ -35,7 +35,7 @@ class SchoolBoardTest {
             System.out.println(diningRoom[i]);
         }
          */
-        schoolBoard.addStudentToDiningRoom(Color.GREEN_FROGS);
+        schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);
         /*
         for (int i = 0; i < 5; i++) {
             System.out.println(diningRoom[i]);
@@ -202,8 +202,8 @@ class SchoolBoardTest {
     void removeFromEntrance2() throws InvalidSelection {
         schoolBoard.addStudentToEntrance(3);
         ArrayList<Color> entrance = schoolBoard.getEntrance();
-        schoolBoard.addStudentToDiningRoom(Color.RED_DRAGONS);
+        schoolBoard.addStudentToDiningRoom(Color.PINK_FAIRIES);
 
-        assertFalse(entrance.contains(Color.colorFromIndex(2)));
+        assertFalse(entrance.contains(Color.colorFromIndex(3)));
     }
 }
