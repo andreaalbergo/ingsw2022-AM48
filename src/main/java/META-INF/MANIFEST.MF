@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: it.polimi.ingsw.Eriantys
-Class-Path: javafx-fxml-18.jar javafx-controls-18.jar annotations-23.0.0
- .jar javafx-base-18-mac-aarch64.jar javafx-graphics-18-mac-aarch64.jar 
- javafx-base-18.jar javafx-controls-18-mac-aarch64.jar javafx-graphics-1
- 8.jar javafx-fxml-18-mac-aarch64.jar
-
