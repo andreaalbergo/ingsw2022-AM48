@@ -83,13 +83,17 @@ class BoardTest {
         for(Player player : testBoard.getPlayersTurnOrder()) {
             System.out.println("player: "+player.getNickname());
         }
-        System.out.println("first current player: "+testBoard.getCurrentPlayer().getNickname());
+        //System.out.println("first current player: "+testBoard.getCurrentPlayer().getNickname());
+        assertEquals("pinco", testBoard.getCurrentPlayer().getNickname());
         testBoard.setNextPlayer();
-        System.out.println("second current player: "+testBoard.getCurrentPlayer().getNickname());
+        //System.out.println("second current player: "+testBoard.getCurrentPlayer().getNickname());
+        assertEquals("penguin",testBoard.getCurrentPlayer().getNickname());
         testBoard.setNextPlayer();
-        System.out.println("third current player: "+testBoard.getCurrentPlayer().getNickname());
+        assertEquals("swagger",testBoard.getCurrentPlayer().getNickname());
+        //System.out.println("third current player: "+testBoard.getCurrentPlayer().getNickname());
         testBoard.setNextPlayer();
-        System.out.println("new current player: "+testBoard.getCurrentPlayer().getNickname());
+        //System.out.println("new current player: "+testBoard.getCurrentPlayer().getNickname());
+        assertEquals("pinco",testBoard.getCurrentPlayer().getNickname());
     }
 
     /**
