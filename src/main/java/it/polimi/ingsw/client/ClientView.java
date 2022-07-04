@@ -94,7 +94,7 @@ public class ClientView {
     public void setProfessor(int index, boolean check) {
         this.professor[index] = check;
         assert cli != null;
-        cli.getGameBoard().getSchoolFromNickname(getNickname()).setProfessors(getProfessor());
+        cli.getGameBoard().getSchoolFromNickname(getNickname()).setProfessor(professor[index], index);
         cli.getGameBoard().printCLI();
     }
 
@@ -157,7 +157,7 @@ public class ClientView {
     public void setClouds(List<Cloud> clouds) {
         this.clouds = clouds;
         assert cli != null;
-        cli.getGameBoard().setCloudGrid(clouds, false);
+        cli.getGameBoard().setCloudGrid(clouds);
     }
 
     /**
