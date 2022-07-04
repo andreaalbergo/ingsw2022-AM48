@@ -99,6 +99,7 @@ public class ClientView {
     }
 
 
+
     /**
      * Method getChosenCard is a getter.
      *
