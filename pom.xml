@@ -8,6 +8,7 @@
   <artifactId>AM48</artifactId>
   <version>1.0</version>
 
+
   <name>ERIANTYS_AM48</name>
   <url>https://github.com/andreaalbergo/ingsw2022-AM48</url>
 
@@ -151,6 +152,7 @@
           </execution>
         </executions>
       </plugin>
+
 
       <plugin>
         <artifactId> maven-assembly-plugin </artifactId>
